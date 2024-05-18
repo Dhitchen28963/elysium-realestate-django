@@ -1,5 +1,5 @@
 ---
-name: Account Registration
+name: User Story Template
 about: As a Site User, I can register an account so that I can save properties, receive
   notifications and message agents regarding properties.
 title: ''
