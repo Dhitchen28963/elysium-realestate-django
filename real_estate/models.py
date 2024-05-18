@@ -22,7 +22,13 @@ class Property(models.Model):
         ('buy', 'Buy'),
     ]
 
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    ]
+
     title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     description = models.TextField()
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -35,6 +41,7 @@ class Property(models.Model):
     parking = models.BooleanField(default=False)
     pets_allowed = models.BooleanField(default=False)
     property_image = models.ImageField(upload_to='property_images/')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,3 +53,8 @@ class Property(models.Model):
         if self.transaction_type == 'rent':
             return f"{self.price} PCM"
         return f"{self.price}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
