@@ -1,0 +1,1 @@
+web: gunicorn elysium_realestate.wsgi
