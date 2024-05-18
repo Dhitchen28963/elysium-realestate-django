@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Meta tags for search engines -->
+  <meta name="description" content="Find the perfect rental property with Elysium Real Estate. Explore our listings of homes, apartments, and more for rent in London and beyond.">
+  <meta name="keywords" content="Elysium Real Estate, rental properties, homes for rent, apartments for rent, London rentals">
+
+  <!-- Link to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+
+  <!-- Title of the webpage -->
+  <title>Elysium - Properties for Rent</title>
+
+  <!-- Path to style.css folder -->
+</head>
+
+<body>
+
+  <!-- Navigation bar -->
+  <header class="header">
+    <a href="{% url 'home' %}" class="logo">
+      <div class="logo-container">
+        <h1>Elysium</h1>
+        <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
+      </div>
+    </a>
+    <!-- Hamburger icon -->
+    <input class="side-menu" type="checkbox" id="side-menu">
+    <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars"></i></span>
+    </label>
+    <!-- Menu -->
+    <nav class="nav">
+      <ul class="menu">
+        <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
+        <li class="dropdown">
+          <a href="#" aria-label="View properties for sale">Buy</a>
+          <ul class="dropdown-menu">
+            <!-- Dropdown options for Buy -->
+            <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
+            <li><a href="#">Land for Sale</a></li>
+            <li><a href="#">Request viewing</a></li>
+            <!-- Add more options as needed -->
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" aria-label="View rental properties">Rent</a>
+          <ul class="dropdown-menu">
+            <!-- Dropdown options for Rent -->
+            <li><a href="{% url 'property_rent' %}">Property for Rent</a></li>
+            <li><a href="#">Student Properties</a></li>
+            <li><a href="#">Request viewing</a></li>
+            <!-- Add more options as needed -->
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" aria-label="Learn about us">About Us</a>
+          <ul class="dropdown-menu">
+            <!-- Dropdown options for About Us -->
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <!-- Add more options as needed -->
+          </ul>
+        </li>
+        <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a>
+        </li>
+      </ul>
+    </nav>
+    <!-- Sign in & register icon -->
+    <div class="user-icon">
+      <button class="user-icon-btn" aria-label="User Login/Register">
+        <i class="fas fa-user"></i>
+        <span class="icon-text">Sign in</span>
+      </button>
+      <div class="user-dropdown">
+        <form>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit">Sign in</button>
+          <!-- Add register link -->
+          <p>Don't have an account? <a href="#">Register</a></p>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+
+    <div class="search-container">
+      <h2>Property for rent</h2>
+      <h3>Search using 'town name' or 'postcode'</h3>
+      <div class="buttons-container">
+        <a href="{% url 'property_rent' %}" class="rent-button">Rent</a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Choose your next rented home? e.g. Plymouth PL47DZ">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </div>
+
+    <div class="filters-container">
+      <div class="property-type">
+        <label for="property-type">Property Type:</label>
+        <select id="property-type">
+          <option value="any">Any</option>
+          <optgroup label="Houses">
+            <option value="detached-houses">Detached houses</option>
+            <option value="semi-detached-houses">Semi-detached houses</option>
+            <option value="terraced-houses">Terraced houses</option>
+            <option value="mobile-park-homes">Mobile / Park homes</option>
+            <option value="boats">Boats</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="flats-apartments">Flats / Apartments</option>
+            <option value="bungalows">Bungalows</option>
+            <option value="land">Land</option>
+            <option value="commercial-property">Commercial Property</option>
+            <option value="hmo">HMO's</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="bedrooms">
+        <label for="bedrooms-min">Bedrooms:</label>
+        <select id="bedrooms-min">
+          <option value="no-min">No Min</option>
+          <option value="studio">Studio</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <!-- Add more options here -->
+        </select>
+        <select id="bedrooms-max">
+          <option value="no-max">No Max</option>
+          <option value="studio">Studio</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <!-- Add more options here -->
+        </select>
+      </div>
+
+      <div class="price">
+        <label for="price-min">Price (£):</label>
+        <select id="price-min">
+          <option value="no-min">No Min</option>
+          <option value="100">£100 PCM</option>
+          <option value="150">£150 PCM</option>
+          <option value="200">£200 PCM</option>
+          <option value="250">£250 PCM</option>
+          <option value="300">£300 PCM</option>
+          <option value="350">£350 PCM</option>
+          <option value="400">£400 PCM</option>
+          <option value="450">£450 PCM</option>
+          <option value="500">£500 PCM</option>
+          <option value="600">£600 PCM</option>
+          <option value="700">£700 PCM</option>
+          <option value="800">£800 PCM</option>
+          <option value="900">£900 PCM</option>
+          <option value="1000">£1000 PCM</option>
+          <option value="2000">£2000 PCM</option>
+          <option value="3000">£3000 PCM</option>
+          <option value="4000">£4000 PCM</option>
+          <option value="5000">£5000 PCM</option>
+        </select>
+        <select id="price-max">
+          <option value="no-max">No Max</option>
+          <option value="100">£100 PCM</option>
+          <option value="150">£150 PCM</option>
+          <option value="200">£200 PCM</option>
+          <option value="250">£250 PCM</option>
+          <option value="300">£300 PCM</option>
+          <option value="350">£350 PCM</option>
+          <option value="400">£400 PCM</option>
+          <option value="450">£450 PCM</option>
+          <option value="500">£500 PCM</option>
+          <option value="600">£600 PCM</option>
+          <option value="700">£700 PCM</option>
+          <option value="800">£800 PCM</option>
+          <option value="900">£900 PCM</option>
+          <option value="1000">£1000 PCM</option>
+          <option value="2000">£2000 PCM</option>
+          <option value="3000">£3000 PCM</option>
+          <option value="4000">£4000 PCM</option>
+          <option value="5000">£5000 PCM</option>
+        </select>
+      </div>
+
+      <div class="more-filters">
+        <button id="toggle-filters">More filters</button>
+        <div class="dropdown-content">
+          <div class="lettings-type">
+            <label for="lettings-type">Type of Lettings:</label>
+            <select id="lettings-type">
+              <option value="no-preference">No Preference</option>
+              <option value="long-term">Long Term</option>
+              <!-- Add more options here -->
+            </select>
+          </div>
+          <div class="furnished-type">
+            <label for="furnished-type">Furnished Type:</label>
+            <select id="furnished-type">
+              <option value="no-preference">No Preference</option>
+              <option value="furnished">Furnished</option>
+              <!-- Add more options here -->
+            </select>
+          </div>
+          <div class="amenities">
+            <label>Amenities:</label>
+            <input type="checkbox" id="garden">
+            <label for="garden">Garden</label>
+            <input type="checkbox" id="parking">
+            <label for="parking">Parking</label>
+            <input type="checkbox" id="pets">
+            <label for="pets">Allows Pets</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="clear-filters">Clear Filters</button>
+        <button id="find-properties">Find Properties</button>
+      </div>
+    </div>
+
+    <div class="property-list">
+      {% for property in properties %}
+      <div class="property-item">
+        <h2>{{ property.title }}</h2>
+        <p>{{ property.description }}</p>
+        <p>Price: £{{ property.price }}</p>
+        <p>Location: {{ property.location }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <!-- Social media links -->
+  <footer>
+    <ul id="social-media">
+      <li><a href="https://www.facebook.com/" target="_blank" rel="noopener"
+          aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook"
+            style="color: #ffffff;"></i></a></li>
+      <li><a href="https://www.twitter.com/" target="_blank" rel="noopener"
+          aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square"
+            style="color: #ffffff;"></i></a></li>
+      <li><a href="https://www.youtube.com/" target="_blank" rel="noopener"
+          aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square"
+            style="color: #ffffff;"></i></a></li>
+      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener"
+          aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram"
+            style="color: #ffffff;"></i></a></li>
+    </ul>
+
+    <!-- Copy right and designer signature including business contact details and address -->
+    <p>
+      &copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd
+      <br>
+      Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
+    </p>
+  </footer>
+
+  <!-- Font Awesome kit -->
+  <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
+
+  <!-- script js -->
+</body>
+</html>
