@@ -1,19 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
-# Create your models here.
 class Property(models.Model):
     TYPE_CHOICES = [
         ('sale', 'For Sale'),
         ('rent', 'For Rent'),
     ]
     
-    PROPERTY_TYPES = [
-        ('flat', 'Flat'),
-        ('house', 'House'),
-        ('boat', 'Boat'),
+    PROPERTY_TYPE_CHOICES = [
+        ('detached-houses', 'Detached houses'),
+        ('semi-detached-houses', 'Semi-detached houses'),
+        ('terraced-houses', 'Terraced houses'),
+        ('mobile-park-homes', 'Mobile / Park homes'),
+        ('boats', 'Boats'),
+        ('flats-apartments', 'Flats / Apartments'),
+        ('bungalows', 'Bungalows'),
         ('land', 'Land'),
-        ('other', 'Other'),
+        ('commercial-property', 'Commercial Property'),
+        ('hmo', 'HMO\'s'),
     ]
 
     FURNISHED_TYPES = [
@@ -35,7 +40,7 @@ class Property(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField()
-    property_type = models.CharField(max_length=20, choices=PROPERTY_TYPES)
+    property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     furnished_type = models.CharField(max_length=20, choices=FURNISHED_TYPES)
     location = models.CharField(max_length=100)
