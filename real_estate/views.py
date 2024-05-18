@@ -1,7 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.views import generic
+from .models import Property
 
 # Create your views here.
-def my_real_estate(request):
-    return HttpResponse("Hello, Elysium!")
+class PropertyList(generic.ListView):
+    queryset = Property.objects.all()
+    template_name = "property_list.html"
