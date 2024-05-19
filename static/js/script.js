@@ -25,6 +25,8 @@ function addToFavorites(propertyId) {
     .then(data => {
         if (data.status === 'ok') {
             alert('Property added to favorites!');
+        } else {
+            alert('Error adding property to favorites.');
         }
     })
     .catch(error => {
@@ -44,6 +46,8 @@ function scheduleViewing(propertyId) {
     .then(data => {
         if (data.status === 'ok') {
             alert('Viewing scheduled successfully!');
+        } else {
+            alert('Error scheduling viewing.');
         }
     })
     .catch(error => {
@@ -51,24 +55,50 @@ function scheduleViewing(propertyId) {
     });
 }
 
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
+function contactAgent(propertyId) {
+    const contactForm = document.getElementById('contact-form');
 
-    fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCSRFToken()
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'message sent') {
-            alert('Message sent to the agent!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'message sent') {
+                    alert('Message sent to the agent!');
+                } else {
+                    alert('Error sending message.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Attach event listeners to action buttons if they exist
+    document.querySelectorAll('.property-actions button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const propertyId = this.getAttribute('data-property-id');
+            const action = this.getAttribute('data-action');
+
+            if (action === 'addToFavorites') {
+                addToFavorites(propertyId);
+            } else if (action === 'scheduleViewing') {
+                scheduleViewing(propertyId);
+            } else if (action === 'contactAgent') {
+                contactAgent(propertyId);
+            }
+        });
     });
 });
