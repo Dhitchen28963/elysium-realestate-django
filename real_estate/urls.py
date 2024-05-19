@@ -7,5 +7,5 @@ urlpatterns = [
     path('property-rent/', views.property_rent, name='property_rent'),
     path('add-to-favorites/<int:property_id>/', views.add_to_favorites, name='add_to_favorites'),
     path('schedule-viewing/<int:property_id>/', views.schedule_viewing, name='schedule_viewing'),
-    path('contact-agent/<int:property_id>/', views.contact_agent, name='contact_agent'),
+    path('property/<int:property_id>/contact/', views.contact_property, name='contact_property'),
 ]
