@@ -10,169 +10,42 @@
   <div class="search-container">
     <h2>Property for sale</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
-    <div class="buttons-container">
-      <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
-    </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ">
-      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
-  </div>
-
-  <div class="filters-container">
-    <div class="property-type">
-      <label for="property-type">Property Type:</label>
-      <select id="property-type">
-        <option value="any">Any</option>
-        <optgroup label="Houses">
-          <option value="detached-houses">Detached houses</option>
-          <option value="semi-detached-houses">Semi-detached houses</option>
-          <option value="terraced-houses">Terraced houses</option>
-          <option value="mobile-park-homes">Mobile / Park homes</option>
-          <option value="boats">Boats</option>
-        </optgroup>
-        <optgroup label="Other">
-          <option value="flats-apartments">Flats / Apartments</option>
-          <option value="bungalows">Bungalows</option>
-          <option value="land">Land</option>
-          <option value="commercial-property">Commercial Property</option>
-          <option value="hmo">HMO's</option>
-        </optgroup>
-      </select>
-    </div>
-
-    <div class="bedrooms">
-      <label for="bedrooms-min">Bedrooms:</label>
-      <select id="bedrooms-min">
-        <option value="no-min">No Min</option>
-        <option value="studio">Studio</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-      <select id="bedrooms-max">
-        <option value="no-max">No Max</option>
-        <option value="studio">Studio</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </div>
-
-    <div class="price">
-      <label for="price-min">Price (£):</label>
-      <select id="price-min">
-        <option value="no-min">No Min</option>
-        <option value="50000">£50,000</option>
-        <option value="100000">£100,000</option>
-        <option value="150000">£150,000</option>
-        <option value="200000">£200,000</option>
-        <option value="250000">£250,000</option>
-        <option value="300000">£300,000</option>
-        <option value="350000">£350,000</option>
-        <option value="400000">£400,000</option>
-        <option value="450000">£450,000</option>
-        <option value="500000">£500,000</option>
-        <option value="550000">£550,000</option>
-        <option value="600000">£600,000</option>
-        <option value="650000">£650,000</option>
-        <option value="700000">£700,000</option>
-        <option value="750000">£750,000</option>
-        <option value="800000">£800,000</option>
-        <option value="850000">£850,000</option>
-        <option value="900000">£900,000</option>
-        <option value="950000">£950,000</option>
-        <option value="1000000">£1,000,000</option>
-        <option value="1250000">£1,250,000</option>
-        <option value="1500000">£1,500,000</option>
-        <option value="1750000">£1,750,000</option>
-        <option value="2000000">£2,000,000</option>
-        <option value="2250000">£2,250,000</option>
-        <option value="2500000">£2,500,000</option>
-        <option value="2750000">£2,750,000</option>
-        <option value="3000000">£3,000,000</option>
-      </select>
-      <select id="price-max">
-        <option value="no-max">No Max</option>
-        <option value="50000">£50,000</option>
-        <option value="100000">£100,000</option>
-        <option value="150000">£150,000</option>
-        <option value="200000">£200,000</option>
-        <option value="250000">£250,000</option>
-        <option value="300000">£300,000</option>
-        <option value="350000">£350,000</option>
-        <option value="400000">£400,000</option>
-        <option value="450000">£450,000</option>
-        <option value="500000">£500,000</option>
-        <option value="550000">£550,000</option>
-        <option value="600000">£600,000</option>
-        <option value="650000">£650,000</option>
-        <option value="700000">£700,000</option>
-        <option value="750000">£750,000</option>
-        <option value="800000">£800,000</option>
-        <option value="850000">£850,000</option>
-        <option value="900000">£900,000</option>
-        <option value="950000">£950,000</option>
-        <option value="1000000">£1,000,000</option>
-        <option value="1250000">£1,250,000</option>
-        <option value="1500000">£1,500,000</option>
-        <option value="1750000">£1,750,000</option>
-        <option value="2000000">£2,000,000</option>
-        <option value="2250000">£2,250,000</option>
-        <option value="2500000">£2,500,000</option>
-        <option value="2750000">£2,750,000</option>
-        <option value="3000000">£3,000,000</option>
-        <option value="3500000">£3,500,000</option>
-        <option value="4000000">£4,000,000</option>
-        <option value="4500000">£4,500,000</option>
-        <option value="5000000">£5,000,000</option>
-      </select>
-    </div>
-
-    <div class="more-filters">
-      <button id="toggle-filters">More filters</button>
-      <div class="dropdown-content">
-        <div class="home-type">
-          <label for="building-type">Pre-owned & new homes</label>
-          <select id="building-type">
-            <option value="no-preference">No Preference</option>
-            <option value="pre-owned">Pre-owned homes</option>
-            <option value="new">Brand new homes</option>
-          </select>
-        </div>
-        <div class="buying-scheme">
-          <label for="buying-scheme">Buying Scheme:</label>
-          <select id="buying-scheme">
-            <option value="no-preference">No Preference</option>
-            <option value="buying-schemes">Buying schemes</option>
-            <option value="non-buying-schemes">Non-buying schemes</option>
-          </select>
-        </div>
-        <div class="retirement-type">
-          <label for="retirement-type">Retirement:</label>
-          <select id="retirement-type">
-            <option value="no-preference">No Preference</option>
-            <option value="retirement-only">Retirement only</option>
-            <option value="non-retirement-only">Non-retirement only</option>
-          </select>
-        </div>
+    <form method="get">
+      <div class="search-bar">
+        {{ form.search }}
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
-    </div>
-  </div>
-
-  <div class="action-buttons">
-    <button id="clear-filters">Clear Filters</button>
-    <button id="find-properties">Find Properties</button>
+      <div class="filters-container">
+        <label for="property-type">Property Type:</label>
+        {{ form.property_type }}
+        <label for="bedrooms-min">Bedrooms:</label>
+        {{ form.bedrooms_min }}
+        <label for="bedrooms-max">Bedrooms:</label>
+        {{ form.bedrooms_max }}
+        <label for="price-min">Price (£):</label>
+        {{ form.price_min }}
+        <label for="price-max">Price (£):</label>
+        {{ form.price_max }}
+        <label for="garden">Garden:</label>
+        {{ form.garden }}
+        <label for="parking">Parking:</label>
+        {{ form.parking }}
+        <label for="pets_allowed">Pets Allowed:</label>
+        {{ form.pets_allowed }}
+        <button type="submit" id="find-properties">Find Properties</button>
+      </div>
+    </form>
   </div>
 
   <div class="container">
-    <div class="box">Box 1</div>
-    <div class="box">Box 2</div>
-    <div class="box">Box 3</div>
+    {% for property in properties %}
+    <div class="box">
+      <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+      <p>{{ property.description }}</p>
+      <p>Price: £{{ property.price }}</p>
+      <p>Location: {{ property.location }}</p>
+    </div>
+    {% endfor %}
   </div>
 </main>
 {% endblock %}
