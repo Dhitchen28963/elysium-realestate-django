@@ -1,27 +1,51 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Elysium{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-{% load static %}
 <main>
-    <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
-    <div class="search-container">
-        <h2>Find your dream home</h2>
-        <h3>Search using 'town name' or 'postcode'</h3>
-        <div class="buttons-container">
-            <a href="{% url 'property_rent' %}" class="rent-button">Rent</a>
-            <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ">
-            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
+  <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
+  
+  <div class="search-container">
+    <h2>Find your dream home</h2>
+    <h3>Search using 'town name' or 'postcode'</h3>
+    <form method="get">
+      <div class="search-bar">
+        {{ form.search }}
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+      <div class="filters-container">
+        <label for="property-type">Property Type:</label>
+        {{ form.property_type }}
+        <label for="bedrooms-min">Bedrooms:</label>
+        {{ form.bedrooms_min }}
+        <label for="bedrooms-max">Bedrooms:</label>
+        {{ form.bedrooms_max }}
+        <label for="price-min">Price (£):</label>
+        {{ form.price_min }}
+        <label for="price-max">Price (£):</label>
+        {{ form.price_max }}
+        <label for="garden">Garden:</label>
+        {{ form.garden }}
+        <label for="parking">Parking:</label>
+        {{ form.parking }}
+        <label for="pets_allowed">Pets Allowed:</label>
+        {{ form.pets_allowed }}
+        <button type="submit" id="find-properties">Find Properties</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    {% for property in properties %}
+    <div class="box">
+      <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+      <p>{{ property.description }}</p>
+      <p>Price: £{{ property.price }}</p>
+      <p>Location: {{ property.location }}</p>
     </div>
-    <div class="container">
-        <div class="box">Box 1</div>
-        <div class="box">Box 2</div>
-        <div class="box">Box 3</div>
-    </div>
+    {% endfor %}
+  </div>
 </main>
 {% endblock %}
