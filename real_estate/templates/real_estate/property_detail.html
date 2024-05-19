@@ -19,12 +19,12 @@
       <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
     </div>
     <div class="property-actions">
-        <button data-property-id="{{ property.id }}" data-action="addToFavorites">Add to Favorites</button>
-        <button data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
-        <button data-property-id="{{ property.id }}" data-action="contactAgent">Contact Agent</button>
+      <button data-property-id="{{ property.id }}" data-action="addToFavorites">Add to Favorites</button>
+      <button data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
+      <button data-property-id="{{ property.id }}" data-action="contactAgent">Contact Agent</button>
     </div>
     <div class="property-images">
-      {% for image in property.additional_images.all %}
+      {% for image in additional_images %}
       <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
       {% endfor %}
     </div>
