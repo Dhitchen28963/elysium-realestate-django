@@ -1,152 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Elysium{% endblock %}
 
-  <!-- Meta tags for search engines -->
-  <meta name="description" content="Discover your dream home with Elysium Real Estate. Explore properties for sale and rent in London and beyond.">
-  <meta name="keywords" content="Elysium Real Estate, properties for sale, properties for rent, buy home, rent home, London real estate">
-
-  <!-- Link to external resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
-
-  <!-- Title of the webpage -->
-  <title>Elysium - Find Your Dream Home</title>
-
-  <!-- Path to style.css folder -->
-</head>
-
-<body>
-
-  <!-- Navigation bar -->
-  <header class="header">
-    <a href="{% url 'home' %}" class="logo">
-      <div class="logo-container">
-        <h1>Elysium</h1>
-        <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
-      </div>
-    </a>
-    <!-- Hamburger icon -->
-    <input class="side-menu" type="checkbox" id="side-menu">
-    <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars"></i></span>
-    </label>
-    <!-- Menu -->
-    <nav class="nav">
-      <ul class="menu">
-        <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
-        <li class="dropdown">
-          <a href="#" aria-label="View properties for sale">Buy</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for Buy -->
-            <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
-            <li><a href="#">Land for Sale</a></li>
-            <li><a href="#">Request viewing</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" aria-label="View rental properties">Rent</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for Rent -->
-            <li><a href="{% url 'property_rent' %}">Property for Rent</a></li>
-            <li><a href="#">Student Properties</a></li>
-            <li><a href="#">Request viewing</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" aria-label="Learn about us">About Us</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for About Us -->
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Testimonials</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a>
-        </li>
-      </ul>
-    </nav>
-    <!-- Sign in & register icon -->
-    <div class="user-icon">
-      <button class="user-icon-btn" aria-label="User Login/Register">
-        <i class="fas fa-user"></i>
-        <span class="icon-text">Sign in</span>
-      </button>
-      <div class="user-dropdown">
-        <form>
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Password" required>
-          <button type="submit">Sign in</button>
-          <!-- Add register link -->
-          <p>Don't have an account? <a href="#">Register</a></p>
-        </form>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main content -->
-  <main>
-    
+{% block content %}
+{% load static %}
+<main>
+    <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
     <div class="search-container">
-      <h2>Find your dream home</h2>
-      <h3>Search using 'town name' or 'postcode'</h3>
-      <div class="buttons-container">
-        <a href="{% url 'property_rent' %}" class="rent-button">Rent</a>
-        <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
-      </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </div>
+        <h2>Find your dream home</h2>
+        <h3>Search using 'town name' or 'postcode'</h3>
+        <div class="buttons-container">
+            <a href="{% url 'property_rent' %}" class="rent-button">Rent</a>
+            <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
     </div>
-
     <div class="container">
-      <div class="box">Box 1</div>
-      <div class="box">Box 2</div>
-      <div class="box">Box 3</div>
+        <div class="box">Box 1</div>
+        <div class="box">Box 2</div>
+        <div class="box">Box 3</div>
     </div>
-  </main>
-
-  <!-- Footer -->
-  <!-- Social media links -->
-
-  <!-- This section of code is adapted from Codeinstitutes Love Running code -->
-
-  <!-- Original code sourced from url: https://learn.codeinstitute.net/ (Acknowledgment also found in README.md) -->
-  <footer>
-    <ul id="social-media">
-      <li><a href="https://www.facebook.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.twitter.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.youtube.com/" target="_blank" rel="noopener"
-          aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram"
-            style="color: #ffffff;"></i></a></li>
-    </ul>
-
-    <!-- Copy right and designer signature including business contact details and address -->
-    <p>
-      &copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd
-      <br>
-      Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
-    </p>
-  </footer>
-
-  <!-- Font Awesome kit -->
-  <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
-
-  <!-- script js -->
-</body>
-
-</html>
+</main>
+{% endblock %}
