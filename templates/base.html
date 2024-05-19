@@ -1,24 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Elysium Real Estate{% endblock %}</title>
-  {% load static %}
-  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Elysium Real Estate{% endblock %}</title>
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <!-- Nav code -->
-  </header>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
-  <footer>
-    <!-- Footer code here -->
-  </footer>
-  <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
-  <script src="{% static 'js/script.js' %}"></script>
+    <header class="header">
+        <a href="{% url 'home' %}" class="logo">
+            <div class="logo-container">
+                <h1>Elysium</h1>
+                <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
+            </div>
+        </a>
+        <input class="side-menu" type="checkbox" id="side-menu">
+        <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars"></i></span></label>
+        <nav class="nav">
+            <ul class="menu">
+                <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" aria-label="View properties for sale">Buy</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
+                        <li><a href="#">Land for Sale</a></li>
+                        <li><a href="#">Request viewing</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="View rental properties">Rent</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'property_rent' %}">Property for Rent</a></li>
+                        <li><a href="#">Student Properties</a></li>
+                        <li><a href="#">Request viewing</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-label="Learn about us">About Us</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="user-icon">
+            <button class="user-icon-btn" aria-label="User Login/Register">
+                <i class="fas fa-user"></i>
+                <span class="icon-text">Sign in</span>
+            </button>
+            <div class="user-dropdown">
+                <form>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit">Sign in</button>
+                    <p>Don't have an account? <a href="#">Register</a></p>
+                </form>
+            </div>
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+    <footer>
+        <ul id="social-media">
+            <li><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook" style="color: #ffffff;"></i></a></li>
+            <li><a href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square" style="color: #ffffff;"></i></a></li>
+            <li><a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square" style="color: #ffffff;"></i></a></li>
+            <li><a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram" style="color: #ffffff;"></i></a></li>
+        </ul>
+        <p>&copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd<br>
+            Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
+        </p>
+    </footer>
+    <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
