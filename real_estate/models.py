@@ -51,6 +51,8 @@ class Property(models.Model):
     parking = models.BooleanField(default=False)
     pets_allowed = models.BooleanField(default=False)
     property_image = models.ImageField(upload_to='properties/')
+    floor_plan = models.ImageField(upload_to='floor_plans/', blank=True, null=True)
+    energy_efficiency_rating = models.CharField(max_length=10, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -68,3 +70,11 @@ class Property(models.Model):
         if self.transaction_type == 'rent':
             return f"{self.price} PCM"
         return f"{self.price}"
+
+
+class PropertyImage(models.Model):
+    property = models.ForeignKey(Property, related_name='property_images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='property_images/')
+
+    def __str__(self):
+        return f"{self.property.title} Image"
