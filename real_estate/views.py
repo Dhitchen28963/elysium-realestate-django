@@ -4,91 +4,73 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.contrib import messages
+from .forms import PropertySearchForm
+
 
 def property_sale(request):
-    properties = Property.objects.filter(transaction_type='buy', status='published')
+    form = PropertySearchForm(request.GET)
+    properties = Property.objects.filter(transaction_type='sale', status='published')
 
-    # Filtering
-    query = request.GET.get('q')
-    property_type = request.GET.get('property_type')
-    bedrooms_min = request.GET.get('bedrooms_min')
-    bedrooms_max = request.GET.get('bedrooms_max')
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    garden = request.GET.get('garden')
-    parking = request.GET.get('parking')
-    pets_allowed = request.GET.get('pets_allowed')
-    furnished_type = request.GET.get('furnished_type')
+    if form.is_valid():
+        if form.cleaned_data.get('search'):
+            properties = properties.filter(location__icontains=form.cleaned_data['search'])
+        if form.cleaned_data.get('location'):
+            properties = properties.filter(location__icontains=form.cleaned_data['location'])
+        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
+            properties = properties.filter(property_type=form.cleaned_data['property_type'])
+        if form.cleaned_data.get('bedrooms_min'):
+            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
+        if form.cleaned_data.get('bedrooms_max'):
+            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
+        if form.cleaned_data.get('price_min'):
+            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
+        if form.cleaned_data.get('price_max'):
+            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
+        if form.cleaned_data.get('garden'):
+            properties = properties.filter(garden=form.cleaned_data['garden'])
+        if form.cleaned_data.get('parking'):
+            properties = properties.filter(parking=form.cleaned_data['parking'])
+        if form.cleaned_data.get('pets_allowed'):
+            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
 
-    if query:
-        properties = properties.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(location__icontains=query)
-        )
-    if property_type and property_type != 'any':
-        properties = properties.filter(property_type=property_type)
-    if bedrooms_min:
-        properties = properties.filter(bedrooms__gte=bedrooms_min)
-    if bedrooms_max:
-        properties = properties.filter(bedrooms__lte=bedrooms_max)
-    if price_min:
-        properties = properties.filter(price__gte=price_min)
-    if price_max:
-        properties = properties.filter(price__lte=price_max)
-    if garden:
-        properties = properties.filter(garden=True)
-    if parking:
-        properties = properties.filter(parking=True)
-    if pets_allowed:
-        properties = properties.filter(pets_allowed=True)
-    if furnished_type and furnished_type != 'any':
-        properties = properties.filter(furnished_type=furnished_type)
-
-    return render(request, 'real_estate/property_sale.html', {'properties': properties})
+    context = {
+        'form': form,
+        'properties': properties
+    }
+    return render(request, 'real_estate/property_sale.html', context)
 
 
 def property_rent(request):
+    form = PropertySearchForm(request.GET)
     properties = Property.objects.filter(transaction_type='rent', status='published')
 
-    # Filtering
-    query = request.GET.get('q')
-    property_type = request.GET.get('property_type')
-    bedrooms_min = request.GET.get('bedrooms_min')
-    bedrooms_max = request.GET.get('bedrooms_max')
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    garden = request.GET.get('garden')
-    parking = request.GET.get('parking')
-    pets_allowed = request.GET.get('pets_allowed')
-    furnished_type = request.GET.get('furnished_type')
-
-    if query:
-        properties = properties.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(location__icontains=query)
-        )
-    if property_type and property_type != 'any':
-        properties = properties.filter(property_type=property_type)
-    if bedrooms_min:
-        properties = properties.filter(bedrooms__gte=bedrooms_min)
-    if bedrooms_max:
-        properties = properties.filter(bedrooms__lte=bedrooms_max)
-    if price_min:
-        properties = properties.filter(price__gte=price_min)
-    if price_max:
-        properties = properties.filter(price__lte=price_max)
-    if garden:
-        properties = properties.filter(garden=True)
-    if parking:
-        properties = properties.filter(parking=True)
-    if pets_allowed:
-        properties = properties.filter(pets_allowed=True)
-    if furnished_type and furnished_type != 'any':
-        properties = properties.filter(furnished_type=furnished_type)
-
-    return render(request, 'real_estate/property_rent.html', {'properties': properties})
+    if form.is_valid():
+        if form.cleaned_data.get('search'):
+            properties = properties.filter(location__icontains=form.cleaned_data['search'])
+        if form.cleaned_data.get('location'):
+            properties = properties.filter(location__icontains=form.cleaned_data['location'])
+        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
+            properties = properties.filter(property_type=form.cleaned_data['property_type'])
+        if form.cleaned_data.get('bedrooms_min'):
+            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
+        if form.cleaned_data.get('bedrooms_max'):
+            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
+        if form.cleaned_data.get('price_min'):
+            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
+        if form.cleaned_data.get('price_max'):
+            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
+        if form.cleaned_data.get('garden'):
+            properties = properties.filter(garden=form.cleaned_data['garden'])
+        if form.cleaned_data.get('parking'):
+            properties = properties.filter(parking=form.cleaned_data['parking'])
+        if form.cleaned_data.get('pets_allowed'):
+            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
+    
+    context = {
+        'form': form,
+        'properties': properties
+    }
+    return render(request, 'real_estate/property_rent.html', context)
 
 
 def property_detail(request, slug):
@@ -106,7 +88,6 @@ def add_to_favorites(request, property_id):
         # Add logic to save the property to the user's favorites
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'}, status=400)
-
 
 def schedule_viewing(request, property_id):
     if request.method == 'POST':
