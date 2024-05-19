@@ -10,144 +10,42 @@
   <div class="search-container">
     <h2>Property for rent</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
-    <div class="buttons-container">
-      <a href="property-rent.html" class="rent-button">Rent</a>
-    </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Choose your next rented home? e.g. Plymouth PL47DZ">
-      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
-  </div>
-
-  <div class="filters-container">
-    <div class="property-type">
-      <label for="property-type">Property Type:</label>
-      <select id="property-type">
-        <option value="any">Any</option>
-        <optgroup label="Houses">
-          <option value="detached-houses">Detached houses</option>
-          <option value="semi-detached-houses">Semi-detached houses</option>
-          <option value="terraced-houses">Terraced houses</option>
-          <option value="mobile-park-homes">Mobile / Park homes</option>
-          <option value="boats">Boats</option>
-        </optgroup>
-        <optgroup label="Other">
-          <option value="flats-apartments">Flats / Apartments</option>
-          <option value="bungalows">Bungalows</option>
-          <option value="land">Land</option>
-          <option value="commercial-property">Commercial Property</option>
-          <option value="hmo">HMO's</option>
-        </optgroup>
-      </select>
-    </div>
-
-    <div class="bedrooms">
-      <label for="bedrooms-min">Bedrooms:</label>
-      <select id="bedrooms-min">
-        <option value="no-min">No Min</option>
-        <option value="studio">Studio</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-      <select id="bedrooms-max">
-        <option value="no-max">No Max</option>
-        <option value="studio">Studio</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </div>
-
-    <div class="price">
-      <label for="price-min">Price (£):</label>
-      <select id="price-min">
-        <option value="no-min">No Min</option>
-        <option value="100">£100 PCM</option>
-        <option value="150">£150 PCM</option>
-        <option value="200">£200 PCM</option>
-        <option value="250">£250 PCM</option>
-        <option value="300">£300 PCM</option>
-        <option value="350">£350 PCM</option>
-        <option value="400">£400 PCM</option>
-        <option value="450">£450 PCM</option>
-        <option value="500">£500 PCM</option>
-        <option value="600">£600 PCM</option>
-        <option value="700">£700 PCM</option>
-        <option value="800">£800 PCM</option>
-        <option value="900">£900 PCM</option>
-        <option value="1000">£1000 PCM</option>
-        <option value="2000">£2000 PCM</option>
-        <option value="3000">£3000 PCM</option>
-        <option value="4000">£4000 PCM</option>
-        <option value="5000">£5000 PCM</option>
-      </select>
-      <select id="price-max">
-        <option value="no-max">No Max</option>
-        <option value="100">£100 PCM</option>
-        <option value="150">£150 PCM</option>
-        <option value="200">£200 PCM</option>
-        <option value="250">£250 PCM</option>
-        <option value="300">£300 PCM</option>
-        <option value="350">£350 PCM</option>
-        <option value="400">£400 PCM</option>
-        <option value="450">£450 PCM</option>
-        <option value="500">£500 PCM</option>
-        <option value="600">£600 PCM</option>
-        <option value="700">£700 PCM</option>
-        <option value="800">£800 PCM</option>
-        <option value="900">£900 PCM</option>
-        <option value="1000">£1000 PCM</option>
-        <option value="2000">£2000 PCM</option>
-        <option value="3000">£3000 PCM</option>
-        <option value="4000">£4000 PCM</option>
-        <option value="5000">£5000 PCM</option>
-      </select>
-    </div>
-
-    <div class="more-filters">
-      <button id="toggle-filters">More filters</button>
-      <div class="dropdown-content">
-        <div class="lettings-type">
-          <label for="lettings-type">Type of Lettings:</label>
-          <select id="lettings-type">
-            <option value="no-preference">No Preference</option>
-            <option value="long-term">Long Term</option>
-          </select>
-        </div>
-        <div class="furnished-type">
-          <label for="furnished-type">Furnished Type:</label>
-          <select id="furnished-type">
-            <option value="no-preference">No Preference</option>
-            <option value="furnished">Furnished</option>
-          </select>
-        </div>
-        <div class="amenities">
-          <label>Amenities:</label>
-          <input type="checkbox" id="garden">
-          <label for="garden">Garden</label>
-          <input type="checkbox" id="parking">
-          <label for="parking">Parking</label>
-          <input type="checkbox" id="pets">
-          <label for="pets">Allows Pets</label>
-        </div>
+    <form method="get">
+      <div class="search-bar">
+        {{ form.search }}
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
-    </div>
-
-    <div class="action-buttons">
-      <button id="clear-filters">Clear Filters</button>
-      <button id="find-properties">Find Properties</button>
-    </div>
+      <div class="filters-container">
+        <label for="property-type">Property Type:</label>
+        {{ form.property_type }}
+        <label for="bedrooms-min">Bedrooms:</label>
+        {{ form.bedrooms_min }}
+        <label for="bedrooms-max">Bedrooms:</label>
+        {{ form.bedrooms_max }}
+        <label for="price-min">Price (£):</label>
+        {{ form.price_min }}
+        <label for="price-max">Price (£):</label>
+        {{ form.price_max }}
+        <label for="garden">Garden:</label>
+        {{ form.garden }}
+        <label for="parking">Parking:</label>
+        {{ form.parking }}
+        <label for="pets_allowed">Pets Allowed:</label>
+        {{ form.pets_allowed }}
+        <button type="submit" id="find-properties">Find Properties</button>
+      </div>
+    </form>
   </div>
 
   <div class="container">
-    <div class="box">Box 1</div>
-    <div class="box">Box 2</div>
-    <div class="box">Box 3</div>
+    {% for property in properties %}
+    <div class="box">
+      <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+      <p>{{ property.description }}</p>
+      <p>Price: £{{ property.price }}</p>
+      <p>Location: {{ property.location }}</p>
+    </div>
+    {% endfor %}
   </div>
 </main>
 {% endblock %}
