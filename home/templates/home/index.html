@@ -12,10 +12,11 @@
     <h3>Search using 'town name' or 'postcode'</h3>
     <form method="get">
       <div class="search-bar">
-        {{ form.search }}
+        <input type="text" name="search" placeholder="Enter location">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
-      <div class="filters-container">
+      <button type="button" id="toggle-filters">Show Filters</button>
+      <div class="filters-container" id="filters-container" style="display: none;">
         <label for="property-type">Property Type:</label>
         {{ form.property_type }}
         <label for="bedrooms-min">Bedrooms:</label>

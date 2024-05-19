@@ -85,6 +85,11 @@ function contactAgent(propertyId) {
     }
 }
 
+function openImageCollage(src) {
+    // Implement the logic to open a collage or lightbox with the clicked image
+    alert('Collage function not implemented yet. Image source: ' + src);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Attach event listeners to action buttons if they exist
     document.querySelectorAll('.property-actions button').forEach(button => {
@@ -101,4 +106,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Image click to open collage
+    document.querySelectorAll('.image-wrapper img').forEach(img => {
+        img.addEventListener('click', function() {
+            openImageCollage(this.src);
+        });
+    });
+
+    // Toggle filters visibility
+    const toggleFiltersButton = document.getElementById('toggle-filters');
+    const filtersContainer = document.getElementById('filters-container');
+
+    if (toggleFiltersButton && filtersContainer) {
+        toggleFiltersButton.addEventListener('click', function () {
+            if (filtersContainer.style.display === 'none' || filtersContainer.style.display === '') {
+                filtersContainer.style.display = 'block';
+                toggleFiltersButton.textContent = 'Hide Filters';
+            } else {
+                filtersContainer.style.display = 'none';
+                toggleFiltersButton.textContent = 'Show Filters';
+            }
+        });
+    }
 });
