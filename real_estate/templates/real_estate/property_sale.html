@@ -1,325 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Property for Sale{% endblock %}
 
-  <!-- Meta tags for search engines -->
-  <meta name="description" content="Discover your dream home with Elysium Real Estate. Browse our listings of properties for sale in London and beyond.">
-  <meta name="keywords" content="Elysium Real Estate, properties for sale, homes for sale, buy property, London real estate">
-
-  <!-- Link to external resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
-
-  <!-- Title of the webpage -->
-  <title>Elysium - Properties for Sale</title>
-
-  <!-- Path to style.css folder -->
-</head>
-
-<body>
-
-  <!-- Navigation bar -->
-  <header class="header">
-    <a href="{% url 'home' %}" class="logo">
-      <div class="logo-container">
-        <h1>Elysium</h1>
-        <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
-      </div>
-    </a>
-    <!-- Hamburger icon -->
-    <input class="side-menu" type="checkbox" id="side-menu">
-    <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars"></i></span>
-    </label>
-    <!-- Menu -->
-    <nav class="nav">
-      <ul class="menu">
-        <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
-        <li class="dropdown">
-          <a href="#" aria-label="View properties for sale">Buy</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for Buy -->
-            <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
-            <li><a href="#">Land for Sale</a></li>
-            <li><a href="#">Request viewing</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" aria-label="View rental properties">Rent</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for Rent -->
-            <li><a href="{% url 'property_rent' %}">Property for Rent</a></li>
-            <li><a href="#">Student Properties</a></li>
-            <li><a href="#">Request viewing</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" aria-label="Learn about us">About Us</a>
-          <ul class="dropdown-menu">
-            <!-- Dropdown options for About Us -->
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Testimonials</a></li>
-            <!-- Add more options as needed -->
-          </ul>
-        </li>
-        <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a>
-        </li>
-      </ul>
-    </nav>
-    <!-- Sign in & register icon -->
-    <div class="user-icon">
-      <button class="user-icon-btn" aria-label="User Login/Register">
-        <i class="fas fa-user"></i>
-        <span class="icon-text">Sign in</span>
-      </button>
-      <div class="user-dropdown">
-        <form>
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Password" required>
-          <button type="submit">Sign in</button>
-          <!-- Add register link -->
-          <p>Don't have an account? <a href="#">Register</a></p>
-        </form>
-      </div>
+{% block content %}
+<main>
+  <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
+  
+  <div class="search-container">
+    <h2>Property for sale</h2>
+    <h3>Search using 'town name' or 'postcode'</h3>
+    <div class="buttons-container">
+      <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
     </div>
-  </header>
+    <div class="search-bar">
+      <input type="text" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ">
+      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </div>
 
-  <!-- Main content -->
-  <main>
-    <div class="search-container">
-      <h2>Property for sale</h2>
-      <h3>Search using 'town name' or 'postcode'</h3>
-      <div class="buttons-container">
-        <a href="{% url 'property_sale' %}" class="buy-button">Buy</a>
-      </div>
-      <div class="search-bar">
-        <form method="GET" action="">
-          <input type="text" name="q" placeholder="Where do you want to buy? e.g. Plymouth PL47DZ" value="{{ request.GET.q }}">
-          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
-      </div>
+  <div class="filters-container">
+    <div class="property-type">
+      <label for="property-type">Property Type:</label>
+      <select id="property-type">
+        <option value="any">Any</option>
+        <optgroup label="Houses">
+          <option value="detached-houses">Detached houses</option>
+          <option value="semi-detached-houses">Semi-detached houses</option>
+          <option value="terraced-houses">Terraced houses</option>
+          <option value="mobile-park-homes">Mobile / Park homes</option>
+          <option value="boats">Boats</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="flats-apartments">Flats / Apartments</option>
+          <option value="bungalows">Bungalows</option>
+          <option value="land">Land</option>
+          <option value="commercial-property">Commercial Property</option>
+          <option value="hmo">HMO's</option>
+        </optgroup>
+      </select>
     </div>
 
-    <div class="filters-container">
-      <form method="GET" action="">
-        <div class="property-type">
-          <label for="property-type">Property Type:</label>
-          <select name="property_type" id="property-type">
-            <option value="any">Any</option>
-            <optgroup label="Houses">
-              <option value="detached-houses">Detached houses</option>
-              <option value="semi-detached-houses">Semi-detached houses</option>
-              <option value="terraced-houses">Terraced houses</option>
-              <option value="mobile-park-homes">Mobile / Park homes</option>
-              <option value="boats">Boats</option>
-            </optgroup>
-            <optgroup label="Other">
-              <option value="flats-apartments">Flats / Apartments</option>
-              <option value="bungalows">Bungalows</option>
-              <option value="land">Land</option>
-              <option value="commercial-property">Commercial Property</option>
-              <option value="hmo">HMO's</option>
-            </optgroup>
-          </select>
-        </div>
-
-        <div class="bedrooms">
-          <label for="bedrooms-min">Bedrooms:</label>
-          <select name="bedrooms_min" id="bedrooms-min">
-            <option value="">No Min</option>
-            <option value="studio">Studio</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <select name="bedrooms_max" id="bedrooms-max">
-            <option value="">No Max</option>
-            <option value="studio">Studio</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <div class="price">
-          <label for="price-min">Price (£):</label>
-          <select name="price_min" id="price-min">
-            <option value="">No Min</option>
-            <option value="50000">£50,000</option>
-            <option value="100000">£100,000</option>
-            <option value="150000">£150,000</option>
-            <option value="200000">£200,000</option>
-            <option value="250000">£250,000</option>
-            <option value="300000">£300,000</option>
-            <option value="350000">£350,000</option>
-            <option value="400000">£400,000</option>
-            <option value="450000">£450,000</option>
-            <option value="500000">£500,000</option>
-            <option value="550000">£550,000</option>
-            <option value="600000">£600,000</option>
-            <option value="650000">£650,000</option>
-            <option value="700000">£700,000</option>
-            <option value="750000">£750,000</option>
-            <option value="800000">£800,000</option>
-            <option value="850000">£850,000</option>
-            <option value="900000">£900,000</option>
-            <option value="950000">£950,000</option>
-            <option value="1000000">£1,000,000</option>
-            <option value="1250000">£1,250,000</option>
-            <option value="1500000">£1,500,000</option>
-            <option value="1750000">£1,750,000</option>
-            <option value="2000000">£2,000,000</option>
-            <option value="2250000">£2,250,000</option>
-            <option value="2500000">£2,500,000</option>
-            <option value="2750000">£2,750,000</option>
-            <option value="3000000">£3,000,000</option>
-            <option value="3500000">£3,500,000</option>
-            <option value="4000000">£4,000,000</option>
-            <option value="4500000">£4,500,000</option>
-            <option value="5000000">£5,000,000</option>
-          </select>
-          <select name="price_max" id="price-max">
-            <option value="">No Max</option>
-            <option value="50000">£50,000</option>
-            <option value="100000">£100,000</option>
-            <option value="150000">£150,000</option>
-            <option value="200000">£200,000</option>
-            <option value="250000">£250,000</option>
-            <option value="300000">£300,000</option>
-            <option value="350000">£350,000</option>
-            <option value="400000">£400,000</option>
-            <option value="450000">£450,000</option>
-            <option value="500000">£500,000</option>
-            <option value="550000">£550,000</option>
-            <option value="600000">£600,000</option>
-            <option value="650000">£650,000</option>
-            <option value="700000">£700,000</option>
-            <option value="750000">£750,000</option>
-            <option value="800000">£800,000</option>
-            <option value="850000">£850,000</option>
-            <option value="900000">£900,000</option>
-            <option value="950000">£950,000</option>
-            <option value="1000000">£1,000,000</option>
-            <option value="1250000">£1,250,000</option>
-            <option value="1500000">£1,500,000</option>
-            <option value="1750000">£1,750,000</option>
-            <option value="2000000">£2,000,000</option>
-            <option value="2250000">£2,250,000</option>
-            <option value="2500000">£2,500,000</option>
-            <option value="2750000">£2,750,000</option>
-            <option value="3000000">£3,000,000</option>
-            <option value="3500000">£3,500,000</option>
-            <option value="4000000">£4,000,000</option>
-            <option value="4500000">£4,500,000</option>
-            <option value="5000000">£5,000,000</option>
-          </select>
-        </div>
-
-        <div class="filter">
-          <label for="garden">Garden:</label>
-          <input type="checkbox" name="garden" id="garden" value="true" {% if request.GET.garden %}checked{% endif %}>
-        </div>
-
-        <div class="filter">
-          <label for="parking">Parking:</label>
-          <input type="checkbox" name="parking" id="parking" value="true" {% if request.GET.parking %}checked{% endif %}>
-        </div>
-
-        <div class="filter">
-          <label for="pets_allowed">Pets Allowed:</label>
-          <input type="checkbox" name="pets_allowed" id="pets_allowed" value="true" {% if request.GET.pets_allowed %}checked{% endif %}>
-        </div>
-
-        <div class="more-filters">
-          <button id="toggle-filters">More filters</button>
-          <div class="dropdown-content">
-            <div class="home-type">
-              <label for="building-type">Pre-owned & new homes</label>
-              <select name="building_type" id="building-type">
-                <option value="no-preference">No Preference</option>
-                <option value="pre-owned">Pre-owned homes</option>
-                <option value="new">Brand new homes</option>
-              </select>
-            </div>
-            <div class="buying-scheme">
-              <label for="buying-scheme">Buying Scheme:</label>
-              <select name="buying_scheme" id="buying-scheme">
-                <option value="no-preference">No Preference</option>
-                <option value="buying-schemes">Buying schemes</option>
-                <option value="non-buying-schemes">Non-buying schemes</option>
-              </select>
-            </div>
-            <div class="retirement-type">
-              <label for="retirement-type">Retirement:</label>
-              <select name="retirement_type" id="retirement-type">
-                <option value="no-preference">No Preference</option>
-                <option value="retirement-only">Retirement only</option>
-                <option value="non-retirement-only">Non-retirement only</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button type="submit">Apply Filters</button>
-          <a href="{% url 'property_sale' %}" id="clear-filters">Clear Filters</a>
-        </div>
-      </form>
+    <div class="bedrooms">
+      <label for="bedrooms-min">Bedrooms:</label>
+      <select id="bedrooms-min">
+        <option value="no-min">No Min</option>
+        <option value="studio">Studio</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <select id="bedrooms-max">
+        <option value="no-max">No Max</option>
+        <option value="studio">Studio</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
     </div>
 
-    <div class="property-list">
-      {% for property in properties %}
-      <div class="property-item">
-        <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
-        <h2>{{ property.title }}</h2>
-        <p>{{ property.description }}</p>
-        <p>Price: £{{ property.price }}</p>
-        <p>Location: {{ property.location }}</p>
-        <p>Bedrooms: {{ property.bedrooms }}</p>
-        <p>Bathrooms: {{ property.bathrooms }}</p>
+    <div class="price">
+      <label for="price-min">Price (£):</label>
+      <select id="price-min">
+        <option value="no-min">No Min</option>
+        <option value="50000">£50,000</option>
+        <option value="100000">£100,000</option>
+        <option value="150000">£150,000</option>
+        <option value="200000">£200,000</option>
+        <option value="250000">£250,000</option>
+        <option value="300000">£300,000</option>
+        <option value="350000">£350,000</option>
+        <option value="400000">£400,000</option>
+        <option value="450000">£450,000</option>
+        <option value="500000">£500,000</option>
+        <option value="550000">£550,000</option>
+        <option value="600000">£600,000</option>
+        <option value="650000">£650,000</option>
+        <option value="700000">£700,000</option>
+        <option value="750000">£750,000</option>
+        <option value="800000">£800,000</option>
+        <option value="850000">£850,000</option>
+        <option value="900000">£900,000</option>
+        <option value="950000">£950,000</option>
+        <option value="1000000">£1,000,000</option>
+        <option value="1250000">£1,250,000</option>
+        <option value="1500000">£1,500,000</option>
+        <option value="1750000">£1,750,000</option>
+        <option value="2000000">£2,000,000</option>
+        <option value="2250000">£2,250,000</option>
+        <option value="2500000">£2,500,000</option>
+        <option value="2750000">£2,750,000</option>
+        <option value="3000000">£3,000,000</option>
+      </select>
+      <select id="price-max">
+        <option value="no-max">No Max</option>
+        <option value="50000">£50,000</option>
+        <option value="100000">£100,000</option>
+        <option value="150000">£150,000</option>
+        <option value="200000">£200,000</option>
+        <option value="250000">£250,000</option>
+        <option value="300000">£300,000</option>
+        <option value="350000">£350,000</option>
+        <option value="400000">£400,000</option>
+        <option value="450000">£450,000</option>
+        <option value="500000">£500,000</option>
+        <option value="550000">£550,000</option>
+        <option value="600000">£600,000</option>
+        <option value="650000">£650,000</option>
+        <option value="700000">£700,000</option>
+        <option value="750000">£750,000</option>
+        <option value="800000">£800,000</option>
+        <option value="850000">£850,000</option>
+        <option value="900000">£900,000</option>
+        <option value="950000">£950,000</option>
+        <option value="1000000">£1,000,000</option>
+        <option value="1250000">£1,250,000</option>
+        <option value="1500000">£1,500,000</option>
+        <option value="1750000">£1,750,000</option>
+        <option value="2000000">£2,000,000</option>
+        <option value="2250000">£2,250,000</option>
+        <option value="2500000">£2,500,000</option>
+        <option value="2750000">£2,750,000</option>
+        <option value="3000000">£3,000,000</option>
+        <option value="3500000">£3,500,000</option>
+        <option value="4000000">£4,000,000</option>
+        <option value="4500000">£4,500,000</option>
+        <option value="5000000">£5,000,000</option>
+      </select>
+    </div>
+
+    <div class="more-filters">
+      <button id="toggle-filters">More filters</button>
+      <div class="dropdown-content">
+        <div class="home-type">
+          <label for="building-type">Pre-owned & new homes</label>
+          <select id="building-type">
+            <option value="no-preference">No Preference</option>
+            <option value="pre-owned">Pre-owned homes</option>
+            <option value="new">Brand new homes</option>
+          </select>
+        </div>
+        <div class="buying-scheme">
+          <label for="buying-scheme">Buying Scheme:</label>
+          <select id="buying-scheme">
+            <option value="no-preference">No Preference</option>
+            <option value="buying-schemes">Buying schemes</option>
+            <option value="non-buying-schemes">Non-buying schemes</option>
+          </select>
+        </div>
+        <div class="retirement-type">
+          <label for="retirement-type">Retirement:</label>
+          <select id="retirement-type">
+            <option value="no-preference">No Preference</option>
+            <option value="retirement-only">Retirement only</option>
+            <option value="non-retirement-only">Non-retirement only</option>
+          </select>
+        </div>
       </div>
-      {% endfor %}
     </div>
-  </main>
+  </div>
 
-  <!-- Footer -->
-  <!-- Social media links -->
-  <footer>
-    <ul id="social-media">
-      <li><a href="https://www.facebook.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.twitter.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.youtube.com/" target="_blank" rel="noopener"
-          aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square"
-            style="color: #ffffff;"></i></a></li>
-      <li><a href="https://www.instagram.com/" target="_blank" rel="noopener"
-          aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram"
-            style="color: #ffffff;"></i></a></li>
-    </ul>
+  <div class="action-buttons">
+    <button id="clear-filters">Clear Filters</button>
+    <button id="find-properties">Find Properties</button>
+  </div>
 
-    <!-- Copy right and designer signature including business contact details and address -->
-    <p>
-      &copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd
-      <br>
-      Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
-    </p>
-  </footer>
-
-  <!-- Font Awesome kit -->
-  <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
-</body>
-
-</html>
+  <div class="container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 3</div>
+  </div>
+</main>
+{% endblock %}

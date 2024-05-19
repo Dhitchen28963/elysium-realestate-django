@@ -1,122 +1,46 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ property.title }}{% endblock %}
+
 {% block content %}
-<div class="property-detail">
-    <h1>{{ property.title }}</h1>
+<main>
+  <div class="property-details">
     <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
-    
-    <div class="property-images">
-        {% for image in additional_images %}
-        <img src="{{ image.image.url }}" alt="{{ property.title }} additional image">
-        {% endfor %}
+    <div class="property-info">
+      <h1>{{ property.title }}</h1>
+      <p>{{ property.description }}</p>
+      <p>Price: £{{ property.price }}</p>
+      <p>Location: {{ property.location }}</p>
+      <p>Bedrooms: {{ property.bedrooms }}</p>
+      <p>Bathrooms: {{ property.bathrooms }}</p>
+      <p>Furnished: {{ property.get_furnished_type_display }}</p>
+      <p>Garden: {{ property.garden|yesno:"Yes,No" }}</p>
+      <p>Parking: {{ property.parking|yesno:"Yes,No" }}</p>
+      <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
     </div>
-
-    <p>{{ property.description }}</p>
-    <p>Price: {{ property.price_display }}</p>
-    <p>Location: {{ property.location }}</p>
-    <p>Bedrooms: {{ property.bedrooms }}</p>
-    <p>Bathrooms: {{ property.bathrooms }}</p>
-    <p>Furnished Type: {{ property.furnished_type }}</p>
-    <p>Garden: {{ property.garden|yesno:"Yes,No" }}</p>
-    <p>Parking: {{ property.parking|yesno:"Yes,No" }}</p>
-    <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
-    <p>Energy Efficiency Rating: {{ property.energy_efficiency_rating }}</p>
-
-    {% if property.floor_plan %}
-    <h3>Floor Plan</h3>
-    <img src="{{ property.floor_plan.url }}" alt="Floor plan of {{ property.title }}">
-    {% endif %}
-
     <div class="property-actions">
-        <button onclick="addToFavorites('{{ property.id }}')">Save to Favorites</button>
-        <button onclick="scheduleViewing('{{ property.id }}')">Schedule a Viewing</button>
-        <button onclick="contactAgent('{{ property.id }}')">Contact Agent</button>
+        <button data-property-id="{{ property.id }}" data-action="addToFavorites">Add to Favorites</button>
+        <button data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
+        <button data-property-id="{{ property.id }}" data-action="contactAgent">Contact Agent</button>
     </div>
-
-    <div class="contact-form">
-        <h3>Contact Form</h3>
-        <form method="post" action="{% url 'contact_agent' property.id %}" id="contact-form">
-            {% csrf_token %}
-            <textarea name="message" placeholder="Your message"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    <div class="property-images">
+      {% for image in property.additional_images.all %}
+      <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+      {% endfor %}
     </div>
-</div>
-
-<script>
-function getCSRFToken() {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, 10) === 'csrftoken=') {
-                cookieValue = decodeURIComponent(cookie.substring(10));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-function addToFavorites(propertyId) {
-    fetch(`/add-to-favorites/${propertyId}/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'ok') {
-            alert('Property added to favorites!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function scheduleViewing(propertyId) {
-    fetch(`/schedule-viewing/${propertyId}/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'ok') {
-            alert('Viewing scheduled successfully!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-
-    fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCSRFToken()
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'message sent') {
-            alert('Message sent to the agent!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-</script>
+    <div class="property-enquiry">
+      <h2>Contact about this property</h2>
+      <form method="post" action="{% url 'contact_property' property.id %}">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</main>
 {% endblock %}
