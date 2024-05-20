@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'django_summernote',
     'home',
     'real_estate',
+    'student_accommodation',
+    'property_guides',
+    'homelessness_advice',
+    'blog',
+    'testimonials',
+    'faq',
 ]
 
 MIDDLEWARE = [

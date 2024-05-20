@@ -24,4 +24,10 @@ urlpatterns = [
     path('property-sale/', include('real_estate.urls'), name='property_sale'),
     path('property-rent/', include('real_estate.urls'), name='property_rent'),
     path('real_estate/', include('real_estate.urls')),
+    path('student-accommodation/', include('student_accommodation.urls')),
+    path('property-guides/', include('property_guides.urls')),
+    path('homelessness-advice/', include('homelessness_advice.urls')),
+    path('testimonials/', include('testimonials.urls')),
+    path('faq/', include('faq.urls')),
+    path('blog/', include('blog.urls')),
 ]
