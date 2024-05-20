@@ -1,7 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import FAQ
 
 class FAQListView(ListView):
     model = FAQ
     template_name = 'faq/faq_list.html'
-    context_object_name = 'faqs'
+
+class FAQDetailView(DetailView):
+    model = FAQ
+    template_name = 'faq/faq_detail.html'

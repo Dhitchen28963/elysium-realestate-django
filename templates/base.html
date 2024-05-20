@@ -35,18 +35,18 @@
                     <a href="#" aria-label="View rental properties">Rent</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'property_rent' %}">Property to Rent</a></li>
-                        <li><a href="#">Student Accommodation</a></li>
+                        <li><a href="{% url 'student_accommodation_list' %}">Student Accommodation</a></li>
                         <li><a href="#">Request viewing</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" aria-label="View useful resources and information">Resources</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Property Guides</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Homelessness Advice</a></li>
-                        <li><a href="#">Testimonials</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="{% url 'property_guides_list' %}">Property Guides</a></li>
+                        <li><a href="{% url 'blog_list' %}">Blogs</a></li>
+                        <li><a href="{% url 'homelessness_advice_list' %}">Homelessness Advice</a></li>
+                        <li><a href="{% url 'testimonials_list' %}">Testimonials</a></li>
+                        <li><a href="{% url 'faq_list' %}">FAQ</a></li>
                     </ul>
                 </li>
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>

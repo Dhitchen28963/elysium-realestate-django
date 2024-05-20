@@ -1,7 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import PropertyGuide
 
-class PropertyGuideListView(ListView):
+class PropertyGuidesListView(ListView):
     model = PropertyGuide
-    template_name = 'property_guides/property_guide_list.html'
-    context_object_name = 'guides'
+    template_name = 'property_guides/property_guides_list.html'
+
+class PropertyGuidesDetailView(DetailView):
+    model = PropertyGuide
+    template_name = 'property_guides/property_guides_detail.html'

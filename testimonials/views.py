@@ -1,7 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Testimonial
 
-class TestimonialListView(ListView):
+class TestimonialsListView(ListView):
     model = Testimonial
-    template_name = 'testimonials/testimonial_list.html'
-    context_object_name = 'testimonials'
+    template_name = 'testimonials/testimonials_list.html'
+
+class TestimonialsDetailView(DetailView):
+    model = Testimonial
+    template_name = 'testimonials/testimonials_detail.html'
