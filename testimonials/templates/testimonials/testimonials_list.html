@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Testimonials</h1>
+    <ul>
+        {% for testimonial in object_list %}
+        <li>
+            <a href="{% url 'testimonials_detail' slug=testimonial.slug %}">
+                {{ testimonial.author }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Testimonial by {{ object.author }}{% endblock %}
+
+{% block content %}
+<main>
+    <h1>{{ object.author }}</h1>
+    <p>{{ object.content }}</p>
+    <p>Submitted on: {{ object.created_at }}</p>
+</main>
+{% endblock %}
