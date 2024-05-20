@@ -86,12 +86,10 @@ function contactAgent(propertyId) {
 }
 
 function openImageCollage(src) {
-    // Implement the logic to open a collage or lightbox with the clicked image
     alert('Collage function not implemented yet. Image source: ' + src);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Attach event listeners to action buttons if they exist
     document.querySelectorAll('.property-actions button').forEach(button => {
         button.addEventListener('click', function(event) {
             const propertyId = this.getAttribute('data-property-id');
