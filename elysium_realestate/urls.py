@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from real_estate import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +32,12 @@ urlpatterns = [
     path('testimonials/', include('testimonials.urls')),
     path('faq/', include('faq.urls')),
     path('blog/', include('blog.urls')),
+    path('add-to-favorites/<int:property_id>/', views.add_to_favorites, name='add_to_favorites'),
+    path('schedule-viewing/<int:slot_id>/', views.schedule_viewing, name='schedule_viewing'),
+    path('view-property-slots/<int:property_id>/', views.view_property_slots, name='view_property_slots'),
+    path('contact-property/<int:property_id>/', views.contact_property, name='contact_property'),
+    path('property-slots/<int:property_id>/', views.view_property_slots, name='view_property_slots'),
+    path('favorites/', views.view_favorites, name='view_favorites'),
+    path('request-custom-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
+    path('request-custom-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
 ]

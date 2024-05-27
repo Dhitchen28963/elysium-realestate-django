@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Property
+from .models import Property, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage
 from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(Property)
@@ -9,3 +9,37 @@ class PropertyAdmin(SummernoteModelAdmin):
     search_fields = ('title', 'description', 'location')
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('description',)
+
+@admin.register(ViewingSlot)
+class ViewingSlotAdmin(admin.ModelAdmin):
+    list_display = ('property', 'agent', 'date', 'start_time', 'end_time', 'is_booked')
+    list_filter = ('property', 'agent', 'date', 'is_booked')
+    search_fields = ('property__title', 'agent__username', 'date')
+
+@admin.register(FavoriteProperty)
+class FavoritePropertyAdmin(admin.ModelAdmin):
+    list_display = ('user', 'property', 'added_on')
+    list_filter = ('user', 'property', 'added_on')
+    search_fields = ('user__username', 'property__title')
+
+@admin.register(ViewingAppointment)
+class ViewingAppointmentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'is_scheduled', 'attended')
+    list_filter = ('is_scheduled', 'attended', 'property', 'preferred_date')
+    search_fields = ('user__username', 'property__title', 'name', 'email')
+    actions = ['mark_as_attended', 'mark_as_not_attended']
+
+    def mark_as_attended(self, request, queryset):
+        queryset.update(attended=True)
+    mark_as_attended.short_description = "Mark selected appointments as attended"
+
+    def mark_as_not_attended(self, request, queryset):
+        queryset.update(attended=False)
+    mark_as_not_attended.short_description = "Mark selected appointments as not attended"
+
+
+@admin.register(PropertyMessage)
+class PropertyMessageAdmin(admin.ModelAdmin):
+    list_display = ('property', 'user', 'name', 'email', 'message', 'created_on')
+    list_filter = ('property', 'user', 'created_on')
+    search_fields = ('property__title', 'user__username', 'name', 'email', 'message')
