@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Viewing Slots for {{ property.title }}{% endblock %}
+
+{% block content %}
+<h1>Available Viewing Slots for {{ property.title }}</h1>
+<ul>
+    {% for slot in slots %}
+    <li>
+        {{ slot.date }} {{ slot.start_time }} - {{ slot.end_time }}
+        <button type="button" class="book-viewing" data-slot-id="{{ slot.id }}">Book this slot</button>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Request a Custom Viewing</h2>
+<form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}">
+    {% csrf_token %}
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="contact">Contact:</label>
+    <input type="text" id="contact" name="contact" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="preferred_date">Preferred Date:</label>
+    <input type="date" id="preferred_date" name="preferred_date">
+    
+    <label for="preferred_time">Preferred Time:</label>
+    <input type="time" id="preferred_time" name="preferred_time">
+    
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea>
+    <button type="submit">Request Viewing</button>
+</form>
+
+<div id="viewingModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Schedule a Viewing</h2>
+    <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="contact">Contact:</label>
+      <input type="text" id="contact" name="contact" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="preferred_date">Preferred Date:</label>
+      <input type="date" id="preferred_date" name="preferred_date" required>
+
+      <label for="preferred_time">Preferred Time:</label>
+      <input type="time" id="preferred_time" name="preferred_time" required>
+
+      <label for="message">Preferred Date and Time:</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Request Viewing</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
