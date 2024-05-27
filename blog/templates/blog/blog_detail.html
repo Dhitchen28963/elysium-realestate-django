@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div id="blog-detail" class="container">
+    <h1>{{ post.title }}</h1>
+    <div class="post-header">
+        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+    </div>
+    <div class="post-meta">
+        <p><strong>Author:</strong> {{ post.author }}</p>
+        <p><strong>Published on:</strong> {{ post.created_on }}</p>
+    </div>
+    <div class="post-content">
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <p><strong>{{ comment.author }}</strong> said:</p>
+                    <p>{{ comment.body }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="comment-form">
+        <h2>Leave a Comment</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <a href="{% url 'blog_list' %}" class="back-to-list">Back to Blog List</a>
+</div>
+{% endblock %}
