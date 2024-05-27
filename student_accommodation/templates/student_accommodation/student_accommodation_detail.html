@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ property.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ property.title }}</h1>
+<img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+<p>{{ property.description }}</p>
+<p><strong>Property Type:</strong> {{ property.property_type }}</p>
+<p><strong>Price:</strong> {{ property.price }}</p>
+<p><strong>Furnished Type:</strong> {{ property.furnished_type }}</p>
+<p><strong>Location:</strong> {{ property.location }}</p>
+<p><strong>Bedrooms:</strong> {{ property.bedrooms }}</p>
+<p><strong>Bathrooms:</strong> {{ property.bathrooms }}</p>
+<p><strong>Garden:</strong> {{ property.garden }}</p>
+<p><strong>Parking:</strong> {{ property.parking }}</p>
+<p><strong>Pets Allowed:</strong> {{ property.pets_allowed }}</p>
+<p><strong>Energy Efficiency Rating:</strong> {{ property.energy_efficiency_rating }}</p>
+<p><strong>Status:</strong> {{ property.status }}</p>
+<a href="{% url 'student_accommodation' %}">Back to Student Accommodation List</a>
+{% endblock %}
