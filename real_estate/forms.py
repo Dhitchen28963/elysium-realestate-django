@@ -1,5 +1,5 @@
 from django import forms
-from .models import Property
+from .models import Property, ViewingAppointment
 
 class PropertySearchForm(forms.Form):
     search = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter location'}))
@@ -12,3 +12,9 @@ class PropertySearchForm(forms.Form):
     garden = forms.BooleanField(required=False)
     parking = forms.BooleanField(required=False)
     pets_allowed = forms.BooleanField(required=False)
+
+
+class ViewingAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = ViewingAppointment
+        fields = ['name', 'contact', 'email', 'preferred_date', 'preferred_time', 'message']
