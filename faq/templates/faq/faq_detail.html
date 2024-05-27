@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ faq.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ faq.title }}</h1>
+<img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
+<p>{{ faq.content }}</p>
+<p><strong>Author:</strong> {{ faq.author }}</p>
+<p><strong>Published on:</strong> {{ faq.created_on }}</p>
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <p><strong>{{ comment.author }}</strong> said:</p>
+            <p>{{ comment.body }}</p>
+        </li>
+    {% endfor %}
+</ul>
+<h2>Leave a Comment</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+<a href="{% url 'faq_list' %}">Back to FAQ List</a>
+{% endblock %}

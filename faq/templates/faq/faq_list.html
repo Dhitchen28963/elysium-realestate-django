@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ List{% endblock %}
+
+{% block content %}
+<h1>FAQ List</h1>
+<ul>
+    {% for faq in faqs %}
+        <li>
+            <a href="{% url 'faq_detail' faq.slug %}">{{ faq.title }}</a>
+            <p>{{ faq.excerpt }}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
