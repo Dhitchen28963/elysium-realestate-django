@@ -19,18 +19,23 @@
       <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
     </div>
     <div class="property-actions">
-      <button data-property-id="{{ property.id }}" data-action="addToFavorites">Add to Favorites</button>
-      <button data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
-      <button data-property-id="{{ property.id }}" data-action="contactAgent">Contact Agent</button>
+      <form id="add-to-favorites-form" method="post" action="{% url 'add_to_favorites' property.id %}">
+        {% csrf_token %}
+        <button type="submit" data-property-id="{{ property.id }}" data-action="addToFavorites">Add to Favorites</button>
+      </form>
+      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
+      <button type="button" data-property-id="{{ property.id }}" data-action="contactAgent">Contact Agent</button>
     </div>
     <div class="property-images">
       {% for image in additional_images %}
-      <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+      <div class="image-wrapper">
+        <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+      </div>
       {% endfor %}
     </div>
     <div class="property-enquiry">
       <h2>Contact about this property</h2>
-      <form method="post" action="{% url 'contact_property' property.id %}">
+      <form id="contact-form" method="post" action="{% url 'contact_property' property.id %}" data-property-id="{{ property.id }}">
         {% csrf_token %}
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
@@ -43,4 +48,28 @@
     </div>
   </div>
 </main>
+
+<!-- Modal for scheduling a viewing -->
+<div id="viewingModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Schedule a Viewing</h2>
+    <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}" data-property-id="{{ property.id }}">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="contact">Contact:</label>
+      <input type="text" id="contact" name="contact" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="preferred_date">Preferred Date:</label>
+      <input type="date" id="preferred_date" name="preferred_date" required>
+      <label for="preferred_time">Preferred Time:</label>
+      <input type="time" id="preferred_time" name="preferred_time" required>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Request Viewing</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
