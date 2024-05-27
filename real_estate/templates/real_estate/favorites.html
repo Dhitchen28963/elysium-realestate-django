@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Favorites{% endblock %}
+
+{% block content %}
+<h1>Your Favorite Properties</h1>
+<ul>
+    {% for favorite in favorites %}
+    <li>
+        <a href="{% url 'property_detail' favorite.property.slug %}">{{ favorite.property.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
