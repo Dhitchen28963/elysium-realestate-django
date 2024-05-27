@@ -1,11 +1,36 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Property
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.contrib import messages
-from .forms import PropertySearchForm
+from .forms import PropertySearchForm, ViewingAppointmentForm
+from django.contrib.auth.decorators import login_required
+from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment
+import logging
 
+logger = logging.getLogger(__name__)
+
+@login_required
+def request_custom_viewing(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+
+    if request.method == 'POST':
+        logger.info("Received POST data: %s", request.POST)
+        form = ViewingAppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.property = property
+            appointment.user = request.user
+            appointment.save()
+
+            # send_mail logic here if needed
+
+            return JsonResponse({'status': 'ok'})
+        else:
+            logger.error("Form errors: %s", form.errors)
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 def property_sale(request):
     form = PropertySearchForm(request.GET)
@@ -82,47 +107,68 @@ def property_detail(request, slug):
     return render(request, 'real_estate/property_detail.html', context)
 
 
-def add_to_favorites(request, property_id):
-    if request.method == 'POST':
-        property = get_object_or_404(Property, id=property_id)
-        # Add logic to save the property to the user's favorites
-        return JsonResponse({'status': 'ok'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-def schedule_viewing(request, property_id):
-    if request.method == 'POST':
-        property = get_object_or_404(Property, id=property_id)
-        # Add logic to schedule a viewing
-        return JsonResponse({'status': 'ok'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-
 def contact_agent(request, property_id):
     if request.method == 'POST':
         property = get_object_or_404(Property, id=property_id)
         message = request.POST.get('message')
-        # Add logic to send a message to the agent
         return JsonResponse({'status': 'message sent'})
     return JsonResponse({'status': 'error'}, status=400)
 
 
-def contact_property(request, property_id):
-    property = get_object_or_404(Property, id=property_id)
-
+@login_required
+def add_to_favorites(request, property_id):
     if request.method == 'POST':
+        property = get_object_or_404(Property, id=property_id)
+        favorite, created = FavoriteProperty.objects.get_or_create(user=request.user, property=property)
+        if created:
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'exists'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+@login_required
+def view_favorites(request):
+    favorites = FavoriteProperty.objects.filter(user=request.user)
+    context = {'favorites': favorites}
+    return render(request, 'real_estate/favorites.html', context)
+
+
+@login_required
+def contact_property(request, property_id):
+    if request.method == 'POST':
+        property = get_object_or_404(Property, id=property_id)
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
-
-        # Send an email to the agent (replace with actual email sending logic)
-        send_mail(
-            f'Property Inquiry: {property.title}',
-            f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
-            email,
-            ['agent@example.com'],  # Replace with the agent's email address
+        PropertyMessage.objects.create(
+            property=property,
+            user=request.user,
+            name=name,
+            email=email,
+            message=message
         )
+        return JsonResponse({'status': 'message sent'})
+    return JsonResponse({'status': 'error'}, status=400)
 
-        messages.success(request, 'Your message has been sent to the agent.')
-        return redirect('property_detail', slug=property.slug)
 
-    return render(request, 'real_estate/property_detail.html', {'property': property})
+@login_required
+def schedule_viewing(request, slot_id):
+    if request.method == 'POST':
+        slot = get_object_or_404(ViewingSlot, id=slot_id, is_booked=False)
+        ViewingAppointment.objects.create(slot=slot, user=request.user, property=slot.property)
+        slot.is_booked = True
+        slot.save()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+@login_required
+def view_property_slots(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+    slots = ViewingSlot.objects.filter(property=property, is_booked=False).order_by('date', 'start_time')
+    context = {
+        'property': property,
+        'slots': slots
+    }
+    return render(request, 'real_estate/viewing_slots.html', context)
