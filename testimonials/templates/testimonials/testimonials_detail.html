@@ -1,11 +1,10 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Testimonial by {{ object.author }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<main>
-    <h1>{{ object.author }}</h1>
-    <p>{{ object.content }}</p>
-    <p>Submitted on: {{ object.created_at }}</p>
-</main>
+<h1>{{ post.title }}</h1>
+<p>{{ post.comment }}</p>
+<p><strong>Author:</strong> {{ post.author }}</p>
+<a href="{% url 'testimonials_list' %}">Back to Testimonials List</a>
 {% endblock %}
