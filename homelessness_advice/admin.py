@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import HomelessnessAdvice
+from .models import Post
 
-@admin.register(HomelessnessAdvice)
-class HomelessnessAdviceAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    search_fields = ('title',)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'author', 'created_on', 'status')
+    search_fields = ['title', 'content']
+    prepopulated_fields = {'slug': ('title',)}
+
+admin.site.register(Post, PostAdmin)
