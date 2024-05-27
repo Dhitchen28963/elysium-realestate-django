@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import FAQListView, FAQDetailView
+from . import views
 
 urlpatterns = [
-    path('', FAQListView.as_view(), name='faq_list'),
-    path('<slug:slug>/', FAQDetailView.as_view(), name='faq_detail'),
+    path('', views.FAQList.as_view(), name='faq_list'),
+    path('<slug:slug>/', views.FAQDetail.as_view(), name='faq_detail'),
 ]

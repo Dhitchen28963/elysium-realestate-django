@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import HomelessnessAdviceListView, HomelessnessAdviceDetailView
+from . import views
 
 urlpatterns = [
-    path('', HomelessnessAdviceListView.as_view(), name='homelessness_advice_list'),
-    path('<slug:slug>/', HomelessnessAdviceDetailView.as_view(), name='homelessness_advice_detail'),
+    path('', views.PostList.as_view(), name='homelessness_advice_list'),
+    path('<slug:slug>/', views.PostDetail.as_view(), name='homelessness_advice_detail'),
 ]

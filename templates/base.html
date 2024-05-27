@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    {% url 'account_login' as login_url %}
+    {% url 'account_signup' as signup_url %}
+    {% url 'account_logout' as logout_url %}
     <header class="header">
         <a href="{% url 'home' %}" class="logo">
             <div class="logo-container">
@@ -35,7 +38,7 @@
                     <a href="#" aria-label="View rental properties">Rent</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'property_rent' %}">Property to Rent</a></li>
-                        <li><a href="{% url 'student_accommodation_list' %}">Student Accommodation</a></li>
+                        <li><a href="{% url 'student_accommodation' %}">Student Accommodation</a></li>
                         <li><a href="#">Request viewing</a></li>
                     </ul>
                 </li>
@@ -50,22 +53,20 @@
                     </ul>
                 </li>
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
-        <div class="user-icon">
-            <button class="user-icon-btn" aria-label="User Login/Register">
-                <i class="fas fa-user"></i>
-                <span class="icon-text">Sign in</span>
-            </button>
-            <div class="user-dropdown">
-                <form>
-                    <input type="email" placeholder="Email" required>
-                    <input type="password" placeholder="Password" required>
-                    <button type="submit">Sign in</button>
-                    <p>Don't have an account? <a href="#">Register</a></p>
-                </form>
-            </div>
-        </div>
     </header>
     {% block content %}{% endblock %}
     <footer>

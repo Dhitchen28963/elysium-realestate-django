@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import PropertyGuidesListView, PropertyGuidesDetailView
+from . import views
 
 urlpatterns = [
-    path('', PropertyGuidesListView.as_view(), name='property_guides_list'),
-    path('<slug:slug>/', PropertyGuidesDetailView.as_view(), name='property_guides_detail'),
+    path('', views.PostList.as_view(), name='property_guides_list'),
+    path('<slug:slug>/', views.PostDetail.as_view(), name='property_guides_detail'),
 ]
