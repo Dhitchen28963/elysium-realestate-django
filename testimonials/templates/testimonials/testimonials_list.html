@@ -1,18 +1,15 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Testimonials{% endblock %}
+{% block title %}Testimonials List{% endblock %}
 
 {% block content %}
-<main>
-    <h1>Testimonials</h1>
-    <ul>
-        {% for testimonial in object_list %}
+<h1>Testimonials List</h1>
+<ul>
+    {% for post in posts %}
         <li>
-            <a href="{% url 'testimonials_detail' slug=testimonial.slug %}">
-                {{ testimonial.author }}
-            </a>
+            <a href="{% url 'testimonials_detail' post.id %}">{{ post.title }}</a>
+            <p>{{ post.comment }}</p>
         </li>
-        {% endfor %}
-    </ul>
-</main>
+    {% endfor %}
+</ul>
 {% endblock %}
