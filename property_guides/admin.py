@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import PropertyGuide
+from .models import Post
 
-@admin.register(PropertyGuide)
-class PropertyGuideAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    search_fields = ('title',)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'created_on')
+    search_fields = ['title', 'content']
+    prepopulated_fields = {'slug': ('title',)}
+
+admin.site.register(Post, PostAdmin)
