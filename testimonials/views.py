@@ -1,10 +1,13 @@
-from django.views.generic import ListView, DetailView
-from .models import Testimonial
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from .models import Post
 
-class TestimonialsListView(ListView):
-    model = Testimonial
-    template_name = 'testimonials/testimonials_list.html'
+class PostList(View):
+    def get(self, request, *args, **kwargs):
+        posts = Post.objects.order_by('-id')
+        return render(request, 'testimonials/testimonials_list.html', {'posts': posts})
 
-class TestimonialsDetailView(DetailView):
-    model = Testimonial
-    template_name = 'testimonials/testimonials_detail.html'
+class PostDetail(View):
+    def get(self, request, id, *args, **kwargs):
+        post = get_object_or_404(Post, id=id)
+        return render(request, 'testimonials/testimonials_detail.html', {'post': post})
