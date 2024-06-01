@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Pending Viewing Requests{% endblock %}
+
+{% block content %}
+<h1>Pending Viewing Requests</h1>
+<ul>
+    {% for viewing in pending_viewings %}
+    <li>{{ viewing.property.title }} - {{ viewing.preferred_date }} {{ viewing.preferred_time }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
