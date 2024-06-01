@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
@@ -148,9 +148,22 @@ def add_to_favorites(request, property_id):
 @login_required
 def view_favorites(request):
     favorites = FavoriteProperty.objects.filter(user=request.user)
-    context = {'favorites': favorites}
+    context = {
+        'favorites': favorites
+    }
     return render(request, 'real_estate/favorites.html', context)
 
+@login_required
+def remove_from_favorites(request, property_id):
+    if request.method == 'POST':
+        property = get_object_or_404(Property, id=property_id)
+        favorite = FavoriteProperty.objects.filter(user=request.user, property=property).first()
+        if favorite:
+            favorite.delete()
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'not_found'}, status=404)
+    return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
 def contact_property(request, property_id):

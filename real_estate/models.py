@@ -34,9 +34,14 @@ class Property(models.Model):
         ('sale', 'Sale'),
     ]
 
-    STATUS_CHOICES = [
+    PUBLICATION_STATUS_CHOICES = [
         ('draft', 'Draft'),
         ('published', 'Published'),
+    ]
+
+    AVAILABILITY_STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('unavailable', 'Unavailable'),
     ]
 
     title = models.CharField(max_length=200)
@@ -55,7 +60,8 @@ class Property(models.Model):
     property_image = models.ImageField(upload_to='properties/')
     floor_plan = models.ImageField(upload_to='floor_plans/', blank=True, null=True)
     energy_efficiency_rating = models.CharField(max_length=10, blank=True, null=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    availability_status = models.CharField(max_length=15, choices=AVAILABILITY_STATUS_CHOICES, default='available')
+    publication_status = models.CharField(max_length=10, choices=PUBLICATION_STATUS_CHOICES, default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

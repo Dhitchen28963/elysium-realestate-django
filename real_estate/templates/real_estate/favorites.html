@@ -3,11 +3,15 @@
 {% block title %}Your Favorites{% endblock %}
 
 {% block content %}
-<h1>Your Favorite Properties</h1>
+<h1>My Favorite Properties</h1>
 <ul>
     {% for favorite in favorites %}
     <li>
         <a href="{% url 'property_detail' favorite.property.slug %}">{{ favorite.property.title }}</a>
+        {% if favorite.property.availability_status == 'unavailable' %}
+            <span>(No longer available)</span>
+        {% endif %}
+        <button class="remove-favorite-btn" data-property-id="{{ favorite.property.id }}">Remove</button>
     </li>
     {% endfor %}
 </ul>

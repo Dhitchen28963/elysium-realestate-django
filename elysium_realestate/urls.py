@@ -38,6 +38,7 @@ urlpatterns = [
     path('contact-property/<int:property_id>/', views.contact_property, name='contact_property'),
     path('property-slots/<int:property_id>/', views.view_property_slots, name='view_property_slots'),
     path('favorites/', views.view_favorites, name='view_favorites'),
+    path('remove-from-favorites/<int:property_id>/', views.remove_from_favorites, name='remove_from_favorites'),
     path('request-custom-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('view-messages/', views.MessagesView.as_view(), name='view_messages'),

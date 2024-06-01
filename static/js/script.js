@@ -110,6 +110,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Event listener for removing from favorites
+    document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const propertyId = this.getAttribute('data-property-id');
+            fetch(`/remove-from-favorites/${propertyId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    alert('Property removed from favorites');
+                    location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert('Error removing property from favorites');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+
     // Event listener for custom viewing request
     const customViewingForm = document.getElementById('custom-viewing-form');
     if (customViewingForm) {
