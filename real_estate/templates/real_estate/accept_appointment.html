@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Accept Appointment</h2>
+<p>Are you sure you want to accept the appointment for {{ appointment.property.title }} by {{ appointment.user.username }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Accept</button>
+</form>
+{% endblock %}
