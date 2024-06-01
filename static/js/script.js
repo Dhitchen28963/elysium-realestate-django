@@ -60,7 +60,6 @@ function requestCustomViewing(propertyId) {
         console.log('Response from server:', data);
         if (data.status === 'ok') {
             alert('Viewing request sent to the agent!');
-            // Hide the modal after a successful request
             const modal = document.getElementById("viewingModal");
             modal.style.display = "none";
         } else {
@@ -152,6 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = "none";
         }
     });
+
+    // My Account Sidebar Handling
+    const myAccountBtn = document.getElementById('my-account-btn');
+    const sidebar = document.getElementById('my-account-sidebar');
+
+    if (myAccountBtn && sidebar) {
+        myAccountBtn.addEventListener('click', function() {
+            sidebar.style.display = 'block';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == sidebar) {
+                sidebar.style.display = 'none';
+            }
+        });
+    }
 
     // Additional custom viewing request handling
     const form = document.getElementById('custom-viewing-form');
