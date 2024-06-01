@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Scheduled Viewings</h2>
+<ul>
+    {% for viewing in scheduled_viewings %}
+    <li>
+        Property: {{ viewing.property.title }} <br>
+        Date: {{ viewing.preferred_date }} <br>
+        Time: {{ viewing.preferred_time }} <br>
+        Agent: {{ viewing.property.agent.username }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
