@@ -3,34 +3,52 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.contrib import messages
-from .forms import PropertySearchForm, ViewingAppointmentForm
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
+from .forms import PropertySearchForm, ViewingAppointmentForm
 from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment
-import logging
-
-logger = logging.getLogger(__name__)
 
 @login_required
 def request_custom_viewing(request, property_id):
     property = get_object_or_404(Property, id=property_id)
 
     if request.method == 'POST':
-        logger.info("Received POST data: %s", request.POST)
         form = ViewingAppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
             appointment.property = property
             appointment.user = request.user
             appointment.save()
-
-            # send_mail logic here if needed
-
             return JsonResponse({'status': 'ok'})
         else:
-            logger.error("Form errors: %s", form.errors)
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+
+@login_required
+def accept_appointment(request, appointment_id):
+    appointment = get_object_or_404(ViewingAppointment, id=appointment_id)
+    if request.method == 'POST':
+        appointment.viewing_decision = 'accepted'
+        appointment.save()
+
+        # Send notification email to the user
+        send_mail(
+            'Your Viewing Appointment is Accepted',
+            f'Dear {appointment.user.username}, your viewing appointment for {appointment.property.title} has been accepted.',
+            'from@example.com',
+            [appointment.user.email],
+            fail_silently=False,
+        )
+
+        messages.success(request, 'The appointment has been accepted and the user has been notified.')
+        return redirect('view_pending_viewings')
+
+    context = {
+        'appointment': appointment,
+    }
+    return render(request, 'real_estate/accept_appointment.html', context)
 
 def property_sale(request):
     form = PropertySearchForm(request.GET)
@@ -172,3 +190,28 @@ def view_property_slots(request, property_id):
         'slots': slots
     }
     return render(request, 'real_estate/viewing_slots.html', context)
+
+@login_required
+def view_pending_viewings(request):
+    pending_viewings = ViewingAppointment.objects.filter(user=request.user, is_scheduled=False)
+    return render(request, 'real_estate/pending_viewings.html', {'pending_viewings': pending_viewings})
+
+@login_required
+def view_scheduled_viewings(request):
+    scheduled_viewings = ViewingAppointment.objects.filter(user=request.user, viewing_decision='accepted')
+    context = {
+        'scheduled_viewings': scheduled_viewings
+    }
+    return render(request, 'real_estate/scheduled_viewings.html', context)
+
+class ProfileView(TemplateView):
+    template_name = 'real_estate/profile.html'
+
+class MessagesView(TemplateView):
+    template_name = 'real_estate/messages.html'
+
+class SearchAlertsView(TemplateView):
+    template_name = 'real_estate/search_alerts.html'
+
+class AccountSettingsView(TemplateView):
+    template_name = 'real_estate/account_settings.html'
