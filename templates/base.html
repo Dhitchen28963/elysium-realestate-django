@@ -54,26 +54,40 @@
                 </li>
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="my-account-btn" href="#">My Account</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
+                    </li>
                 {% endif %}
             </ul>
         </nav>
-        {% if user.is_authenticated %}
-        <p class="text-end m-3">You are logged in as {{ user }}</p>
-        {% else %}
-        <p class="text-end m-3">You are not logged in</p>
-        {% endif %}
     </header>
+
+    <div id="my-account-sidebar" class="sidebar">
+        <h2 class="sidebar-header">Elysium</h2>
+        <p class="sidebar-username">{{ user.username }}</p>
+        <ul class="sidebar-menu">
+            <li><a href="{% url 'view_favorites' %}">Saved Properties <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'view_messages' %}">Messages <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'view_search_alerts' %}">Searches and Alerts <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'pending_viewings' %}">Pending Viewing Requests <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'scheduled_viewings' %}">Scheduled Viewings <!-- insert FontAwesome icon code here --></a></li>
+        </ul>
+        <hr>
+        <ul class="sidebar-menu">
+            <li><a href="{% url 'account_settings' %}">Account Settings <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'account_logout' %}">Sign Out <!-- insert FontAwesome icon code here --></a></li>
+        </ul>
+    </div>
+
     {% block content %}{% endblock %}
+
     <footer>
         <ul id="social-media">
             <li><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook" style="color: #ffffff;"></i></a></li>
@@ -82,7 +96,7 @@
             <li><a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram" style="color: #ffffff;"></i></a></li>
         </ul>
         <p>&copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd<br>
-            Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
+        Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
         </p>
     </footer>
 
