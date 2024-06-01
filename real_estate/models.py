@@ -119,6 +119,13 @@ class ViewingSlot(models.Model):
 
 
 class ViewingAppointment(models.Model):
+    VIEWING_DECISION_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+
+
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     slot = models.ForeignKey(ViewingSlot, on_delete=models.SET_NULL, null=True, blank=True)
@@ -130,6 +137,7 @@ class ViewingAppointment(models.Model):
     preferred_time = models.TimeField(default=time(9, 0))
     is_scheduled = models.BooleanField(default=False)
     attended = models.BooleanField(default=False)
+    viewing_decision = models.CharField(max_length=10, choices=VIEWING_DECISION_CHOICES, default='pending')
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
