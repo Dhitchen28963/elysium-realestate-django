@@ -12,4 +12,12 @@ urlpatterns = [
     path('add-to-favorites/<int:property_id>/', views.add_to_favorites, name='add_to_favorites'),
     path('favorites/', views.view_favorites, name='view_favorites'),
     path('contact-property/<int:property_id>/', views.contact_property, name='contact_property'),
+    path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('messages/', views.MessagesView.as_view(), name='view_messages'),
+    path('search-alerts/', views.SearchAlertsView.as_view(), name='view_search_alerts'),
+    path('pending-viewings/', views.view_pending_viewings, name='pending_viewings'),
+    path('accept-appointment/<int:appointment_id>/', views.accept_appointment, name='accept_appointment'),
+    path('scheduled-viewings/', views.view_scheduled_viewings, name='scheduled_viewings'),
+    path('account-settings/', views.AccountSettingsView.as_view(), name='account_settings'),
+    
 ]
