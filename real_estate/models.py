@@ -60,8 +60,8 @@ class Property(models.Model):
     property_image = models.ImageField(upload_to='properties/')
     floor_plan = models.ImageField(upload_to='floor_plans/', blank=True, null=True)
     energy_efficiency_rating = models.CharField(max_length=10, blank=True, null=True)
-    availability_status = models.CharField(max_length=15, choices=AVAILABILITY_STATUS_CHOICES, default='available')
-    publication_status = models.CharField(max_length=10, choices=PUBLICATION_STATUS_CHOICES, default='draft')
+    availability_status = models.CharField(max_length=15, choices=[('available', 'Available'), ('unavailable', 'Unavailable')], default='available')
+    publication_status = models.CharField(max_length=10, choices=[('draft', 'Draft'), ('published', 'Published')], default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -131,7 +131,6 @@ class ViewingAppointment(models.Model):
         ('rejected', 'Rejected'),
     ]
 
-
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     slot = models.ForeignKey(ViewingSlot, on_delete=models.SET_NULL, null=True, blank=True)
@@ -145,6 +144,9 @@ class ViewingAppointment(models.Model):
     attended = models.BooleanField(default=False)
     viewing_decision = models.CharField(max_length=10, choices=VIEWING_DECISION_CHOICES, default='pending')
     created_on = models.DateTimeField(auto_now_add=True)
+    agent_name = models.CharField(max_length=255, blank=True, null=True)
+    agent_contact = models.CharField(max_length=255, blank=True, null=True)
+    agent_email = models.EmailField(blank=True, null=True)
 
     def __str__(self):
         return f"Viewing Appointment for {self.property.title} by {self.name}"

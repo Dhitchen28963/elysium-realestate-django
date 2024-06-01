@@ -23,7 +23,6 @@ def request_custom_viewing(request, property_id):
             return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
-
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 @login_required
@@ -52,7 +51,7 @@ def accept_appointment(request, appointment_id):
 
 def property_sale(request):
     form = PropertySearchForm(request.GET)
-    properties = Property.objects.filter(transaction_type='sale', status='published')
+    properties = Property.objects.filter(transaction_type='sale', publication_status='published')
 
     if form.is_valid():
         if form.cleaned_data.get('search'):
@@ -85,7 +84,7 @@ def property_sale(request):
 
 def property_rent(request):
     form = PropertySearchForm(request.GET)
-    properties = Property.objects.filter(transaction_type='rent', status='published')
+    properties = Property.objects.filter(transaction_type='rent', publication_status='published')
 
     if form.is_valid():
         if form.cleaned_data.get('search'):

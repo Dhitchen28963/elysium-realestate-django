@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage
 from django_summernote.admin import SummernoteModelAdmin
 
-
 @admin.register(Property)
 class PropertyAdmin(SummernoteModelAdmin):
     list_display = ('title', 'slug', 'property_type', 'price_display', 'location', 'transaction_type', 'publication_status', 'availability_status', 'bedrooms', 'bathrooms', 'garden', 'parking', 'pets_allowed', 'created_at')
@@ -25,9 +24,9 @@ class FavoritePropertyAdmin(admin.ModelAdmin):
 
 @admin.register(ViewingAppointment)
 class ViewingAppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'viewing_decision', 'attended')
+    list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'viewing_decision', 'attended', 'agent_name', 'agent_contact', 'agent_email')
     list_filter = ('viewing_decision', 'attended', 'property', 'preferred_date')
-    search_fields = ('user__username', 'property__title', 'name', 'email')
+    search_fields = ('user__username', 'property__title', 'name', 'email', 'agent_name', 'agent_contact', 'agent_email')
     actions = ['mark_as_attended', 'mark_as_not_attended', 'accept_viewing', 'reject_viewing']
 
     def mark_as_attended(self, request, queryset):
@@ -45,7 +44,6 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     def reject_viewing(self, request, queryset):
         queryset.update(viewing_decision='rejected')
     reject_viewing.short_description = "Reject selected viewing requests"
-
 
 @admin.register(PropertyMessage)
 class PropertyMessageAdmin(admin.ModelAdmin):
