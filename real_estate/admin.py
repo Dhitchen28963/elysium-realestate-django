@@ -24,10 +24,10 @@ class FavoritePropertyAdmin(admin.ModelAdmin):
 
 @admin.register(ViewingAppointment)
 class ViewingAppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'is_scheduled', 'attended')
-    list_filter = ('is_scheduled', 'attended', 'property', 'preferred_date')
+    list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'viewing_decision', 'attended')
+    list_filter = ('viewing_decision', 'attended', 'property', 'preferred_date')
     search_fields = ('user__username', 'property__title', 'name', 'email')
-    actions = ['mark_as_attended', 'mark_as_not_attended']
+    actions = ['mark_as_attended', 'mark_as_not_attended', 'accept_viewing', 'reject_viewing']
 
     def mark_as_attended(self, request, queryset):
         queryset.update(attended=True)
@@ -36,6 +36,14 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     def mark_as_not_attended(self, request, queryset):
         queryset.update(attended=False)
     mark_as_not_attended.short_description = "Mark selected appointments as not attended"
+
+    def accept_viewing(self, request, queryset):
+        queryset.update(viewing_decision='accepted')
+    accept_viewing.short_description = "Accept selected viewing requests"
+
+    def reject_viewing(self, request, queryset):
+        queryset.update(viewing_decision='rejected')
+    reject_viewing.short_description = "Reject selected viewing requests"
 
 
 @admin.register(PropertyMessage)
