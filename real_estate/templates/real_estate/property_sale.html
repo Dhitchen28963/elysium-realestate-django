@@ -38,6 +38,13 @@
     </form>
   </div>
 
+  <!-- Save search -->
+  <form method="post" action="{% url 'save_search' %}">
+    {% csrf_token %}
+    {{ save_search_form.as_p }}
+    <button type="submit">Save Search</button>
+  </form>
+
   <div class="container">
     {% for property in properties %}
     <div class="box">
