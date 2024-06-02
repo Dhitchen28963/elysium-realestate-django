@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ property.title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ property.title }}</h1>
+    <p>{{ property.description }}</p>
+    <p>Location: {{ property.location }}</p>
+    <p>Price: £{{ property.price }}</p>
+    <p>Bedrooms: {{ property.bedrooms }}</p>
+    <p>Bathrooms: {{ property.bathrooms }}</p>
+    <p>Property Type: {{ property.get_property_type_display }}</p>
+    <p>Furnished Type: {{ property.get_furnished_type_display }}</p>
+    <p>Garden: {{ property.garden }}</p>
+    <p>Parking: {{ property.parking }}</p>
+    <p>Pets Allowed: {{ property.pets_allowed }}</p>
+    <p>Energy Efficiency: {{ property.energy_efficiency_rating }}</p>
+
+    <h2>Add to Favorites</h2>
+    <form method="post" action="{% url 'add_student_property_to_favorites' property.id %}">
+        {% csrf_token %}
+        <button type="submit">Add to Favorites</button>
+    </form>
+
+    <h2>Contact Agent</h2>
+    <form method="post" action="{% url 'contact_student_property' property.id %}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+
+    <h2>Schedule a Viewing</h2>
+    <form method="post" action="{% url 'schedule_student_viewing' %}">
+        {% csrf_token %}
+        <select name="slot_id" required>
+            <option value="">Select a slot</option>
+            {% for slot in viewing_slots %}
+            <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Schedule Viewing</button>
+    </form>
+
+    <h2>Additional Images</h2>
+    <div>
+        {% for image in additional_images %}
+        <img src="{{ image.image.url }}" alt="Property Image">
+        {% endfor %}
+    </div>
+{% endblock %}
