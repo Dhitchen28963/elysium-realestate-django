@@ -68,21 +68,19 @@
             </ul>
         </nav>
     </header>
-
     <div id="my-account-sidebar" class="sidebar">
-        <h2 class="sidebar-header">Elysium</h2>
+        <h2 class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;"></i></h2>
         <p class="sidebar-username">{{ user.username }}</p>
         <ul class="sidebar-menu">
-            <li><a href="{% url 'view_favorites' %}">Saved Properties <!-- insert FontAwesome icon code here --></a></li>
-            <li><a href="{% url 'view_messages' %}">Messages <!-- insert FontAwesome icon code here --></a></li>
-            <li><a href="{% url 'view_search_alerts' %}">Searches and Alerts <!-- insert FontAwesome icon code here --></a></li>
-            <li><a href="{% url 'pending_viewings' %}">Pending Viewing Requests <!-- insert FontAwesome icon code here --></a></li>
-            <li><a href="{% url 'scheduled_viewings' %}">Scheduled Viewings <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;"></i> Saved Properties</a></li>
+            <li><a href="{% url 'view_messages' %}"><i class="fa-regular fa-message"></i> Messages</a></li>
+            <li><a href="{% url 'view_saved_searches' %}"><i class="fa-solid fa-magnifying-glass"></i> Saved Searches</a></li>
+            <li><a href="{% url 'view_property_alerts' %}"><i class="fa-solid fa-bell"></i> Property Alerts</a></li>
         </ul>
         <hr>
         <ul class="sidebar-menu">
-            <li><a href="{% url 'account_settings' %}">Account Settings <!-- insert FontAwesome icon code here --></a></li>
-            <li><a href="{% url 'account_logout' %}">Sign Out <!-- insert FontAwesome icon code here --></a></li>
+            <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
+            <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
         </ul>
     </div>
 
