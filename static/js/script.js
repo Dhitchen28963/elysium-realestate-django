@@ -15,7 +15,7 @@ function getCSRFToken() {
 
 function addToFavorites(propertyId) {
     console.log('Adding to favorites:', propertyId);
-    fetch(`/add-to-favorites/${propertyId}/`, {
+    fetch(`/real_estate/add-to-favorites/${propertyId}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.remove-favorite-btn').forEach(button => {
         button.addEventListener('click', function() {
             const propertyId = this.getAttribute('data-property-id');
-            fetch(`/remove-from-favorites/${propertyId}/`, {
+            fetch(`/real_estate/remove-from-favorites/${propertyId}/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
