@@ -1,10 +1,17 @@
 from django.contrib import admin
-from .models import StudentProperty
+from .models import StudentProperty, FavoriteProperty, StudentPropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert
 from django_summernote.admin import SummernoteModelAdmin
 
-@admin.register(StudentProperty)
 class StudentPropertyAdmin(SummernoteModelAdmin):
-    list_display = ('title', 'slug', 'property_type', 'price', 'status', 'created_on')
-    search_fields = ['title', 'description']
+    summernote_fields = ('description',)  # Specify the fields you want to use Summernote with
+    list_display = ('title', 'location', 'price', 'property_type', 'publication_status')
+    search_fields = ('title', 'location')
     prepopulated_fields = {'slug': ('title',)}
-    summernote_fields = ('description',)
+
+admin.site.register(StudentProperty, StudentPropertyAdmin)
+admin.site.register(FavoriteProperty)
+admin.site.register(StudentPropertyMessage)
+admin.site.register(ViewingSlot)
+admin.site.register(ViewingAppointment)
+admin.site.register(SavedSearch)
+admin.site.register(PropertyAlert)
