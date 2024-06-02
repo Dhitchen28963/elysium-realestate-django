@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from .forms import PropertySearchForm, ViewingAppointmentForm
-from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment
+from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm
+from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert
 
 @login_required
 def request_custom_viewing(request, property_id):
@@ -216,14 +216,58 @@ def view_scheduled_viewings(request):
     }
     return render(request, 'real_estate/scheduled_viewings.html', context)
 
+@login_required
+def save_search(request):
+    if request.method == 'POST':
+        form = SavedSearchForm(request.POST)
+        if form.is_valid():
+            saved_search = form.save(commit=False)
+            saved_search.user = request.user
+            saved_search.save()
+            return redirect('view_saved_searches')
+    else:
+        form = SavedSearchForm()
+    return render(request, 'real_estate/save_search.html', {'form': form})
+
+@login_required
+def delete_saved_search(request, search_id):
+    search = get_object_or_404(SavedSearch, id=search_id, user=request.user)
+    if request.method == 'POST':
+        search.delete()
+        return redirect('view_saved_searches')
+    return render(request, 'real_estate/delete_saved_search.html', {'search': search})
+
+@login_required
+def view_saved_searches(request):
+    saved_searches = SavedSearch.objects.filter(user=request.user)
+    return render(request, 'real_estate/saved_searches.html', {'saved_searches': saved_searches})
+
+@login_required
+def view_property_alerts(request):
+    alerts = PropertyAlert.objects.filter(user=request.user, seen=False)
+    return render(request, 'real_estate/property_alerts.html', {'alerts': alerts})
+
+def create_property_alert(property):
+    saved_searches = SavedSearch.objects.filter(
+        location__icontains=property.location,
+        property_type=property.property_type,
+        bedrooms_min__lte=property.bedrooms,
+        bedrooms_max__gte=property.bedrooms,
+        price_min__lte=property.price,
+        price_max__gte=property.price,
+        garden=property.garden,
+        parking=property.parking,
+        pets_allowed=property.pets_allowed,
+        furnished_type=property.furnished_type
+    )
+    for search in saved_searches:
+        PropertyAlert.objects.create(user=search.user, property=property)
+
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
 
 class MessagesView(TemplateView):
     template_name = 'real_estate/messages.html'
-
-class SearchAlertsView(TemplateView):
-    template_name = 'real_estate/search_alerts.html'
 
 class AccountSettingsView(TemplateView):
     template_name = 'real_estate/account_settings.html'
