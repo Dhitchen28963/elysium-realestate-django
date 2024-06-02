@@ -102,6 +102,7 @@ class FavoriteProperty(models.Model):
 class PropertyMessage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    agent = models.ForeignKey(User, related_name='agent_messages', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.TextField()

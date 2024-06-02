@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
-from django.contrib import messages
+from django.contrib import messages as django_messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
@@ -123,14 +123,25 @@ def property_detail(request, slug):
     }
     return render(request, 'real_estate/property_detail.html', context)
 
-
+@login_required
 def contact_agent(request, property_id):
     if request.method == 'POST':
         property = get_object_or_404(Property, id=property_id)
-        message = request.POST.get('message')
+        agent = property.agent
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message_text = request.POST.get('message')
+        
+        PropertyMessage.objects.create(
+            property=property,
+            user=request.user,
+            agent=agent,
+            name=name,
+            email=email,
+            message=message_text
+        )
         return JsonResponse({'status': 'message sent'})
     return JsonResponse({'status': 'error'}, status=400)
-
 
 @login_required
 def add_to_favorites(request, property_id):
@@ -181,6 +192,19 @@ def contact_property(request, property_id):
         return JsonResponse({'status': 'message sent'})
     return JsonResponse({'status': 'error'}, status=400)
 
+@login_required
+def view_messages(request):
+    user_messages = PropertyMessage.objects.filter(user=request.user)
+    return render(request, 'real_estate/messages.html', {'messages': user_messages})
+
+@login_required
+def delete_message(request, message_id):
+    message = get_object_or_404(PropertyMessage, id=message_id, user=request.user)
+    if request.method == 'POST':
+        message.delete()
+        django_messages.success(request, 'Message deleted successfully.')
+        return redirect('view_messages')
+    return render(request, 'real_estate/delete_message.html', {'message': message})
 
 @login_required
 def schedule_viewing(request, slot_id):
