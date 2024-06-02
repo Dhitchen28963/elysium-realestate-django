@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved Searches{% endblock %}
+
+{% block content %}
+<h1>Saved Searches</h1>
+<a href="{% url 'save_search' %}">Create New Saved Search</a>
+<ul>
+    {% for search in saved_searches %}
+    <li>
+        <strong>{{ search.search_name }}</strong>
+        <p>Location: {{ search.location }}</p>
+        <p>Property Type: {{ search.property_type }}</p>
+        <p>Bedrooms: {{ search.bedrooms_min }} - {{ search.bedrooms_max }}</p>
+        <p>Price: £{{ search.price_min }} - £{{ search.price_max }}</p>
+        <p>Garden: {{ search.garden }}</p>
+        <p>Parking: {{ search.parking }}</p>
+        <p>Pets Allowed: {{ search.pets_allowed }}</p>
+        <p>Furnished Type: {{ search.furnished_type }}</p>
+        <a href="{% url 'delete_saved_search' search.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

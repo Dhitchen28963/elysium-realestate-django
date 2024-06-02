@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Property Alerts{% endblock %}
+
+{% block content %}
+<h1>Property Alerts</h1>
+<ul>
+    {% for alert in alerts %}
+    <li>
+        <a href="{% url 'property_detail' alert.property.slug %}">{{ alert.property.title }}</a>
+        <p>Location: {{ alert.property.location }}</p>
+        <p>Price: £{{ alert.property.price }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
