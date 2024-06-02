@@ -3,7 +3,7 @@ from .models import StudentProperty, FavoriteProperty, StudentPropertyMessage, V
 from django_summernote.admin import SummernoteModelAdmin
 
 class StudentPropertyAdmin(SummernoteModelAdmin):
-    summernote_fields = ('description',)  # Specify the fields you want to use Summernote with
+    summernote_fields = ('description',)
     list_display = ('title', 'location', 'price', 'property_type', 'publication_status')
     search_fields = ('title', 'location')
     prepopulated_fields = {'slug': ('title',)}
