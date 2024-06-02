@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage
+from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage, SavedSearch, PropertyAlert
 from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(Property)
@@ -9,6 +9,16 @@ class PropertyAdmin(SummernoteModelAdmin):
     search_fields = ('title', 'description', 'location')
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('description',)
+
+@admin.register(SavedSearch)
+class SavedSearchAdmin(admin.ModelAdmin):
+    list_display = ('user', 'search_name', 'location', 'property_type', 'bedrooms_min', 'bedrooms_max', 'price_min', 'price_max', 'furnished_type', 'created_at')
+    search_fields = ('user__username', 'search_name', 'location', 'property_type')
+
+@admin.register(PropertyAlert)
+class PropertyAlertAdmin(admin.ModelAdmin):
+    list_display = ('user', 'property', 'created_at', 'seen')
+    search_fields = ('user__username', 'property__title')
 
 @admin.register(ViewingSlot)
 class ViewingSlotAdmin(admin.ModelAdmin):
