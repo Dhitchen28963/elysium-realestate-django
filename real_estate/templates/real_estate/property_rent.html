@@ -45,15 +45,35 @@
     <button type="submit">Save Search</button>
   </form>
 
-  <div class="container">
+  <div class="container" data-app="real_estate">
     {% for property in properties %}
     <div class="box">
       <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
       <p>{{ property.description }}</p>
       <p>Price: £{{ property.price }}</p>
       <p>Location: {{ property.location }}</p>
+      <!-- Favorites Star Button -->
+      <form method="post" action="{% url 'add_to_favorites' property.id %}">
+        {% csrf_token %}
+        <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+          {% if property.is_favorite %}
+            <i class="fa-solid fa-star"></i> Remove from Favorites
+          {% else %}
+            <i class="fa-regular fa-star"></i> Add to Favorites
+          {% endif %}
+        </button>
+      </form>
     </div>
     {% endfor %}
   </div>
 </main>
+
+<!-- Modal for messages -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalMessage"></p>
+  </div>
+</div>
+
 {% endblock %}

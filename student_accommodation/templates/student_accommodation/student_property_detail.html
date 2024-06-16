@@ -1,54 +1,71 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}
-    {{ property.title }}
-{% endblock %}
+{% block title %}{{ property.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ property.title }}</h1>
-    <p>{{ property.description }}</p>
-    <p>Location: {{ property.location }}</p>
-    <p>Price: £{{ property.price }}</p>
-    <p>Bedrooms: {{ property.bedrooms }}</p>
-    <p>Bathrooms: {{ property.bathrooms }}</p>
-    <p>Property Type: {{ property.get_property_type_display }}</p>
-    <p>Furnished Type: {{ property.get_furnished_type_display }}</p>
-    <p>Garden: {{ property.garden }}</p>
-    <p>Parking: {{ property.parking }}</p>
-    <p>Pets Allowed: {{ property.pets_allowed }}</p>
-    <p>Energy Efficiency: {{ property.energy_efficiency_rating }}</p>
-
-    <h2>Add to Favorites</h2>
-    <form method="post" action="{% url 'add_student_property_to_favorites' property.id %}">
-        {% csrf_token %}
-        <button type="submit">Add to Favorites</button>
-    </form>
-
-    <h2>Contact Agent</h2>
-    <form method="post" action="{% url 'contact_student_property' property.id %}">
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-    </form>
-
-    <h2>Schedule a Viewing</h2>
-    <form method="post" action="{% url 'schedule_student_viewing' %}">
-        {% csrf_token %}
-        <select name="slot_id" required>
-            <option value="">Select a slot</option>
-            {% for slot in viewing_slots %}
-            <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Schedule Viewing</button>
-    </form>
-
-    <h2>Additional Images</h2>
-    <div>
-        {% for image in additional_images %}
-        <img src="{{ image.image.url }}" alt="Property Image">
-        {% endfor %}
+<main>
+  <div class="property-details">
+    <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+    <div class="property-info">
+      <h1>{{ property.title }}</h1>
+      <p>{{ property.description }}</p>
+      <p>Price: £{{ property.price }}</p>
+      <p>Location: {{ property.location }}</p>
+      <p>Bedrooms: {{ property.bedrooms }}</p>
+      <p>Bathrooms: {{ property.bathrooms }}</p>
+      <p>Property Type: {{ property.get_property_type_display }}</p>
+      <p>Furnished: {{ property.get_furnished_type_display }}</p>
+      <p>Garden: {{ property.garden|yesno:"Yes,No" }}</p>
+      <p>Parking: {{ property.parking|yesno:"Yes,No" }}</p>
+      <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
+      <p>Energy Efficiency: {{ property.energy_efficiency_rating }}</p>
     </div>
+    <div class="property-actions">
+      <form id="add-to-favorites-form" method="post" action="{% url 'add_student_property_to_favorites' property.id %}">
+        {% csrf_token %}
+        <button type="submit" data-property-id="{{ property.id }}" data-action="addToFavorites" data-app="student_accommodation">Add to Favorites</button>
+      </form>
+      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
+    </div>
+    <div class="property-images">
+      {% for image in additional_images %}
+      <div class="image-wrapper">
+        <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+      </div>
+      {% endfor %}
+    </div>
+    <div class="property-enquiry">
+      <h2>Contact about this property</h2>
+      <form id="contact-form" method="post" action="{% url 'contact_student_property' property.id %}" data-property-id="{{ property.id }}" data-app="student_accommodation">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Modal for scheduling a viewing -->
+<div id="viewingModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Schedule a Viewing</h2>
+    <form id="custom-viewing-form" method="post" action="{% url 'schedule_student_viewing' %}" data-property-id="{{ property.id }}" data-app="student_accommodation">
+      {% csrf_token %}
+      <label for="slot_id">Select a slot:</label>
+      <select id="slot_id" name="slot_id" required>
+        <option value="">Select a slot</option>
+        {% for slot in viewing_slots %}
+        <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Request Viewing</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
