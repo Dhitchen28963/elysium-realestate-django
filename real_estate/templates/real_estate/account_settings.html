@@ -3,6 +3,37 @@
 {% block title %}Account Settings{% endblock %}
 
 {% block content %}
-<h1>Account Settings</h1>
-<p>Manage your account settings here.</p>
+<main class="account-settings-container">
+  <aside class="sidebar">
+    <h2>Account Settings</h2>
+    <ul>
+      <li><a href="#personal-details">Personal Details</a></li>
+      <li><a href="#settings">Settings</a></li>
+    </ul>
+  </aside>
+  <section class="content">
+    <div id="personal-details" class="section">
+      <h3>Personal Details</h3>
+      <form method="post" action="{% url 'account_settings' %}">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <button type="submit" name="update_profile">Save Changes</button>
+      </form>
+    </div>
+
+    <div id="settings" class="section">
+      <h3>Settings</h3>
+      <form method="post" action="{% url 'account_settings' %}">
+        {% csrf_token %}
+        {{ password_form.as_p }}
+        <button type="submit" name="change_password">Change Password</button>
+      </form>
+      <form method="post" action="{% url 'account_settings' %}" class="delete-account-form">
+        {% csrf_token %}
+        {{ delete_form.as_p }}
+        <button type="submit" name="delete_account" class="delete-account-button">Delete Account</button>
+      </form>
+    </div>
+  </section>
+</main>
 {% endblock %}

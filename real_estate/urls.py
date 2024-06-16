@@ -6,7 +6,6 @@ urlpatterns = [
     path('property-sale/', views.property_sale, name='property_sale'),
     path('property-rent/', views.property_rent, name='property_rent'),
     path('schedule-viewing/<int:property_id>/', views.schedule_viewing, name='schedule_viewing'),
-    path('request-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
     path('view-property-slots/<int:property_id>/', views.view_property_slots, name='view_property_slots'),
     path('request-custom-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
     path('add-to-favorites/<int:property_id>/', views.add_to_favorites, name='add_to_favorites'),
@@ -23,5 +22,5 @@ urlpatterns = [
     path('pending-viewings/', views.view_pending_viewings, name='pending_viewings'),
     path('accept-appointment/<int:appointment_id>/', views.accept_appointment, name='accept_appointment'),
     path('scheduled-viewings/', views.view_scheduled_viewings, name='scheduled_viewings'),
-    path('account-settings/', views.AccountSettingsView.as_view(), name='account_settings'),
+    path('account-settings/', views.account_settings, name='account_settings'),
 ]

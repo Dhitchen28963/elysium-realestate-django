@@ -1,5 +1,7 @@
 from django import forms
-from .models import Property, ViewingAppointment, SavedSearch
+from .models import Property, ViewingAppointment, SavedSearch, Profile
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 class PropertySearchForm(forms.Form):
     search = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter location'}))
@@ -42,3 +44,18 @@ class SavedSearchForm(forms.ModelForm):
             'price_min': forms.NumberInput(),
             'price_max': forms.NumberInput(),
         }
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'email', 'address', 'telephone']
+
+class ChangePasswordForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control'})
+
+class DeleteAccountForm(forms.Form):
+    confirm_delete = forms.BooleanField(label='I confirm that I want to delete my account')

@@ -17,7 +17,7 @@ class Property(models.Model):
         ('sale', 'For Sale'),
         ('rent', 'For Rent'),
     ]
-    
+
     PROPERTY_TYPE_CHOICES = [
         ('detached-houses', 'Detached houses'),
         ('semi-detached-houses', 'Semi-detached houses'),
@@ -195,3 +195,13 @@ def create_property_alert(sender, instance, created, **kwargs):
         )
         for search in saved_searches:
             PropertyAlert.objects.create(user=search.user, property=instance)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255)
+    telephone = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.user.username

@@ -2,12 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
-from django.contrib import messages as django_messages
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm
-from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert
+from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm, ProfileUpdateForm, ChangePasswordForm, DeleteAccountForm
+from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert, Profile
+from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
 
 @login_required
 def request_custom_viewing(request, property_id):
@@ -154,7 +156,6 @@ def add_to_favorites(request, property_id):
             return JsonResponse({'status': 'exists'})
     return JsonResponse({'status': 'error'}, status=400)
 
-
 @login_required
 def view_favorites(request):
     favorites = FavoriteProperty.objects.filter(user=request.user)
@@ -287,11 +288,49 @@ def create_property_alert(property):
     for search in saved_searches:
         PropertyAlert.objects.create(user=search.user, property=property)
 
+@login_required
+def account_settings(request):
+    user = request.user
+
+    # Ensure the user has a profile
+    try:
+        profile = user.profile
+    except Profile.DoesNotExist:
+        profile = Profile.objects.create(user=user)
+
+    profile_form = ProfileUpdateForm(instance=profile)
+    password_form = ChangePasswordForm(user)
+    delete_form = DeleteAccountForm()
+
+    if request.method == 'POST':
+        if 'update_profile' in request.POST:
+            profile_form = ProfileUpdateForm(request.POST, instance=profile)
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, 'Your profile was successfully updated!')
+                return redirect('account_settings')
+        elif 'change_password' in request.POST:
+            password_form = ChangePasswordForm(user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Important to keep the user logged in
+                messages.success(request, 'Your password was successfully changed!')
+                return redirect('account_settings')
+            else:
+                messages.error(request, 'Please correct the error below.')
+        elif 'delete_account' in request.POST:
+            user.delete()
+            messages.success(request, 'Your account was successfully deleted.')
+            return redirect('home')
+
+    return render(request, 'real_estate/account_settings.html', {
+        'profile_form': profile_form,
+        'password_form': password_form,
+        'delete_form': delete_form,
+    })
+
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
 
 class MessagesView(TemplateView):
     template_name = 'real_estate/messages.html'
-
-class AccountSettingsView(TemplateView):
-    template_name = 'real_estate/account_settings.html'

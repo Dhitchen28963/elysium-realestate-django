@@ -144,7 +144,7 @@ img {
   border: 1px solid #ccc;
 }
 
-/* Styling got modal messages */
+/* Styling for modal messages */
 .modal {
   display: none; 
   position: fixed; 
@@ -234,6 +234,98 @@ hr {
   margin: 20px 0;
 }
 
+/* Account settings styling */
+.account-settings-container {
+  display: flex;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.edit-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delete-account-form {
+  margin-top: 20px;
+}
+
+.delete-account-button {
+  background-color: #dc3545;
+}
+
+.delete-account-button:hover {
+  background-color: #c82333;
+}
 
 /* Footer including copyright text */
 footer {
