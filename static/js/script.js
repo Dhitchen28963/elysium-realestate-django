@@ -53,12 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.status === 'ok') {
                 showModalMessage(isFavorite ? 'Property removed from favorites' : 'Property added to favorites');
-                setTimeout(() => location.reload(), 1500); // Reload the page after a short delay
+                location.reload();
             } else if (data.status === 'exists') {
                 showModalMessage('Property is already in favorites.');
                 const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
-                button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
-                button.setAttribute('data-is-favorite', 'true');
+                if (button) {
+                    button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
+                    button.setAttribute('data-is-favorite', 'true');
+                }
             } else {
                 showModalMessage('Error updating favorites');
             }
@@ -83,14 +85,41 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.status === 'ok') {
                 showModalMessage('Property added to favorites!');
-                setTimeout(() => location.reload(), 1500); // Reload the page after a short delay
+                location.reload();
             } else if (data.status === 'exists') {
                 showModalMessage('Property is already in favorites.');
                 const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
-                button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
-                button.setAttribute('data-is-favorite', 'true');
+                if (button) {
+                    button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
+                    button.setAttribute('data-is-favorite', 'true');
+                }
             } else {
                 showModalMessage('Error adding property to favorites.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModalMessage('An error occurred. Please try again.');
+        });
+    }
+
+    // Remove from favorites
+    function removeFromFavorites(propertyId, app) {
+        fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                showModalMessage('Property removed from favorites!');
+                location.reload();
+            } else {
+                showModalMessage('Error removing property from favorites.');
             }
         })
         .catch(error => {
@@ -168,6 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (action === 'addToFavorites') {
                 addToFavorites(propertyId, app);
+            } else if (action === 'removeFromFavorites') {
+                removeFromFavorites(propertyId, app);
             }
         });
     });
@@ -177,27 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             const propertyId = this.getAttribute('data-property-id');
             const app = this.getAttribute('data-app');
-            fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'ok') {
-                    showModalMessage('Property removed from favorites');
-                    setTimeout(() => location.reload(), 1500); // Reload the page to reflect changes
-                } else {
-                    showModalMessage('Error removing property from favorites');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showModalMessage('An error occurred. Please try again.');
-            });
+            removeFromFavorites(propertyId, app);
         });
     });
 

@@ -21,10 +21,14 @@
       <p>Energy Efficiency: {{ property.energy_efficiency_rating }}</p>
     </div>
     <div class="property-actions">
-      <form id="add-to-favorites-form" method="post" action="{% url 'add_student_property_to_favorites' property.id %}">
-        {% csrf_token %}
-        <button type="submit" data-property-id="{{ property.id }}" data-action="addToFavorites" data-app="student_accommodation">Add to Favorites</button>
-      </form>
+      <!-- Favorites Star Button -->
+      <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="student_accommodation">
+        {% if property.is_favorite %}
+          <i class="fa-solid fa-star"></i> Remove from Favorites
+        {% else %}
+          <i class="fa-regular fa-star"></i> Add to Favorites
+        {% endif %}
+      </button>
       <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
     </div>
     <div class="property-images">
