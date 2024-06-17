@@ -335,4 +335,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Toggle Filters
+    const toggleButton = document.getElementById('toggle-filters');
+    const filtersContainer = document.getElementById('filters-container');
+    
+    if (toggleButton && filtersContainer) {
+        toggleButton.addEventListener('click', function() {
+            if (filtersContainer.style.display === 'none' || filtersContainer.style.display === '') {
+                filtersContainer.style.display = 'block';
+                toggleButton.textContent = 'Hide Filters';
+            } else {
+                filtersContainer.style.display = 'none';
+                toggleButton.textContent = 'Show Filters';
+            }
+        });
+    }
+
 });
