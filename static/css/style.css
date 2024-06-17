@@ -532,10 +532,6 @@ footer p {
     width: 100%;
   }
 
-  .dropdown-menu {
-    width: 100%;
-  }
-
   .property-box {
     width: 100%;
   }
@@ -900,12 +896,12 @@ footer p {
     list-style-type: none;
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
+    left: auto;
     background-color: #36383F;
     z-index: 3;
-    width: 300px; /* Adjusted width for larger screens */
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 190px;
+    height: auto;
+    padding: 5px 0;
   }
 
   .menu li:hover .dropdown-menu {
@@ -914,12 +910,12 @@ footer p {
 
   .dropdown-menu li {
     background-color: var(--black);
-    padding: 5px 10px;
+    padding: 5px 10px 5px -10px;
   }
 
   .dropdown-menu li a {
     display: block;
-    padding: 10px;
+    padding: 5px;
     color: #ffffff;
     font-size: 18px;
     font-weight: bold;
