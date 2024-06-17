@@ -8,7 +8,7 @@
     <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
     <div class="property-info">
       <h1>{{ property.title }}</h1>
-      <p>{{ property.description }}</p>
+      <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
       <p>Price: £{{ property.price }}</p>
       <p>Location: {{ property.location }}</p>
       <p>Bedrooms: {{ property.bedrooms }}</p>

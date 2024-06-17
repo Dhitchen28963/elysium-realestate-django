@@ -42,7 +42,7 @@
     {% for property in properties %}
     <div class="box">
       <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
-      <p>{{ property.description }}</p>
+      <p>{{ property.description|safe }}</p>
       <p>Price: £{{ property.price }}</p>
       <p>Location: {{ property.location }}</p>
     </div>

@@ -2,9 +2,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models import Q
-from .models import Property, SavedSearch, PropertyAlert
+from .models import Property, SavedSearch, PropertyAlert, Profile
 from django.contrib.auth.models import User
-from .models import Profile
 
 @receiver(post_save, sender=Property)
 def create_property_alert(sender, instance, created, **kwargs):

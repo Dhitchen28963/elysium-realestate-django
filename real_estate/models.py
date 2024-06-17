@@ -71,9 +71,9 @@ class Property(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
         super(Property, self).save(*args, **kwargs)
-        if self.availability_status == 'available':
-            create_property_alert(self)
 
     @property
     def price_display(self):
