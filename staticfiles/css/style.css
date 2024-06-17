@@ -79,20 +79,7 @@ img {
 /* Container for the three boxes */
 .container {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rbga(0, 0, 0, 0.2);
-}
-
-.container .box {
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  margin: 10px;
+  justify-content: space-between;
 }
 
 /* Styles for filters container */
@@ -153,6 +140,13 @@ img {
 
 .amenities input[type="checkbox"] {
   margin-right: 5px;
+}
+
+/* Style for each box */
+.box {
+  width: 30%;
+  padding: 20px;
+  border: 1px solid #ccc;
 }
 
 /* Styling for modal messages */
@@ -338,96 +332,6 @@ button:hover {
   background-color: #c82333;
 }
 
-.property-container {
-  position: relative;
-  width: 100%;
-  padding: 20px;
-  text-align: center;
-}
-
-.property-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.property-list {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.property-box {
-  display: inline-block;
-  width: 300px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-sizing: border-box;
-  position: relative;
-  text-align: left;
-}
-
-.property-box img {
-  width: 100%;
-  height: auto;
-  background-color: #e9ecef;
-}
-
-.property-info {
-  margin-top: 10px;
-}
-
-.property-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.image-nav {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-#property-detail-view {
-  display: none;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 0 auto;
-  width: 80%;
-  max-width: 800px;
-}
-
-#return-home {
-  display: inline-block;
-  margin-bottom: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  text-align: left;
-}
-
-#view-all {
-  display: inline-block;
-  margin-bottom: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  text-align: right;
-}
-
 /* Footer including copyright text */
 footer {
   background-color: #36383F;
@@ -534,15 +438,6 @@ footer p {
 
   .dropdown-menu {
     width: 100%;
-  }
-
-  .property-box {
-    width: 100%;
-  }
-
-  .property-list {
-    display: block;
-    overflow-x: hidden;
   }
 }
 
