@@ -1,4 +1,106 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const viewAllButton = document.getElementById('view-all');
+    const propertyList = document.querySelector('.property-list');
+    const propertyDetailView = document.getElementById('property-detail-view');
+    const returnHomeButton = document.getElementById('return-home');
+
+    viewAllButton.addEventListener('click', function() {
+        propertyList.style.flexDirection = 'column';
+        propertyList.style.overflowX = 'hidden';
+        propertyList.style.width = '100%';
+    });
+
+    returnHomeButton.addEventListener('click', function() {
+        propertyDetailView.style.display = 'none';
+        document.querySelector('.property-container').style.display = 'block';
+    });
+
+    document.querySelectorAll('.property-box img').forEach(img => {
+        img.addEventListener('click', function() {
+            propertyDetailView.style.display = 'block';
+            document.querySelector('.property-container').style.display = 'none';
+        });
+    });
+
+    document.querySelectorAll('.image-nav').forEach(nav => {
+        nav.addEventListener('click', function() {
+            // Logic to navigate through images
+        });
+    });
+
+    // Toggle favorite status
+    document.querySelectorAll('.favorites-star').forEach(button => {
+        button.addEventListener('click', function() {
+            const propertyId = this.getAttribute('data-property-id');
+            const isFavorite = this.getAttribute('data-is-favorite') === 'true';
+            const app = this.getAttribute('data-app');
+            toggleFavorite(propertyId, isFavorite, app);
+        });
+    });
+
+    // Add to favorites function
+    function toggleFavorite(propertyId, isFavorite, app) {
+        const url = isFavorite
+            ? `/${app}/remove-from-favorites/${propertyId}/`
+            : `/${app}/add-to-favorites/${propertyId}/`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                showModalMessage(isFavorite ? 'Property removed from favorites' : 'Property added to favorites');
+                location.reload();
+            } else if (data.status === 'exists') {
+                showModalMessage('Property is already in favorites.');
+            } else {
+                showModalMessage('Error updating favorites');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModalMessage('An error occurred. Please try again.');
+        });
+    }
+
+    // Contact agent function
+    document.querySelectorAll('.contact-agent').forEach(button => {
+        button.addEventListener('click', function() {
+            const propertyId = this.getAttribute('data-property-id');
+            const app = this.getAttribute('data-app');
+            contactAgent(propertyId, app);
+        });
+    });
+
+    function contactAgent(propertyId, app) {
+        const contactForm = document.getElementById('contact-form');
+        const formData = new FormData(contactForm);
+
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'message sent') {
+                showModalMessage('Message sent to the agent!');
+            } else {
+                showModalMessage('Error sending message.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModalMessage('An error occurred. Please try again.');
+        });
+    }
 
     // Function to get CSRF Token
     function getCSRFToken() {
