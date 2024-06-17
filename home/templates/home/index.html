@@ -39,14 +39,36 @@
   </div>
 
   <div class="container">
-    {% for property in properties %}
-    <div class="box">
-      <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
-      <p>{{ property.description|safe }}</p>
-      <p>Price: £{{ property.price }}</p>
-      <p>Location: {{ property.location }}</p>
+    <button id="view-all">View All</button>
+    <div class="property-list">
+      {% for property in properties %}
+      <div class="property-box">
+        <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+        <p>Price: £{{ property.price }}</p>
+        <p>Added on: {{ property.created_at|date:"d M Y" }}</p>
+        <p>Type: {{ property.get_property_type_display }}</p>
+        <p><i class="fa fa-bed"></i> {{ property.bedrooms }} bedrooms</p>
+        <p>Location: {{ property.location }}</p>
+        <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+          {% if property.is_favorite %}
+            <i class="fa-solid fa-heart"></i> Remove from Favorites
+          {% else %}
+            <i class="fa-regular fa-heart"></i> Add to Favorites
+          {% endif %}
+        </button>
+        <button class="contact-agent" data-property-id="{{ property.id }}" data-app="real_estate"><i class="fa fa-envelope"></i> Contact Agent</button>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    <button id="return-home"><i class="fa fa-arrow-left"></i> Return to homepage</button>
   </div>
 </main>
+
+<!-- Modal for messages -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalMessage"></p>
+  </div>
+</div>
 {% endblock %}
