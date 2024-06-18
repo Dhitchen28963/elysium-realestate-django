@@ -79,7 +79,14 @@ img {
 /* Container for the three boxes */
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 
 /* Styles for filters container */
@@ -613,7 +620,6 @@ footer p {
 
   .search-container h3 {
     margin-bottom: -10px;
-    font-size: 15px;
   }
 
   .search-container {
@@ -884,4 +890,92 @@ footer p {
   .search-bar button i {
     font-size: 16px;
   }
+}
+
+/* Styling for the property list and container */
+.view-all-container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#view-all {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#view-all:hover {
+  background-color: #45a049;
+}
+
+.property-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center items */
+  gap: 20px;
+  width: 100%;
+}
+
+.property-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: calc(33.333% - 20px);
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center; /* Center text inside the box */
+}
+
+.property-box img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.property-box p {
+  margin: 5px 0;
+}
+
+.property-box a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.property-box a:hover {
+  text-decoration: underline;
+}
+
+.property-box button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.favorites-star {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.favorites-star:hover {
+  background-color: #e60000;
+}
+
+.contact-agent {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.contact-agent:hover {
+  background-color: #45a049;
 }
