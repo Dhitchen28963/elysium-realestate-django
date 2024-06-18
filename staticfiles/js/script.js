@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     // Function to get CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
@@ -27,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         closeModal.onclick = function() {
             modal.style.display = 'none';
-        }
+        };
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
-        }
+        };
     }
 
     // Toggle favorite status
@@ -352,4 +351,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Event listener for Buy and Rent buttons
+    const buyButton = document.getElementById('buy-button');
+    const rentButton = document.getElementById('rent-button');
+    const searchInput = document.querySelector('input[name="search"]');
+
+    if (buyButton && rentButton) {
+        buyButton.addEventListener('click', function() {
+            const searchValue = searchInput.value.trim();
+            if (searchValue) {
+                window.location.href = `/real_estate/property_sale/?search=${encodeURIComponent(searchValue)}`;
+            } else {
+                alert('Please enter a location');
+            }
+        });
+
+        rentButton.addEventListener('click', function() {
+            const searchValue = searchInput.value.trim();
+            if (searchValue) {
+                window.location.href = `/real_estate/property_rent/?search=${encodeURIComponent(searchValue)}`;
+            } else {
+                alert('Please enter a location');
+            }
+        });
+    }
 });

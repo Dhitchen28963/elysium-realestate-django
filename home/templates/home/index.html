@@ -6,14 +6,15 @@
 {% block content %}
 <main>
   <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
-  
+
   <div class="search-container">
     <h2>Find your dream home</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
     <form method="get">
       <div class="search-bar">
         <input type="text" name="search" placeholder="Enter location">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button type="button" id="rent-button">Rent</button>
+        <button type="button" id="buy-button">Buy</button>
       </div>
       <button type="button" id="toggle-filters">Show Filters</button>
       <div class="filters-container" id="filters-container" style="display: none;">
@@ -39,11 +40,18 @@
   </div>
 
   <div class="container">
-    <button id="view-all">View All</button>
+    <div class="view-all-container">
+      <button id="view-all">View All</button>
+    </div>
     <div class="property-list">
       {% for property in properties %}
       <div class="property-box">
-        <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+        <p><a href="{% url 'property_detail' property.id %}">{{ property.title }}</a></p>
+        <div class="image-carousel">
+          {% for image in property.images.all %}
+          <img src="{{ image.url }}" alt="{{ property.title }}">
+          {% endfor %}
+        </div>
         <p>Price: £{{ property.price }}</p>
         <p>Added on: {{ property.created_at|date:"d M Y" }}</p>
         <p>Type: {{ property.get_property_type_display }}</p>
@@ -60,7 +68,6 @@
       </div>
       {% endfor %}
     </div>
-    <button id="return-home"><i class="fa fa-arrow-left"></i> Return to homepage</button>
   </div>
 </main>
 
