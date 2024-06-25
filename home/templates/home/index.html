@@ -37,37 +37,6 @@
       </div>
     </form>
   </div>
-
-  <div class="container">
-    <div class="view-all-container">
-      <button id="view-all">View All</button>
-    </div>
-    <div class="property-list">
-      {% for property in properties %}
-      <div class="property-box">
-        <p><a href="{% url 'property_detail' property.id %}">{{ property.title }}</a></p>
-        <div class="image-carousel">
-          {% for image in property.images.all %}
-          <img src="{{ image.url }}" alt="{{ property.title }}">
-          {% endfor %}
-        </div>
-        <p>Price: £{{ property.price }}</p>
-        <p>Added on: {{ property.created_at|date:"d M Y" }}</p>
-        <p>Type: {{ property.get_property_type_display }}</p>
-        <p><i class="fa fa-bed"></i> {{ property.bedrooms }} bedrooms</p>
-        <p>Location: {{ property.location }}</p>
-        <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
-          {% if property.is_favorite %}
-            <i class="fa-solid fa-heart"></i> Remove from Favorites
-          {% else %}
-            <i class="fa-regular fa-heart"></i> Add to Favorites
-          {% endif %}
-        </button>
-        <button class="contact-agent" data-property-id="{{ property.id }}" data-app="real_estate"><i class="fa fa-envelope"></i> Contact Agent</button>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
 </main>
 
 <!-- Modal for messages -->
