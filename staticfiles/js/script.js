@@ -354,40 +354,51 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for Buy and Rent buttons
     const buyButton = document.getElementById('buy-button');
     const rentButton = document.getElementById('rent-button');
-    const searchInput = document.querySelector('input[name="search"]');
+    const homeSearchInput = document.getElementById('home-search-input');
 
     if (buyButton && rentButton) {
         buyButton.addEventListener('click', function() {
-            const searchValue = searchInput.value.trim();
-            const queryParams = new URLSearchParams();
-
-            queryParams.set('search', searchValue);
-
-            document.querySelectorAll('.filters-container select, .filters-container input').forEach((filter) => {
-                queryParams.set(filter.name, filter.value);
-            });
+            const searchValue = homeSearchInput.value.trim();
+            const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
             if (searchValue) {
-                window.location.href = `/real_estate/property_sale/?${queryParams.toString()}`;
+                window.location.href = `/real_estate/property-sale/?${queryParams.toString()}`;
             } else {
                 alert('Please enter a location');
             }
         });
 
         rentButton.addEventListener('click', function() {
-            const searchValue = searchInput.value.trim();
-            const queryParams = new URLSearchParams();
-
-            queryParams.set('search', searchValue);
-
-            document.querySelectorAll('.filters-container select, .filters-container input').forEach((filter) => {
-                queryParams.set(filter.name, filter.value);
-            });
+            const searchValue = homeSearchInput.value.trim();
+            const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
             if (searchValue) {
-                window.location.href = `/real_estate/property_rent/?${queryParams.toString()}`;
+                window.location.href = `/real_estate/property-rent/?${queryParams.toString()}`;
             } else {
                 alert('Please enter a location');
+            }
+        });
+    }
+
+    // Event listener for Student Accommodation search button
+    const studentSearchButton = document.querySelector('#student-search-form button[type="submit"]');
+    const studentSearchInput = document.querySelector('#student-search-form input[name="search"]');
+
+    if (studentSearchButton && studentSearchInput) {
+        studentSearchButton.addEventListener('click', function(event) {
+            if (studentSearchInput.value.trim() === '') {
+                alert('Please enter a location');
+                event.preventDefault();
+            }
+        });
+    }
+
+    // Ensure filters are visible before form submission
+    const studentSearchForm = document.getElementById('student-search-form');
+    if (studentSearchForm) {
+        studentSearchForm.addEventListener('submit', function(event) {
+            if (filtersContainer.style.display === 'none') {
+                filtersContainer.style.display = 'block';
             }
         });
     }
