@@ -45,9 +45,9 @@
     <button type="submit">Save Search</button>
   </form>
 
-  <div class="container" data-app="real_estate">
+  <div class="property-list" data-app="real_estate">
     {% for property in properties %}
-    <div class="box">
+    <div class="property-box">
       <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
       <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
       <p>Price: £{{ property.price }}</p>
