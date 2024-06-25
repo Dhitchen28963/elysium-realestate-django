@@ -10,22 +10,22 @@
   <div class="search-container">
     <h2>Student Accommodation</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
-    <form method="get">
+    <form method="get" id="student-search-form">
       <div class="search-bar">
-        <input type="text" name="search" placeholder="Enter location">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" name="search" id="student-search-input" placeholder="Enter location">
+        <button type="submit" id="student-search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
       <button type="button" id="toggle-filters">Show Filters</button>
       <div class="filters-container" id="filters-container" style="display: none;">
         <label for="property-type">Property Type:</label>
         {{ form.property_type }}
-        <label for="bedrooms-min">Bedrooms:</label>
+        <label for="bedrooms-min">Bedrooms (min):</label>
         {{ form.bedrooms_min }}
-        <label for="bedrooms-max">Bedrooms:</label>
+        <label for="bedrooms-max">Bedrooms (max):</label>
         {{ form.bedrooms_max }}
-        <label for="price-min">Price (£):</label>
+        <label for="price-min">Price (£) (min):</label>
         {{ form.price_min }}
-        <label for="price-max">Price (£):</label>
+        <label for="price-max">Price (£) (max):</label>
         {{ form.price_max }}
         <label for="garden">Garden:</label>
         {{ form.garden }}
@@ -45,9 +45,9 @@
     <button type="submit">Save Search</button>
   </form>
 
-  <div class="container" data-app="student_accommodation">
+  <div class="property-list" data-app="student_accommodation">
     {% for property in properties %}
-    <div class="box">
+    <div class="property-box">
       <h2><a href="{% url 'student_property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
       <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
       <p>Price: £{{ property.price }}</p>
