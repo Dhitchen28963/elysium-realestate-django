@@ -10,9 +10,9 @@
   <div class="search-container">
     <h2>Find your dream home</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
-    <form method="get">
+    <form id="home-search-form">
       <div class="search-bar">
-        <input type="text" name="search" placeholder="Enter location">
+        <input type="text" name="search" id="home-search-input" placeholder="Enter location">
         <button type="button" id="rent-button">Rent</button>
         <button type="button" id="buy-button">Buy</button>
       </div>
@@ -34,7 +34,6 @@
         {{ form.parking }}
         <label for="pets_allowed">Pets Allowed:</label>
         {{ form.pets_allowed }}
-        <button type="submit" id="find-properties">Find Properties</button>
       </div>
     </form>
   </div>

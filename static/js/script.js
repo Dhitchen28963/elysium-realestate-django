@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     // Function to get CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
@@ -27,20 +26,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         closeModal.onclick = function() {
             modal.style.display = 'none';
-        }
+        };
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
-        }
+        };
     }
 
     // Toggle favorite status
     function toggleFavorite(propertyId, isFavorite, app) {
-        const url = isFavorite
-            ? `/${app}/remove-from-favorites/${propertyId}/`
-            : `/${app}/add-to-favorites/${propertyId}/`;
+        const url = isFavorite ? 
+            `/${app}/remove-from-favorites/${propertyId}/` : 
+            `/${app}/add-to-favorites/${propertyId}/`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -352,4 +351,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Event listener for Buy and Rent buttons
+    const buyButton = document.getElementById('buy-button');
+    const rentButton = document.getElementById('rent-button');
+    const searchInput = document.querySelector('input[name="search"]');
+
+    if (buyButton && rentButton) {
+        buyButton.addEventListener('click', function() {
+            const searchValue = searchInput.value.trim();
+            const queryParams = new URLSearchParams();
+
+            queryParams.set('search', searchValue);
+
+            document.querySelectorAll('.filters-container select, .filters-container input').forEach((filter) => {
+                queryParams.set(filter.name, filter.value);
+            });
+
+            if (searchValue) {
+                window.location.href = `/real_estate/property_sale/?${queryParams.toString()}`;
+            } else {
+                alert('Please enter a location');
+            }
+        });
+
+        rentButton.addEventListener('click', function() {
+            const searchValue = searchInput.value.trim();
+            const queryParams = new URLSearchParams();
+
+            queryParams.set('search', searchValue);
+
+            document.querySelectorAll('.filters-container select, .filters-container input').forEach((filter) => {
+                queryParams.set(filter.name, filter.value);
+            });
+
+            if (searchValue) {
+                window.location.href = `/real_estate/property_rent/?${queryParams.toString()}`;
+            } else {
+                alert('Please enter a location');
+            }
+        });
+    }
 });
