@@ -14,6 +14,12 @@ class StudentPropertyList(ListView):
     template_name = 'student_accommodation/student_property.html'
     context_object_name = 'properties'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = StudentPropertyForm(self.request.GET)
+        context['form'] = form
+        return context
+
     def get_queryset(self):
         queryset = super().get_queryset()
         form = StudentPropertyForm(self.request.GET)
