@@ -258,25 +258,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Modal handling
-    const modal = document.getElementById("viewingModal");
-    const closeModal = document.getElementsByClassName("close")[0];
+    // Modal handling for schedule viewing
+    const viewingModal = document.getElementById("viewingModal");
+    const closeViewingModal = document.getElementsByClassName("close")[0];
 
-    document.querySelectorAll('button[data-action="scheduleViewing"]').forEach(button => {
+    document.querySelectorAll('.open-modal').forEach(button => {
         button.addEventListener('click', function() {
-            modal.style.display = "block";
+            const propertyId = this.getAttribute('data-property-id');
+            const form = document.getElementById('custom-viewing-form');
+            form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
+            form.setAttribute('data-property-id', propertyId);
+            viewingModal.style.display = 'block';
         });
     });
 
-    if (closeModal) {
-        closeModal.addEventListener('click', function() {
-            modal.style.display = "none";
+    if (closeViewingModal) {
+        closeViewingModal.addEventListener('click', function() {
+            viewingModal.style.display = 'none';
         });
     }
 
     window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == viewingModal) {
+            viewingModal.style.display = 'none';
         }
     });
 

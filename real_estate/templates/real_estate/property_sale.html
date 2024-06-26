@@ -64,9 +64,15 @@
         </button>
       </form>
       <!-- Message Button -->
-      <a href="{% url 'real_estate_send_message' property.id %}" class="message-icon">
-        <i class="fa-solid fa-envelope"></i> Send Message
-      </a>
+      <form method="get" action="{% url 'real_estate_send_message' property.id %}">
+        <button type="submit" class="message-icon">
+          <i class="fa-solid fa-envelope"></i> Send Message
+        </button>
+      </form>
+      <!-- Schedule Viewing Button with Calendar Icon -->
+      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+        <i class="fa-solid fa-calendar-alt"></i> Schedule a Viewing
+      </button>
     </div>
     {% endfor %}
   </div>
@@ -77,6 +83,30 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <p id="modalMessage"></p>
+  </div>
+</div>
+
+<!-- Modal for scheduling a viewing -->
+<div id="viewingModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Schedule a Viewing</h2>
+    <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' 0 %}" data-property-id="0">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="contact">Contact:</label>
+      <input type="text" id="contact" name="contact" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="preferred_date">Preferred Date:</label>
+      <input type="date" id="preferred_date" name="preferred_date" required>
+      <label for="preferred_time">Preferred Time:</label>
+      <input type="time" id="preferred_time" name="preferred_time" required>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Request Viewing</button>
+    </form>
   </div>
 </div>
 

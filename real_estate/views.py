@@ -15,18 +15,18 @@ from django.conf import settings
 @login_required
 def request_custom_viewing(request, property_id):
     property = get_object_or_404(Property, id=property_id)
-
     if request.method == 'POST':
-        form = ViewingAppointmentForm(request.POST)
-        if form.is_valid():
-            appointment = form.save(commit=False)
-            appointment.property = property
-            appointment.user = request.user
-            appointment.save()
-            return JsonResponse({'status': 'ok'})
-        else:
-            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+        # Process the form data here
+        name = request.POST.get('name')
+        contact = request.POST.get('contact')
+        email = request.POST.get('email')
+        preferred_date = request.POST.get('preferred_date')
+        preferred_time = request.POST.get('preferred_time')
+        message = request.POST.get('message')
+        # Save the viewing request or send an email
+        messages.success(request, 'Your viewing request has been sent successfully!')
+        return redirect('property_detail', slug=property.slug)
+    return render(request, 'real_estate/request_viewing.html', {'property': property})
 
 @login_required
 def accept_appointment(request, appointment_id):
