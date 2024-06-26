@@ -63,6 +63,10 @@
           {% endif %}
         </button>
       </form>
+      <!-- Message Button -->
+      <a href="{% url 'real_estate_send_message' property.id %}" class="message-icon">
+        <i class="fa-solid fa-envelope"></i> Send Message
+      </a>
     </div>
     {% endfor %}
   </div>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('schedule-viewing/<int:property_id>/', views.schedule_viewing, name='schedule_viewing'),
     path('view-property-slots/<int:property_id>/', views.view_property_slots, name='view_property_slots'),
     path('request-custom-viewing/<int:property_id>/', views.request_custom_viewing, name='request_custom_viewing'),
+    path('send-message/<int:property_id>/', views.send_message, name='real_estate_send_message'),
     path('add-to-favorites/<int:property_id>/', views.add_to_favorites, name='add_to_favorites'),
     path('remove-from-favorites/<int:property_id>/', views.remove_from_favorites, name='remove_from_favorites'),
     path('favorites/', views.view_favorites, name='view_favorites'),

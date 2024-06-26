@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView, DetailView
+from django.conf import settings
 from .forms import StudentPropertyForm, ViewingAppointmentForm, SavedSearchForm
 from .models import StudentProperty, StudentPropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert, FavoriteProperty
 
@@ -88,6 +89,28 @@ def student_property_rent(request):
         'properties': properties
     }
     return render(request, 'student_accommodation/student_property.html', context)
+
+@login_required
+def send_message(request, property_id):
+    property = get_object_or_404(StudentProperty, id=property_id)
+    
+    if request.method == 'POST':
+        message_content = request.POST.get('message')
+        if message_content:
+            # Send the email
+            send_mail(
+                subject=f'Inquiry about {property.title}',
+                message=message_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[property.owner.email],  # Assuming each property has an owner with an email
+            )
+            # Show a success message
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('student_property_detail', slug=property.slug)
+        else:
+            messages.error(request, 'Please enter a message.')
+
+    return render(request, 'student_accommodation/send_message.html', {'property': property})
 
 @login_required
 def add_student_property_to_favorites(request, property_id):

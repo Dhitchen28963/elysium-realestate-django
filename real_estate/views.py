@@ -10,6 +10,7 @@ from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm, 
 from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
 
 @login_required
 def request_custom_viewing(request, property_id):
@@ -144,6 +145,28 @@ def contact_agent(request, property_id):
         )
         return JsonResponse({'status': 'message sent'})
     return JsonResponse({'status': 'error'}, status=400)
+
+@login_required
+def send_message(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+    
+    if request.method == 'POST':
+        message_content = request.POST.get('message')
+        if message_content:
+            # Send the email
+            send_mail(
+                subject=f'Inquiry about {property.title}',
+                message=message_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[property.owner.email],  # Assuming each property has an owner with an email
+            )
+            # Show a success message
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('property_detail', slug=property.slug)
+        else:
+            messages.error(request, 'Please enter a message.')
+
+    return render(request, 'real_estate/send_message.html', {'property': property})
 
 @login_required
 def add_to_favorites(request, property_id):

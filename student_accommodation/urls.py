@@ -9,6 +9,7 @@ urlpatterns = [
     path('request-viewing/<int:property_id>/', views.request_student_custom_viewing, name='request_student_custom_viewing'),
     path('view-property-slots/<int:property_id>/', views.view_student_property_slots, name='view_student_property_slots'),
     path('request-custom-viewing/<int:property_id>/', views.request_student_custom_viewing, name='request_student_custom_viewing'),
+    path('send-message/<int:property_id>/', views.send_message, name='send_message'),
     path('add-to-favorites/<int:property_id>/', views.add_student_property_to_favorites, name='add_student_property_to_favorites'),
     path('remove-from-favorites/<int:property_id>/', views.remove_student_property_from_favorites, name='remove_student_property_from_favorites'),
     path('favorites/', views.view_student_favorites, name='view_student_favorites'),
