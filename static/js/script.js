@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Function to get CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
         modalMessage.textContent = message;
         modal.style.display = 'block';
 
-        closeModal.onclick = function() {
+        closeModal.onclick = function () {
             modal.style.display = 'none';
         };
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
@@ -36,20 +36,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Toggle favorite status
-    function toggleFavorite(propertyId, isFavorite, app) {
-        const url = isFavorite ? 
-            `/${app}/remove-from-favorites/${propertyId}/` : 
+    async function toggleFavorite(propertyId, isFavorite, app) {
+        const url = isFavorite ?
+            `/${app}/remove-from-favorites/${propertyId}/` :
             `/${app}/add-to-favorites/${propertyId}/`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken()
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify({})
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
             if (data.status === 'ok') {
                 showModalMessage(isFavorite ? 'Property removed from favorites' : 'Property added to favorites');
                 location.reload();
@@ -63,11 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 showModalMessage('Error updating favorites');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        } catch (error) {
+            console.error('Error:', error.message);
             showModalMessage('An error occurred. Please try again.');
-        });
+        }
     }
 
     // Add to favorites
@@ -128,24 +134,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Request custom viewing
-    function requestCustomViewing(propertyId, app) {
+    async function requestCustomViewing(propertyId) {
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
 
-        fetch(customViewingForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCSRFToken()
-            },
-        })
-        .then(response => {
+        try {
+            const response = await fetch(`/real_estate/request_custom_viewing/${propertyId}/`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+            });
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
-        })
-        .then(data => {
+
+            const data = await response.json();
+
             if (data.status === 'ok') {
                 showModalMessage('Viewing request sent to the agent!');
                 const modal = document.getElementById("viewingModal");
@@ -153,11 +160,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 showModalMessage('Error sending viewing request: ' + JSON.stringify(data.errors));
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error:', error);
             showModalMessage('An error occurred. Please try again.');
-        });
+        }
     }
 
     // Contact agent
@@ -188,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for add to favorites
     document.querySelectorAll('.property-actions button[data-action]').forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
             const propertyId = this.getAttribute('data-property-id');
             const action = this.getAttribute('data-action');
@@ -204,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for removing from favorites
     document.querySelectorAll('.remove-favorite-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const propertyId = this.getAttribute('data-property-id');
             const app = this.getAttribute('data-app');
             removeFromFavorites(propertyId, app);
@@ -214,18 +220,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for custom viewing request
     const customViewingForm = document.getElementById('custom-viewing-form');
     if (customViewingForm) {
-        customViewingForm.addEventListener('submit', function(event) {
+        customViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
             const propertyId = customViewingForm.getAttribute('data-property-id');
-            const app = customViewingForm.getAttribute('data-app');
-            requestCustomViewing(propertyId, app);
+            requestCustomViewing(propertyId);
         });
     }
 
     // Event listener for contact form submission
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
+        contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
             const propertyId = contactForm.getAttribute('data-property-id');
             const app = contactForm.getAttribute('data-app');
@@ -236,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for favorites star button
     const favoritesStarButtons = document.querySelectorAll('.favorites-star');
     favoritesStarButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
             const propertyId = this.getAttribute('data-property-id');
             const isFavorite = this.getAttribute('data-is-favorite') === 'true';
@@ -249,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for forms to prevent default submission
     const favoriteForms = document.querySelectorAll('form[action*="add-to-favorites"], form[action*="remove-from-favorites"]');
     favoriteForms.forEach(form => {
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
             const button = this.querySelector('button.favorites-star');
             if (button) {
@@ -263,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeViewingModal = document.getElementsByClassName("close")[0];
 
     document.querySelectorAll('.open-modal').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const propertyId = this.getAttribute('data-property-id');
             const form = document.getElementById('custom-viewing-form');
             form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
@@ -273,12 +278,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     if (closeViewingModal) {
-        closeViewingModal.addEventListener('click', function() {
+        closeViewingModal.addEventListener('click', function () {
             viewingModal.style.display = 'none';
         });
     }
 
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target == viewingModal) {
             viewingModal.style.display = 'none';
         }
@@ -289,11 +294,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('my-account-sidebar');
 
     if (myAccountBtn && sidebar) {
-        myAccountBtn.addEventListener('click', function() {
+        myAccountBtn.addEventListener('click', function () {
             sidebar.style.display = 'block';
         });
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target == sidebar) {
                 sidebar.style.display = 'none';
             }
@@ -303,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Additional custom viewing request handling
     const form = document.getElementById('custom-viewing-form');
     if (form) {
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
 
             const propertyId = form.getAttribute('data-property-id');
@@ -342,9 +347,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle Filters
     const toggleButton = document.getElementById('toggle-filters');
     const filtersContainer = document.getElementById('filters-container');
-    
+
     if (toggleButton && filtersContainer) {
-        toggleButton.addEventListener('click', function() {
+        toggleButton.addEventListener('click', function () {
             if (filtersContainer.style.display === 'none' || filtersContainer.style.display === '') {
                 filtersContainer.style.display = 'block';
                 toggleButton.textContent = 'Hide Filters';
@@ -361,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const homeSearchInput = document.getElementById('home-search-input');
 
     if (buyButton && rentButton) {
-        buyButton.addEventListener('click', function() {
+        buyButton.addEventListener('click', function () {
             const searchValue = homeSearchInput.value.trim();
             const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
@@ -372,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        rentButton.addEventListener('click', function() {
+        rentButton.addEventListener('click', function () {
             const searchValue = homeSearchInput.value.trim();
             const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
@@ -389,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const studentSearchInput = document.querySelector('#student-search-form input[name="search"]');
 
     if (studentSearchButton && studentSearchInput) {
-        studentSearchButton.addEventListener('click', function(event) {
+        studentSearchButton.addEventListener('click', function (event) {
             if (studentSearchInput.value.trim() === '') {
                 alert('Please enter a location');
                 event.preventDefault();
@@ -400,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ensure filters are visible before form submission
     const studentSearchForm = document.getElementById('student-search-form');
     if (studentSearchForm) {
-        studentSearchForm.addEventListener('submit', function(event) {
+        studentSearchForm.addEventListener('submit', function (event) {
             if (filtersContainer.style.display === 'none') {
                 filtersContainer.style.display = 'block';
             }
