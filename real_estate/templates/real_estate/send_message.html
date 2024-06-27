@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Send a Message</h2>
-<p>Message the owner of {{ property.title }} located at {{ property.location }}</p>
+<p>Message the agent of {{ property.title }} located at {{ property.location }}</p>
 <form method="post">
     {% csrf_token %}
     <label for="message">Message:</label>

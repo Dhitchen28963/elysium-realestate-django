@@ -31,7 +31,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['8000-dhitchen289-elysiumreal-ptafi16ovfr.ws-eu114.gitpod.io', '.herokuapp.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'django_summernote',
     'home',
     'real_estate',
-    'student_accommodation',
     'property_guides',
     'homelessness_advice',
     'blog',
@@ -92,7 +90,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'elysium_realestate.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -133,13 +130,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-# Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.yahoo.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hitchen28963@yahoo.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# EmailJS settings
+EMAILJS_SERVICE_ID = os.environ.get('EMAILJS_SERVICE_ID')
+EMAILJS_TEMPLATE_ID = os.environ.get('EMAILJS_TEMPLATE_ID')
+EMAILJS_USER_ID = os.environ.get('EMAILJS_USER_ID')
+EMAILJS_PRIVATE_KEY = os.environ.get('EMAILJS_PRIVATE_KEY')
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -151,7 +146,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

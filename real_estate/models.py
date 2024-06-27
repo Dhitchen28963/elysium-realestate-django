@@ -16,6 +16,7 @@ class Property(models.Model):
     TYPE_CHOICES = [
         ('sale', 'For Sale'),
         ('rent', 'For Rent'),
+        ('student', 'Student Accommodation')
     ]
 
     PROPERTY_TYPE_CHOICES = [
@@ -34,6 +35,7 @@ class Property(models.Model):
     TRANSACTION_TYPES = [
         ('rent', 'Rent'),
         ('sale', 'Sale'),
+        ('student', 'Student Accommodation')
     ]
 
     PUBLICATION_STATUS_CHOICES = [
@@ -53,7 +55,7 @@ class Property(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     furnished_type = models.CharField(max_length=20, choices=FURNISHED_TYPES)
     location = models.CharField(max_length=100)
-    transaction_type = models.CharField(max_length=4, choices=TRANSACTION_TYPES)
+    transaction_type = models.CharField(max_length=8, choices=TRANSACTION_TYPES)
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     garden = models.BooleanField(default=False)
@@ -66,6 +68,7 @@ class Property(models.Model):
     publication_status = models.CharField(max_length=10, choices=PUBLICATION_STATUS_CHOICES, default='draft')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    agent = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='properties')
 
     def __str__(self):
         return self.title
@@ -101,7 +104,7 @@ class FavoriteProperty(models.Model):
 
 class PropertyMessage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     agent = models.ForeignKey(User, related_name='agent_messages', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -112,8 +115,7 @@ class PropertyMessage(models.Model):
         return f"Message from {self.name} about {self.property.title}"
 
 class ViewingSlot(models.Model):
-    property = models.ForeignKey(Property, related_name='viewing_slots', on_delete=models.CASCADE)
-    agent = models.ForeignKey(User, related_name='agent_slots', on_delete=models.CASCADE)
+    agent = models.ForeignKey(User, related_name='agent_slots', on_delete=models.CASCADE, default=1)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -205,3 +207,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)

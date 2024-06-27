@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<h2>Your Messages</h2>
+<ul>
+    {% for message in messages %}
+    <li>
+        <strong>{{ message.property.title }}</strong><br>
+        From: {{ message.name }} ({{ message.email }})<br>
+        {{ message.message }}<br>
+        Sent on: {{ message.created_on }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

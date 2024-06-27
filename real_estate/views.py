@@ -5,28 +5,70 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm, ProfileUpdateForm, ChangePasswordForm, DeleteAccountForm
 from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
+import requests
+from real_estate.email_utils import send_email_via_emailjs
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+
+@login_required
+def send_message(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+    
+    if request.method == 'POST':
+        message_content = request.POST.get('message')
+        if message_content:
+            # Define the necessary parameters for the email
+            to_email = property.agent.email  # Assuming the property has an agent with an email
+            subject = f'Inquiry about {property.title}'
+            to_name = property.agent.get_full_name()  # Assuming the agent has a full name method
+            from_name = request.user.get_full_name()  # Assuming the user has a full name method
+            from_email = request.user.email
+            property_title = property.title
+            
+            # Send the email using EmailJS
+            status_code, response_text = send_email_via_emailjs(
+                to_email=to_email,
+                subject=subject,
+                message=message_content,
+                to_name=to_name,
+                from_name=from_name,
+                from_email=from_email,
+                property_title=property_title
+            )
+            
+            if status_code == 200:
+                messages.success(request, 'Your message has been sent successfully!')
+            else:
+                messages.error(request, f'Error sending message: {response_text}')
+            
+            return redirect('property_detail', slug=property.slug)
+        else:
+            messages.error(request, 'Please enter a message.')
+
+    return render(request, 'real_estate/send_message.html', {'property': property})
 
 @login_required
 def request_custom_viewing(request, property_id):
     property = get_object_or_404(Property, id=property_id)
     if request.method == 'POST':
-        # Process the form data here
-        name = request.POST.get('name')
-        contact = request.POST.get('contact')
-        email = request.POST.get('email')
-        preferred_date = request.POST.get('preferred_date')
-        preferred_time = request.POST.get('preferred_time')
-        message = request.POST.get('message')
-        # Save the viewing request or send an email
-        messages.success(request, 'Your viewing request has been sent successfully!')
-        return redirect('property_detail', slug=property.slug)
-    return render(request, 'real_estate/request_viewing.html', {'property': property})
+        form = ViewingAppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.property = property
+            appointment.user = request.user
+            appointment.save()
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
 def accept_appointment(request, appointment_id):
@@ -117,6 +159,37 @@ def property_rent(request):
     }
     return render(request, 'real_estate/property_rent.html', context)
 
+def property_student(request):
+    form = PropertySearchForm(request.GET)
+    properties = Property.objects.filter(transaction_type='student', publication_status='published')
+
+    if form.is_valid():
+        if form.cleaned_data.get('search'):
+            properties = properties.filter(location__icontains=form.cleaned_data['search'])
+        if form.cleaned_data.get('location'):
+            properties = properties.filter(location__icontains=form.cleaned_data['location'])
+        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
+            properties = properties.filter(property_type=form.cleaned_data['property_type'])
+        if form.cleaned_data.get('bedrooms_min'):
+            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
+        if form.cleaned_data.get('bedrooms_max'):
+            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
+        if form.cleaned_data.get('price_min'):
+            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
+        if form.cleaned_data.get('price_max'):
+            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
+        if form.cleaned_data.get('garden'):
+            properties = properties.filter(garden=form.cleaned_data['garden'])
+        if form.cleaned_data.get('parking'):
+            properties = properties.filter(parking=form.cleaned_data['parking'])
+        if form.cleaned_data.get('pets_allowed'):
+            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
+
+    context = {
+        'form': form,
+        'properties': properties
+    }
+    return render(request, 'real_estate/student_property.html', context)
 
 def property_detail(request, slug):
     property = get_object_or_404(Property, slug=slug)
@@ -145,28 +218,6 @@ def contact_agent(request, property_id):
         )
         return JsonResponse({'status': 'message sent'})
     return JsonResponse({'status': 'error'}, status=400)
-
-@login_required
-def send_message(request, property_id):
-    property = get_object_or_404(Property, id=property_id)
-    
-    if request.method == 'POST':
-        message_content = request.POST.get('message')
-        if message_content:
-            # Send the email
-            send_mail(
-                subject=f'Inquiry about {property.title}',
-                message=message_content,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[property.owner.email],  # Assuming each property has an owner with an email
-            )
-            # Show a success message
-            messages.success(request, 'Your message has been sent successfully!')
-            return redirect('property_detail', slug=property.slug)
-        else:
-            messages.error(request, 'Please enter a message.')
-
-    return render(request, 'real_estate/send_message.html', {'property': property})
 
 @login_required
 def add_to_favorites(request, property_id):
@@ -218,8 +269,8 @@ def contact_property(request, property_id):
 
 @login_required
 def view_messages(request):
-    user_messages = PropertyMessage.objects.filter(user=request.user)
-    return render(request, 'real_estate/messages.html', {'messages': user_messages})
+    messages = PropertyMessage.objects.filter(user=request.user)
+    return render(request, 'real_estate/view_messages.html', {'messages': messages})
 
 @login_required
 def delete_message(request, message_id):

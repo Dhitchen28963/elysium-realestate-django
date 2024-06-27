@@ -22,9 +22,19 @@ class PropertyAlertAdmin(admin.ModelAdmin):
 
 @admin.register(ViewingSlot)
 class ViewingSlotAdmin(admin.ModelAdmin):
-    list_display = ('property', 'agent', 'date', 'start_time', 'end_time', 'is_booked')
-    list_filter = ('property', 'agent', 'date', 'is_booked')
+    list_display = ('get_property_title', 'get_agent_username', 'date', 'start_time', 'end_time', 'is_booked')
+    list_filter = ('date', 'is_booked')
     search_fields = ('property__title', 'agent__username', 'date')
+
+    def get_property_title(self, obj):
+        return obj.property.title
+    get_property_title.admin_order_field = 'property'
+    get_property_title.short_description = 'Property'
+
+    def get_agent_username(self, obj):
+        return obj.agent.username
+    get_agent_username.admin_order_field = 'agent'
+    get_agent_username.short_description = 'Agent'
 
 @admin.register(FavoriteProperty)
 class FavoritePropertyAdmin(admin.ModelAdmin):
@@ -35,7 +45,7 @@ class FavoritePropertyAdmin(admin.ModelAdmin):
 @admin.register(ViewingAppointment)
 class ViewingAppointmentAdmin(admin.ModelAdmin):
     list_display = ('user', 'property', 'name', 'email', 'preferred_date', 'preferred_time', 'viewing_decision', 'attended', 'agent_name', 'agent_contact', 'agent_email')
-    list_filter = ('viewing_decision', 'attended', 'property', 'preferred_date')
+    list_filter = ('viewing_decision', 'attended', 'preferred_date')
     search_fields = ('user__username', 'property__title', 'name', 'email', 'agent_name', 'agent_contact', 'agent_email')
     actions = ['mark_as_attended', 'mark_as_not_attended', 'accept_viewing', 'reject_viewing']
 
@@ -57,6 +67,16 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
 
 @admin.register(PropertyMessage)
 class PropertyMessageAdmin(admin.ModelAdmin):
-    list_display = ('property', 'user', 'name', 'email', 'message', 'created_on')
-    list_filter = ('property', 'user', 'created_on')
+    list_display = ('get_property_title', 'get_user_username', 'name', 'email', 'message', 'created_on')
+    list_filter = ('property', 'created_on')
     search_fields = ('property__title', 'user__username', 'name', 'email', 'message')
+
+    def get_property_title(self, obj):
+        return obj.property.title
+    get_property_title.admin_order_field = 'property'
+    get_property_title.short_description = 'Property'
+
+    def get_user_username(self, obj):
+        return obj.user.username
+    get_user_username.admin_order_field = 'user'
+    get_user_username.short_description = 'User'
