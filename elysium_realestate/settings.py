@@ -9,8 +9,8 @@ if os.path.isfile('env.py'):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = False
-ALLOWED_HOSTS = ['8000-dhitchen289-elysiumreal-ptafi16ovfr.ws-eu114.gitpod.io', '.herokuapp.com']
+DEBUG = True
+ALLOWED_HOSTS = ['8000-dhitchen289-elysiumreal-9k1yohn1y4v.ws.codeinstitute-ide.net', '.herokuapp.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -88,7 +88,8 @@ if DATABASE_URL:
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
-    "https://*.herokuapp.com"
+    "https://*.herokuapp.com",
+    "https://8000-dhitchen289-elysiumreal-9k1yohn1y4v.ws.codeinstitute-ide.net",
 ]
 
 # Password validation
