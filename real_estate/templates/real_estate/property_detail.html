@@ -27,7 +27,9 @@
           <i class="fa-regular fa-star"></i> Add to Favorites
         {% endif %}
       </button>
-      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">Schedule a Viewing</button>
+      <button type="button" class="open-modal" data-property-id="1" data-action="scheduleViewing">
+        <i class="fa fa-calendar" aria-hidden="true"></i> Schedule a Viewing
+      </button>
     </div>
     <div class="property-images">
       {% for image in additional_images %}

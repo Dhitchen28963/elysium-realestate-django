@@ -141,21 +141,6 @@ img {
   display: block;
 }
 
-/* Styles for amenities */
-.amenities {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.amenities label {
-  margin-right: 5px;
-}
-
-.amenities input[type="checkbox"] {
-  margin-right: 5px;
-}
-
 /* Style for each box */
 .box {
   width: 30%;
@@ -191,6 +176,17 @@ img {
   float: right;
   font-size: 28px;
   font-weight: bold;
+}
+
+.close-sidebar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #5f5c4e;
 }
 
 .close:hover,
@@ -345,6 +341,69 @@ button:hover {
 .delete-account-button:hover {
   background-color: #c82333;
 }
+
+/* Styling for before moving and useful resources sections */
+.before-moving-section, .useful-resources-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.boxes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 10px; /* Rounded corners */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.box img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.box h3 {
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: #003366; /* Dark blue */
+}
+
+.box p {
+  margin: 10px 0;
+  color: #999999; /* Light-medium grey */
+}
+
+.box button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border: 1px solid #ADD8E6; /* Light blue border */
+  background-color: #fff;
+  color: #003366; /* Dark navy blue text */
+  font-weight: bold; /* Bold text inside button */
+  width: 100%;
+  max-width: 250px;
+  margin: 10px auto 0; /* Ensure consistent spacing */
+  transition: background-color 0.3s;
+  border-radius: 5px; /* Rounded corners for the button */
+}
+
+.box button:hover {
+  background-color: #f0f0f0;
+}
+
 
 /* Footer including copyright text */
 footer {

@@ -305,6 +305,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Close sidebar function
+    function closeSidebar() {
+        sidebar.style.display = 'none';
+    }
+
+    // Event listener for close sidebar button
+    const closeSidebarButton = document.getElementById('close-sidebar');
+    if (closeSidebarButton) {
+        closeSidebarButton.addEventListener('click', closeSidebar);
+    }
+
     // Additional custom viewing request handling
     const form = document.getElementById('custom-viewing-form');
     if (form) {
