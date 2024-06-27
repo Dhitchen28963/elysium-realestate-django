@@ -26,7 +26,7 @@ def send_email_via_emailjs(to_email, subject, message, to_name, from_name, from_
     }
     data = {
         'service_id': settings.EMAILJS_SERVICE_ID,
-        'template_id': settings.EMAILJS_TEMPLATE_ID,
+        'template_id': settings.EMAILJS_CONTACT_FORM_TEMPLATE_ID,  # Use contact form template
         'user_id': settings.EMAILJS_USER_ID,
         'template_params': {
             'to_email': to_email,
@@ -42,6 +42,7 @@ def send_email_via_emailjs(to_email, subject, message, to_name, from_name, from_
     logging.debug(f"URL: {url}")
     logging.debug(f"Headers: {headers}")
     logging.debug(f"Data: {data}")
+    logging.debug(f"Private key explicitly: {settings.EMAILJS_PRIVATE_KEY}")
 
     response = http.post(url, headers=headers, json=data)
     logging.debug(f"Response Status Code: {response.status_code}")
