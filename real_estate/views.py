@@ -408,3 +408,9 @@ class ProfileView(TemplateView):
 
 class MessagesView(TemplateView):
     template_name = 'real_estate/messages.html'
+
+def valuation(request):
+    return render(request, 'real_estate/valuation.html')
+
+def mortgage_calculator(request):
+    return render(request, 'real_estate/mortgage_calculator.html')

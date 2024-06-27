@@ -50,6 +50,8 @@
                         <li><a href="{% url 'homelessness_advice_list' %}">Homelessness Advice</a></li>
                         <li><a href="{% url 'testimonials_list' %}">Testimonials</a></li>
                         <li><a href="{% url 'faq_list' %}">FAQ</a></li>
+                        <li><a href="{% url 'valuation' %}">Valuation</a></li>
+                        <li><a href="{% url 'mortgage_calculator' %}">Mortgage Calculator</a></li>
                     </ul>
                 </li>
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
@@ -87,24 +89,23 @@
 
     {% block content %}{% endblock %}
 
-    <!-- New Sections -->
     <section class="before-moving-section">
         <h2>Before you get moving</h2>
         <div class="boxes-container">
             <div class="box">
-                <img src="{% static 'images/valuation.jpg' %}" alt="Valuation Image">
+                <img src="{% static 'images/valuation.webp' %}" alt="Valuation Image">
                 <h3>Get your free valuation</h3>
                 <p>Get a property expert to value your home for free.</p>
                 <button>Request a free valuation</button>
             </div>
             <div class="box">
-                <img src="{% static 'images/calculator.jpg' %}" alt="Calculator Image">
+                <img src="{% static 'images/calculator.webp' %}" alt="Calculator Image">
                 <h3>Check how much you can borrow</h3>
                 <p>Check how much you can borrow without impacting your credit score.</p>
                 <button>Get a mortgage in principle</button>
             </div>
             <div class="box">
-                <img src="{% static 'images/guides.jpg' %}" alt="Guides Image">
+                <img src="{% static 'images/property_guides.webp' %}" alt="Guides Image">
                 <h3>Property guides</h3>
                 <p>A must have read for anyone looking for a property.</p>
                 <button>View our property guides</button>
@@ -116,19 +117,19 @@
         <h2>Useful resources</h2>
         <div class="boxes-container">
             <div class="box">
-                <img src="{% static 'images/blog.jpg' %}" alt="Blog Image">
+                <img src="{% static 'images/blog.webp' %}" alt="Blog Image">
                 <h3>Blog</h3>
                 <p>See the latest articles.</p>
                 <button>View blog</button>
             </div>
             <div class="box">
-                <img src="{% static 'images/homeless.jpg' %}" alt="Homeless Image">
+                <img src="{% static 'images/homeless.webp' %}" alt="Homeless Image">
                 <h3>Need support?</h3>
                 <p>If you're concerned about becoming homeless or need homelessness advice.</p>
                 <button>Find homeless support</button>
             </div>
             <div class="box">
-                <img src="{% static 'images/faq.jpg' %}" alt="FAQ Image">
+                <img src="{% static 'images/faq.webp' %}" alt="FAQ Image">
                 <h3>Need a question answered</h3>
                 <p>Get help from the Elysium community.</p>
                 <button>FAQ</button>

@@ -24,4 +24,6 @@ urlpatterns = [
     path('pending-viewings/', views.view_pending_viewings, name='pending_viewings'),
     path('accept-appointment/<int:appointment_id>/', views.accept_appointment, name='accept_appointment'),
     path('account-settings/', views.account_settings, name='account_settings'),
+    path('valuation/', views.valuation, name='valuation'),
+    path('mortgage_calculator/', views.mortgage_calculator, name='mortgage_calculator'),
 ]

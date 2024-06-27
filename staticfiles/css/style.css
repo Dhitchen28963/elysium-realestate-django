@@ -178,6 +178,17 @@ img {
   font-weight: bold;
 }
 
+.close-sidebar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #5f5c4e;
+}
+
 .close:hover,
 .close:focus {
   color: black;
@@ -331,7 +342,7 @@ button:hover {
   background-color: #c82333;
 }
 
-/* Styling for before-moving and useful resources section */
+/* Styling for before moving and useful resources sections */
 .before-moving-section, .useful-resources-section {
   padding: 20px;
   text-align: center;
@@ -350,40 +361,92 @@ button:hover {
   width: 300px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  border-radius: 10px; /* Rounded corners */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .box img {
   width: 100%;
   height: auto;
   max-height: 150px;
-  object-fit: contain;
+  object-fit: cover;
+  border-bottom: 1px solid #ccc;
 }
 
 .box h3 {
   margin-top: 10px;
   font-size: 1.2em;
-  color: #003366; /* Dark blue */
+  color: #003366;
 }
 
 .box p {
   margin: 10px 0;
-  color: #999999; /* Light-medium grey */
+  color: #999999;
 }
 
 .box button {
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  border: 1px solid #ADD8E6; /* Light blue border */
+  border: 1px solid #ADD8E6;
   background-color: #fff;
-  color: #003366; /* Dark navy blue text */
+  color: #003366;
+  font-weight: bold;
   width: 100%;
   max-width: 250px;
+  margin: 10px auto 0;
   transition: background-color 0.3s;
+  border-radius: 5px;
 }
 
 .box button:hover {
   background-color: #f0f0f0;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+}
+
+.box .content {
+  flex-grow: 1;
+}
+
+.box button {
+  margin-top: auto;
+}
+
+/* Valuation and mortgage-calculator sections */
+.valuation-section, .mortgage-calculator-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.valuation-section h1, .mortgage-calculator-section h1 {
+  font-size: 2.5em;
+  color: #003366;
+}
+
+.valuation-section p, .mortgage-calculator-section p {
+  font-size: 1.2em;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.valuation-section button, .mortgage-calculator-section button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #2c3e50;
+  background-color: #e0f7fa;
+  border: 2px solid #2980b9;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.valuation-section button:hover, .mortgage-calculator-section button:hover {
+  background-color: #b3e5fc;
 }
 
 /* Footer including copyright text */
