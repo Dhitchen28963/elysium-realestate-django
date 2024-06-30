@@ -74,6 +74,13 @@
             </ul>
         </nav>
     </header>
+
+    {% if user.is_authenticated %}
+        <div class="welcome-box">
+            <p>Welcome back, {{ user.username }}!</p>
+        </div>
+    {% endif %}
+
     <div id="my-account-sidebar" class="sidebar">
         <h2 class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;"></i></h2>
         <span id="close-sidebar" class="close">&times;</span>
