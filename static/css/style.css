@@ -56,6 +56,20 @@ img {
   height: auto;
 }
 
+.welcome-box {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  z-index: 999;
+}
+
 .rent-button, .buy-button {
   flex: 1;
   padding: 5px 0;
@@ -178,7 +192,7 @@ img {
   font-weight: bold;
 }
 
-.close-sidebar {
+#close-sidebar {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -533,6 +547,12 @@ footer p {
   font-size: 140%;
   padding: 5px;
   color: #ffffff;
+}
+
+@media (max-width: 454px) {
+  .welcome-box {
+      display: none;
+  }
 }
 
 /* Media query: Foldable phones and smaller screen sizes - landscape and portrait (693px) */
