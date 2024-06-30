@@ -290,20 +290,30 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // My Account Sidebar Handling
+    // Existing sidebar handling code
     const myAccountBtn = document.getElementById('my-account-btn');
     const sidebar = document.getElementById('my-account-sidebar');
+    const userIcon = document.getElementById('user-icon');
+
+    function toggleSidebar(event) {
+        event.preventDefault();
+        sidebar.style.display = 'block';
+    }
 
     if (myAccountBtn && sidebar) {
-        myAccountBtn.addEventListener('click', function () {
-            sidebar.style.display = 'block';
-        });
-
-        window.addEventListener('click', function (event) {
-            if (event.target == sidebar) {
-                sidebar.style.display = 'none';
-            }
-        });
+        myAccountBtn.addEventListener('click', toggleSidebar);
     }
+
+    if (userIcon && sidebar) {
+        userIcon.addEventListener('click', toggleSidebar);
+    }
+
+    // Close the sidebar if clicking outside of it
+    window.addEventListener('click', function (event) {
+        if (event.target !== sidebar && event.target !== myAccountBtn && event.target !== userIcon && !sidebar.contains(event.target)) {
+            sidebar.style.display = 'none';
+        }
+    });
 
     // Close sidebar function
     function closeSidebar() {
@@ -315,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (closeSidebarButton) {
         closeSidebarButton.addEventListener('click', closeSidebar);
     }
+
 
     // Additional custom viewing request handling
     const form = document.getElementById('custom-viewing-form');
