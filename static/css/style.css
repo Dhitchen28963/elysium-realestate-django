@@ -946,6 +946,15 @@ footer p {
     font-weight: bold;
   }
 
+  .menu li:nth-last-child(2) {
+    margin-right: 5px;
+  }
+
+  .menu li:last-child {
+    margin-left: -10px;
+    margin-right: 30px;
+  }
+
   .menu li:hover .dropdown-menu {
     display: flex;
     flex-direction: row;
