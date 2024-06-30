@@ -885,7 +885,7 @@ footer p {
   .my-account-btn-container {
     position: absolute;
     right: 20px;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     z-index: 1001;
     display: block;
@@ -930,14 +930,24 @@ footer p {
     list-style: none;
     padding: 0;
     margin-top: 22px;
+    margin-right: 30px; /* Adjust this value to move the menu items to the left */
   }
 
-  .menu li {
+  .menu > li {
     position: relative;
     margin: 0 10px;
   }
 
-  .menu li a {
+  .menu > li:nth-last-child(2) {
+    margin-right: 5px;
+  }
+
+  .menu > li:last-child {
+    margin-left: -10px;
+    margin-right: 30px; /* Adjust this value for the last menu item */
+  }
+
+  .menu > li > a {
     padding: 10px 15px;
     display: block;
     color: #fff;
@@ -946,16 +956,7 @@ footer p {
     font-weight: bold;
   }
 
-  .menu li:nth-last-child(2) {
-    margin-right: 5px;
-  }
-
-  .menu li:last-child {
-    margin-left: -10px;
-    margin-right: 30px;
-  }
-
-  .menu li:hover .dropdown-menu {
+  .menu > li:hover .dropdown-menu {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -967,7 +968,7 @@ footer p {
     transform: none;
   }
 
-  .menu li:hover > a {
+  .menu > li:hover > a {
     background-color: #333;
   }
 
@@ -996,6 +997,7 @@ footer p {
     color: #fff;
     background-color: transparent;
     white-space: nowrap;
+    text-decoration: none;
   }
 
   .dropdown-menu li a:hover {
@@ -1032,21 +1034,21 @@ footer p {
     margin: 0;
   }
 
-  .menu li a:hover::after {
+  .menu > li a:hover::after {
     width: 100%;
     opacity: 1;
   }
 
-  .nav .menu li a:last-child {
+  .nav .menu > li a:last-child {
     margin-right: 0;
   }
 
-  .nav .menu li a:hover {
+  .nav .menu > li a:hover {
     background-color: var(--black);
     color: #ffffff;
   }
 
-  .menu a:hover {
+  .menu > a:hover {
     background-color: #7E7B78;
     border-radius: 5px;
   }
