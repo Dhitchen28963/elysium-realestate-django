@@ -326,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function () {
         closeSidebarButton.addEventListener('click', closeSidebar);
     }
 
-
     // Additional custom viewing request handling
     const form = document.getElementById('custom-viewing-form');
     if (form) {
@@ -433,4 +432,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Dropdown menu handling
+    const menuItems = document.querySelectorAll('.menu > li');
+
+    menuItems.forEach(item => {
+        item.addEventListener('mouseover', function () {
+            this.classList.add('active');
+        });
+
+        item.addEventListener('mouseout', function () {
+            this.classList.remove('active');
+        });
+
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+        });
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.menu')) {
+            menuItems.forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
 });

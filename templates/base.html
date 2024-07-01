@@ -76,8 +76,14 @@
     </header>
 
     {% if user.is_authenticated %}
-        <div class="welcome-box">
-            <p>Welcome back, {{ user.username }}!</p>
+        <div class="banner-container">
+            <div class="banner-content">
+                <!-- Add your banner image or other content here -->
+                <img src="{% static 'images/banner-image.jpg' %}" alt="Banner Image" class="banner-image">
+                <div class="welcome-box">
+                    <p>Welcome back, {{ user.username }}!</p>
+                </div>
+            </div>
         </div>
     {% endif %}
 
@@ -98,7 +104,9 @@
         </ul>
     </div>
 
-    {% block content %}{% endblock %}
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
 
     <section class="before-moving-section">
         <h2>Before you get moving</h2>
