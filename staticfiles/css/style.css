@@ -129,6 +129,40 @@ img {
   z-index: 1;
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.search-bar input[type="text"] {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 16px;
+  width: 70%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.search-bar button, 
+#rent-button, 
+#buy-button {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 15px;
+    font-size: 16px;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
 .rent-button, .buy-button {
   flex: 1;
   padding: 5px 0;
@@ -153,6 +187,17 @@ img {
   border: 2px solid #ccc;
   border-radius: 10px;
   background-color: #ffffff;
+}
+
+.search-bar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar button i {
+  margin-left: 5px;
+  vertical-align: middle;
 }
 
 /* Styles for filters container */
@@ -611,7 +656,7 @@ footer p {
   color: #ffffff;
 }
 
-@media (max-width: 454px) {
+@media (max-width: 740px) {
   .welcome-box {
     display: none;
   }
@@ -644,15 +689,51 @@ footer p {
     top: 49px;
   }
 
-  .search-bar input[type="text"] {
+  .home-search #home-search-input {
     display: none;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center; /* Ensure both input and button align vertically */
+    width: 100%;
+  }
+
+  .search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .search-bar button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 0 5px 5px 0;
+    line-height: 1;
+    margin-left: 0;
+  }
+
+  .search-bar button i {
+    margin-left: 0;
   }
 
   main .search-container {
     position: relative;
-    width: 100%;
-    padding: 5px;
-    margin-top: -20px;
+    display: inline-block;
+    max-width: 70%;
+    background-color: #27366d;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: -75%;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   main .search-container h2 {
@@ -670,7 +751,7 @@ footer p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 20px 10px;
   }
 
   #home-search-form {
@@ -679,21 +760,33 @@ footer p {
 
   #home-search-form .search-bar {
     display: flex;
+    align-items: center;
     width: 100%;
     justify-content: space-between;
   }
 
   #rent-button, #buy-button {
-    width: 48%;
-    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
     padding: 15px;
+    font-size: 18px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    width: 48%;
     margin: 1%;
+  }
+
+  #home-search-input {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px;
+    font-size: 16px;
+    width: calc(100% - 50%);
+    margin: 0;
   }
 
   #rent-button:hover, #buy-button:hover {
@@ -719,7 +812,7 @@ footer p {
   }
 }
 
-/* Media query: Foldable phones and smaller screen sizes - landscape and portrait (up to max width of 903px) */
+/* Media query: Tablets and other devices */
 @media (max-width: 903px) {
   .logo-container {
     justify-content: center;

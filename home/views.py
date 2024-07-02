@@ -33,3 +33,9 @@ def home(request):
         'properties': properties
     }
     return render(request, 'home/index.html', context)
+
+def property_sale(request):
+    return render(request, 'real_estate/property_sale.html')
+
+def property_rent(request):
+    return render(request, 'real_estate/property_rent.html')

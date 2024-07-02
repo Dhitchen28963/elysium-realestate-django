@@ -290,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // My Account Sidebar Handling
-    // Existing sidebar handling code
     const myAccountBtn = document.getElementById('my-account-btn');
     const sidebar = document.getElementById('my-account-sidebar');
     const userIcon = document.getElementById('user-icon');
@@ -387,25 +386,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const homeSearchInput = document.getElementById('home-search-input');
 
     if (buyButton && rentButton) {
-        buyButton.addEventListener('click', function () {
-            const searchValue = homeSearchInput.value.trim();
-            const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
-
-            if (searchValue) {
-                window.location.href = `/real_estate/property-sale/?${queryParams.toString()}`;
+        buyButton.addEventListener('click', function (event) {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 693) {
+                window.location.href = "/real_estate/property-sale/";
             } else {
-                alert('Please enter a location');
+                const searchValue = homeSearchInput.value.trim();
+                const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
+
+                if (searchValue) {
+                    window.location.href = `/real_estate/property-sale/?${queryParams.toString()}`;
+                } else {
+                    alert('Please enter a location');
+                }
             }
         });
 
-        rentButton.addEventListener('click', function () {
-            const searchValue = homeSearchInput.value.trim();
-            const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
-
-            if (searchValue) {
-                window.location.href = `/real_estate/property-rent/?${queryParams.toString()}`;
+        rentButton.addEventListener('click', function (event) {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 693) {
+                window.location.href = "/real_estate/property-rent/";
             } else {
-                alert('Please enter a location');
+                const searchValue = homeSearchInput.value.trim();
+                const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
+
+                if (searchValue) {
+                    window.location.href = `/real_estate/property-rent/?${queryParams.toString()}`;
+                } else {
+                    alert('Please enter a location');
+                }
             }
         });
     }
@@ -446,7 +455,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         item.addEventListener('click', function (e) {
-            e.preventDefault();
+            if (!e.target.closest('a')) {
+                e.preventDefault();
+            }
             this.classList.toggle('active');
         });
     });
