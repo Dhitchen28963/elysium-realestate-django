@@ -644,16 +644,13 @@ footer p {
     top: 49px;
   }
 
-  .search-bar input[type="text"],
-  .search-bar button {
+  .search-bar input[type="text"] {
     display: none;
   }
 
   main .search-container {
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 80px;
-    border-radius: 0;
     padding: 5px;
     margin-top: -20px;
   }
@@ -668,20 +665,39 @@ footer p {
     display: none;
   }
 
-  .buttons-container {
-    flex-direction: row;
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
   }
 
-  .rent-button, .buy-button {
-    flex: none;
-    width: 50%;
-    padding: 5px;
-    margin: 0 10px 10px 0;
-    font-size: 20px;
+  #home-search-form {
+    width: 100%;
   }
 
-  .rent-button:last-child, .buy-button:last-child {
-    margin-right: 0;
+  #home-search-form .search-bar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  #rent-button, #buy-button {
+    width: 48%;
+    font-size: 18px;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: 1%;
+  }
+
+  #rent-button:hover, #buy-button:hover {
+    background-color: #0056b3;
   }
 
   .filters-container {
@@ -697,10 +713,8 @@ footer p {
   .dropdown-menu {
     width: 100%;
   }
-}
 
-@media (min-width: 694px) {
-  .buttons-container {
+  #toggle-filters {
     display: none;
   }
 }
