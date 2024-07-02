@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from real_estate import views as real_estate_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,8 +24,8 @@ urlpatterns = [
     path('real_estate/', include('real_estate.urls')),
     path('accounts/', include('allauth.urls')),
     path('summernote/', include('django_summernote.urls')),
-    path('property-sale/', include('real_estate.urls'), name='property_sale'),
-    path('property-rent/', include('real_estate.urls'), name='property_rent'),
+    path('property-sale/', real_estate_views.property_sale, name='property_sale'),
+    path('property-rent/', real_estate_views.property_rent, name='property_rent'),
     path('property_guides/', include('property_guides.urls')),
     path('homelessness_advice/', include('homelessness_advice.urls')),
     path('testimonials/', include('testimonials.urls')),

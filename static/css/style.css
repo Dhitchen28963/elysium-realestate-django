@@ -629,6 +629,35 @@ button:hover {
   background-color: #b3e5fc;
 }
 
+.footer-menu {
+  background-color: #36383F;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-menu ul li {
+  margin: 10px;
+}
+
+.footer-menu ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.footer-menu ul li a:hover {
+  text-decoration: underline;
+}
+
 /* Footer including copyright text */
 footer {
   background-color: #36383F;

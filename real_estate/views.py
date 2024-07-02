@@ -414,3 +414,18 @@ def valuation(request):
 
 def mortgage_calculator(request):
     return render(request, 'real_estate/mortgage_calculator.html')
+
+def property_guides_list(request):
+    return render(request, 'real_estate/property_guides_list.html')
+
+def blog_list(request):
+    return render(request, 'real_estate/blog_list.html')
+
+def homelessness_advice_list(request):
+    return render(request, 'real_estate/homelessness_advice_list.html')
+
+def testimonials_list(request):
+    return render(request, 'real_estate/testimonials_list.html')
+
+def faq_list(request):
+    return render(request, 'real_estate/faq_list.html')

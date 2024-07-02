@@ -168,6 +168,19 @@
     {% endif %}
 
     <footer>
+        <div class="footer-menu">
+            <ul>
+                <li><a href="{% url 'property_sale' %}">Buy</a></li>
+                <li><a href="{% url 'property_rent' %}">Rent</a></li>
+                <li><a href="{% url 'property_guides_list' %}">Property Guides</a></li>
+                <li><a href="{% url 'blog_list' %}">Blogs</a></li>
+                <li><a href="{% url 'homelessness_advice_list' %}">Homelessness Advice</a></li>
+                <li><a href="{% url 'testimonials_list' %}">Testimonials</a></li>
+                <li><a href="{% url 'faq_list' %}">FAQ</a></li>
+                <li><a href="{% url 'valuation' %}">Valuation</a></li>
+                <li><a href="{% url 'mortgage_calculator' %}">Mortgage Calculator</a></li>
+            </ul>
+        </div>
         <ul id="social-media">
             <li><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook" style="color: #ffffff;"></i></a></li>
             <li><a href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square" style="color: #ffffff;"></i></a></li>
