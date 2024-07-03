@@ -26,4 +26,9 @@ urlpatterns = [
     path('account-settings/', views.account_settings, name='account_settings'),
     path('valuation/', views.valuation, name='valuation'),
     path('mortgage_calculator/', views.mortgage_calculator, name='mortgage_calculator'),
+    path('view-land/', views.view_land, name='view_land'),
+    path('repairs/', views.repairs, name='repairs'),
+    path('fire-safety/', views.fire_safety, name='fire_safety'),
+    path('complaints/', views.complaints, name='complaints'),
+    path('eviction/', views.eviction, name='eviction'),
 ]

@@ -19,18 +19,18 @@
 {% block rental_text %}
 <div class="page-specific-text">
     <h2>Find your ideal home with us.</h2>
-    <p>Whether you're searching for student rentals, stylish studios, detached houses, or luxurious Mayfair penthouses, we provide the UK's largest selection of rental homes to suit every lifestyle.</p>
+    <p>Whether you're searching for stylish studios, detached houses, or luxurious Mayfair penthouses, we provide the UK's largest selection of rental homes to suit every lifestyle.</p>
 </div>
 {% endblock %}
 
 {% block content %}
 <main>
   <div class="search-container">
-    <h2>Property for rent</h2>
-    <h3>Search using 'town name' or 'postcode'</h3>
+    <h2>Property to Rent</h2>
+    <h3>Search using 'town name' or 'location'</h3>
     <form method="get">
       <div class="search-bar">
-        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value }}">
+        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value|default_if_none:''|default:'' }}">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
       <button type="button" id="toggle-filters">Show Filters</button>
@@ -51,7 +51,6 @@
         {{ form.parking }}
         <label for="pets_allowed">Pets Allowed:</label>
         {{ form.pets_allowed }}
-        <button type="submit" id="find-properties">Find Properties</button>
       </div>
     </form>
   </div>

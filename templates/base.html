@@ -38,7 +38,7 @@
                     <a href="#" aria-label="View properties for sale">Buy</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
-                        <li><a href="#">Land for Sale</a></li>
+                        <li><a href="{% url 'view_land' %}">Land for Sale</a></li>
                         <li><a href="#">Request viewing</a></li>
                     </ul>
                 </li>
@@ -159,6 +159,48 @@
                 <h3>Need a question answered</h3>
                 <p>Get help from the Elysium community.</p>
                 <a href="{% url 'faq_list' %}"><button>FAQ</button></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="housing-section">
+        <h2>Housing</h2>
+        <div class="boxes-container">
+            <div class="box">
+                <img src="{% static 'images/land.webp' %}" alt="Land Image">
+                <h3>Land</h3>
+                <p>Explore available land for sale.</p>
+                <a href="{% url 'view_land' %}"><button>View Land</button></a>
+            </div>
+            <div class="box">
+                <img src="{% static 'images/student.webp' %}" alt="Student Accommodation Image">
+                <h3>Student Accommodation</h3>
+                <p>Find the perfect student accommodation.</p>
+                <a href="{% url 'student_property' %}"><button>View Student Accommodation</button></a>
+            </div>
+            <div class="box">
+                <img src="{% static 'images/repairs.webp' %}" alt="Repairs Image">
+                <h3>Repairs</h3>
+                <p>Request and manage property repairs.</p>
+                <a href="{% url 'repairs' %}"><button>Request Repairs</button></a>
+            </div>
+            <div class="box">
+                <img src="{% static 'images/fire.webp' %}" alt="Fire Safety Image">
+                <h3>Fire Safety</h3>
+                <p>Learn about fire safety regulations.</p>
+                <a href="{% url 'fire_safety' %}"><button>Learn Fire Safety</button></a>
+            </div>
+            <div class="box">
+                <img src="{% static 'images/complaints.webp' %}" alt="Complaints Image">
+                <h3>Complaints</h3>
+                <p>File a complaint regarding housing issues.</p>
+                <a href="{% url 'complaints' %}"><button>File a Complaint</button></a>
+            </div>
+            <div class="box">
+                <img src="{% static 'images/eviction.webp' %}" alt="Eviction Image">
+                <h3>Eviction</h3>
+                <p>Understand your rights and get help with evictions.</p>
+                <a href="{% url 'eviction' %}"><button>Get Eviction Help</button></a>
             </div>
         </div>
     </section>

@@ -413,3 +413,18 @@ def testimonials_list(request):
 
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')
+
+def view_land(request):
+    return render(request, 'real_estate/view_land.html')
+
+def repairs(request):
+    return render(request, 'real_estate/repairs.html')
+
+def fire_safety(request):
+    return render(request, 'real_estate/fire_safety.html')
+
+def complaints(request):
+    return render(request, 'real_estate/complaints.html')
+
+def eviction(request):
+    return render(request, 'real_estate/eviction.html')

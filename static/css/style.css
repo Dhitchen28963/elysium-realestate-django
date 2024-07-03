@@ -559,7 +559,9 @@ button:hover {
 }
 
 /* Styling for before moving and useful resources sections */
-.before-moving-section, .useful-resources-section {
+.before-moving-section, 
+.useful-resources-section,
+.housing-section {
   padding: 20px;
   text-align: center;
 }
@@ -657,6 +659,19 @@ button:hover {
   background-color: #b3e5fc;
 }
 
+/* property guides */
+.guide-category {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.guide-category h2 {
+  margin-top: 0;
+  color: #27366d;
+}
+
+/* Footer styles */
 .footer-menu {
   background-color: #36383F;
   padding: 20px;

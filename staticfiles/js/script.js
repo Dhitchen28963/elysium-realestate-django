@@ -380,6 +380,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Ensure the filters container is hidden on page load
+    if (filtersContainer) {
+        filtersContainer.style.display = 'none';
+    }
+
     // Event listener for Buy and Rent buttons
     const buyButton = document.getElementById('buy-button');
     const rentButton = document.getElementById('rent-button');
@@ -394,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const searchValue = homeSearchInput.value.trim();
                 const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
-                if (searchValue) {
+                if (searchValue && searchValue.toLowerCase() !== 'none') {
                     window.location.href = `/real_estate/property-sale/?${queryParams.toString()}`;
                 } else {
                     alert('Please enter a location');
@@ -410,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const searchValue = homeSearchInput.value.trim();
                 const queryParams = new URLSearchParams(new FormData(document.getElementById('home-search-form')));
 
-                if (searchValue) {
+                if (searchValue && searchValue.toLowerCase() !== 'none') {
                     window.location.href = `/real_estate/property-rent/?${queryParams.toString()}`;
                 } else {
                     alert('Please enter a location');

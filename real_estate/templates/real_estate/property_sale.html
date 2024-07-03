@@ -27,10 +27,10 @@
 <main>
   <div class="search-container">
     <h2>Property for sale</h2>
-    <h3>Search using 'town name' or 'postcode'</h3>
+    <h3>Search using 'town name' or 'location'</h3>
     <form method="get">
       <div class="search-bar">
-        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value }}">
+        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value|default_if_none:''|default:'' }}">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
       <button type="button" id="toggle-filters">Show Filters</button>
@@ -51,7 +51,6 @@
         {{ form.parking }}
         <label for="pets_allowed">Pets Allowed:</label>
         {{ form.pets_allowed }}
-        <button type="submit" id="find-properties">Find Properties</button>
       </div>
     </form>
   </div>

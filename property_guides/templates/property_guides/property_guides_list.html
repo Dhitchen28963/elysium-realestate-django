@@ -4,11 +4,68 @@
 
 {% block content %}
 <h1>Property Guides List</h1>
-<ul>
-    {% for post in posts %}
-        <li>
-            <a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a>
-        </li>
-    {% endfor %}
-</ul>
+
+<div class="guide-category">
+    <h2>Landlord Guides</h2>
+    <ul>
+        {% for post in landlord_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Renter Guides</h2>
+    <ul>
+        {% for post in renter_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Student Guides</h2>
+    <ul>
+        {% for post in student_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Complaints</h2>
+    <ul>
+        <li><a href="{% url 'complaints' %}">Complaints</a></li>
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Neighbour Disputes</h2>
+    <ul>
+        {% for post in neighbour_disputes %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Fire Safety</h2>
+    <ul>
+        <li><a href="{% url 'fire_safety' %}">Fire Safety</a></li>
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Repairs</h2>
+    <ul>
+        <li><a href="{% url 'repairs' %}">Repairs</a></li>
+    </ul>
+</div>
+
+<div class="guide-category">
+    <h2>Eviction</h2>
+    <ul>
+        <li><a href="{% url 'eviction' %}">Eviction</a></li>
+    </ul>
+</div>
 {% endblock %}
