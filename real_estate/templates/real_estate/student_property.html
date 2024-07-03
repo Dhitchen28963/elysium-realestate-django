@@ -3,10 +3,28 @@
 
 {% block title %}Student Property{% endblock %}
 
+{% block banner %}
+    {% if user.is_authenticated %}
+        <div class="banner-container">
+            <div class="banner-content">
+                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+                <div class="welcome-box">
+                    <p>Welcome back, {{ user.username }}!</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block student_text %}
+<div class="page-specific-text">
+    <h2>Find Your Ideal Student Accommodation with Us.</h2>
+    <p>Whether you're looking for a cozy studio, a shared house, or a modern apartment close to your university, we provide the UK's most extensive selection of student rental properties to suit every preference and budget.</p>
+</div>
+{% endblock %}
+
 {% block content %}
 <main>
-  <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
-
   <div class="search-container">
     <h2>Student Accommodation</h2>
     <h3>Search using 'town name' or 'postcode'</h3>

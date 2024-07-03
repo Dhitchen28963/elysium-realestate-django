@@ -75,17 +75,18 @@
         </nav>
     </header>
 
+    {% block banner %}
     {% if user.is_authenticated %}
         <div class="banner-container">
             <div class="banner-content">
-                <!-- Add your banner image or other content here -->
-                <img src="{% static 'images/banner-image.jpg' %}" alt="Banner Image" class="banner-image">
+                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
                 <div class="welcome-box">
                     <p>Welcome back, {{ user.username }}!</p>
                 </div>
             </div>
         </div>
     {% endif %}
+    {% endblock %}
 
     <div id="my-account-sidebar" class="sidebar">
         <h2 class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;"></i></h2>
@@ -106,8 +107,10 @@
 
     <div class="main-content">
         {% block content %}{% endblock %}
+        {% block home_text %}{% endblock %}
         {% block sale_text %}{% endblock %}
         {% block rental_text %}{% endblock %}
+        {% block student_text %}{% endblock %}
     </div>
 
     <section class="before-moving-section">

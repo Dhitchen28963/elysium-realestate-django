@@ -3,10 +3,28 @@
 
 {% block title %}Property for Sale{% endblock %}
 
+{% block banner %}
+    {% if user.is_authenticated %}
+        <div class="banner-container">
+            <div class="banner-content">
+                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+                <div class="welcome-box">
+                    <p>Welcome back, {{ user.username }}!</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block sale_text %}
+<div class="page-specific-text">
+    <h2>Find Your Dream Home with Us</h2>
+    <p>Explore a wide range of properties available for sale, from modern apartments to spacious family homes. Find the perfect property that suits your lifestyle and budget.</p>
+</div>
+{% endblock %}
+
 {% block content %}
 <main>
-  <img src="{% static 'images/banner-elysium.webp' %}" alt="Elysium banner image">
-
   <div class="search-container">
     <h2>Property for sale</h2>
     <h3>Search using 'town name' or 'postcode'</h3>
@@ -77,11 +95,4 @@
     {% endfor %}
   </div>
 </main>
-{% endblock %}
-
-{% block sale_text %}
-<div class="page-specific-text">
-    <h2>Discover your perfect home with us.</h2>
-    <p>Whether you're in search of a starter home, a family-friendly house, a countryside retreat, or a luxurious penthouse in the heart of the city, we offer the UK's widest range of homes for sale to meet your every need.</p>
-</div>
 {% endblock %}
