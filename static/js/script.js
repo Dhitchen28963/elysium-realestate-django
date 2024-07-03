@@ -369,8 +369,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const filtersContainer = document.getElementById('filters-container');
 
     if (toggleButton && filtersContainer) {
-        toggleButton.addEventListener('click', function () {
-            if (filtersContainer.style.display === 'none' || filtersContainer.style.display === '') {
+        toggleButton.addEventListener('click', function() {
+            if (filtersContainer.style.display === 'none') {
                 filtersContainer.style.display = 'block';
                 toggleButton.textContent = 'Hide Filters';
             } else {

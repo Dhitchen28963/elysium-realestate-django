@@ -30,7 +30,7 @@
     <h3>Search using 'town name' or 'postcode'</h3>
     <form method="get">
       <div class="search-bar">
-        <input type="text" name="search" placeholder="Enter location">
+        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value }}">
         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
       <button type="button" id="toggle-filters">Show Filters</button>

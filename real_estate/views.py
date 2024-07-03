@@ -13,10 +13,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 import requests
 from real_estate.email_utils import send_email_via_emailjs
-import logging
-
-# Set up logging
-logging.basicConfig(level=logging.DEBUG)
 
 @login_required
 def send_message(request, property_id):
@@ -26,10 +22,10 @@ def send_message(request, property_id):
         message_content = request.POST.get('message')
         if message_content:
             # Define the necessary parameters for the email
-            to_email = property.agent.email  # Assuming the property has an agent with an email
+            to_email = property.agent.email 
             subject = f'Inquiry about {property.title}'
-            to_name = property.agent.get_full_name()  # Assuming the agent has a full name method
-            from_name = request.user.get_full_name()  # Assuming the user has a full name method
+            to_name = property.agent.get_full_name()
+            from_name = request.user.get_full_name()
             from_email = request.user.email
             property_title = property.title
             
@@ -94,68 +90,56 @@ def accept_appointment(request, appointment_id):
     }
     return render(request, 'real_estate/accept_appointment.html', context)
 
+def filter_properties(form, properties):
+    if form.cleaned_data.get('search'):
+        properties = properties.filter(location__icontains=form.cleaned_data['search'])
+    if form.cleaned_data.get('location'):
+        properties = properties.filter(location__icontains=form.cleaned_data['location'])
+    if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
+        properties = properties.filter(property_type=form.cleaned_data['property_type'])
+    if form.cleaned_data.get('bedrooms_min'):
+        properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
+    if form.cleaned_data.get('bedrooms_max'):
+        properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
+    if form.cleaned_data.get('price_min'):
+        properties = properties.filter(price__gte=form.cleaned_data['price_min'])
+    if form.cleaned_data.get('price_max'):
+        properties = properties.filter(price__lte=form.cleaned_data['price_max'])
+    if form.cleaned_data.get('garden'):
+        properties = properties.filter(garden=form.cleaned_data['garden'])
+    if form.cleaned_data.get('parking'):
+        properties = properties.filter(parking=form.cleaned_data['parking'])
+    if form.cleaned_data.get('pets_allowed'):
+        properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
+    return properties
+    
+
 def property_sale(request):
-    form = PropertySearchForm(request.GET)
+    form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(transaction_type='sale', publication_status='published')
 
     if form.is_valid():
-        if form.cleaned_data.get('search'):
-            properties = properties.filter(location__icontains=form.cleaned_data['search'])
-        if form.cleaned_data.get('location'):
-            properties = properties.filter(location__icontains=form.cleaned_data['location'])
-        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
-            properties = properties.filter(property_type=form.cleaned_data['property_type'])
-        if form.cleaned_data.get('bedrooms_min'):
-            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
-        if form.cleaned_data.get('bedrooms_max'):
-            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
-        if form.cleaned_data.get('price_min'):
-            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
-        if form.cleaned_data.get('price_max'):
-            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
-        if form.cleaned_data.get('garden'):
-            properties = properties.filter(garden=form.cleaned_data['garden'])
-        if form.cleaned_data.get('parking'):
-            properties = properties.filter(parking=form.cleaned_data['parking'])
-        if form.cleaned_data.get('pets_allowed'):
-            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
+        properties = filter_properties(form, properties)
 
     context = {
         'form': form,
-        'properties': properties
+        'properties': properties,
+        'view_title': 'sale'
     }
     return render(request, 'real_estate/property_sale.html', context)
 
 
 def property_rent(request):
-    form = PropertySearchForm(request.GET)
+    form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(transaction_type='rent', publication_status='published')
 
     if form.is_valid():
-        if form.cleaned_data.get('search'):
-            properties = properties.filter(location__icontains=form.cleaned_data['search'])
-        if form.cleaned_data.get('location'):
-            properties = properties.filter(location__icontains=form.cleaned_data['location'])
-        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
-            properties = properties.filter(property_type=form.cleaned_data['property_type'])
-        if form.cleaned_data.get('bedrooms_min'):
-            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
-        if form.cleaned_data.get('bedrooms_max'):
-            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
-        if form.cleaned_data.get('price_min'):
-            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
-        if form.cleaned_data.get('price_max'):
-            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
-        if form.cleaned_data.get('garden'):
-            properties = properties.filter(garden=form.cleaned_data['garden'])
-        if form.cleaned_data.get('parking'):
-            properties = properties.filter(parking=form.cleaned_data['parking'])
-        if form.cleaned_data.get('pets_allowed'):
-            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
-    
+        properties = filter_properties(form, properties)
+
     context = {
         'form': form,
-        'properties': properties
+        'properties': properties,
+        'view_title': 'rent'
     }
     return render(request, 'real_estate/property_rent.html', context)
 
