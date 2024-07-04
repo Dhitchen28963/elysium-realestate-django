@@ -5,9 +5,17 @@
 {% block content %}
 <h1>{{ post.title }}</h1>
 {% if post.featured_image %}
+    <p>Image URL: {{ post.featured_image.url }}</p>
     <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+{% else %}
+    <p>No Image Available</p>
 {% endif %}
-<p>{{ post.content }}</p>
+<div class="image-container">
+    {% for image in post.additional_images.all %}
+        <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}">
+    {% endfor %}
+</div>
+<p>{{ post.content|safe }}</p>
 <p><strong>Author:</strong> {{ post.author }}</p>
 <p><strong>Published on:</strong> {{ post.created_on }}</p>
 <a href="{% url 'homelessness_advice_list' %}">Back to Homelessness Advice List</a>

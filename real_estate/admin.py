@@ -2,6 +2,10 @@ from django.contrib import admin
 from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage, SavedSearch, PropertyAlert
 from django_summernote.admin import SummernoteModelAdmin
 
+class PropertyImageInline(admin.TabularInline):
+    model = PropertyImage
+    extra = 1
+
 @admin.register(Property)
 class PropertyAdmin(SummernoteModelAdmin):
     list_display = ('title', 'slug', 'property_type', 'price_display', 'location', 'transaction_type', 'publication_status', 'availability_status', 'bedrooms', 'bathrooms', 'garden', 'parking', 'pets_allowed', 'created_at')
@@ -9,6 +13,7 @@ class PropertyAdmin(SummernoteModelAdmin):
     search_fields = ('title', 'description', 'location')
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('description',)
+    inlines = [PropertyImageInline]
 
 @admin.register(SavedSearch)
 class SavedSearchAdmin(admin.ModelAdmin):

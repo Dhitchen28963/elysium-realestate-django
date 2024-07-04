@@ -4,7 +4,6 @@ from django.utils.text import slugify
 from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
 
-
 class FAQ(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -33,3 +32,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
+
+class FAQImage(models.Model):
+    faq = models.ForeignKey(FAQ, on_delete=models.CASCADE, related_name='additional_images')
+    image = CloudinaryField('image')
+
+    def __str__(self):
+        return f"Image for {self.faq.title}"

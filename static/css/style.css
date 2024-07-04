@@ -671,6 +671,19 @@ button:hover {
   color: #27366d;
 }
 
+/* cloudinary images styles */
+.image-container {
+  display: flex;
+  overflow-x: scroll;
+  gap: 10px;
+}
+
+.image-container img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
 /* Footer styles */
 .footer-menu {
   background-color: #36383F;

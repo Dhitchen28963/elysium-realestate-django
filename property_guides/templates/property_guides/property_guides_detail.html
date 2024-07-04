@@ -7,8 +7,18 @@
 <p>Category: {{ post.category.name }}</p>
 <p>{{ post.content|safe }}</p>
 {% if post.featured_image %}
+    <p>Image URL: {{ post.featured_image.url }}</p>
     <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+{% else %}
+    <p>No Image Available</p>
 {% endif %}
+
+<div class="image-container">
+    {% for image in post.additional_images.all %}
+        <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}">
+    {% endfor %}
+</div>
+
 <p>Posted on: {{ post.created_on }}</p>
 <p>Updated on: {{ post.updated_on }}</p>
 {% endblock %}

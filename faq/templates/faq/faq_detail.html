@@ -5,9 +5,17 @@
 {% block content %}
 <h1>{{ faq.title }}</h1>
 {% if faq.featured_image %}
+    <p>Image URL: {{ faq.featured_image.url }}</p>
     <img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
+{% else %}
+    <p>No Image Available</p>
 {% endif %}
-<p>{{ faq.content }}</p>
+<div class="image-container">
+    {% for image in faq.additional_images.all %}
+        <img src="{{ image.image.url }}" alt="Additional image for {{ faq.title }}">
+    {% endfor %}
+</div>
+<p>{{ faq.content|safe }}</p>
 <p><strong>Author:</strong> {{ faq.author }}</p>
 <p><strong>Published on:</strong> {{ faq.created_on }}</p>
 <h2>Comments</h2>
