@@ -63,7 +63,6 @@ class Property(models.Model):
     garden = models.BooleanField(default=False)
     parking = models.BooleanField(default=False)
     pets_allowed = models.BooleanField(default=False)
-    property_image = CloudinaryField('image', default='placeholder')
     floor_plan = models.ImageField(upload_to='floor_plans/', blank=True, null=True)
     energy_efficiency_rating = models.CharField(max_length=10, blank=True, null=True)
     availability_status = models.CharField(max_length=15, choices=AVAILABILITY_STATUS_CHOICES, default='available')

@@ -2,13 +2,36 @@
 
 {% block title %}{{ property.title }}{% endblock %}
 
+{% block banner %}
+<!-- No banner for property detail page -->
+{% endblock %}
+
 {% block content %}
 <main>
-  <div class="property-details">
-    <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+  <div class="property-detail">
+    <div class="carousel-container">
+      <div class="carousel">
+        {% for image in property.property_images.all %}
+        <div class="carousel-item">
+          <img src="{{ image.image.url }}" alt="{{ property.title }}">
+        </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev">&lt;</button>
+      <button class="carousel-control-next">&gt;</button>
+    </div>
+
+    <div class="thumbnail-container">
+      {% for image in property.property_images.all %}
+      <div class="thumbnail-item">
+        <img src="{{ image.image.url }}" alt="{{ property.title }}">
+      </div>
+      {% endfor %}
+    </div>
+
     <div class="property-info">
       <h1>{{ property.title }}</h1>
-      <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
+      <div>{{ property.description|safe }}</div>
       <p>Price: £{{ property.price }}</p>
       <p>Location: {{ property.location }}</p>
       <p>Bedrooms: {{ property.bedrooms }}</p>
@@ -19,7 +42,6 @@
       <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
     </div>
     <div class="property-actions">
-      <!-- Favorites Star Button -->
       <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
         {% if property.is_favorite %}
           <i class="fa-solid fa-star"></i> Remove from Favorites
@@ -27,29 +49,9 @@
           <i class="fa-regular fa-star"></i> Add to Favorites
         {% endif %}
       </button>
-      <button type="button" class="open-modal" data-property-id="1" data-action="scheduleViewing">
+      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
         <i class="fa fa-calendar" aria-hidden="true"></i> Schedule a Viewing
       </button>
-    </div>
-    <div class="image-container">
-      {% for image in property.property_images.all %}
-      <div class="image-wrapper">
-        <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
-      </div>
-      {% endfor %}
-    </div>
-    <div class="property-enquiry">
-      <h2>Contact about this property</h2>
-      <form id="contact-form" method="post" action="{% url 'contact_property' property.id %}" data-property-id="{{ property.id }}">
-        {% csrf_token %}
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
     </div>
   </div>
 </main>

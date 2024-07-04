@@ -671,7 +671,103 @@ button:hover {
   color: #27366d;
 }
 
-/* cloudinary images styles */
+/* Carousel styles */
+.carousel-container {
+  position: relative;
+  width: 1170px;
+  height: 435px;
+  overflow: hidden;
+  margin: 70px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  width: 775px;
+  height: 435px;
+  flex-shrink: 0;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+/* Centering the carousel container */
+.property-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Align the main content below the carousel */
+.property-info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.property-info h1 {
+  font-weight: bold;
+}
+
+.property-info p {
+  margin: 5px 0;
+}
+
+/* Thumbnail carousel styles */
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.thumbnail-item {
+  width: 100px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.thumbnail-item img.active {
+  border: 2px solid #000;
+}
+
 .image-container {
   display: flex;
   overflow-x: scroll;
