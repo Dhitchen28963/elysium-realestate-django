@@ -728,6 +728,42 @@ footer p {
   color: #ffffff;
 }
 
+/* Media Query for screen sizes 650px and below */
+@media screen and (max-width: 650px) {
+  .before-moving-section, 
+  .useful-resources-section,
+  .housing-section {
+    padding: 10px;
+  }
+
+  .boxes-container {
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .box {
+    padding: 15px;
+    width: calc(33.333% - 10px);
+  }
+
+  .box img {
+    max-height: 100px;
+  }
+
+  .box h3 {
+    font-size: 1em;
+  }
+
+  .box p {
+    font-size: 0.9em;
+  }
+
+  .box button {
+    font-size: 0.9em;
+    padding: 8px 15px;
+  }
+}
+
 @media (max-width: 740px) {
   .welcome-box {
     display: none;
