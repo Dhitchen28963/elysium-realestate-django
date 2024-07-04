@@ -4,8 +4,11 @@
 
 {% block content %}
 <h1>{{ post.title }}</h1>
-<img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
-<p>{{ post.content }}</p>
-<p>Created on: {{ post.created_on }}</p>
+<p>Category: {{ post.category.name }}</p>
+<p>{{ post.content|safe }}</p>
+{% if post.featured_image %}
+    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+{% endif %}
+<p>Posted on: {{ post.created_on }}</p>
 <p>Updated on: {{ post.updated_on }}</p>
 {% endblock %}

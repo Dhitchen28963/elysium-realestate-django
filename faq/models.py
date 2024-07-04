@@ -1,13 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django_summernote.fields import SummernoteTextField
+from cloudinary.models import CloudinaryField
+
 
 class FAQ(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='faq_posts')
-    featured_image = models.ImageField(upload_to='faq_images/', default='default.jpg')
-    content = models.TextField()
+    featured_image = CloudinaryField('image', default='placeholder')
+    content = SummernoteTextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=[('draft', 'Draft'), ('published', 'Published')], default='draft')

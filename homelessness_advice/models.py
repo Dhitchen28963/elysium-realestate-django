@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_summernote.fields import SummernoteTextField
+from cloudinary.models import CloudinaryField
 
 class Post(models.Model):
     STATUS_CHOICES = [
@@ -10,8 +12,8 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='homelessness_advice_posts')
-    featured_image = models.ImageField(upload_to='homelessness_advice_images/', default='default.jpg')
-    content = models.TextField()
+    featured_image = CloudinaryField('image', default='placeholder')
+    content = SummernoteTextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')

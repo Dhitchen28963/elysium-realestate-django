@@ -5,7 +5,9 @@
 {% block content %}
 <main>
   <div class="property-details">
-    <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+    {% if property.property_image %}
+        <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+    {% endif %}
     <div class="property-info">
       <h1>{{ property.title }}</h1>
       <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
@@ -34,7 +36,9 @@
     <div class="property-images">
       {% for image in additional_images %}
       <div class="image-wrapper">
-        <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+        {% if image.image %}
+            <img src="{{ image.image.url }}" alt="Additional image of {{ property.title }}">
+        {% endif %}
       </div>
       {% endfor %}
     </div>

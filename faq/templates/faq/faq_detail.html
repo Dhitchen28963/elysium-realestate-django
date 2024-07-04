@@ -4,7 +4,9 @@
 
 {% block content %}
 <h1>{{ faq.title }}</h1>
-<img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
+{% if faq.featured_image %}
+    <img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
+{% endif %}
 <p>{{ faq.content }}</p>
 <p><strong>Author:</strong> {{ faq.author }}</p>
 <p><strong>Published on:</strong> {{ faq.created_on }}</p>

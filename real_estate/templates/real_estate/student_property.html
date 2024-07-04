@@ -66,6 +66,9 @@
     {% for property in properties %}
     <div class="property-box">
       <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+      {% if property.property_image %}
+          <img src="{{ property.property_image.url }}" alt="{{ property.title }}">
+      {% endif %}
       <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
       <p>Price: £{{ property.price }}</p>
       <p>Location: {{ property.location }}</p>

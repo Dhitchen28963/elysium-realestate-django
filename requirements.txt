@@ -1,6 +1,8 @@
 asgiref==3.8.1
+cloudinary==1.36.0
 dj-database-url==0.5.0
-Django==4.2.13
+dj3-cloudinary-storage==0.0.6
+Django==5.0.6
 django-allauth==0.57.2
 django-summernote==0.8.20.0
 gunicorn==20.1.0
@@ -11,4 +13,5 @@ PyJWT==2.8.0
 python3-openid==3.2.0
 requests-oauthlib==2.0.0
 sqlparse==0.5.0
+urllib3==1.26.19
 whitenoise==5.3.0

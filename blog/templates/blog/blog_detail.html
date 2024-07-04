@@ -6,7 +6,9 @@
 <div id="blog-detail" class="container">
     <h1>{{ post.title }}</h1>
     <div class="post-header">
-        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+        {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+        {% endif %}
     </div>
     <div class="post-meta">
         <p><strong>Author:</strong> {{ post.author }}</p>

@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_summernote.fields import SummernoteTextField
+from cloudinary.models import CloudinaryField
 
 FURNISHED_TYPES = [
     ('furnished', 'Furnished'),
@@ -50,7 +52,7 @@ class Property(models.Model):
 
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    description = models.TextField()
+    description = SummernoteTextField()
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     furnished_type = models.CharField(max_length=20, choices=FURNISHED_TYPES)
@@ -61,7 +63,7 @@ class Property(models.Model):
     garden = models.BooleanField(default=False)
     parking = models.BooleanField(default=False)
     pets_allowed = models.BooleanField(default=False)
-    property_image = models.ImageField(upload_to='properties/')
+    featured_image = CloudinaryField('image', default='placeholder')
     floor_plan = models.ImageField(upload_to='floor_plans/', blank=True, null=True)
     energy_efficiency_rating = models.CharField(max_length=10, blank=True, null=True)
     availability_status = models.CharField(max_length=15, choices=AVAILABILITY_STATUS_CHOICES, default='available')

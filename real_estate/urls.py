@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('remove-from-favorites/<int:property_id>/', views.remove_from_favorites, name='remove_from_favorites'),
     path('favorites/', views.view_favorites, name='view_favorites'),
     path('contact-property/<int:property_id>/', views.contact_property, name='contact_property'),
+    path('summernote/', include('django_summernote.urls')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('messages/', views.view_messages, name='view_messages'),
     path('messages/delete/<int:message_id>/', views.delete_message, name='delete_message'),
