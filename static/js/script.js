@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Carousel amd thumbnail handling
+    // Carousel and thumbnail handling
     const carouselContainer = document.querySelector('.carousel-container');
     const carousel = document.querySelector('.carousel');
     const prevButton = document.querySelector('.carousel-control-prev');
@@ -485,8 +485,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentIndex = 0;
 
     function updateCarousel() {
-        const width = carouselContainer.clientWidth;
-        carousel.style.transform = `translateX(-${currentIndex * width}px)`;
+        if (carouselContainer && carousel) {
+            const width = carouselContainer.clientWidth;
+            carousel.style.transform = `translateX(-${currentIndex * width}px)`;
+        } else {
+            console.error('Carousel or carousel container element not found.');
+        }
     }
 
     function setActiveThumbnail(index) {

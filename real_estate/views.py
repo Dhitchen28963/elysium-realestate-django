@@ -13,6 +13,18 @@ from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 import requests
 from real_estate.email_utils import send_email_via_emailjs
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+def paginate_properties(request, properties, per_page=20):
+    page = request.GET.get('page', 1)
+    paginator = Paginator(properties, per_page)  # Show 20 properties per page
+    try:
+        properties = paginator.page(page)
+    except PageNotAnInteger:
+        properties = paginator.page(1)
+    except EmptyPage:
+        properties = paginator.page(paginator.num_pages)
+    return properties, paginator
 
 @login_required
 def send_message(request, property_id):
@@ -21,7 +33,6 @@ def send_message(request, property_id):
     if request.method == 'POST':
         message_content = request.POST.get('message')
         if message_content:
-            # Define the necessary parameters for the email
             to_email = property.agent.email 
             subject = f'Inquiry about {property.title}'
             to_name = property.agent.get_full_name()
@@ -29,7 +40,6 @@ def send_message(request, property_id):
             from_email = request.user.email
             property_title = property.title
             
-            # Send the email using EmailJS
             status_code, response_text = send_email_via_emailjs(
                 to_email=to_email,
                 subject=subject,
@@ -73,7 +83,6 @@ def accept_appointment(request, appointment_id):
         appointment.viewing_decision = 'accepted'
         appointment.save()
 
-        # Send notification email to the user
         send_mail(
             'Your Viewing Appointment is Accepted',
             f'Dear {appointment.user.username}, your viewing appointment for {appointment.property.title} has been accepted.',
@@ -112,33 +121,43 @@ def filter_properties(form, properties):
     if form.cleaned_data.get('pets_allowed'):
         properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
     return properties
-    
 
 def property_sale(request):
     form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(transaction_type='sale', publication_status='published')
 
-    if form.is_valid():
+    if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
+    else:
+        properties = Property.objects.none()
 
+    properties, paginator = paginate_properties(request, properties)
+    
     context = {
         'form': form,
         'properties': properties,
+        'paginator': paginator,
+        'is_paginated': paginator.num_pages > 1,
         'view_title': 'sale'
     }
     return render(request, 'real_estate/property_sale.html', context)
-
 
 def property_rent(request):
     form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(transaction_type='rent', publication_status='published')
 
-    if form.is_valid():
+    if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
+    else:
+        properties = Property.objects.none()
 
+    properties, paginator = paginate_properties(request, properties)
+    
     context = {
         'form': form,
         'properties': properties,
+        'paginator': paginator,
+        'is_paginated': paginator.num_pages > 1,
         'view_title': 'rent'
     }
     return render(request, 'real_estate/property_rent.html', context)
@@ -147,31 +166,18 @@ def property_student(request):
     form = PropertySearchForm(request.GET)
     properties = Property.objects.filter(transaction_type='student', publication_status='published')
 
-    if form.is_valid():
-        if form.cleaned_data.get('search'):
-            properties = properties.filter(location__icontains=form.cleaned_data['search'])
-        if form.cleaned_data.get('location'):
-            properties = properties.filter(location__icontains=form.cleaned_data['location'])
-        if form.cleaned_data.get('property_type') and form.cleaned_data['property_type'] != 'any':
-            properties = properties.filter(property_type=form.cleaned_data['property_type'])
-        if form.cleaned_data.get('bedrooms_min'):
-            properties = properties.filter(bedrooms__gte=form.cleaned_data['bedrooms_min'])
-        if form.cleaned_data.get('bedrooms_max'):
-            properties = properties.filter(bedrooms__lte=form.cleaned_data['bedrooms_max'])
-        if form.cleaned_data.get('price_min'):
-            properties = properties.filter(price__gte=form.cleaned_data['price_min'])
-        if form.cleaned_data.get('price_max'):
-            properties = properties.filter(price__lte=form.cleaned_data['price_max'])
-        if form.cleaned_data.get('garden'):
-            properties = properties.filter(garden=form.cleaned_data['garden'])
-        if form.cleaned_data.get('parking'):
-            properties = properties.filter(parking=form.cleaned_data['parking'])
-        if form.cleaned_data.get('pets_allowed'):
-            properties = properties.filter(pets_allowed=form.cleaned_data['pets_allowed'])
+    if form.is_valid() and any(form.cleaned_data.values()):
+        properties = filter_properties(form, properties)
+    else:
+        properties = Property.objects.none()
 
+    properties, paginator = paginate_properties(request, properties)
+    
     context = {
         'form': form,
-        'properties': properties
+        'properties': properties,
+        'paginator': paginator,
+        'is_paginated': paginator.num_pages > 1,
     }
     return render(request, 'real_estate/student_property.html', context)
 
@@ -275,7 +281,6 @@ def schedule_viewing(request, slot_id):
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'}, status=400)
 
-
 @login_required
 def view_property_slots(request, property_id):
     property = get_object_or_404(Property, id=property_id)
@@ -304,7 +309,7 @@ def save_search(request):
     if request.method == 'POST':
         form = SavedSearchForm(request.POST)
         if form.is_valid():
-            saved_search = form.save(commit=False)
+            saved_search = form.save(commit(False))
             saved_search.user = request.user
             saved_search.save()
             return redirect('view_saved_searches')
@@ -350,7 +355,6 @@ def create_property_alert(property):
 def account_settings(request):
     user = request.user
 
-    # Ensure the user has a profile
     try:
         profile = user.profile
     except Profile.DoesNotExist:
@@ -371,7 +375,7 @@ def account_settings(request):
             password_form = ChangePasswordForm(user, request.POST)
             if password_form.is_valid():
                 user = password_form.save()
-                update_session_auth_hash(request, user)  # Important to keep the user logged in
+                update_session_auth_hash(request, user)
                 messages.success(request, 'Your password was successfully changed!')
                 return redirect('account_settings')
             else:

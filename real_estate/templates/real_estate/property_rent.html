@@ -62,47 +62,70 @@
     <button type="submit">Save Search</button>
   </form>
 
-  <div class="property-list" data-app="real_estate">
-    {% for property in properties %}
-    <div class="property-box">
-      <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
-      <div class="scrollable-images">
-        {% if property.property_images.exists %}
-          <div class="image-container">
-            {% for image in property.property_images.all %}
-              <img src="{{ image.image.url }}" alt="{{ property.title }}">
-            {% endfor %}
+  {% if request.GET.search %}
+      {% if properties %}
+      <div class="property-list" data-app="real_estate">
+        {% for property in properties %}
+        <div class="property-box">
+          <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+          <div class="scrollable-images">
+            {% if property.property_images.exists %}
+              <div class="image-container">
+                {% for image in property.property_images.all %}
+                  <img src="{{ image.image.url }}" alt="{{ property.title }}">
+                {% endfor %}
+              </div>
+            {% else %}
+              <p>No images available</p>
+            {% endif %}
           </div>
-        {% else %}
-          <p>No images available</p>
-        {% endif %}
+          <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
+          <p>Price: £{{ property.price }}</p>
+          <p>Location: {{ property.location }}</p>
+          <!-- Favorites Star Button -->
+          <form method="post" action="{% url 'add_to_favorites' property.id %}">
+            {% csrf_token %}
+            <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+              {% if property.is_favorite %}
+                <i class="fa-solid fa-star"></i> Remove from Favorites
+              {% else %}
+                <i class="fa-regular fa-star"></i> Add to Favorites
+              {% endif %}
+            </button>
+          </form>
+          <!-- Message Button -->
+          <form method="get" action="{% url 'real_estate_send_message' property.id %}">
+            <button type="submit" class="message-icon">
+              <i class="fa-solid fa-envelope"></i> Send Message
+            </button>
+          </form>
+          <!-- Schedule Viewing Button with Calendar Icon -->
+          <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+            <i class="fa-solid fa-calendar-alt"></i> Schedule a Viewing
+          </button>
+        </div>
+        {% endfor %}
       </div>
-      <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
-      <p>Price: £{{ property.price }}</p>
-      <p>Location: {{ property.location }}</p>
-      <!-- Favorites Star Button -->
-      <form method="post" action="{% url 'add_to_favorites' property.id %}">
-        {% csrf_token %}
-        <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
-          {% if property.is_favorite %}
-            <i class="fa-solid fa-star"></i> Remove from Favorites
-          {% else %}
-            <i class="fa-regular fa-star"></i> Add to Favorites
-          {% endif %}
-        </button>
-      </form>
-      <!-- Message Button -->
-      <form method="get" action="{% url 'real_estate_send_message' property.id %}">
-        <button type="submit" class="message-icon">
-          <i class="fa-solid fa-envelope"></i> Send Message
-        </button>
-      </form>
-      <!-- Schedule Viewing Button with Calendar Icon -->
-      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
-        <i class="fa-solid fa-calendar-alt"></i> Schedule a Viewing
-      </button>
-    </div>
-    {% endfor %}
-  </div>
+      {% else %}
+      <p class="no-properties-found">No properties found. Please use the search bar above to find properties.</p>
+      {% endif %}
+  {% endif %}
 </main>
+{% endblock %}
+
+<!-- Pagination Section -->
+{% block pagination %}
+<section class="pagination-section">
+  {% if properties.has_previous %}
+    <a href="?page=1">First</a>
+    <a href="?page={{ properties.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span class="current">Page {{ properties.number }} of {{ properties.paginator.num_pages }}</span>
+
+  {% if properties.has_next %}
+    <a href="?page={{ properties.next_page_number }}">Next</a>
+    <a href="?page={{ properties.paginator.num_pages }}">Last</a>
+  {% endif %}
+</section>
 {% endblock %}

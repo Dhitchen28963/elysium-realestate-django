@@ -252,6 +252,15 @@ img {
   display: block;
 }
 
+.no-properties-found {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  border: 2px solid red;
+  padding: 10px;
+  margin-top: 20px;
+}
+
 /* Styling for modal messages */
 .modal {
   display: none;
@@ -778,6 +787,41 @@ button:hover {
   max-width: 200px;
   max-height: 200px;
   object-fit: cover;
+}
+
+/* Pagination styles */
+.pagination-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pagination-controls {
+  display: inline-block;
+}
+
+.page-link {
+  text-decoration: none;
+  color: #007bff;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.current-page, .pagination-section .current {
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  display: inline-block;
 }
 
 /* Footer styles */
