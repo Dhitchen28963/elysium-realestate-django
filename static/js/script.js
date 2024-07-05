@@ -476,20 +476,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Carousel and thumbnail handling
-    const carouselContainer = document.querySelector('.carousel-container');
-    const carousel = document.querySelector('.carousel');
+    const largeImage = document.querySelector('.large-image img');
+    const smallImages = document.querySelectorAll('.small-image-item img');
+    const thumbnails = document.querySelectorAll('.thumbnail-item img');
     const prevButton = document.querySelector('.carousel-control-prev');
     const nextButton = document.querySelector('.carousel-control-next');
-    const thumbnails = document.querySelectorAll('.thumbnail-item img');
-
     let currentIndex = 0;
 
     function updateCarousel() {
-        if (carouselContainer && carousel) {
-            const width = carouselContainer.clientWidth;
-            carousel.style.transform = `translateX(-${currentIndex * width}px)`;
-        } else {
-            console.error('Carousel or carousel container element not found.');
+        if (largeImage && thumbnails.length > 0) {
+            largeImage.src = thumbnails[currentIndex].src;
+            setActiveThumbnail(currentIndex);
+            updateSmallImages();
         }
     }
 
@@ -503,17 +501,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function updateSmallImages() {
+        smallImages.forEach((smallImage, i) => {
+            const index = (currentIndex + i + 1) % thumbnails.length;
+            smallImage.src = thumbnails[index].src;
+        });
+    }
+
     if (prevButton && nextButton) {
         prevButton.addEventListener('click', function () {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : carousel.children.length - 1;
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : thumbnails.length - 1;
             updateCarousel();
-            setActiveThumbnail(currentIndex);
         });
 
         nextButton.addEventListener('click', function () {
-            currentIndex = (currentIndex < carousel.children.length - 1) ? currentIndex + 1 : 0;
+            currentIndex = (currentIndex < thumbnails.length - 1) ? currentIndex + 1 : 0;
             updateCarousel();
-            setActiveThumbnail(currentIndex);
         });
     }
 
@@ -521,11 +524,9 @@ document.addEventListener('DOMContentLoaded', function () {
         thumbnail.addEventListener('click', function () {
             currentIndex = index;
             updateCarousel();
-            setActiveThumbnail(currentIndex);
         });
     });
 
-    window.addEventListener('resize', updateCarousel);
     updateCarousel();
     setActiveThumbnail(currentIndex);
 });

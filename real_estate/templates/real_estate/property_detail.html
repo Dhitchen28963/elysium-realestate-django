@@ -10,9 +10,12 @@
 <main>
   <div class="property-detail">
     <div class="carousel-container">
-      <div class="carousel">
-        {% for image in property.property_images.all %}
-        <div class="carousel-item">
+      <div class="large-image">
+        <img src="{{ property.property_images.first.image.url }}" alt="{{ property.title }}">
+      </div>
+      <div class="small-images">
+        {% for image in property.property_images.all|slice:"1:3" %}
+        <div class="small-image-item">
           <img src="{{ image.image.url }}" alt="{{ property.title }}">
         </div>
         {% endfor %}

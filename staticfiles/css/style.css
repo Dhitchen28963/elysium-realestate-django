@@ -688,24 +688,36 @@ button:hover {
   overflow: hidden;
   margin: 70px auto 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
 }
 
-.carousel {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-item {
+.large-image {
   width: 775px;
   height: 435px;
-  flex-shrink: 0;
+  margin-right: 10px;
 }
 
-.carousel-item img {
+.large-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.small-images {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 385px;
+  height: 435px;
+}
+
+.small-image-item {
+  width: 100%;
+  height: 215px;
+}
+
+.small-image-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
