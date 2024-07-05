@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showModalMessage('Property is already in favorites.');
                 const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
                 if (button) {
-                    button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
+                    button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
                     button.setAttribute('data-is-favorite', 'true');
                 }
             } else {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Add to favorites
+    // Save
     function addToFavorites(propertyId, app) {
         fetch(`/${app}/add-to-favorites/${propertyId}/`, {
             method: 'POST',
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showModalMessage('Property is already in favorites.');
                 const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
                 if (button) {
-                    button.innerHTML = '<i class="fa-solid fa-star"></i> Remove from Favorites';
+                    button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
                     button.setAttribute('data-is-favorite', 'true');
                 }
             } else {
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Remove from favorites
+    // Saved
     function removeFromFavorites(propertyId, app) {
         fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
             method: 'POST',
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event listener for add to favorites
+    // Event listener for Save
     document.querySelectorAll('.property-actions button[data-action]').forEach(button => {
         button.addEventListener('click', function (event) {
             event.preventDefault();

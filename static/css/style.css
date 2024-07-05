@@ -261,6 +261,106 @@ img {
   margin-top: 20px;
 }
 
+/* Styling for property-list rent, sale and student property pages */
+.property-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.property-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  height: 250px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.property-image {
+  width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.scrollable-images .image-container {
+  display: flex;
+  overflow-x: auto;
+  width: 530px;
+  height: 175px;
+}
+
+.scrollable-images img {
+  width: 530px;
+  height: 175px;
+  object-fit: cover;
+}
+
+.property-price {
+  height: 75px;
+  width: 530px;
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.property-description {
+  width: 450px;
+  height: 175px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 10px;
+  left: 550px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.property-description h2 {
+  margin: 0;
+}
+
+.property-description p {
+  margin: 5px 0;
+  overflow: hidden;
+  word-wrap: break-word;
+    white-space: normal;
+}
+
+.property-buttons {
+  width: 440px;
+  height: 50px;
+  display: flex;
+  gap: 5px;
+  padding-left: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 190px;
+  left: 550px;
+}
+
+.property-buttons form, .property-buttons button {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.property-buttons button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 /* Styling for modal messages */
 .modal {
   display: none;
@@ -469,56 +569,6 @@ button:hover {
 
 .delete-account-button:hover {
   background-color: #c82333;
-}
-
-/* Styling for the property list and container */
-.property-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-}
-
-.property-box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-  width: calc(33.333% - 20px);
-  box-sizing: border-box;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  text-align: center;
-}
-
-.property-box img {
-  width: 100%;
-  height: auto;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
-}
-
-.property-box p {
-  margin: 5px 0;
-}
-
-.property-box a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-.property-box a:hover {
-  text-decoration: underline;
-}
-
-.property-box button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 .favorites-star {
@@ -1301,15 +1351,6 @@ footer p {
 
   .search-bar button i {
     font-size: 16px;
-  }
-
-  .property-box {
-    width: 100%;
-  }
-
-  .property-list {
-    display: block;
-    overflow-x: hidden;
   }
 }
 

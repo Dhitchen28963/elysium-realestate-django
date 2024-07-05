@@ -67,42 +67,45 @@
       <div class="property-list" data-app="real_estate">
         {% for property in properties %}
         <div class="property-box">
-          <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
-          <div class="scrollable-images">
-            {% if property.property_images.exists %}
-              <div class="image-container">
-                {% for image in property.property_images.all %}
-                  <img src="{{ image.image.url }}" alt="{{ property.title }}">
-                {% endfor %}
-              </div>
-            {% else %}
-              <p>No images available</p>
-            {% endif %}
-          </div>
-          <div>{{ property.description|safe }}</div> <!-- Use safe filter for HTML content -->
-          <p>Price: £{{ property.price }}</p>
-          <p>Location: {{ property.location }}</p>
-          <!-- Favorites Star Button -->
-          <form method="post" action="{% url 'add_to_favorites' property.id %}">
-            {% csrf_token %}
-            <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
-              {% if property.is_favorite %}
-                <i class="fa-solid fa-star"></i> Remove from Favorites
+          <div class="property-image">
+            <div class="scrollable-images">
+              {% if property.property_images.exists %}
+                <div class="image-container">
+                  {% for image in property.property_images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ property.title }}">
+                  {% endfor %}
+                </div>
               {% else %}
-                <i class="fa-regular fa-star"></i> Add to Favorites
+                <p>No images available</p>
               {% endif %}
+            </div>
+            <p class="property-price">£{{ property.price }}</p>
+          </div>
+          <div class="property-description">
+            <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+            <p>Location: {{ property.location }}</p>
+            <div>{{ property.description|safe }}</div>
+          </div>
+          <div class="property-buttons">
+            <form method="post" action="{% url 'add_to_favorites' property.id %}">
+              {% csrf_token %}
+              <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+                {% if property.is_favorite %}
+                  <i class="fa-solid fa-star"></i> Saved
+                {% else %}
+                  <i class="fa-regular fa-star"></i> Save
+                {% endif %}
+              </button>
+            </form>
+            <form method="get" action="{% url 'real_estate_send_message' property.id %}">
+              <button type="submit" class="message-icon">
+                <i class="fa-solid fa-envelope"></i> Contact
+              </button>
+            </form>
+            <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+              <i class="fa-solid fa-calendar-alt"></i> Viewing
             </button>
-          </form>
-          <!-- Message Button -->
-          <form method="get" action="{% url 'real_estate_send_message' property.id %}">
-            <button type="submit" class="message-icon">
-              <i class="fa-solid fa-envelope"></i> Send Message
-            </button>
-          </form>
-          <!-- Schedule Viewing Button with Calendar Icon -->
-          <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
-            <i class="fa-solid fa-calendar-alt"></i> Schedule a Viewing
-          </button>
+          </div>
         </div>
         {% endfor %}
       </div>
