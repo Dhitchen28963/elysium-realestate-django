@@ -591,7 +591,7 @@ button:hover {
 
 /* Styling for page specific text class */
 .page-specific-text {
-  margin: 40px auto;
+  margin: 5px auto;
   padding: 20px;
   max-width: 800px;
   border: 2px solid #ddd;
@@ -794,25 +794,104 @@ button:hover {
   right: 10px;
 }
 
-/* Centering the carousel container */
 .property-detail {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Align the main content below the carousel */
 .property-info {
   text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
   margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .property-info h1 {
   font-weight: bold;
+  margin-top: 0;
+  text-align: left;
+  margin-left: 0; 
 }
 
 .property-info p {
   margin: 5px 0;
+}
+
+.property-info .property-price, 
+.property-info .property-location {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: left; 
+}
+
+.property-info .property-price {
+  color: blue;
+}
+
+.property-info .property-location {
+  color: #333;
+}
+
+.property-info hr {
+  margin: 10px 0;
+}
+
+.property-features,
+.additional-features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.property-features .feature-item,
+.additional-features .feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.property-features .feature-item i,
+.additional-features .feature-item i {
+  font-size: 1.5em;
+  color: #333;
+  margin-right: 5px;
+}
+
+.additional-features hr {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.property-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.property-actions button {
+  flex: 1;
+  margin: 0 10px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.property-actions button i {
+  font-size: 1.2em;
 }
 
 /* Thumbnail carousel styles */
@@ -949,33 +1028,79 @@ footer p {
   .useful-resources-section,
   .housing-section {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .before-moving-section::after,
+  .useful-resources-section::after,
+  .housing-section::after {
+    content: '';
+    display: block;
+    width: 80%;
+    border-bottom: 1px solid #ccc;
+    margin: 20px 0;
   }
 
   .boxes-container {
     gap: 10px;
-    justify-content: space-between;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .box {
     padding: 15px;
-    width: calc(33.333% - 10px);
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
   }
 
-  .box img {
-    max-height: 100px;
-  }
-
+  .box img,
   .box h3 {
-    font-size: 1em;
+    display: none;
   }
 
   .box p {
     font-size: 0.9em;
+    margin: 0;
+    display: block;
+    text-align: left;
+    padding-right: 10px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .box button {
     font-size: 0.9em;
     padding: 8px 15px;
+    width: auto;
+    box-sizing: border-box;
+    align-self: center;
+    flex: 1;
+  }
+
+  .box button {
+    flex: none;
+    width: auto;
+    display: inline-block;
+  }
+
+  h2 {
+    text-align: center;
+    width: 100%;
   }
 }
 
@@ -1018,7 +1143,7 @@ footer p {
 
   .search-bar {
     display: flex;
-    align-items: center; /* Ensure both input and button align vertically */
+    align-items: center;
     width: 100%;
   }
 
@@ -1032,7 +1157,7 @@ footer p {
   .search-bar button {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center content horizontally */
+    justify-content: center;
     padding: 10px 15px;
     font-size: 16px;
     border-radius: 0 5px 5px 0;
@@ -1044,25 +1169,44 @@ footer p {
     margin-left: 0;
   }
 
-  main .search-container {
+  .banner-container {
+    height: 300px;
     position: relative;
-    display: inline-block;
-    max-width: 70%;
-    background-color: #27366d;
-    color: #fff;
-    padding: 20px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  .banner-image {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    height: 250px;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    object-position: center;
+  }
+
+  main .search-container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 75px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     text-align: center;
-    margin-top: -75%;
     z-index: 1;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   main .search-container h2 {
     font-size: 16px;
     font-weight: bold;
-    margin: 10px 0 -15px 0;
+    margin-top: 110px;
+    color: black;
   }
 
   .search-container h3 {
@@ -1079,6 +1223,7 @@ footer p {
 
   #home-search-form {
     width: 100%;
+    margin-top: 120px;
   }
 
   #home-search-form .search-bar {
@@ -1091,7 +1236,7 @@ footer p {
   #rent-button, #buy-button {
     display: inline-block;
     vertical-align: middle;
-    padding: 15px;
+    padding: 5px;
     font-size: 18px;
     background-color: #007bff;
     color: white;
@@ -1101,6 +1246,8 @@ footer p {
     text-align: center;
     width: 48%;
     margin: 1%;
+    margin-top: -220px;
+    height: 40px;
   }
 
   #home-search-input {

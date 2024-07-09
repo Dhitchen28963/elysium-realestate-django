@@ -32,31 +32,51 @@
       {% endfor %}
     </div>
 
-    <div class="property-info">
-      <h1>{{ property.title }}</h1>
-      <div>{{ property.description|safe }}</div>
-      <p>Price: £{{ property.price }}</p>
-      <p>Location: {{ property.location }}</p>
-      <p>Bedrooms: {{ property.bedrooms }}</p>
-      <p>Bathrooms: {{ property.bathrooms }}</p>
-      <p>Furnished: {{ property.get_furnished_type_display }}</p>
-      <p>Garden: {{ property.garden|yesno:"Yes,No" }}</p>
-      <p>Parking: {{ property.parking|yesno:"Yes,No" }}</p>
-      <p>Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</p>
-    </div>
-    <div class="property-actions">
-      <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
-        {% if property.is_favorite %}
-          <i class="fa-solid fa-star"></i> Saved
-        {% else %}
-          <i class="fa-regular fa-star"></i> Save
-        {% endif %}
-      </button>
-      <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
-        <i class="fa fa-calendar" aria-hidden="true"></i> Viewing
-      </button>
-    </div>
-  </div>
+    <div class="property-detail">
+      <div class="property-info">
+        <h1>{{ property.title }}</h1>
+        <p class="property-location">Location: {{ property.location }}</p>
+        <p class="property-price">Price: £{{ property.price }}</p>
+        <hr>
+        <div class="property-features">
+          <span class="feature-item">
+            <i class="fa-solid fa-house"></i> Property Type: {{ property.get_property_type_display }}
+          </span>
+          <span class="feature-item">
+            <i class="fa-solid fa-bed"></i> Bedrooms: {{ property.bedrooms }}
+          </span>
+          <span class="feature-item">
+            <i class="fa-solid fa-bath"></i> Bathrooms: {{ property.bathrooms }}
+          </span>
+        </div>
+        <hr>
+        <div class="additional-features">
+          <span class="feature-item">
+            <i class="fa-solid fa-seedling"></i> Garden: {{ property.garden|yesno:"Yes,No" }}
+          </span>
+          <span class="feature-item">
+            <i class="fa-solid fa-car"></i> Parking: {{ property.parking|yesno:"Yes,No" }}
+          </span>
+          <span class="feature-item">
+            <i class="fa-solid fa-paw"></i> Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}
+          </span>
+        </div>
+        <hr>
+        <div>{{ property.description|safe }}</div>
+      </div>
+      <div class="property-actions">
+        <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+          {% if property.is_favorite %}
+            <i class="fa-solid fa-star"></i> Saved
+          {% else %}
+            <i class="fa-regular fa-star"></i> Save
+          {% endif %}
+        </button>
+        <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+          <i class="fa fa-calendar" aria-hidden="true"></i> Viewing
+        </button>
+      </div>
+    </div>    
 </main>
 
 <!-- Modal for scheduling a viewing -->
