@@ -384,6 +384,11 @@ img {
   width: 80%;
 }
 
+#messageModal {
+  z-index: 9999;
+  margin-top: 150px;
+}
+
 .user-icon-container {
   display: none;
   position: absolute;

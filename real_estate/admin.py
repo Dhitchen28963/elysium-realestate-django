@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment, PropertyMessage, SavedSearch, PropertyAlert
+from .models import Property, PropertyImage, ViewingSlot, FavoriteProperty, ViewingAppointment
 from django_summernote.admin import SummernoteModelAdmin
 
 class PropertyImageInline(admin.TabularInline):
@@ -14,16 +14,6 @@ class PropertyAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('description',)
     inlines = [PropertyImageInline]
-
-@admin.register(SavedSearch)
-class SavedSearchAdmin(admin.ModelAdmin):
-    list_display = ('user', 'search_name', 'location', 'property_type', 'bedrooms_min', 'bedrooms_max', 'price_min', 'price_max', 'furnished_type', 'created_at')
-    search_fields = ('user__username', 'search_name', 'location', 'property_type')
-
-@admin.register(PropertyAlert)
-class PropertyAlertAdmin(admin.ModelAdmin):
-    list_display = ('user', 'property', 'created_at', 'seen')
-    search_fields = ('user__username', 'property__title')
 
 @admin.register(ViewingSlot)
 class ViewingSlotAdmin(admin.ModelAdmin):
@@ -69,19 +59,3 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     def reject_viewing(self, request, queryset):
         queryset.update(viewing_decision='rejected')
     reject_viewing.short_description = "Reject selected viewing requests"
-
-@admin.register(PropertyMessage)
-class PropertyMessageAdmin(admin.ModelAdmin):
-    list_display = ('get_property_title', 'get_user_username', 'name', 'email', 'message', 'created_on')
-    list_filter = ('property', 'created_on')
-    search_fields = ('property__title', 'user__username', 'name', 'email', 'message')
-
-    def get_property_title(self, obj):
-        return obj.property.title
-    get_property_title.admin_order_field = 'property'
-    get_property_title.short_description = 'Property'
-
-    def get_user_username(self, obj):
-        return obj.user.username
-    get_user_username.admin_order_field = 'user'
-    get_user_username.short_description = 'User'

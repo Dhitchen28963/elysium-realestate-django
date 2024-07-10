@@ -103,18 +103,6 @@ class FavoriteProperty(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.property.title}"
 
-class PropertyMessage(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    agent = models.ForeignKey(User, related_name='agent_messages', on_delete=models.CASCADE, default=1)
-    name = models.CharField(max_length=255)
-    email = models.EmailField()
-    message = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Message from {self.name} about {self.property.title}"
-
 class ViewingSlot(models.Model):
     agent = models.ForeignKey(User, related_name='agent_slots', on_delete=models.CASCADE, default=1)
     date = models.DateField()
@@ -152,53 +140,6 @@ class ViewingAppointment(models.Model):
     def __str__(self):
         return f"Viewing Appointment for {self.property.title} by {self.name}"
 
-class SavedSearch(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    search_name = models.CharField(max_length=255)
-    location = models.CharField(max_length=100, blank=True, null=True)
-    property_type = models.CharField(max_length=20, choices=Property.PROPERTY_TYPE_CHOICES, blank=True, null=True)
-    bedrooms_min = models.PositiveIntegerField(blank=True, null=True)
-    bedrooms_max = models.PositiveIntegerField(blank=True, null=True)
-    bathrooms_min = models.PositiveIntegerField(blank=True, null=True)
-    bathrooms_max = models.PositiveIntegerField(blank=True, null=True)
-    price_min = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    price_max = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    garden = models.BooleanField(default=False)
-    parking = models.BooleanField(default=False)
-    pets_allowed = models.BooleanField(default=False)
-    furnished_type = models.CharField(max_length=20, choices=FURNISHED_TYPES, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.search_name}"
-
-class PropertyAlert(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    seen = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Alert for {self.user.username} - {self.property.title}"
-
-@receiver(post_save, sender=Property)
-def create_property_alert(sender, instance, created, **kwargs):
-    if created:
-        saved_searches = SavedSearch.objects.filter(
-            location__icontains=instance.location,
-            property_type=instance.property_type,
-            bedrooms_min__lte=instance.bedrooms,
-            bedrooms_max__gte=instance.bedrooms,
-            price_min__lte=instance.price,
-            price_max__gte=instance.price,
-            garden=instance.garden,
-            parking=instance.parking,
-            pets_allowed=instance.pets_allowed,
-            furnished_type=instance.furnished_type
-        )
-        for search in saved_searches:
-            PropertyAlert.objects.create(user=search.user, property=instance)
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -208,10 +149,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='messages')
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)

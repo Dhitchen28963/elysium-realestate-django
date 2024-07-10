@@ -1,18 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
 from django.http import JsonResponse
-from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView
-from .forms import PropertySearchForm, ViewingAppointmentForm, SavedSearchForm, ProfileUpdateForm, ChangePasswordForm, DeleteAccountForm
-from .models import Property, FavoriteProperty, PropertyMessage, ViewingSlot, ViewingAppointment, SavedSearch, PropertyAlert, Profile
+from .forms import PropertySearchForm, ViewingAppointmentForm, ProfileUpdateForm, ChangePasswordForm, DeleteAccountForm
+from .models import Property, FavoriteProperty, ViewingSlot, ViewingAppointment, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 import requests
-from real_estate.email_utils import send_email_via_emailjs
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def paginate_properties(request, properties, per_page=20):
@@ -25,41 +22,6 @@ def paginate_properties(request, properties, per_page=20):
     except EmptyPage:
         properties = paginator.page(paginator.num_pages)
     return properties, paginator
-
-@login_required
-def send_message(request, property_id):
-    property = get_object_or_404(Property, id=property_id)
-    
-    if request.method == 'POST':
-        message_content = request.POST.get('message')
-        if message_content:
-            to_email = property.agent.email 
-            subject = f'Inquiry about {property.title}'
-            to_name = property.agent.get_full_name()
-            from_name = request.user.get_full_name()
-            from_email = request.user.email
-            property_title = property.title
-            
-            status_code, response_text = send_email_via_emailjs(
-                to_email=to_email,
-                subject=subject,
-                message=message_content,
-                to_name=to_name,
-                from_name=from_name,
-                from_email=from_email,
-                property_title=property_title
-            )
-            
-            if status_code == 200:
-                messages.success(request, 'Your message has been sent successfully!')
-            else:
-                messages.error(request, f'Error sending message: {response_text}')
-            
-            return redirect('property_detail', slug=property.slug)
-        else:
-            messages.error(request, 'Please enter a message.')
-
-    return render(request, 'real_estate/send_message.html', {'property': property})
 
 @login_required
 def request_custom_viewing(request, property_id):
@@ -190,26 +152,6 @@ def property_detail(request, slug):
     return render(request, 'real_estate/property_detail.html', context)
 
 @login_required
-def contact_agent(request, property_id):
-    if request.method == 'POST':
-        property = get_object_or_404(Property, id=property_id)
-        agent = property.agent
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message_text = request.POST.get('message')
-        
-        PropertyMessage.objects.create(
-            property=property,
-            user=request.user,
-            agent=agent,
-            name=name,
-            email=email,
-            message=message_text
-        )
-        return JsonResponse({'status': 'message sent'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-@login_required
 def add_to_favorites(request, property_id):
     if request.method == 'POST':
         property = get_object_or_404(Property, id=property_id)
@@ -241,37 +183,6 @@ def remove_from_favorites(request, property_id):
     return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
-def contact_property(request, property_id):
-    if request.method == 'POST':
-        property = get_object_or_404(Property, id=property_id)
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        PropertyMessage.objects.create(
-            property=property,
-            user=request.user,
-            name=name,
-            email=email,
-            message=message
-        )
-        return JsonResponse({'status': 'message sent'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-@login_required
-def view_messages(request):
-    messages = PropertyMessage.objects.filter(user=request.user)
-    return render(request, 'real_estate/view_messages.html', {'messages': messages})
-
-@login_required
-def delete_message(request, message_id):
-    message = get_object_or_404(PropertyMessage, id=message_id, user=request.user)
-    if request.method == 'POST':
-        message.delete()
-        django_messages.success(request, 'Message deleted successfully.')
-        return redirect('view_messages')
-    return render(request, 'real_estate/delete_message.html', {'message': message})
-
-@login_required
 def schedule_viewing(request, slot_id):
     if request.method == 'POST':
         slot = get_object_or_404(ViewingSlot, id=slot_id, is_booked=False)
@@ -293,63 +204,32 @@ def view_property_slots(request, property_id):
 
 @login_required
 def view_pending_viewings(request):
-    pending_viewings = ViewingAppointment.objects.filter(user=request.user, is_scheduled=False)
-    return render(request, 'real_estate/pending_viewings.html', {'pending_viewings': pending_viewings})
-
-@login_required
-def view_scheduled_viewings(request):
-    scheduled_viewings = ViewingAppointment.objects.filter(user=request.user, viewing_decision='accepted')
+    viewings = ViewingAppointment.objects.filter(user=request.user)
     context = {
-        'scheduled_viewings': scheduled_viewings
+        'viewings': viewings
     }
-    return render(request, 'real_estate/scheduled_viewings.html', context)
+    return render(request, 'real_estate/pending_viewings.html', context)
 
 @login_required
-def save_search(request):
+def update_viewing(request, viewing_id):
+    viewing = get_object_or_404(ViewingAppointment, id=viewing_id, user=request.user)
     if request.method == 'POST':
-        form = SavedSearchForm(request.POST)
+        form = ViewingAppointmentForm(request.POST, instance=viewing)
         if form.is_valid():
-            saved_search = form.save(commit(False))
-            saved_search.user = request.user
-            saved_search.save()
-            return redirect('view_saved_searches')
+            form.save()
+            messages.success(request, 'Viewing updated successfully!')
+            return redirect('view_pending_viewings')
     else:
-        form = SavedSearchForm()
-    return render(request, 'real_estate/save_search.html', {'form': form})
+        form = ViewingAppointmentForm(instance=viewing)
+    return render(request, 'real_estate/update_viewing.html', {'form': form})
 
 @login_required
-def delete_saved_search(request, search_id):
-    search = get_object_or_404(SavedSearch, id=search_id, user=request.user)
+def delete_viewing(request, viewing_id):
     if request.method == 'POST':
-        search.delete()
-        return redirect('view_saved_searches')
-    return render(request, 'real_estate/delete_saved_search.html', {'search': search})
-
-@login_required
-def view_saved_searches(request):
-    saved_searches = SavedSearch.objects.filter(user=request.user)
-    return render(request, 'real_estate/saved_searches.html', {'saved_searches': saved_searches})
-
-@login_required
-def view_property_alerts(request):
-    alerts = PropertyAlert.objects.filter(user=request.user, seen=False)
-    return render(request, 'real_estate/property_alerts.html', {'alerts': alerts})
-
-def create_property_alert(property):
-    saved_searches = SavedSearch.objects.filter(
-        location__icontains=property.location,
-        property_type=property.property_type,
-        bedrooms_min__lte=property.bedrooms,
-        bedrooms_max__gte=property.bedrooms,
-        price_min__lte=property.price,
-        price_max__gte=property.price,
-        garden=property.garden,
-        parking=property.parking,
-        pets_allowed=property.pets_allowed,
-        furnished_type=property.furnished_type
-    )
-    for search in saved_searches:
-        PropertyAlert.objects.create(user=search.user, property=property)
+        viewing = get_object_or_404(ViewingAppointment, id=viewing_id, user=request.user)
+        viewing.delete()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
 def account_settings(request):

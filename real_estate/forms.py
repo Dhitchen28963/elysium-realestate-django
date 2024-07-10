@@ -1,7 +1,8 @@
 from django import forms
-from .models import Property, ViewingAppointment, SavedSearch, Profile
+from .models import Property, ViewingAppointment, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from datetime import date
 
 class PropertySearchForm(forms.Form):
     search = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter location'}))
@@ -20,30 +21,11 @@ class ViewingAppointmentForm(forms.ModelForm):
         model = ViewingAppointment
         fields = ['name', 'contact', 'email', 'preferred_date', 'preferred_time', 'message']
 
-class SavedSearchForm(forms.ModelForm):
-    class Meta:
-        model = SavedSearch
-        fields = [
-            'search_name', 'location', 'property_type', 'bedrooms_min', 'bedrooms_max',
-            'bathrooms_min', 'bathrooms_max', 'price_min', 'price_max', 'garden', 'parking',
-            'pets_allowed', 'furnished_type'
-        ]
-        widgets = {
-            'property_type': forms.Select(choices=[
-                ('detached-houses', 'Detached houses'),
-                ('semi-detached-houses', 'Semi-detached houses'),
-                ('terraced-houses', 'Terraced houses'),
-                ('mobile-park-homes', 'Mobile / Park homes'),
-                ('boats', 'Boats'),
-                ('flats-apartments', 'Flats / Apartments'),
-                ('bungalows', 'Bungalows'),
-                ('land', 'Land'),
-                ('commercial-property', 'Commercial Property'),
-                ('hmo', 'HMO\'s')
-            ]),
-            'price_min': forms.NumberInput(),
-            'price_max': forms.NumberInput(),
-        }
+    def clean_preferred_date(self):
+        preferred_date = self.cleaned_data['preferred_date']
+        if preferred_date < date.today():
+            raise forms.ValidationError("You cannot select a past date for viewing.")
+        return preferred_date
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:

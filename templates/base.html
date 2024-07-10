@@ -93,8 +93,7 @@
         <p class="sidebar-username">{{ user.username }}</p>
         <ul class="sidebar-menu">
             <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;"></i> Saved Properties</a></li>
-            <li><a href="{% url 'view_messages' %}"><i class="fa-regular fa-message"></i> Messages</a></li>
-            <li><a href="{% url 'view_property_alerts' %}"><i class="fa-solid fa-bell"></i> Property Alerts</a></li>
+            <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;"></i> View Pending Viewings</a></li>
         </ul>
         <hr>
         <ul class="sidebar-menu">
@@ -202,17 +201,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Messages -->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
 
     <!-- Modal for messages -->
     <div id="messageModal" class="modal">

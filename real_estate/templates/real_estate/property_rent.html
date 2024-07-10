@@ -90,11 +90,6 @@
                 {% endif %}
               </button>
             </form>
-            <form method="get" action="{% url 'real_estate_send_message' property.id %}">
-              <button type="submit" class="message-icon">
-                <i class="fa-solid fa-envelope"></i> Contact
-              </button>
-            </form>
             <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
               <i class="fa-solid fa-calendar-alt"></i> Viewing
             </button>

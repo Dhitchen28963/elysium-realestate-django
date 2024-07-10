@@ -35,6 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // Function to validate the date
+    function validateDate() {
+        const preferredDateInput = document.getElementById('preferred_date');
+        const currentDate = new Date();
+        const selectedDate = new Date(preferredDateInput.value);
+
+        if (isNaN(selectedDate.getTime())) {
+            showModalMessage('Please enter a valid date.');
+            preferredDateInput.value = '';  // Clear invalid date
+            return false;
+        }
+
+        if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
+            showModalMessage('You cannot select a past date. Please choose a valid date.');
+            preferredDateInput.value = '';  // Clear past date
+            return false;
+        }
+
+        return true;
+    }
+
     // Toggle favorite status
     async function toggleFavorite(propertyId, isFavorite, app) {
         const url = isFavorite ?
@@ -138,8 +159,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
 
+        if (!validateDate()) {
+            return;
+        }
+
         try {
-            const response = await fetch(`/real_estate/request_custom_viewing/${propertyId}/`, {
+            const url = `/real_estate/request_custom_viewing/${propertyId}/`;
+            const response = await fetch(url, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -166,29 +192,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Contact agent
-    function contactAgent(propertyId, app) {
-        const contactForm = document.getElementById('contact-form');
-        const formData = new FormData(contactForm);
-
-        fetch(contactForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCSRFToken()
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'message sent') {
-                showModalMessage('Message sent to the agent!');
-            } else {
-                showModalMessage('Error sending message.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showModalMessage('An error occurred. Please try again.');
+    // Event listener for custom viewing request
+    const customViewingForm = document.getElementById('custom-viewing-form');
+    if (customViewingForm) {
+        customViewingForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const propertyId = customViewingForm.getAttribute('data-property-id');
+            requestCustomViewing(propertyId);
         });
     }
 
@@ -216,27 +226,6 @@ document.addEventListener('DOMContentLoaded', function () {
             removeFromFavorites(propertyId, app);
         });
     });
-
-    // Event listener for custom viewing request
-    const customViewingForm = document.getElementById('custom-viewing-form');
-    if (customViewingForm) {
-        customViewingForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const propertyId = customViewingForm.getAttribute('data-property-id');
-            requestCustomViewing(propertyId);
-        });
-    }
-
-    // Event listener for contact form submission
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const propertyId = contactForm.getAttribute('data-property-id');
-            const app = contactForm.getAttribute('data-app');
-            contactAgent(propertyId, app);
-        });
-    }
 
     // Event listener for favorites star button
     const favoritesStarButtons = document.querySelectorAll('.favorites-star');
@@ -326,43 +315,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Additional custom viewing request handling
-    const form = document.getElementById('custom-viewing-form');
-    if (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+const form = document.getElementById('custom-viewing-form');
+if (form) {
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            const propertyId = form.getAttribute('data-property-id');
-            const url = `/request-custom-viewing/${propertyId}/`;
-            const formData = new FormData(form);
+        if (!validateDate()) {
+            return;  // Prevent form submission if date is invalid
+        }
 
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': getCSRFToken()
-                },
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'ok') {
-                    showModalMessage('Viewing request sent successfully.');
-                    const modal = document.getElementById("viewingModal");
-                    modal.style.display = "none";
-                } else {
-                    showModalMessage('Error sending viewing request: ' + JSON.stringify(data.errors));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showModalMessage('An error occurred. Please try again.');
-            });
+        const propertyId = form.getAttribute('data-property-id');
+        const url = `/request-custom-viewing/${propertyId}/`;
+        const formData = new FormData(form);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'ok') {
+                showModalMessage('Viewing request sent successfully.');
+                const modal = document.getElementById("viewingModal");
+                modal.style.display = "none";
+            } else {
+                showModalMessage('Error sending viewing request: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModalMessage('An error occurred. Please try again.');
         });
-    }
+    });
+}
 
     // Toggle Filters
     const toggleButton = document.getElementById('toggle-filters');
@@ -529,4 +522,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateCarousel();
     setActiveThumbnail(currentIndex);
+
+    // Delete Confirmation Modal for Pending Viewings
+    const deleteModal = document.getElementById('deleteModal');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    let viewingIdToDelete = null;
+
+    document.querySelectorAll('.delete-viewing-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            viewingIdToDelete = this.getAttribute('data-viewing-id');
+            deleteModal.style.display = 'block';
+        });
+    });
+
+    document.querySelector('.close').addEventListener('click', function () {
+        deleteModal.style.display = 'none';
+    });
+
+    document.getElementById('cancelDelete').addEventListener('click', function () {
+        deleteModal.style.display = 'none';
+    });
+
+    confirmDeleteBtn.addEventListener('click', function () {
+        if (viewingIdToDelete) {
+            fetch(`/real_estate/delete_viewing/${viewingIdToDelete}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'ok') {
+                    showModalMessage('Viewing request deleted successfully.');
+                    location.reload();
+                } else {
+                    showModalMessage('Error deleting viewing request.');
+                }
+                deleteModal.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showModalMessage('An error occurred. Please try again.');
+            });
+        }
+    });
+
+    // Event listener for validating date
+    const preferredDateInput = document.getElementById('preferred_date');
+    if (preferredDateInput) {
+        preferredDateInput.addEventListener('change', validateDate);
+    }
 });
