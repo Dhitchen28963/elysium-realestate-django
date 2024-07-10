@@ -55,13 +55,6 @@
     </form>
   </div>
 
-  <!-- Save search -->
-  <form method="post" action="{% url 'save_search' %}">
-    {% csrf_token %}
-    {{ save_search_form.as_p }}
-    <button type="submit">Save Search</button>
-  </form>
-
   {% if request.GET.search %}
       {% if properties %}
       <div class="property-list" data-app="real_estate">
