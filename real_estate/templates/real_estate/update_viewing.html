@@ -2,9 +2,23 @@
 
 {% block content %}
 <h1>Update Viewing</h1>
-<form method="post">
+<form method="post" id="update-viewing-form" action="{% url 'update_viewing' viewing_id=viewing.id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Update</button>
 </form>
+
+<!-- Modal -->
+<div id="messageModal" style="display:none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div id="success-message" style="display: none;">{{ message }}</div>
+    {% endfor %}
+{% endif %}
 {% endblock %}

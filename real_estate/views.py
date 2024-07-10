@@ -221,7 +221,7 @@ def update_viewing(request, viewing_id):
             return redirect('view_pending_viewings')
     else:
         form = ViewingAppointmentForm(instance=viewing)
-    return render(request, 'real_estate/update_viewing.html', {'form': form})
+    return render(request, 'real_estate/update_viewing.html', {'form': form, 'viewing': viewing})
 
 @login_required
 def delete_viewing(request, viewing_id):

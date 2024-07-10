@@ -35,6 +35,14 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // Function to clear previous modal messages
+    function clearModalMessages() {
+        const modal = document.getElementById('messageModal');
+        const modalMessage = document.getElementById('modalMessage');
+        modalMessage.textContent = '';
+        modal.style.display = 'none';
+    }
+
     // Function to validate the date
     function validateDate() {
         const preferredDateInput = document.getElementById('preferred_date');
@@ -154,15 +162,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Request custom viewing
     async function requestCustomViewing(propertyId) {
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
-
+    
         if (!validateDate()) {
             return;
         }
-
+    
         try {
             const url = `/real_estate/request_custom_viewing/${propertyId}/`;
             const response = await fetch(url, {
@@ -172,31 +179,33 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRFToken': getCSRFToken()
                 },
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const data = await response.json();
-
+    
             if (data.status === 'ok') {
                 showModalMessage('Viewing request sent to the agent!');
-                const modal = document.getElementById("viewingModal");
-                modal.style.display = "none";
             } else {
-                showModalMessage('Error sending viewing request: ' + JSON.stringify(data.errors));
+                throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
             }
         } catch (error) {
             console.error('Error:', error);
-            showModalMessage('An error occurred. Please try again.');
+            showModalMessage('An error occurred while sending the viewing request. Please try again.');
+        } finally {
+            const modal = document.getElementById("viewingModal");
+            modal.style.display = "none";
         }
-    }
+    }    
 
     // Event listener for custom viewing request
     const customViewingForm = document.getElementById('custom-viewing-form');
     if (customViewingForm) {
         customViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
+            clearModalMessages();  // Clear previous messages
             const propertyId = customViewingForm.getAttribute('data-property-id');
             requestCustomViewing(propertyId);
         });
@@ -313,49 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (closeSidebarButton) {
         closeSidebarButton.addEventListener('click', closeSidebar);
     }
-
-    // Additional custom viewing request handling
-const form = document.getElementById('custom-viewing-form');
-if (form) {
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        if (!validateDate()) {
-            return;  // Prevent form submission if date is invalid
-        }
-
-        const propertyId = form.getAttribute('data-property-id');
-        const url = `/request-custom-viewing/${propertyId}/`;
-        const formData = new FormData(form);
-
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCSRFToken()
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.status === 'ok') {
-                showModalMessage('Viewing request sent successfully.');
-                const modal = document.getElementById("viewingModal");
-                modal.style.display = "none";
-            } else {
-                showModalMessage('Error sending viewing request: ' + JSON.stringify(data.errors));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showModalMessage('An error occurred. Please try again.');
-        });
-    });
-}
 
     // Toggle Filters
     const toggleButton = document.getElementById('toggle-filters');
@@ -579,5 +545,46 @@ if (form) {
     const preferredDateInput = document.getElementById('preferred_date');
     if (preferredDateInput) {
         preferredDateInput.addEventListener('change', validateDate);
+    }
+
+    // Event listener for updating viewing
+    const updateViewingForm = document.getElementById('update-viewing-form');
+    if (updateViewingForm) {
+        updateViewingForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            clearModalMessages();  // Clear previous messages
+
+            if (!validateDate()) {
+                return;  // Prevent form submission if date is invalid
+            }
+
+            const url = updateViewingForm.getAttribute('action');
+            const formData = new FormData(updateViewingForm);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'ok') {
+                    showModalMessage('Viewing updated successfully!');
+                } else {
+                    showModalMessage('Error updating viewing: ' + JSON.stringify(data.errors));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showModalMessage('An error occurred. Please try again.');
+            });
+        });
     }
 });
