@@ -72,7 +72,17 @@
                 <p>No images available</p>
               {% endif %}
             </div>
-            <p class="property-price">£{{ property.price }}</p>
+            <div class="property-price">
+              £{{ property.price }}
+              <div class="property-features">
+                <span class="feature-item"><i class="fa-solid fa-house"></i> Property Type: {{ property.get_property_type_display }}</span>
+                <span class="feature-item"><i class="fa fa-bed"></i> Bedrooms</span>
+                <span class="feature-item"><i class="fa fa-bath"></i> Bathrooms</span>
+                <span class="feature-item"><i class="fa fa-tree"></i> Garden</span>
+                <span class="feature-item"><i class="fa fa-car"></i> Parking</span>
+                <span class="feature-item"><i class="fa fa-paw"></i> Pets Allowed</span>
+              </div>
+            </div>
           </div>
           <div class="property-description">
             <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
