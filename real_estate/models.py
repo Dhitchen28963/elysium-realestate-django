@@ -18,7 +18,8 @@ class Property(models.Model):
     TYPE_CHOICES = [
         ('sale', 'For Sale'),
         ('rent', 'For Rent'),
-        ('student', 'Student Accommodation')
+        ('student', 'Student Accommodation'),
+        ('land', 'Land'),
     ]
 
     PROPERTY_TYPE_CHOICES = [
@@ -37,7 +38,8 @@ class Property(models.Model):
     TRANSACTION_TYPES = [
         ('rent', 'Rent'),
         ('sale', 'Sale'),
-        ('student', 'Student Accommodation')
+        ('student', 'Student Accommodation'),
+        ('land', 'Land'),
     ]
 
     PUBLICATION_STATUS_CHOICES = [

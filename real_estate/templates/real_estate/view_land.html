@@ -1,8 +1,113 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Land{% endblock %}
 
+{% block banner %}
+    {% if user.is_authenticated %}
+        <div class="banner-container">
+            <div class="banner-content">
+                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+                <div class="welcome-box">
+                    <p>Welcome back, {{ user.username }}!</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block land_text %}
+<div class="page-specific-text">
+    <h2>Find Your Ideal Land with Us.</h2>
+    <p>Explore a wide range of available land for sale. Whether you're looking for a large plot for development or a smaller piece for personal use, we have options to suit every need and budget.</p>
+</div>
+{% endblock %}
+
 {% block content %}
-<h1>Explore Available Land for Sale</h1>
-<p>Here you can find information about available land for sale.</p>
+<main>
+  <div class="search-container">
+    <h2>Land for Sale</h2>
+    <h3>Search using 'town name' or 'location'</h3>
+    <form method="get" action="{% url 'view_land' %}">
+      <div class="search-bar">
+        <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value|default_if_none:''|default:'' }}">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </form>
+  </div>
+
+  {% if request.GET.search %}
+      {% if properties %}
+      <div class="property-list" data-app="real_estate">
+        {% for property in properties %}
+        <div class="property-box">
+          <div class="property-image">
+            <div class="scrollable-images">
+              {% if property.property_images.exists %}
+                <div class="image-container">
+                  {% for image in property.property_images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ property.title }}">
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p>No images available</p>
+              {% endif %}
+            </div>
+            <div class="property-price">
+              £{{ property.price }}
+              <div class="property-features">
+                <span class="feature-item"><i class="fa-solid fa-house"></i> Property Type: {{ property.get_property_type_display }}</span>
+                <span class="feature-item"><i class="fa fa-bed"></i> Bedrooms</span>
+                <span class="feature-item"><i class="fa fa-bath"></i> Bathrooms</span>
+                <span class="feature-item"><i class="fa fa-tree"></i> Garden</span>
+                <span class="feature-item"><i class="fa fa-car"></i> Parking</span>
+                <span class="feature-item"><i class="fa fa-paw"></i> Pets Allowed</span>
+              </div>
+            </div>
+          </div>
+          <div class="property-description">
+            <h2><a href="{% url 'property_detail' slug=property.slug %}">{{ property.title }}</a></h2>
+            <p>Location: {{ property.location }}</p>
+            <div>{{ property.description|safe }}</div>
+          </div>
+          <div class="property-buttons">
+            <form method="post" action="{% url 'add_to_favorites' property.id %}">
+              {% csrf_token %}
+              <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+                {% if property.is_favorite %}
+                  <i class="fa-solid fa-star"></i> Saved
+                {% else %}
+                  <i class="fa-regular fa-star"></i> Save
+                {% endif %}
+              </button>
+            </form>
+            <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+              <i class="fa-solid fa-calendar-alt"></i> Viewing
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="no-properties-found">No land available for sale at the moment. Please use the search bar above to find properties.</p>
+      {% endif %}
+  {% endif %}
+</main>
+{% endblock %}
+
+<!-- Pagination Section -->
+{% block pagination %}
+<section class="pagination-section">
+  {% if properties.has_previous %}
+    <a href="?page=1">First</a>
+    <a href="?page={{ properties.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span class="current">Page {{ properties.number }} of {{ properties.paginator.num_pages }}</span>
+
+  {% if properties.has_next %}
+    <a href="?page={{ properties.next_page_number }}">Next</a>
+    <a href="?page={{ properties.paginator.num_pages }}">Last</a>
+  {% endif %}
+</section>
 {% endblock %}

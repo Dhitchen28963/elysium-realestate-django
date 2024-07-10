@@ -142,6 +142,25 @@ def property_student(request):
         'is_paginated': paginator.num_pages > 1,
     }
     return render(request, 'real_estate/student_property.html', context)
+    
+def view_land(request):
+    form = PropertySearchForm(request.GET)
+    properties = Property.objects.filter(transaction_type='land', publication_status='published')
+
+    if form.is_valid() and any(form.cleaned_data.values()):
+        properties = filter_properties(form, properties)
+    else:
+        properties = Property.objects.none()
+
+    properties, paginator = paginate_properties(request, properties)
+
+    context = {
+        'form': form,
+        'properties': properties,
+        'paginator': paginator,
+        'is_paginated': paginator.num_pages > 1,
+    }
+    return render(request, 'real_estate/view_land.html', context)
 
 def property_detail(request, slug):
     property = get_object_or_404(Property, slug=slug)
@@ -274,9 +293,6 @@ def account_settings(request):
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
 
-class MessagesView(TemplateView):
-    template_name = 'real_estate/messages.html'
-
 def valuation(request):
     return render(request, 'real_estate/valuation.html')
 
@@ -297,9 +313,6 @@ def testimonials_list(request):
 
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')
-
-def view_land(request):
-    return render(request, 'real_estate/view_land.html')
 
 def repairs(request):
     return render(request, 'real_estate/repairs.html')
