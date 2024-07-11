@@ -3,35 +3,47 @@
 {% block title %}{{ faq.title }}{% endblock %}
 
 {% block content %}
-<h1>{{ faq.title }}</h1>
-{% if faq.featured_image %}
-    <p>Image URL: {{ faq.featured_image.url }}</p>
-    <img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
-{% else %}
-    <p>No Image Available</p>
-{% endif %}
-<div class="image-container">
-    {% for image in faq.additional_images.all %}
-        <img src="{{ image.image.url }}" alt="Additional image for {{ faq.title }}">
-    {% endfor %}
+<div id="faq-detail" class="container">
+    <h1>{{ faq.title }}</h1>
+    <div class="post-header">
+        {% if faq.featured_image %}
+            <p>Image URL: {{ faq.featured_image.url }}</p>
+            <img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
+        {% else %}
+            <p>No Image Available</p>
+        {% endif %}
+    </div>
+    <div class="image-container">
+        {% for image in faq.additional_images.all %}
+            <img src="{{ image.image.url }}" alt="Additional image for {{ faq.title }}">
+        {% endfor %}
+    </div>
+    <div class="post-meta">
+        <p><strong>Author:</strong> {{ faq.author }}</p>
+        <p><strong>Published on:</strong> {{ faq.created_on }}</p>
+    </div>
+    <div class="post-content">
+        <p>{{ faq.content }}</p>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <p><strong>{{ comment.author.username }}</strong> said:</p>
+                    <p>{{ comment.body }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="comment-form">
+        <h2>Leave a Comment</h2>
+        <form id="commentForm" method="post" action=".">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" id="submitButton">Submit</button>
+        </form>
+    </div>
+    <a href="{% url 'faq_list' %}" class="back-to-list">Back to FAQ List</a>
 </div>
-<p>{{ faq.content|safe }}</p>
-<p><strong>Author:</strong> {{ faq.author }}</p>
-<p><strong>Published on:</strong> {{ faq.created_on }}</p>
-<h2>Comments</h2>
-<ul>
-    {% for comment in comments %}
-        <li>
-            <p><strong>{{ comment.author }}</strong> said:</p>
-            <p>{{ comment.body }}</p>
-        </li>
-    {% endfor %}
-</ul>
-<h2>Leave a Comment</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-<a href="{% url 'faq_list' %}">Back to FAQ List</a>
 {% endblock %}

@@ -30,7 +30,7 @@
         <ul>
             {% for comment in comments %}
                 <li>
-                    <p><strong>{{ comment.author }}</strong> said:</p>
+                    <p><strong>{{ comment.author.username }}</strong> said:</p>
                     <p>{{ comment.body }}</p>
                 </li>
             {% endfor %}
@@ -38,10 +38,10 @@
     </div>
     <div class="comment-form">
         <h2>Leave a Comment</h2>
-        <form method="post">
+        <form id="commentForm" method="post" action=".">
             {% csrf_token %}
             {{ comment_form.as_p }}
-            <button type="submit">Submit</button>
+            <button type="submit" id="submitButton">Submit</button>
         </form>
     </div>
     <a href="{% url 'blog_list' %}" class="back-to-list">Back to Blog List</a>

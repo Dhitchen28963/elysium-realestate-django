@@ -25,13 +25,13 @@ class FAQ(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(FAQ, on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=255)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='faq_comments')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'Comment by {self.author} on {self.post}'
+        return f'Comment by {self.author.username} on {self.post}'
 
 class FAQImage(models.Model):
     faq = models.ForeignKey(FAQ, on_delete=models.CASCADE, related_name='additional_images')
