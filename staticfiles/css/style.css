@@ -592,24 +592,24 @@ button:hover {
   flex-grow: 1;
 }
 
-/* Valuation and mortgage-calculator sections */
-.valuation-section, .mortgage-calculator-section {
+/* Mortgage-calculator sections */
+.mortgage-calculator-section {
   padding: 40px;
   text-align: center;
 }
 
-.valuation-section h1, .mortgage-calculator-section h1 {
+.mortgage-calculator-section h1 {
   font-size: 2.5em;
   color: #003366;
 }
 
-.valuation-section p, .mortgage-calculator-section p {
+.mortgage-calculator-section p {
   font-size: 1.2em;
   color: #666666;
   margin-bottom: 20px;
 }
 
-.valuation-section button, .mortgage-calculator-section button {
+.mortgage-calculator-section button {
   padding: 10px 20px;
   font-size: 1em;
   color: #2c3e50;
@@ -619,7 +619,7 @@ button:hover {
   cursor: pointer;
 }
 
-.valuation-section button:hover, .mortgage-calculator-section button:hover {
+.mortgage-calculator-section button:hover {
   background-color: #b3e5fc;
 }
 
@@ -804,6 +804,67 @@ button:hover {
   border-radius: 5px;
   background-color: #f0f0f0;
   display: inline-block;
+}
+
+/* Mortgage calculation styling */
+.mortgage-calculator-section {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.mortgage-calculator-steps .step {
+  display: none;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.mortgage-calculator-steps .step.active {
+  display: block;
+}
+
+.mortgage-calculator-steps input[type="number"],
+.mortgage-calculator-steps input[type="range"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.mortgage-calculator-steps button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mortgage-calculator-steps button:hover {
+  background-color: #0056b3;
+}
+
+.mortgage-calculator-steps #termValue {
+  display: block;
+  margin-top: 10px;
+}
+
+.mortgage-calculator-steps .result {
+  display: none;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.mortgage-calculator-steps .result.active {
+  display: block;
 }
 
 /* Footer styles */

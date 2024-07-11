@@ -588,3 +588,52 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// Mortgage calculation
+function nextStep(step) {
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step + 1}`).classList.add('active');
+}
+
+function prevStep(step) {
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step - 1}`).classList.add('active');
+}
+
+function updateTermValue(value) {
+    document.getElementById('termValue').innerText = `${value} years`;
+}
+
+function calculateMortgage() {
+    const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
+    const deposit = parseFloat(document.getElementById('deposit').value);
+    const term = parseInt(document.getElementById('term').value);
+    const interestRate = parseFloat(document.getElementById('interestRate').value);
+
+    const borrowAmount = propertyPrice - deposit; // Amount that can be borrowed
+    const monthlyInterestRate = (interestRate / 100) / 12;
+    const numberOfPayments = term * 12;
+    const principal = borrowAmount;
+
+    const monthlyRepayments = (principal * monthlyInterestRate) / (1 - Math.pow((1 + monthlyInterestRate), -numberOfPayments));
+    const totalRepayable = monthlyRepayments * numberOfPayments;
+    const totalInterest = totalRepayable - principal;
+
+    document.getElementById('resultPropertyPriceInput').innerText = propertyPrice.toFixed(2);
+    document.getElementById('resultDeposit').innerText = deposit.toFixed(2);
+    document.getElementById('resultTerm').innerText = term;
+    document.getElementById('resultInterestRate').innerText = interestRate.toFixed(2);
+    document.getElementById('resultBorrowAmount').innerText = borrowAmount.toFixed(2); // Amount that can be borrowed
+    document.getElementById('resultMonthlyRepayments').innerText = monthlyRepayments.toFixed(2);
+    document.getElementById('resultTotalInterest').innerText = totalInterest.toFixed(2);
+    document.getElementById('resultTotalRepayable').innerText = totalRepayable.toFixed(2);
+    document.getElementById('resultPropertyPrice').innerText = propertyPrice.toFixed(2);
+
+    document.getElementById('result').classList.add('active');
+}
+
+// Ensure these functions are accessible in the global scope
+window.nextStep = nextStep;
+window.prevStep = prevStep;
+window.updateTermValue = updateTermValue;
+window.calculateMortgage = calculateMortgage;

@@ -293,9 +293,6 @@ def account_settings(request):
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
 
-def valuation(request):
-    return render(request, 'real_estate/valuation.html')
-
 def mortgage_calculator(request):
     return render(request, 'real_estate/mortgage_calculator.html')
 

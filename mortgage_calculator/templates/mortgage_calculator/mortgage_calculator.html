@@ -7,7 +7,57 @@
     <div class="container">
         <h1>Mortgage Calculator</h1>
         <p>Check how much you can borrow without impacting your credit score.</p>
-        <button>Get a mortgage in principle</button>
+
+        <div class="mortgage-calculator-steps">
+            <!-- Step 1: Property Price -->
+            <div id="step1" class="step active">
+                <h2>Property Price (Step 1 of 4)</h2>
+                <label for="propertyPrice">Enter the property price:</label>
+                <input type="number" id="propertyPrice" required>
+                <button type="button" onclick="nextStep(1)">Next</button>
+            </div>
+
+            <!-- Step 2: Deposit -->
+            <div id="step2" class="step">
+                <h2>Deposit (Step 2 of 4)</h2>
+                <label for="deposit">How much is your deposit?</label>
+                <input type="number" id="deposit" required>
+                <button type="button" onclick="prevStep(2)">Previous</button>
+                <button type="button" onclick="nextStep(2)">Next</button>
+            </div>
+
+            <!-- Step 3: Mortgage Term -->
+            <div id="step3" class="step">
+                <h2>Mortgage Term (Step 3 of 4)</h2>
+                <label for="term">How long would you like your mortgage to be?</label>
+                <input type="range" id="term" min="1" max="40" value="25" oninput="updateTermValue(this.value)">
+                <span id="termValue">25 years</span>
+                <button type="button" onclick="prevStep(3)">Previous</button>
+                <button type="button" onclick="nextStep(3)">Next</button>
+            </div>
+
+            <!-- Step 4: Interest Rate -->
+            <div id="step4" class="step">
+                <h2>Interest Rate (Step 4 of 4)</h2>
+                <label for="interestRate">What interest rate would you like?</label>
+                <input type="number" step="0.01" id="interestRate" required>
+                <button type="button" onclick="prevStep(4)">Previous</button>
+                <button type="button" onclick="calculateMortgage()">Calculate</button>
+            </div>
+        </div>
+
+        <div id="result" class="result">
+            <h2>Mortgage Calculation Results</h2>
+            <p>Property Price: £<span id="resultPropertyPriceInput"></span></p>
+            <p>Deposit: £<span id="resultDeposit"></span></p>
+            <p>Mortgage Term: <span id="resultTerm"></span> years</p>
+            <p>Interest Rate: <span id="resultInterestRate"></span>%</p>
+            <h3>You could borrow up to: £<span id="resultBorrowAmount"></span></h3>
+            <h3>Monthly Repayment: £<span id="resultMonthlyRepayments"></span></h3>
+            <h3>Total Interest Repayable: £<span id="resultTotalInterest"></span></h3>
+            <h3>You could buy a home worth: £<span id="resultPropertyPrice"></span></h3>
+            <h3>Total you’ll repay over the term: £<span id="resultTotalRepayable"></span></h3>
+        </div>
     </div>
 </section>
 {% endblock %}

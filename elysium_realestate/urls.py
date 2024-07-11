@@ -29,6 +29,5 @@ urlpatterns = [
     path('testimonials/', include('testimonials.urls')),
     path('faq/', include('faq.urls')),
     path('blog/', include('blog.urls')),
-    path('valuation/', include('valuation.urls')),
     path('mortgage_calculator/', include('mortgage_calculator.urls')),
 ]

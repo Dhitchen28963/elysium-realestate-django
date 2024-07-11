@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'blog',
     'testimonials',
     'faq',
-    'valuation',
     'mortgage_calculator',
 ]
 

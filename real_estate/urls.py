@@ -18,7 +18,6 @@ urlpatterns = [
     path('delete_viewing/<int:viewing_id>/', views.delete_viewing, name='delete_viewing'),
     path('accept-appointment/<int:appointment_id>/', views.accept_appointment, name='accept_appointment'),
     path('account-settings/', views.account_settings, name='account_settings'),
-    path('valuation/', views.valuation, name='valuation'),
     path('mortgage_calculator/', views.mortgage_calculator, name='mortgage_calculator'),
     path('view-land/', views.view_land, name='view_land'),
     path('repairs/', views.repairs, name='repairs'),
