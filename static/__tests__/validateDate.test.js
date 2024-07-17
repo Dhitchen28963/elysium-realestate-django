@@ -1,4 +1,3 @@
-// Import the function to be tested
 const validateDate = require('../../static/js/functions/validateDate');
 
 // Mock showModalMessage to prevent actual DOM manipulation during testing

@@ -1,4 +1,3 @@
-// Import the function to be tested
 const requestCustomViewing = require('../../static/js/functions/requestCustomViewing');
 
 // Mock fetch API for testing purposes

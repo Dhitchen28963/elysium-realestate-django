@@ -1,4 +1,3 @@
-// static/js/functions/showModalMessage.js
 function showModalMessage(message) {
     const modalMessage = document.getElementById('modalMessage');
     const modal = document.getElementById('messageModal');

@@ -1,4 +1,3 @@
-// static/__tests__/showModalMessage.test.js
 const showModalMessage = require('../js/functions/showModalMessage');
 
 describe('showModalMessage', () => {

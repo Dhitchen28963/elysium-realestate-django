@@ -1,4 +1,3 @@
-// Import the function to be tested
 const clearModalMessages = require('../../static/js/functions/clearModalMessages');
 
 // Set up the DOM for testing

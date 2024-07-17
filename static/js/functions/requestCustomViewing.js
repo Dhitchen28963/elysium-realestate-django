@@ -7,7 +7,7 @@ async function requestCustomViewing(propertyId) {
     const formData = new FormData(customViewingForm);
 
     if (!validateDate()) {
-        return; // Exit early if date is invalid
+        return;
     }
 
     try {

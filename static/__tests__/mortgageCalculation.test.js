@@ -15,8 +15,8 @@ test('Calculate mortgage with basic inputs', () => {
     expect(result.term).toBe(term);
     expect(result.interestRate).toBe(interestRate);
 
-    // Example assertions for calculated values (adjust according to your formula)
+    // Example assertions for calculated values (adjust accordingly)
     expect(result.borrowAmount).toBe(propertyPrice - deposit);
-    expect(result.monthlyRepayments).toBeCloseTo(1216.04, 2); // Monthly repayments need verification
-    expect(result.totalInterest).toBeCloseTo(197776.11, 2); // This value should be verified
+    expect(result.monthlyRepayments).toBeCloseTo(1216.04, 2);
+    expect(result.totalInterest).toBeCloseTo(197776.11, 2);
 });

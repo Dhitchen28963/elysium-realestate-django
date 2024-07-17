@@ -1,5 +1,3 @@
-// addToFavorites.test.js
-
 const addToFavorites = require('../../static/js/functions/addToFavorites');
 
 // Mock fetch API for testing purposes
@@ -12,7 +10,6 @@ global.fetch = jest.fn(() =>
 
 // Set up the DOM for testing (optional for this test case)
 beforeEach(() => {
-    // You can set up the DOM structure if needed
 });
 
 console.log('Testing addToFavorites');

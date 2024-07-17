@@ -1,5 +1,3 @@
-// addToFavorites.js
-
 async function addToFavorites(propertyId, app, showModalMessage) {
     try {
         const response = await fetch(`/api/add-to-favorites/${propertyId}/${app}/`);

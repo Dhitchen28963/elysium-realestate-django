@@ -92,7 +92,6 @@ describe('setupEventListeners', () => {
         const button = document.querySelector('.favorites-star');
         button.dispatchEvent(new Event('click', { bubbles: true }));
         expect(toggleFavorite).toHaveBeenCalled();
-        // Adjust expectation based on how toggleFavorite should be called
     });
 
     test('should prevent form submission and click favorites star button', () => {

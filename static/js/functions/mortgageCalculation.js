@@ -1,4 +1,3 @@
-// Function to calculate mortgage
 function calculateMortgage(propertyPrice, deposit, term, interestRate) {
     const borrowAmount = propertyPrice - deposit; // Amount that can be borrowed
     const monthlyInterestRate = (interestRate / 100) / 12;
