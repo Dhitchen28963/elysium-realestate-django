@@ -7,6 +7,7 @@ async function requestCustomViewing(propertyId) {
     const formData = new FormData(customViewingForm);
 
     if (!validateDate()) {
+        showModalMessage('You cannot select a past date. Please choose a valid date.');
         return;
     }
 

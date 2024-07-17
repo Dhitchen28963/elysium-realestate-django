@@ -45,6 +45,10 @@ describe('setupEventListeners', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         document.body.innerHTML = `
+            <div class="modal-content">
+                <span class="close">×</span>
+                <p id="modalMessage">You cannot select a past date. Please choose a valid date.</p>
+            </div>
             <form id="custom-viewing-form" data-property-id="1"></form>
             <button class="property-actions" data-action="addToFavorites" data-property-id="1" data-app="real_estate"></button>
             <button class="remove-favorite-btn" data-property-id="1" data-app="real_estate"></button>
@@ -73,18 +77,20 @@ describe('setupEventListeners', () => {
         expect(requestCustomViewing).toHaveBeenCalledWith('1');
     });
 
-    test('should call addToFavorites when property action button is clicked', () => {
+    test('should call addToFavorites when property action button is clicked', async () => {
         setupEventListeners();
         const button = document.querySelector('.property-actions[data-action="addToFavorites"]');
-        button.dispatchEvent(new Event('click', { bubbles: true }));
+        await button.dispatchEvent(new Event('click', { bubbles: true }));
         expect(addToFavorites).toHaveBeenCalledWith('1', 'real_estate', showModalMessage);
+        expect(showModalMessage).toHaveBeenCalledWith('Property added to favorites');
     });
 
-    test('should call removeFromFavorites when remove favorite button is clicked', () => {
+    test('should call removeFromFavorites when remove favorite button is clicked', async () => {
         setupEventListeners();
         const button = document.querySelector('.remove-favorite-btn');
-        button.dispatchEvent(new Event('click', { bubbles: true }));
+        await button.dispatchEvent(new Event('click', { bubbles: true }));
         expect(removeFromFavorites).toHaveBeenCalledWith('1', 'real_estate');
+        expect(showModalMessage).toHaveBeenCalledWith('Property removed from favorites');
     });
 
     test('should call toggleFavorite when favorites star button is clicked', () => {

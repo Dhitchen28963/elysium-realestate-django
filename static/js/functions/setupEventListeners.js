@@ -20,21 +20,35 @@ function setupEventListeners() {
 
     const addToFavoritesButtons = document.querySelectorAll('.property-actions[data-action="addToFavorites"]');
     addToFavoritesButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', async function(event) {
             event.preventDefault();
             const propertyId = button.getAttribute('data-property-id');
             const app = button.getAttribute('data-app');
-            addToFavorites(propertyId, app, showModalMessage);
+            try {
+                await addToFavorites(propertyId, app, showModalMessage);
+                showModalMessage('Property added to favorites');
+            } catch (error) {
+                if (error.message === 'exists') {
+                    showModalMessage('Property is already in favorites.');
+                } else {
+                    showModalMessage('Error adding property to favorites.');
+                }
+            }
         });
     });
 
     const removeFavoriteButtons = document.querySelectorAll('.remove-favorite-btn');
     removeFavoriteButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', async function(event) {
             event.preventDefault();
             const propertyId = button.getAttribute('data-property-id');
             const app = button.getAttribute('data-app');
-            removeFromFavorites(propertyId, app);
+            try {
+                await removeFromFavorites(propertyId, app);
+                showModalMessage('Property removed from favorites');
+            } catch (error) {
+                showModalMessage('Error removing property from favorites.');
+            }
         });
     });
 
@@ -68,16 +82,9 @@ function setupEventListeners() {
     const studentSearchButton = document.getElementById('student-search-form');
     if (studentSearchButton) {
         studentSearchButton.addEventListener('click', function(event) {
-            console.log('Student search button clicked'); // Debug log
-            const studentSearchInput = document.querySelector('#student-search-form + input');
-            if (!studentSearchInput) {
-                console.error('student-search-input not found');
-                return;
-            }
-            console.log('Search input value:', studentSearchInput.value); // Debug log
-            if (!studentSearchInput.value.trim()) {
+            const studentSearchInput = document.getElementById('student-search-input');
+            if (!studentSearchInput || !studentSearchInput.value.trim()) {
                 event.preventDefault();
-                console.log('Showing alert'); // Debug log
                 alert('Please enter a location');
                 displayNoPropertiesFound('No student accommodations found.');
             }
@@ -87,16 +94,9 @@ function setupEventListeners() {
     const landSearchButton = document.getElementById('land-search-form');
     if (landSearchButton) {
         landSearchButton.addEventListener('click', function(event) {
-            console.log('Land search button clicked'); // Debug log
-            const landSearchInput = document.querySelector('#land-search-form + input');
-            if (!landSearchInput) {
-                console.error('land-search-input not found');
-                return;
-            }
-            console.log('Search input value:', landSearchInput.value); // Debug log
-            if (!landSearchInput.value.trim()) {
+            const landSearchInput = document.getElementById('land-search-input');
+            if (!landSearchInput || !landSearchInput.value.trim()) {
                 event.preventDefault();
-                console.log('Showing alert'); // Debug log
                 alert('Please enter a location');
                 displayNoPropertiesFound('No land available for sale at the moment. Please use the search bar above to find properties.');
             }
@@ -106,16 +106,9 @@ function setupEventListeners() {
     const rentSearchButton = document.getElementById('rent-button');
     if (rentSearchButton) {
         rentSearchButton.addEventListener('click', function(event) {
-            console.log('Rent search button clicked'); // Debug log
             const rentSearchInput = document.getElementById('home-search-input');
-            if (!rentSearchInput) {
-                console.error('rent-search-input not found');
-                return;
-            }
-            console.log('Search input value:', rentSearchInput.value); // Debug log
-            if (!rentSearchInput.value.trim()) {
+            if (!rentSearchInput || !rentSearchInput.value.trim()) {
                 event.preventDefault();
-                console.log('Showing alert'); // Debug log
                 alert('Please enter a location');
                 displayNoPropertiesFound('No properties found for rent. Please use the search bar above to find properties.');
             }
@@ -125,16 +118,9 @@ function setupEventListeners() {
     const buySearchButton = document.getElementById('buy-button');
     if (buySearchButton) {
         buySearchButton.addEventListener('click', function(event) {
-            console.log('Buy search button clicked'); // Debug log
             const buySearchInput = document.getElementById('home-search-input');
-            if (!buySearchInput) {
-                console.error('buy-search-input not found');
-                return;
-            }
-            console.log('Search input value:', buySearchInput.value); // Debug log
-            if (!buySearchInput.value.trim()) {
+            if (!buySearchInput || !buySearchInput.value.trim()) {
                 event.preventDefault();
-                console.log('Showing alert'); // Debug log
                 alert('Please enter a location');
                 displayNoPropertiesFound('No properties found for sale. Please use the search bar above to find properties.');
             }

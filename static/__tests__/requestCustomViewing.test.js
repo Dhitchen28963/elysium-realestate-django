@@ -30,7 +30,11 @@ describe('requestCustomViewing', () => {
             <form id="custom-viewing-form">
                 <input type="date" id="preferred_date" />
             </form>
-            <div id="viewingModal"></div>
+            <div id="messageModal" class="modal-content" style="display: none;">
+                <span class="close">×</span>
+                <p id="modalMessage"></p>
+            </div>
+            <div id="viewingModal" style="display: none;"></div>
         `;
         global.fetch.mockClear();
     });
@@ -61,5 +65,22 @@ describe('requestCustomViewing', () => {
         const propertyId = 3;
         await expect(requestCustomViewing(propertyId)).resolves.toBe(undefined); // Expect undefined as validateDate failed
         expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    test('should show modal message when past date is entered', async () => {
+        const { validateDate } = require('../../static/js/functions/validateDate');
+        validateDate.mockReturnValueOnce(false); // Mock invalid date scenario
+
+        const propertyId = 4;
+        await requestCustomViewing(propertyId);
+
+        // Use setTimeout to wait for the next tick of the event loop
+        setTimeout(() => {
+            const modalMessage = document.getElementById('modalMessage');
+            expect(modalMessage.textContent).toBe('You cannot select a past date. Please choose a valid date.');
+            const modal = document.getElementById('messageModal');
+            expect(modal.style.display).toBe('block');
+            expect(global.fetch).not.toHaveBeenCalled();
+        }, 0);
     });
 });
