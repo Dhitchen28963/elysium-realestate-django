@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
-    <link rel="icon" href="{% static 'images/favicon.webp' %}" type="image/webp">
+    <link rel="icon" href="{% static 'images/fav-icon.webp' %}" type="image/webp">
 </head>
 <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     {% url 'account_login' as login_url %}
