@@ -43,6 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.style.display = 'none';
     }
 
+    // Function to validate the contact number
+    function validateContactNumber(contact) {
+        const regex = /^(?:0(?:7\d{9}|(?:1|2|3)\d{8,9}))$/;
+        return regex.test(contact);
+    }
+
     // Function to validate the date
     function validateDate() {
         const preferredDateInput = document.getElementById('preferred_date');
@@ -165,11 +171,11 @@ document.addEventListener('DOMContentLoaded', function () {
     async function requestCustomViewing(propertyId) {
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
-    
+
         if (!validateDate()) {
             return;
         }
-    
+
         try {
             const url = `/real_estate/request_custom_viewing/${propertyId}/`;
             const response = await fetch(url, {
@@ -179,13 +185,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRFToken': getCSRFToken()
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-    
+
             const data = await response.json();
-    
+
             if (data.status === 'ok') {
                 showModalMessage('Viewing request sent to the agent!');
             } else {
@@ -209,6 +215,13 @@ document.addEventListener('DOMContentLoaded', function () {
         customViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
             clearModalMessages();  // Clear previous messages
+
+            const contactInput = document.getElementById('contact').value;
+            if (!validateContactNumber(contactInput)) {
+                showModalMessage('Please enter a valid UK mobile or landline number.');
+                return;
+            }
+
             const propertyId = customViewingForm.getAttribute('data-property-id');
             requestCustomViewing(propertyId);
         });
