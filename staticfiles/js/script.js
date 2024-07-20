@@ -64,6 +64,17 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
+    // Function to check login status
+    async function checkLoginStatus() {
+        try {
+            const response = await fetch('/check-login-status/');
+            return response.status === 200;
+        } catch (error) {
+            console.error('Error checking login status:', error);
+            return false;
+        }
+    }
+
     // Toggle favorite status
     async function toggleFavorite(propertyId, isFavorite, app) {
         const url = isFavorite ?
@@ -106,7 +117,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Save
-    function addToFavorites(propertyId, app) {
+    async function addToFavorites(propertyId, app) {
+        const loggedIn = await checkLoginStatus();
+        if (!loggedIn) {
+            showModalMessage('You must be logged in to add a property to favorites.');
+            return;
+        }
+
         fetch(`/${app}/add-to-favorites/${propertyId}/`, {
             method: 'POST',
             headers: {
@@ -138,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Saved
-    function removeFromFavorites(propertyId, app) {
+    async function removeFromFavorites(propertyId, app) {
         fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
             method: 'POST',
             headers: {
@@ -163,6 +180,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function requestCustomViewing(propertyId) {
+        const loggedIn = await checkLoginStatus();
+        if (!loggedIn) {
+            showModalMessage('You must be logged in to request a custom viewing.');
+            return;
+        }
+
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
     
@@ -213,11 +236,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for Save
     document.querySelectorAll('.property-actions button[data-action]').forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', async function (event) {
             event.preventDefault();
             const propertyId = this.getAttribute('data-property-id');
             const action = this.getAttribute('data-action');
             const app = this.getAttribute('data-app');
+
+            const loggedIn = await checkLoginStatus();
+            if (!loggedIn) {
+                showModalMessage('You must be logged in to add a property to favorites.');
+                return;
+            }
 
             if (action === 'addToFavorites') {
                 addToFavorites(propertyId, app);
@@ -239,11 +268,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for favorites star button
     const favoritesStarButtons = document.querySelectorAll('.favorites-star');
     favoritesStarButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', async function (event) {
             event.preventDefault();
             const propertyId = this.getAttribute('data-property-id');
             const isFavorite = this.getAttribute('data-is-favorite') === 'true';
             const app = this.getAttribute('data-app');
+
+            const loggedIn = await checkLoginStatus();
+            if (!loggedIn) {
+                showModalMessage('You must be logged in to perform this action.');
+                return;
+            }
 
             toggleFavorite(propertyId, isFavorite, app);
         });
@@ -266,12 +301,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeViewingModal = document.getElementsByClassName("close")[0];
 
     document.querySelectorAll('.open-modal').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', async function () {
             const propertyId = this.getAttribute('data-property-id');
+
+            // Check login status
+            const loggedIn = await checkLoginStatus();
+            if (!loggedIn) {
+                showModalMessage('You must be logged in to request a custom viewing.');
+                return; // Exit if not logged in
+            }
+
+            // Proceed if logged in
             const form = document.getElementById('custom-viewing-form');
-            form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
-            form.setAttribute('data-property-id', propertyId);
-            viewingModal.style.display = 'block';
+            if (form) {
+                form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
+                form.setAttribute('data-property-id', propertyId);
+            }
+            if (viewingModal) {
+                viewingModal.style.display = 'block';
+            }
         });
     });
 

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     {% url 'account_login' as login_url %}
     {% url 'account_signup' as signup_url %}
     {% url 'account_logout' as logout_url %}
@@ -21,12 +21,12 @@
                 <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
             </div>
         </a>
+        <div class="user-icon-container">
+            <i class="fa-solid fa-user" id="user-icon"></i>
+        </div>
         {% if user.is_authenticated %}
             <div class="my-account-btn-container">
                 <a class="nav-link" id="my-account-btn" href="#">My Account</a>
-            </div>
-            <div class="user-icon-container">
-                <i class="fa-solid fa-user" id="user-icon"></i>
             </div>
         {% endif %}
         <input class="side-menu" type="checkbox" id="side-menu">
@@ -72,30 +72,32 @@
     </header>
 
     {% block banner %}
-    {% if user.is_authenticated %}
-        <div class="banner-container">
-            <div class="banner-content">
-                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+    <div class="banner-container">
+        <div class="banner-content">
+            <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+            {% if user.is_authenticated %}
                 <div class="welcome-box">
                     <p>Welcome back, {{ user.username }}!</p>
                 </div>
-            </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
     {% endblock %}
 
     <div id="my-account-sidebar" class="sidebar">
         <h2 class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;"></i></h2>
         <span id="close-sidebar" class="close">&times;</span>
-        <p class="sidebar-username">{{ user.username }}</p>
+        <p class="sidebar-username">{% if user.is_authenticated %}{{ user.username }}{% endif %}</p>
         <ul class="sidebar-menu">
-            <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;"></i> Saved Properties</a></li>
-            <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;"></i> View Pending Viewings</a></li>
-        </ul>
-        <hr>
-        <ul class="sidebar-menu">
-            <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
-            <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;"></i> Saved Properties</a></li>
+                <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;"></i> View Pending Viewings</a></li>
+                <hr>
+                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
+            {% else %}
+                <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+            {% endif %}
         </ul>
     </div>
 
@@ -158,7 +160,7 @@
                 <img src="{% static 'images/land.webp' %}" alt="Land Image">
                 <h3>Land</h3>
                 <p>Explore available land for sale.</p>
-                <a href="{% url 'view_land' %}"><button>View Land</a></button></a>
+                <a href="{% url 'view_land' %}"><button>View Land</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/student.webp' %}" alt="Student Accommodation Image">

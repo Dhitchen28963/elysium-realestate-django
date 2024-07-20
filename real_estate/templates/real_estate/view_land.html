@@ -4,16 +4,16 @@
 {% block title %}Land{% endblock %}
 
 {% block banner %}
-    {% if user.is_authenticated %}
-        <div class="banner-container">
-            <div class="banner-content">
-                <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+    <div class="banner-container">
+        <div class="banner-content">
+            <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+            {% if user.is_authenticated %}
                 <div class="welcome-box">
                     <p>Welcome back, {{ user.username }}!</p>
                 </div>
-            </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 {% endblock %}
 
 {% block land_text %}
