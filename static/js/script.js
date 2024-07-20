@@ -200,6 +200,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }    
 
+    // Check if user is logged in from the data attribute in the body tag
+    const isUserLoggedIn = document.body.getAttribute('data-authenticated') === 'true';
+
     // Event listener for custom viewing request
     const customViewingForm = document.getElementById('custom-viewing-form');
     if (customViewingForm) {
@@ -218,6 +221,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const propertyId = this.getAttribute('data-property-id');
             const action = this.getAttribute('data-action');
             const app = this.getAttribute('data-app');
+
+            if (!isUserLoggedIn) {
+                showModalMessage('Please log in or create an account to save properties.');
+                return;
+            }
 
             if (action === 'addToFavorites') {
                 addToFavorites(propertyId, app);
@@ -245,7 +253,29 @@ document.addEventListener('DOMContentLoaded', function () {
             const isFavorite = this.getAttribute('data-is-favorite') === 'true';
             const app = this.getAttribute('data-app');
 
+            if (!isUserLoggedIn) {
+                showModalMessage('Please log in or create an account to save properties.');
+                return;
+            }
+
             toggleFavorite(propertyId, isFavorite, app);
+        });
+    });
+
+    // Event listener for open-modal button
+    const openModalButtons = document.querySelectorAll('.open-modal');
+    openModalButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!isUserLoggedIn) {
+                showModalMessage('Please log in or create an account to schedule a viewing.');
+                return;
+            }
+            const propertyId = this.getAttribute('data-property-id');
+            const form = document.getElementById('custom-viewing-form');
+            form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
+            form.setAttribute('data-property-id', propertyId);
+            viewingModal.style.display = 'block';
         });
     });
 
@@ -264,16 +294,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Modal handling for schedule viewing
     const viewingModal = document.getElementById("viewingModal");
     const closeViewingModal = document.getElementsByClassName("close")[0];
-
-    document.querySelectorAll('.open-modal').forEach(button => {
-        button.addEventListener('click', function () {
-            const propertyId = this.getAttribute('data-property-id');
-            const form = document.getElementById('custom-viewing-form');
-            form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
-            form.setAttribute('data-property-id', propertyId);
-            viewingModal.style.display = 'block';
-        });
-    });
 
     if (closeViewingModal) {
         closeViewingModal.addEventListener('click', function () {
