@@ -16,57 +16,57 @@
     {% url 'account_signup' as signup_url %}
     {% url 'account_logout' as logout_url %}
     <header class="header">
-        <a href="{% url 'home' %}" class="logo">
+        <a href="{% url 'home' %}" class="logo" aria-label="Elysium homepage">
             <div class="logo-container">
                 <h1>Elysium</h1>
-                <i class="fa-solid fa-house-chimney" style="color: #ffffff;"></i>
+                <i class="fa-solid fa-house-chimney" style="color: #ffffff;" aria-hidden="true"></i>
             </div>
         </a>
         <div class="user-icon-container">
-            <i class="fa-solid fa-user" id="user-icon"></i>
+            <i class="fa-solid fa-user" id="user-icon" aria-hidden="true"></i>
         </div>
         {% if user.is_authenticated %}
             <div class="my-account-btn-container">
-                <a class="nav-link" id="my-account-btn" href="#">My Account</a>
+                <a class="nav-link" id="my-account-btn" href="#" aria-label="View your account menu">My Account</a>
             </div>
         {% endif %}
         <input class="side-menu" type="checkbox" id="side-menu">
-        <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars"></i></span></label>
+        <label class="hamb" for="side-menu"><span class="hamb-line"><i class="fas fa-bars" aria-hidden="true"></i></span></label>
         <nav class="nav">
             <ul class="menu">
                 <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
                 <li class="dropdown">
-                    <a href="#" aria-label="View properties for sale">Buy</a>
+                    <a href="#" aria-label="View properties and land for sale">Buy</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'property_sale' %}">Property for Sale</a></li>
-                        <li><a href="{% url 'view_land' %}">Land for Sale</a></li>
+                        <li><a href="{% url 'property_sale' %}" aria-label="View Property for Sale">Property for Sale</a></li>
+                        <li><a href="{% url 'view_land' %}" aria-label="View Land for Sale">Land for Sale</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" aria-label="View rental properties">Rent</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'property_rent' %}">Property to Rent</a></li>
-                        <li><a href="{% url 'student_property' %}">Student Accommodation</a></li>
+                        <li><a href="{% url 'property_rent' %}" aria-label="View Property to Rent">Property to Rent</a></li>
+                        <li><a href="{% url 'student_property' %}" aria-label="View Student Accommodation">Student Accommodation</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" aria-label="View useful resources and information">Resources</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'property_guides_list' %}">Property Guides</a></li>
-                        <li><a href="{% url 'blog_list' %}">Blogs</a></li>
-                        <li><a href="{% url 'homelessness_advice_list' %}">Homelessness Advice</a></li>
-                        <li><a href="{% url 'testimonials_list' %}">Testimonials</a></li>
-                        <li><a href="{% url 'faq_list' %}">FAQ</a></li>
-                        <li><a href="{% url 'mortgage_calculator' %}">Mortgage Calculator</a></li>
+                        <li><a href="{% url 'property_guides_list' %}" aria-label="View Property Guides">Property Guides</a></li>
+                        <li><a href="{% url 'blog_list' %}" aria-label="View Blogs">Blogs</a></li>
+                        <li><a href="{% url 'homelessness_advice_list' %}" aria-label="View Homelessness Advice">Homelessness Advice</a></li>
+                        <li><a href="{% url 'testimonials_list' %}" aria-label="View Testimonials">Testimonials</a></li>
+                        <li><a href="{% url 'faq_list' %}" aria-label="View FAQ">FAQ</a></li>
+                        <li><a href="{% url 'mortgage_calculator' %}" aria-label="Use Mortgage Calculator">Mortgage Calculator</a></li>
                     </ul>
                 </li>
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
+                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}" aria-label="Register">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a></li>
+                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}" aria-label="Login">Login</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -85,27 +85,26 @@
     </div>
     {% endblock %}
 
-    <div id="my-account-sidebar" class="sidebar">
-        <h2 class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;"></i></h2>
-        <span id="close-sidebar" class="close">&times;</span>
+    <div id="my-account-sidebar" class="sidebar" role="region" aria-labelledby="my-account-sidebar-heading">
+        <h2 id="my-account-sidebar-heading" class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;" aria-hidden="true"></i></h2>
+        <span id="close-sidebar" class="close" aria-label="Close">&times;</span>
         <p class="sidebar-username">{% if user.is_authenticated %}{{ user.username }}{% endif %}</p>
         <ul class="sidebar-menu">
             {% if user.is_authenticated %}
-                <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;"></i> Saved Properties</a></li>
-                <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;"></i> View Pending Viewings</a></li>
+                <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;" aria-hidden="true"></i> Saved Properties</a></li>
+                <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;" aria-hidden="true"></i> View Pending Viewings</a></li>
                 <hr>
-                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
+                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears" aria-hidden="true"></i> Account Settings</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sign Out</a></li>
             {% else %}
-                <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+                <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Login</a></li>
             {% endif %}
         </ul>
     </div>
 
     <div class="main-content">
         {% block content %}{% endblock %}
-        {% block filters %}
-        {% endblock %}
+        {% block filters %}{% endblock %}
         {% block home_text %}{% endblock %}
         {% block sale_text %}{% endblock %}
         {% block rental_text %}{% endblock %}
@@ -113,136 +112,137 @@
     </div>
 
     <section class="before-moving-section">
-        <h2>Before you get moving</h2>
+        <h2 id="before-moving-heading">Before you get moving</h2>
         <div class="boxes-container">
             <div class="box">
                 <img src="{% static 'images/calculator.webp' %}" alt="Calculator Image">
-                <h3>Check how much you can borrow</h3>
-                <p>Check how much you can borrow without impacting your credit score.</p>
-                <a href="{% url 'mortgage_calculator' %}"><button>Get a mortgage in principle</button></a>
+                <h3 id="box1-heading">Mortgage calculation tool</h3>
+                <p>Use our tool to estimate your mortgage payments and interest accrued</p>
+                <a href="{% url 'mortgage_calculator' %}"><button aria-label="Mortgage Calculator: Estimate your monthly payments and borrowing capacity">Mortgage Calculator</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/property_guides.webp' %}" alt="Guides Image">
-                <h3>Property guides</h3>
+                <h3 id="box2-heading">Property guides</h3>
                 <p>A must have read for anyone looking for a property.</p>
-                <a href="{% url 'property_guides_list' %}"><button>View our property guides</button></a>
+                <a href="{% url 'property_guides_list' %}"><button aria-label="View our property guides">View Our Property Guides</button></a>
             </div>
         </div>
     </section>
     
-    <section class="useful-resources-section">
-        <h2>Useful resources</h2>
+    <section class="useful-resources-section" aria-labelledby="useful-resources-heading">
+        <h2 id="useful-resources-heading">Useful resources</h2>
         <div class="boxes-container">
             <div class="box">
                 <img src="{% static 'images/blog.webp' %}" alt="Blog Image">
-                <h3>Blog</h3>
+                <h3 id="box3-heading">Blog</h3>
                 <p>See the latest articles.</p>
-                <a href="{% url 'blog_list' %}"><button>View blog</button></a>
+                <a href="{% url 'blog_list' %}"><button aria-label="View blog">View Blog</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/homeless.webp' %}" alt="Homeless Image">
-                <h3>Need support?</h3>
+                <h3 id="box4-heading">Need support?</h3>
                 <p>If you're concerned about becoming homeless or need homelessness advice.</p>
-                <a href="{% url 'homelessness_advice_list' %}"><button>Find homeless support</button></a>
+                <a href="{% url 'homelessness_advice_list' %}"><button aria-label="Find homeless support">Find Homeless Support</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/faq.webp' %}" alt="FAQ Image">
-                <h3>Need a question answered</h3>
+                <h3 id="box5-heading">Need a question answered</h3>
                 <p>Get help from the Elysium community.</p>
-                <a href="{% url 'faq_list' %}"><button>FAQ</button></a>
+                <a href="{% url 'faq_list' %}"><button aria-label="View our FAQ page">FAQ</button></a>
             </div>
         </div>
     </section>
 
-    <section class="housing-section">
-        <h2>Housing</h2>
+    <section class="housing-section" aria-labelledby="housing-heading">
+        <h2 id="housing-heading">Housing</h2>
         <div class="boxes-container">
             <div class="box">
                 <img src="{% static 'images/land.webp' %}" alt="Land Image">
-                <h3>Land</h3>
+                <h3 id="box6-heading">Land</h3>
                 <p>Explore available land for sale.</p>
-                <a href="{% url 'view_land' %}"><button>View Land</button></a>
+                <a href="{% url 'view_land' %}"><button aria-label="View Land for sale">View Land</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/student.webp' %}" alt="Student Accommodation Image">
-                <h3>Student Accommodation</h3>
+                <h3 id="box7-heading">Student Accommodation</h3>
                 <p>Find the perfect student accommodation.</p>
-                <a href="{% url 'student_property' %}"><button>View Student Accommodation</button></a>
+                <a href="{% url 'student_property' %}"><button aria-label="View Student Accommodation">View Student Accommodation</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/repairs.webp' %}" alt="Repairs Image">
-                <h3>Repairs</h3>
-                <p>Request and manage property repairs.</p>
-                <a href="{% url 'repairs' %}"><button>Request Repairs</button></a>
+                <h3 id="box8-heading">Repairs</h3>
+                <p>View information on repairs regarding rental accommodation.</p>
+                <a href="{% url 'repairs' %}"><button aria-label="View information on housing repairs">Repairs Information</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/fire.webp' %}" alt="Fire Safety Image">
-                <h3>Fire Safety</h3>
+                <h3 id="box9-heading">Fire Safety</h3>
                 <p>Learn about fire safety regulations.</p>
-                <a href="{% url 'fire_safety' %}"><button>Learn Fire Safety</button></a>
+                <a href="{% url 'fire_safety' %}"><button aria-label="View information on Fire Safety">Fire Safety Information</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/complaints.webp' %}" alt="Complaints Image">
-                <h3>Complaints</h3>
-                <p>File a complaint regarding housing issues.</p>
-                <a href="{% url 'complaints' %}"><button>File a Complaint</button></a>
+                <h3 id="box10-heading">Complaints</h3>
+                <p>Need help filing a complaint regarding a housing issue.</p>
+                <a href="{% url 'complaints' %}"><button aria-label="Information on the housing complaints process">Housing Complaints Information</button></a>
             </div>
             <div class="box">
                 <img src="{% static 'images/eviction.webp' %}" alt="Eviction Image">
-                <h3>Eviction</h3>
+                <h3 id="box11-heading">Eviction</h3>
                 <p>Understand your rights and get help with evictions.</p>
-                <a href="{% url 'eviction' %}"><button>Get Eviction Help</button></a>
+                <a href="{% url 'eviction' %}"><button aria-label="Get Eviction Help">Get Eviction Help</button></a>
             </div>
         </div>
     </section>
 
     <!-- Modal for messages -->
-    <div id="messageModal" class="modal">
+    <div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" aria-label="Close">&times;</span>
             <p id="modalMessage"></p>
         </div>
     </div>
 
     <!-- Modal for scheduling a viewing -->
-    <div id="viewingModal" class="modal">
+    <div id="viewingModal" class="modal" role="dialog" aria-labelledby="viewingModalHeading">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Viewing</h2>
+            <span class="close" aria-label="Close">&times;</span>
+            <h2 id="viewingModalHeading">Viewing</h2>
             <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' 0 %}" data-property-id="0">
                 {% csrf_token %}
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required aria-label="Enter your name">
                 <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact" required>
+                <input type="text" id="contact" name="contact" required aria-label="Enter your contact number">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required aria-label="Enter your email">
                 <label for="preferred_date">Preferred Date:</label>
-                <input type="date" id="preferred_date" name="preferred_date" required>
+                <input type="date" id="preferred_date" name="preferred_date" required aria-label="Select a preferred date">
                 <label for="preferred_time">Preferred Time:</label>
-                <input type="time" id="preferred_time" name="preferred_time" required>
+                <input type="time" id="preferred_time" name="preferred_time" required aria-label="Select a preferred time">
                 <label for="message">Message:</label>
-                <textarea id="message" name="message" required></textarea>
-                <button type="submit">Request Viewing</button>
+                <textarea id="message" name="message" required aria-label="Enter your message"></textarea>
+                <button type="submit" aria-label="Request Viewing">Request Viewing</button>
             </form>
         </div>
     </div>
 
     <!-- Pagination Section -->
-    <section class="pagination-section">
+    <section class="pagination-section" aria-labelledby="pagination-heading">
+        <h2 id="pagination-heading" class="sr-only">Pagination</h2>
         {% block pagination %}
             {% if page_obj.has_other_pages %}
                 <div class="pagination-controls">
                     {% if page_obj.has_previous %}
-                        <a href="?page=1" class="page-link">&laquo; First</a>
-                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                        <a href="?page=1" class="page-link" aria-label="First page">&laquo; First</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="Previous page">Previous</a>
                     {% endif %}
-                    <span class="current">
+                    <span class="current" aria-label="Current page">
                         Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                     </span>
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last &raquo;</a>
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="Next page">Next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link" aria-label="Last page">Last &raquo;</a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -252,21 +252,21 @@
     <footer>
         <div class="footer-menu">
             <ul>
-                <li><a href="{% url 'property_sale' %}">Buy</a></li>
-                <li><a href="{% url 'property_rent' %}">Rent</a></li>
-                <li><a href="{% url 'property_guides_list' %}">Property Guides</a></li>
-                <li><a href="{% url 'blog_list' %}">Blogs</a></li>
-                <li><a href="{% url 'homelessness_advice_list' %}">Homelessness Advice</a></li>
-                <li><a href="{% url 'testimonials_list' %}">Testimonials</a></li>
-                <li><a href="{% url 'faq_list' %}">FAQ</a></li>
-                <li><a href="{% url 'mortgage_calculator' %}">Mortgage Calculator</a></li>
+                <li><a href="{% url 'property_sale' %}" aria-label="Buy properties">Buy</a></li>
+                <li><a href="{% url 'property_rent' %}" aria-label="Rent properties">Rent</a></li>
+                <li><a href="{% url 'property_guides_list' %}" aria-label="View Property Guides">Property Guides</a></li>
+                <li><a href="{% url 'blog_list' %}" aria-label="View Blogs">Blogs</a></li>
+                <li><a href="{% url 'homelessness_advice_list' %}" aria-label="View Homelessness Advice">Homelessness Advice</a></li>
+                <li><a href="{% url 'testimonials_list' %}" aria-label="View Testimonials">Testimonials</a></li>
+                <li><a href="{% url 'faq_list' %}" aria-label="View FAQ">FAQ</a></li>
+                <li><a href="{% url 'mortgage_calculator' %}" aria-label="Use Mortgage Calculator">Mortgage Calculator</a></li>
             </ul>
         </div>
         <ul id="social-media">
-            <li><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook" style="color: #ffffff;"></i></a></li>
-            <li><a href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square" style="color: #ffffff;"></i></a></li>
-            <li><a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square" style="color: #ffffff;"></i></a></li>
-            <li><a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram" style="color: #ffffff;"></i></a></li>
+            <li><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Visit our Facebook page (opens in a new tab)"><i class="fa-brands fa-facebook" style="color: #ffffff;" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.twitter.com/" target="_blank" rel="noopener" aria-label="Visit our Twitter page (opens in a new tab)"><i class="fa-brands fa-twitter-square" style="color: #ffffff;" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Visit our YouTube page (opens in a new tab)"><i class="fa-brands fa-youtube-square" style="color: #ffffff;" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Visit our Instagram page (opens in a new tab)"><i class="fa-brands fa-instagram" style="color: #ffffff;" aria-hidden="true"></i></a></li>
         </ul>
         <p>&copy; 2024 Elysium Ltd. All Rights Reserved. | Designed by David Hitchen Ltd<br>
         Address: Elysium Real Estate: 1 Elysium Pl, London W1E LS | Tel: 02045135208 | Email: info@elysium.co.uk
