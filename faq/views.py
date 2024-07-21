@@ -3,10 +3,12 @@ from django.views import View
 from .models import FAQ, Comment
 from .forms import CommentForm
 
+
 class FAQList(View):
     def get(self, request, *args, **kwargs):
         faqs = FAQ.objects.filter(status='published').order_by('-created_on')
         return render(request, 'faq/faq_list.html', {'faqs': faqs})
+
 
 class FAQDetail(View):
     def get(self, request, slug, *args, **kwargs):

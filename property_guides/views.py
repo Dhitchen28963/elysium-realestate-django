@@ -2,14 +2,17 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Post, Category
 
+
 class PostList(ListView):
     model = Post
     template_name = 'property_guides/property_guides_list.html'
     context_object_name = 'posts'
 
+
 class PostDetail(DetailView):
     model = Post
     template_name = 'property_guides/property_guides_detail.html'
+
 
 def property_guides_list(request):
     posts = Post.objects.all()
@@ -25,11 +28,21 @@ def property_guides_list(request):
         'neighbour_disputes': neighbour_disputes,
     }
 
-    return render(request, 'property_guides/property_guides_list.html', context)
+    return render(
+        request,
+        'property_guides/property_guides_list.html',
+        context
+    )
+
 
 def property_guides_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'property_guides/property_guides_detail.html', {'post': post})
+    return render(
+        request,
+        'property_guides/property_guides_detail.html',
+        {'post': post}
+    )
+
 
 def property_guides_category(request, category_name):
     category = get_object_or_404(Category, name=category_name)
@@ -38,4 +51,9 @@ def property_guides_category(request, category_name):
         'category': category,
         'posts': posts,
     }
-    return render(request, 'property_guides/property_guides_category.html', context)
+
+    return render(
+        request,
+        'property_guides/property_guides_category.html',
+        context
+    )

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
 
+
 class Post(models.Model):
     STATUS_CHOICES = [
         ('draft', 'Draft'),
@@ -11,19 +12,29 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='homelessness_advice_posts')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name='homelessness_advice_posts'
+    )
     featured_image = CloudinaryField('image', default='placeholder')
     content = SummernoteTextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES,
+        default='draft'
+    )
     excerpt = models.TextField(max_length=500, blank=True)
 
     def __str__(self):
         return self.title
 
+
 class PostImage(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='additional_images')
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE,
+        related_name='additional_images'
+    )
     image = CloudinaryField('image')
 
     def __str__(self):
