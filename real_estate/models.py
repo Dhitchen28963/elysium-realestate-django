@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 FURNISHED_TYPES = [
     ('furnished', 'Furnished'),
     ('unfurnished', 'Unfurnished'),
     ('part_furnished', 'Part Furnished'),
 ]
-
 
 class Property(models.Model):
     TYPE_CHOICES = [
@@ -90,9 +91,10 @@ class Property(models.Model):
 
     @property
     def price_display(self):
+        formatted_price = f"£{self.price:,.2f}"
         if self.transaction_type == 'rent':
-            return f"{self.price} PCM"
-        return f"{self.price}"
+            return f"{formatted_price} PCM"
+        return formatted_price
 
 
 class PropertyImage(models.Model):
@@ -117,16 +119,21 @@ class FavoriteProperty(models.Model):
 
 
 class ViewingSlot(models.Model):
+    property = models.ForeignKey(
+        Property, related_name='viewing_slots', on_delete=models.CASCADE, null=True
+    )
     agent = models.ForeignKey(
-        User, related_name='agent_slots', on_delete=models.CASCADE, default=1)
+        User, related_name='agent_slots', on_delete=models.CASCADE, default=1
+    )
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):
+        property_title = self.property.title if self.property else "No Property"
         return (
-            f"{self.property.title} on {self.date} from "
+            f"{property_title} on {self.date} from "
             f"{self.start_time} to {self.end_time}"
         )
 
@@ -173,3 +180,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+# Signal receiver to handle updates on ViewingAppointment
+@receiver(post_save, sender=ViewingAppointment)
+def update_profile_on_viewing_decision(sender, instance, **kwargs):
+    if kwargs.get('update_fields') and 'viewing_decision' in kwargs.get('update_fields'):
+        if instance.viewing_decision == 'accepted':
+            print(f"Appointment for {instance.property.title} has been accepted.")
+        elif instance.viewing_decision == 'rejected':
+            # Handle rejected appointments
+            print(f"Appointment for {instance.property.title} has been rejected.")
