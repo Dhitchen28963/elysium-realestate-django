@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView
@@ -40,11 +41,10 @@ def request_custom_viewing(request, property_id):
             appointment.property = property
             appointment.user = request.user
             appointment.save()
-            return JsonResponse({'status': 'ok'})
+            messages.success(request, 'Viewing appointment requested successfully.')
+            return redirect('property_detail', slug=property.slug)
         else:
-            return JsonResponse(
-                {'status': 'error', 'errors': form.errors}, status=400
-            )
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     return JsonResponse({'status': 'error'}, status=400)
 
 
@@ -123,23 +123,22 @@ def filter_properties(form, properties):
 
 def property_sale(request):
     form = PropertySearchForm(request.GET or None)
-    properties = Property.objects.filter(
-        transaction_type='sale', publication_status='published'
-    )
+    properties = Property.objects.filter(transaction_type='sale', publication_status='published')
+    print("Initial properties count:", properties.count())
 
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
-    else:
-        properties = Property.objects.none()
+        print("Filtered properties count:", properties.count())
 
-    properties, paginator = paginate_properties(request, properties)
+    paginator = Paginator(properties, 20)
+    page_number = request.GET.get('page')
+    properties = paginator.get_page(page_number)
+
+    print("Final properties in page:", len(properties))
 
     context = {
         'form': form,
         'properties': properties,
-        'paginator': paginator,
-        'is_paginated': paginator.num_pages > 1,
-        'view_title': 'sale'
     }
     return render(request, 'real_estate/property_sale.html', context)
 
@@ -152,8 +151,6 @@ def property_rent(request):
 
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
-    else:
-        properties = Property.objects.none()
 
     properties, paginator = paginate_properties(request, properties)
 
@@ -175,8 +172,6 @@ def property_student(request):
 
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
-    else:
-        properties = Property.objects.none()
 
     properties, paginator = paginate_properties(request, properties)
 
@@ -197,8 +192,6 @@ def view_land(request):
 
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
-    else:
-        properties = Property.objects.none()
 
     properties, paginator = paginate_properties(request, properties)
 
@@ -282,6 +275,27 @@ def view_property_slots(request, property_id):
         'slots': slots
     }
     return render(request, 'real_estate/viewing_slots.html', context)
+
+
+@login_required
+def book_viewing_slot(request, slot_id):
+    slot = get_object_or_404(ViewingSlot, id=slot_id)
+    if request.method == 'POST':
+        appointment = ViewingAppointment.objects.create(
+            user=request.user,
+            property=slot.property,
+            slot=slot,
+            name=request.POST.get('name', ''),
+            contact=request.POST.get('contact', ''),
+            email=request.POST.get('email', ''),
+            preferred_date=slot.date,
+            preferred_time=slot.start_time,
+            viewing_decision='pending'
+        )
+        slot.is_booked = True
+        slot.save()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 
 @login_required
