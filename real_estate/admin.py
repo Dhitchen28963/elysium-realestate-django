@@ -39,15 +39,15 @@ class ViewingSlotAdmin(admin.ModelAdmin):
     search_fields = ('property__title', 'agent__username', 'date')
 
     def get_property_title(self, obj):
-        return obj.property.title
-
-    get_property_title.admin_order_field = 'property'
+        if obj.property:
+            return obj.property.title
+        return "No Property"
+    get_property_title.admin_order_field = 'property__title'
     get_property_title.short_description = 'Property'
 
     def get_agent_username(self, obj):
-        return obj.agent.username
-
-    get_agent_username.admin_order_field = 'agent'
+        return obj.agent.username if obj.agent else "No Agent"
+    get_agent_username.admin_order_field = 'agent__username'
     get_agent_username.short_description = 'Agent'
 
 
