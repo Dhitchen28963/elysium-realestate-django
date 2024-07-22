@@ -1,6 +1,7 @@
 import os
 import dj_database_url
 import logging
+import sys
 
 if os.path.isfile('env.py'):
     import env
@@ -94,6 +95,13 @@ DATABASES = {
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+
+# SQLite for testing
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
+    }
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
