@@ -18,7 +18,6 @@ from django.conf import settings
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
 def paginate_properties(request, properties, per_page=20):
     page = request.GET.get('page', 1)
     paginator = Paginator(properties, per_page)  # Show 20 properties per page
@@ -30,7 +29,6 @@ def paginate_properties(request, properties, per_page=20):
         properties = paginator.page(paginator.num_pages)
     return properties, paginator
 
-
 @login_required
 def request_custom_viewing(request, property_id):
     property = get_object_or_404(Property, id=property_id)
@@ -41,12 +39,44 @@ def request_custom_viewing(request, property_id):
             appointment.property = property
             appointment.user = request.user
             appointment.save()
-            messages.success(request, 'Viewing appointment requested successfully.')
-            return redirect('property_detail', slug=property.slug)
+            return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     return JsonResponse({'status': 'error'}, status=400)
 
+@login_required
+def book_viewing_slot(request, slot_id):
+    slot = get_object_or_404(ViewingSlot, id=slot_id)
+    if request.method == 'POST':
+        appointment = ViewingAppointment.objects.create(
+            user=request.user,
+            property=slot.property,
+            slot=slot,
+            name=request.POST.get('name', ''),
+            contact=request.POST.get('contact', ''),
+            email=request.POST.get('email', ''),
+            preferred_date=slot.date,
+            preferred_time=slot.start_time,
+            viewing_decision='pending'
+        )
+        slot.is_booked = True
+        slot.save()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+@login_required
+def view_property_slots(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+    slots = ViewingSlot.objects.filter(
+        property=property, is_booked=False
+    ).order_by('date', 'start_time')
+    slots_list = [{
+        'id': slot.id,
+        'date': slot.date.strftime('%Y-%m-%d'),
+        'start_time': slot.start_time.strftime('%H:%M'),
+        'end_time': slot.end_time.strftime('%H:%M')
+    } for slot in slots]
+    return JsonResponse({'slots': slots_list})
 
 @login_required
 def accept_appointment(request, appointment_id):
@@ -74,7 +104,6 @@ def accept_appointment(request, appointment_id):
         'appointment': appointment,
     }
     return render(request, 'real_estate/accept_appointment.html', context)
-
 
 def filter_properties(form, properties):
     if form.cleaned_data.get('search'):
@@ -120,7 +149,6 @@ def filter_properties(form, properties):
         )
     return properties
 
-
 def property_sale(request):
     form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(transaction_type='sale', publication_status='published')
@@ -142,7 +170,6 @@ def property_sale(request):
     }
     return render(request, 'real_estate/property_sale.html', context)
 
-
 def property_rent(request):
     form = PropertySearchForm(request.GET or None)
     properties = Property.objects.filter(
@@ -163,7 +190,6 @@ def property_rent(request):
     }
     return render(request, 'real_estate/property_rent.html', context)
 
-
 def property_student(request):
     form = PropertySearchForm(request.GET)
     properties = Property.objects.filter(
@@ -182,7 +208,6 @@ def property_student(request):
         'is_paginated': paginator.num_pages > 1,
     }
     return render(request, 'real_estate/student_property.html', context)
-
 
 def view_land(request):
     form = PropertySearchForm(request.GET)
@@ -203,7 +228,6 @@ def view_land(request):
     }
     return render(request, 'real_estate/view_land.html', context)
 
-
 def property_detail(request, slug):
     property = get_object_or_404(Property, slug=slug)
     context = {
@@ -211,7 +235,6 @@ def property_detail(request, slug):
         'additional_images': property.property_images.all(),
     }
     return render(request, 'real_estate/property_detail.html', context)
-
 
 @login_required
 def add_to_favorites(request, property_id):
@@ -226,7 +249,6 @@ def add_to_favorites(request, property_id):
             return JsonResponse({'status': 'exists'})
     return JsonResponse({'status': 'error'}, status=400)
 
-
 @login_required
 def view_favorites(request):
     favorites = FavoriteProperty.objects.filter(user=request.user)
@@ -234,7 +256,6 @@ def view_favorites(request):
         'favorites': favorites
     }
     return render(request, 'real_estate/favorites.html', context)
-
 
 @login_required
 def remove_from_favorites(request, property_id):
@@ -250,54 +271,6 @@ def remove_from_favorites(request, property_id):
             return JsonResponse({'status': 'not_found'}, status=404)
     return JsonResponse({'status': 'error'}, status=400)
 
-
-@login_required
-def schedule_viewing(request, slot_id):
-    if request.method == 'POST':
-        slot = get_object_or_404(ViewingSlot, id=slot_id, is_booked=False)
-        ViewingAppointment.objects.create(
-            slot=slot, user=request.user, property=slot.property
-        )
-        slot.is_booked = True
-        slot.save()
-        return JsonResponse({'status': 'ok'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-
-@login_required
-def view_property_slots(request, property_id):
-    property = get_object_or_404(Property, id=property_id)
-    slots = ViewingSlot.objects.filter(
-        property=property, is_booked=False
-    ).order_by('date', 'start_time')
-    context = {
-        'property': property,
-        'slots': slots
-    }
-    return render(request, 'real_estate/viewing_slots.html', context)
-
-
-@login_required
-def book_viewing_slot(request, slot_id):
-    slot = get_object_or_404(ViewingSlot, id=slot_id)
-    if request.method == 'POST':
-        appointment = ViewingAppointment.objects.create(
-            user=request.user,
-            property=slot.property,
-            slot=slot,
-            name=request.POST.get('name', ''),
-            contact=request.POST.get('contact', ''),
-            email=request.POST.get('email', ''),
-            preferred_date=slot.date,
-            preferred_time=slot.start_time,
-            viewing_decision='pending'
-        )
-        slot.is_booked = True
-        slot.save()
-        return JsonResponse({'status': 'ok'})
-    return JsonResponse({'status': 'error'}, status=400)
-
-
 @login_required
 def view_pending_viewings(request):
     viewings = ViewingAppointment.objects.filter(user=request.user)
@@ -305,7 +278,6 @@ def view_pending_viewings(request):
         'viewings': viewings
     }
     return render(request, 'real_estate/pending_viewings.html', context)
-
 
 @login_required
 def update_viewing(request, viewing_id):
@@ -325,7 +297,6 @@ def update_viewing(request, viewing_id):
         {'form': form, 'viewing': viewing}
     )
 
-
 @login_required
 def delete_viewing(request, viewing_id):
     if request.method == 'POST':
@@ -335,7 +306,6 @@ def delete_viewing(request, viewing_id):
         viewing.delete()
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'}, status=400)
-
 
 @login_required
 def account_settings(request):
@@ -383,46 +353,35 @@ def account_settings(request):
         }
     )
 
-
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
-
 
 def mortgage_calculator(request):
     return render(request, 'real_estate/mortgage_calculator.html')
 
-
 def property_guides_list(request):
     return render(request, 'real_estate/property_guides_list.html')
-
 
 def blog_list(request):
     return render(request, 'real_estate/blog_list.html')
 
-
 def homelessness_advice_list(request):
     return render(request, 'real_estate/homelessness_advice_list.html')
-
 
 def testimonials_list(request):
     return render(request, 'real_estate/testimonials_list.html')
 
-
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')
-
 
 def repairs(request):
     return render(request, 'real_estate/repairs.html')
 
-
 def fire_safety(request):
     return render(request, 'real_estate/fire_safety.html')
 
-
 def complaints(request):
     return render(request, 'real_estate/complaints.html')
-
 
 def eviction(request):
     return render(request, 'real_estate/eviction.html')

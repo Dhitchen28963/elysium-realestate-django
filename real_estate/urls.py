@@ -20,12 +20,12 @@ urlpatterns = [
         name='request_custom_viewing'
     ),
     path(
-        'view-property-slots/<int:property_id>/',
+        'view_property_slots/<int:property_id>/',
         views.view_property_slots,
         name='view_property_slots'
     ),
     path(
-        'book-viewing-slot/<int:slot_id>/',
+        'book_viewing_slot/<int:slot_id>/',
         views.book_viewing_slot,
         name='book_viewing_slot'
     ),
@@ -68,11 +68,6 @@ urlpatterns = [
         views.mortgage_calculator,
         name='mortgage_calculator'
     ),
-    path(
-    'schedule-viewing/<int:slot_id>/',
-    views.schedule_viewing,
-    name='schedule_viewing'
-),
     path('view-land/', views.view_land, name='view_land'),
     path('repairs/', views.repairs, name='repairs'),
     path('fire-safety/', views.fire_safety, name='fire_safety'),

@@ -5,12 +5,16 @@
 {% block content %}
 <h1>Available Viewing Slots for {{ property.title }}</h1>
 <ul>
-    {% for slot in slots %}
-    <li>
-        {{ slot.date }} {{ slot.start_time }} - {{ slot.end_time }}
-        <button type="button" class="book-viewing" data-slot-id="{{ slot.id }}">Book this slot</button>
-    </li>
-    {% endfor %}
+    {% if slots %}
+        {% for slot in slots %}
+        <li>
+            {{ slot.date }} {{ slot.start_time }} - {{ slot.end_time }}
+            <button type="button" class="book-viewing" data-slot-id="{{ slot.id }}">Book this slot</button>
+        </li>
+        {% endfor %}
+    {% else %}
+        <li>No available slots</li>
+    {% endif %}
 </ul>
 
 <h2>Request a Custom Viewing</h2>
@@ -39,8 +43,8 @@
 <div id="viewingModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>Viewing</h2>
-    <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}">
+    <h2>Request a Custom Viewing</h2>
+    <form id="custom-viewing-form-modal" method="post" action="{% url 'request_custom_viewing' property.id %}">
       {% csrf_token %}
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
@@ -57,7 +61,7 @@
       <label for="preferred_time">Preferred Time:</label>
       <input type="time" id="preferred_time" name="preferred_time" required>
 
-      <label for="message">Preferred Date and Time:</label>
+      <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
       <button type="submit">Request Viewing</button>
     </form>

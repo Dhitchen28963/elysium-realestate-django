@@ -195,16 +195,59 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.status === 'ok') {
                 showModalMessage('Viewing request sent to the agent!');
             } else {
+                console.error('Server error response:', data);
                 throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error during viewing request:', error);
             showModalMessage('An error occurred while sending the viewing request. Please try again.');
         } finally {
             const modal = document.getElementById("viewingModal");
-            modal.style.display = "none";
+            if (modal) {
+                modal.style.display = "none";
+            }
         }
-    }    
+    }
+
+    // Function to request a slot viewing
+    async function requestSlotViewing(slotId) {
+        try {
+            const name = document.getElementById('slot-name').value;
+            const contact = document.getElementById('slot-contact').value;
+            const email = document.getElementById('slot-email').value;
+
+            const url = `/real_estate/book_viewing_slot/${slotId}/`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify({ name, contact, email })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+
+            if (data.status === 'ok') {
+                showModalMessage('Viewing slot booked successfully!');
+            } else {
+                console.error('Server error response:', data);
+                throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
+            }
+        } catch (error) {
+            console.error('Error during slot viewing request:', error);
+            showModalMessage('An error occurred while booking the viewing slot. Please try again.');
+        } finally {
+            const modal = document.getElementById("viewingModal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
 
     // Check if user is logged in from the data attribute in the body tag
     const isUserLoggedIn = document.body.getAttribute('data-authenticated') === 'true';
@@ -280,15 +323,79 @@ document.addEventListener('DOMContentLoaded', function () {
     openModalButtons.forEach(button => {
         button.addEventListener('click', function (event) {
             event.preventDefault();
+            console.log("Open modal button clicked");
+
             if (!isUserLoggedIn) {
                 showModalMessage('Please log in or create an account to schedule a viewing.');
                 return;
             }
+
             const propertyId = this.getAttribute('data-property-id');
+            console.log("Property ID:", propertyId);
+
             const form = document.getElementById('custom-viewing-form');
+            console.log("Form:", form);
+
+            if (!form) {
+                console.error("Form not found");
+                return;
+            }
+
             form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
             form.setAttribute('data-property-id', propertyId);
-            viewingModal.style.display = 'block';
+
+            // Fetch available slots and display them in the modal
+            fetch(`/real_estate/view_property_slots/${propertyId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const slotsContainer = document.getElementById('available-slots-container');
+                    console.log("Slots container:", slotsContainer);
+
+                    if (!slotsContainer) {
+                        console.error("Slots container not found");
+                        return;
+                    }
+
+                    slotsContainer.innerHTML = '';
+
+                    if (data.slots && data.slots.length > 0) {
+                        data.slots.forEach(slot => {
+                            const slotButton = document.createElement('button');
+                            slotButton.textContent = `${slot.date} ${slot.start_time} - ${slot.end_time}`;
+                            slotButton.onclick = () => {
+                                const slotBookingForm = document.getElementById('slot-booking-form');
+                                if (slotBookingForm) {
+                                    slotBookingForm.style.display = 'block';
+                                }
+                                const bookSlotButton = document.getElementById('book-slot-button');
+                                if (bookSlotButton) {
+                                    bookSlotButton.onclick = () => requestSlotViewing(slot.id);
+                                }
+                            };
+                            slotsContainer.appendChild(slotButton);
+                        });
+                    } else {
+                        slotsContainer.innerHTML = '<p>No available slots</p>';
+                    }
+                })
+                .catch(error => console.error('Error fetching available slots:', error));
+
+            const viewingModal = document.getElementById('viewingModal');
+            console.log("Viewing modal:", viewingModal);
+
+            if (viewingModal) {
+                viewingModal.style.display = 'block';
+            } else {
+                console.error("Viewing modal not found");
+            }
+        });
+    });
+
+    // Event listener for booking viewing slot
+    document.querySelectorAll('.book-viewing').forEach(button => {
+        button.addEventListener('click', function () {
+            const slotId = this.getAttribute('data-slot-id');
+            requestSlotViewing(slotId);
         });
     });
 
