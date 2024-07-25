@@ -31,6 +31,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_content_type(self):
+        return ContentType.objects.get_for_model(self)
 
 class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')
@@ -44,7 +46,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
-
 
 class PostImage(models.Model):
     post = models.ForeignKey(
