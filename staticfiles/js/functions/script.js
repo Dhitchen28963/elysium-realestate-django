@@ -1,255 +1,316 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Function to get CSRF Token
-    function getCSRFToken() {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, 10) === 'csrftoken=') {
-                    cookieValue = decodeURIComponent(cookie.substring(10));
-                    break;
-                }
+function getCSRFToken() {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, 10) === 'csrftoken=') {
+                cookieValue = decodeURIComponent(cookie.substring(10));
+                break;
             }
         }
-        return cookieValue;
     }
+    return cookieValue;
+}
 
-    // Function to show modal message
-    function showModalMessage(message) {
-        const modal = document.getElementById('messageModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const closeModal = document.getElementsByClassName('close')[0];
+function showModalMessage(message) {
+    const modal = document.getElementById('messageModal');
+    const modalMessage = document.getElementById('modalMessage');
+    const closeModal = document.getElementsByClassName('close')[0];
 
-        modalMessage.textContent = message;
-        modal.style.display = 'block';
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
 
-        closeModal.onclick = function () {
-            modal.style.display = 'none';
-        };
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        };
-    }
-
-    // Function to clear previous modal messages
-    function clearModalMessages() {
-        const modal = document.getElementById('messageModal');
-        const modalMessage = document.getElementById('modalMessage');
-        modalMessage.textContent = '';
+    closeModal.onclick = function () {
         modal.style.display = 'none';
-    }
+    };
 
-    // Function to validate the contact number
-    function validateContactNumber(contact) {
-        const regex = /^(?:0(?:7\d{9}|(?:1|2|3)\d{8,9}))$/;
-        return regex.test(contact);
-    }
-
-    // Function to validate the date
-    function validateDate() {
-        const preferredDateInput = document.getElementById('preferred_date');
-        const currentDate = new Date();
-        const selectedDate = new Date(preferredDateInput.value);
-
-        if (isNaN(selectedDate.getTime())) {
-            showModalMessage('Please enter a valid date.');
-            preferredDateInput.value = '';  // Clear invalid date
-            return false;
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
         }
+    };
+}
 
-        if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
-            showModalMessage('You cannot select a past date. Please choose a valid date.');
-            preferredDateInput.value = '';  // Clear past date
-            return false;
-        }
+function clearModalMessages() {
+    const modal = document.getElementById('messageModal');
+    const modalMessage = document.getElementById('modalMessage');
+    modalMessage.textContent = '';
+    modal.style.display = 'none';
+}
 
-        return true;
+function validateContactNumber(contact) {
+    const regex = /^(?:0(?:7\d{9}|(?:1|2|3)\d{8,9}))$/;
+    return regex.test(contact);
+}
+
+function validateDate() {
+    const preferredDateInput = document.getElementById('preferred_date');
+    const currentDate = new Date();
+    const selectedDate = new Date(preferredDateInput.value);
+
+    if (isNaN(selectedDate.getTime())) {
+        showModalMessage('Please enter a valid date.');
+        preferredDateInput.value = '';  // Clear invalid date
+        return false;
     }
 
-    // Toggle favorite status
-    async function toggleFavorite(propertyId, isFavorite, app) {
-        const url = isFavorite ?
-            `/${app}/remove-from-favorites/${propertyId}/` :
-            `/${app}/add-to-favorites/${propertyId}/`;
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
-                },
-                body: JSON.stringify({})
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (data.status === 'ok') {
-                showModalMessage(isFavorite ? 'Property removed from favorites' : 'Property added to favorites');
-                location.reload();
-            } else if (data.status === 'exists') {
-                showModalMessage('Property is already in favorites.');
-                const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
-                if (button) {
-                    button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
-                    button.setAttribute('data-is-favorite', 'true');
-                }
-            } else {
-                showModalMessage('Error updating favorites');
-            }
-        } catch (error) {
-            console.error('Error:', error.message);
-            showModalMessage('An error occurred. Please try again.');
-        }
+    if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
+        showModalMessage('You cannot select a past date. Please choose a valid date.');
+        preferredDateInput.value = '';  // Clear past date
+        return false;
     }
 
-    // Save
-    function addToFavorites(propertyId, app) {
-        fetch(`/${app}/add-to-favorites/${propertyId}/`, {
+    return true;
+}
+
+async function toggleFavorite(propertyId, isFavorite, app) {
+    const url = isFavorite ?
+        `/${app}/remove-from-favorites/${propertyId}/` :
+        `/${app}/add-to-favorites/${propertyId}/`;
+
+    try {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken()
             },
             body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'ok') {
-                showModalMessage('Property added to favorites!');
-                location.reload();
-            } else if (data.status === 'exists') {
-                showModalMessage('Property is already in favorites.');
-                const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
-                if (button) {
-                    button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
-                    button.setAttribute('data-is-favorite', 'true');
-                }
-            } else {
-                showModalMessage('Error adding property to favorites.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showModalMessage('An error occurred. Please try again.');
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.status === 'ok') {
+            showModalMessage(isFavorite ? 'Property removed from favorites' : 'Property added to favorites');
+            location.reload();
+        } else if (data.status === 'exists') {
+            showModalMessage('Property is already in favorites.');
+            const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
+            if (button) {
+                button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
+                button.setAttribute('data-is-favorite', 'true');
+            }
+        } else {
+            showModalMessage('Error updating favorites');
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        showModalMessage('An error occurred. Please try again.');
+    }
+}
+
+function addToFavorites(propertyId, app) {
+    fetch(`/${app}/add-to-favorites/${propertyId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'ok') {
+            showModalMessage('Property added to favorites!');
+            location.reload();
+        } else if (data.status === 'exists') {
+            showModalMessage('Property is already in favorites.');
+            const button = document.querySelector(`.favorites-star[data-property-id="${propertyId}"]`);
+            if (button) {
+                button.innerHTML = '<i class="fa-solid fa-star"></i> Saved';
+                button.setAttribute('data-is-favorite', 'true');
+            }
+        } else {
+            showModalMessage('Error adding property to favorites.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showModalMessage('An error occurred. Please try again.');
+    });
+}
+
+function removeFromFavorites(propertyId, app) {
+    fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'ok') {
+            showModalMessage('Property removed from favorites!');
+            location.reload();
+        } else {
+            showModalMessage('Error removing property from favorites.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showModalMessage('An error occurred. Please try again.');
+    });
+}
+
+async function requestCustomViewing(propertyId) {
+    const customViewingForm = document.getElementById('custom-viewing-form');
+    const formData = new FormData(customViewingForm);
+
+    if (!validateDate()) {
+        return;
     }
 
-    // Saved
-    function removeFromFavorites(propertyId, app) {
-        fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
+    try {
+        const url = `/real_estate/request_custom_viewing/${propertyId}/`;
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.status === 'ok') {
+            showModalMessage('Viewing request sent to the agent!');
+        } else {
+            console.error('Server error response:', data);
+            throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
+        }
+    } catch (error) {
+        console.error('Error during viewing request:', error);
+        showModalMessage('An error occurred while sending the viewing request. Please try again.');
+    } finally {
+        const modal = document.getElementById("viewingModal");
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+async function requestSlotViewing(slotId) {
+    try {
+        const name = document.getElementById('slot-name').value;
+        const contact = document.getElementById('slot-contact').value;
+        const email = document.getElementById('slot-email').value;
+
+        const url = `/real_estate/book_viewing_slot/${slotId}/`;
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken()
             },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'ok') {
-                showModalMessage('Property removed from favorites!');
-                location.reload();
-            } else {
-                showModalMessage('Error removing property from favorites.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showModalMessage('An error occurred. Please try again.');
+            body: JSON.stringify({ name, contact, email })
         });
-    }
 
-    async function requestCustomViewing(propertyId) {
-        const customViewingForm = document.getElementById('custom-viewing-form');
-        const formData = new FormData(customViewingForm);
-
-        if (!validateDate()) {
-            return;
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
 
-        try {
-            const url = `/real_estate/request_custom_viewing/${propertyId}/`;
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': getCSRFToken()
-                },
-            });
+        const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-
-            if (data.status === 'ok') {
-                showModalMessage('Viewing request sent to the agent!');
-            } else {
-                console.error('Server error response:', data);
-                throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
-            }
-        } catch (error) {
-            console.error('Error during viewing request:', error);
-            showModalMessage('An error occurred while sending the viewing request. Please try again.');
-        } finally {
-            const modal = document.getElementById("viewingModal");
-            if (modal) {
-                modal.style.display = "none";
-            }
+        if (data.status === 'ok') {
+            showModalMessage('Viewing slot booked successfully!');
+        } else {
+            console.error('Server error response:', data);
+            throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
+        }
+    } catch (error) {
+        console.error('Error during slot viewing request:', error);
+        showModalMessage('An error occurred while booking the viewing slot. Please try again.');
+    } finally {
+        const modal = document.getElementById("viewingModal");
+        if (modal) {
+            modal.style.display = "none";
         }
     }
+}
 
-    // Function to request a slot viewing
-    async function requestSlotViewing(slotId) {
-        try {
-            const name = document.getElementById('slot-name').value;
-            const contact = document.getElementById('slot-contact').value;
-            const email = document.getElementById('slot-email').value;
-
-            const url = `/real_estate/book_viewing_slot/${slotId}/`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
-                },
-                body: JSON.stringify({ name, contact, email })
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-
-            if (data.status === 'ok') {
-                showModalMessage('Viewing slot booked successfully!');
-            } else {
-                console.error('Server error response:', data);
-                throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
-            }
-        } catch (error) {
-            console.error('Error during slot viewing request:', error);
-            showModalMessage('An error occurred while booking the viewing slot. Please try again.');
-        } finally {
-            const modal = document.getElementById("viewingModal");
-            if (modal) {
-                modal.style.display = "none";
-            }
-        }
+function closeSidebar() {
+    const sidebar = document.getElementById('my-account-sidebar');
+    if (sidebar) {
+        sidebar.style.display = 'none';
     }
+}
 
-    // Check if user is logged in from the data attribute in the body tag
+// Mortgage calculation functions
+function nextStep(step) {
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step + 1}`).classList.add('active');
+}
+
+function prevStep(step) {
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step - 1}`).classList.add('active');
+}
+
+function updateTermValue(value) {
+    document.getElementById('termValue').innerText = `${value} years`;
+}
+
+function calculateMortgage() {
+    const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
+    const deposit = parseFloat(document.getElementById('deposit').value);
+    const term = parseInt(document.getElementById('term').value);
+    const interestRate = parseFloat(document.getElementById('interestRate').value);
+
+    const borrowAmount = propertyPrice - deposit;
+    const monthlyInterestRate = (interestRate / 100) / 12;
+    const numberOfPayments = term * 12;
+    const principal = borrowAmount;
+
+    const monthlyRepayments = (principal * monthlyInterestRate) / (1 - Math.pow((1 + monthlyInterestRate), -numberOfPayments));
+    const totalRepayable = monthlyRepayments * numberOfPayments;
+    const totalInterest = totalRepayable - principal;
+
+    document.getElementById('resultPropertyPriceInput').innerText = propertyPrice.toFixed(2);
+    document.getElementById('resultDeposit').innerText = deposit.toFixed(2);
+    document.getElementById('resultTerm').innerText = term;
+    document.getElementById('resultInterestRate').innerText = interestRate.toFixed(2);
+    document.getElementById('resultBorrowAmount').innerText = borrowAmount.toFixed(2);
+    document.getElementById('resultMonthlyRepayments').innerText = monthlyRepayments.toFixed(2);
+    document.getElementById('resultTotalInterest').innerText = totalInterest.toFixed(2);
+    document.getElementById('resultTotalRepayable').innerText = totalRepayable.toFixed(2);
+    document.getElementById('resultPropertyPrice').innerText = propertyPrice.toFixed(2);
+
+    document.getElementById('result').classList.add('active');
+}
+
+// Export functions for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        getCSRFToken,
+        showModalMessage,
+        clearModalMessages,
+        validateContactNumber,
+        validateDate,
+        toggleFavorite,
+        addToFavorites,
+        removeFromFavorites,
+        requestCustomViewing,
+        requestSlotViewing,
+        closeSidebar,
+        nextStep,
+        prevStep,
+        updateTermValue,
+        calculateMortgage
+    };
+}
+
+document.addEventListener('DOMContentLoaded', function () {
     const isUserLoggedIn = document.body.getAttribute('data-authenticated') === 'true';
 
     // Event listener for custom viewing request
@@ -257,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (customViewingForm) {
         customViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            clearModalMessages();  // Clear previous messages
+            clearModalMessages();
 
             const contactInput = document.getElementById('contact').value;
             if (!validateContactNumber(contactInput)) {
@@ -453,11 +514,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Close sidebar function
-    function closeSidebar() {
-        sidebar.style.display = 'none';
-    }
-
-    // Event listener for close sidebar button
     const closeSidebarButton = document.getElementById('close-sidebar');
     if (closeSidebarButton) {
         closeSidebarButton.addEventListener('click', closeSidebar);
@@ -629,7 +685,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCarousel();
     setActiveThumbnail(currentIndex);
 
-    // Delete Confirmation Modal for Pending Viewings
     const deleteModal = document.getElementById('deleteModal');
     const confirmDeleteBtn = document.getElementById('confirmDelete');
     let viewingIdToDelete = null;
@@ -692,10 +747,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (updateViewingForm) {
         updateViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            clearModalMessages();  // Clear previous messages
+            clearModalMessages();
 
             if (!validateDate()) {
-                return;  // Prevent form submission if date is invalid
+                return;
             }
 
             const url = updateViewingForm.getAttribute('action');
@@ -729,50 +784,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Mortgage calculation
-function nextStep(step) {
-    document.getElementById(`step${step}`).classList.remove('active');
-    document.getElementById(`step${step + 1}`).classList.add('active');
-}
-
-function prevStep(step) {
-    document.getElementById(`step${step}`).classList.remove('active');
-    document.getElementById(`step${step - 1}`).classList.add('active');
-}
-
-function updateTermValue(value) {
-    document.getElementById('termValue').innerText = `${value} years`;
-}
-
-function calculateMortgage() {
-    const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
-    const deposit = parseFloat(document.getElementById('deposit').value);
-    const term = parseInt(document.getElementById('term').value);
-    const interestRate = parseFloat(document.getElementById('interestRate').value);
-
-    const borrowAmount = propertyPrice - deposit; // Amount that can be borrowed
-    const monthlyInterestRate = (interestRate / 100) / 12;
-    const numberOfPayments = term * 12;
-    const principal = borrowAmount;
-
-    const monthlyRepayments = (principal * monthlyInterestRate) / (1 - Math.pow((1 + monthlyInterestRate), -numberOfPayments));
-    const totalRepayable = monthlyRepayments * numberOfPayments;
-    const totalInterest = totalRepayable - principal;
-
-    document.getElementById('resultPropertyPriceInput').innerText = propertyPrice.toFixed(2);
-    document.getElementById('resultDeposit').innerText = deposit.toFixed(2);
-    document.getElementById('resultTerm').innerText = term;
-    document.getElementById('resultInterestRate').innerText = interestRate.toFixed(2);
-    document.getElementById('resultBorrowAmount').innerText = borrowAmount.toFixed(2);
-    document.getElementById('resultMonthlyRepayments').innerText = monthlyRepayments.toFixed(2);
-    document.getElementById('resultTotalInterest').innerText = totalInterest.toFixed(2);
-    document.getElementById('resultTotalRepayable').innerText = totalRepayable.toFixed(2);
-    document.getElementById('resultPropertyPrice').innerText = propertyPrice.toFixed(2);
-
-    document.getElementById('result').classList.add('active');
-}
-
-// Ensure these functions are accessible in the global scope
 window.nextStep = nextStep;
 window.prevStep = prevStep;
 window.updateTermValue = updateTermValue;

@@ -763,7 +763,7 @@ function calculateMortgage() {
     document.getElementById('resultDeposit').innerText = deposit.toFixed(2);
     document.getElementById('resultTerm').innerText = term;
     document.getElementById('resultInterestRate').innerText = interestRate.toFixed(2);
-    document.getElementById('resultBorrowAmount').innerText = borrowAmount.toFixed(2); // Amount that can be borrowed
+    document.getElementById('resultBorrowAmount').innerText = borrowAmount.toFixed(2);
     document.getElementById('resultMonthlyRepayments').innerText = monthlyRepayments.toFixed(2);
     document.getElementById('resultTotalInterest').innerText = totalInterest.toFixed(2);
     document.getElementById('resultTotalRepayable').innerText = totalRepayable.toFixed(2);

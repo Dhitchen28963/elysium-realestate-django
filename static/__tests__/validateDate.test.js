@@ -1,6 +1,6 @@
 const validateDate = require('../../static/js/functions/validateDate');
 
-// Mock showModalMessage to prevent actual DOM manipulation during testing
+// Mock showModalMessage
 jest.mock('../../static/js/functions/showModalMessage', () => jest.fn());
 
 // Mock DOM elements for testing purposes
