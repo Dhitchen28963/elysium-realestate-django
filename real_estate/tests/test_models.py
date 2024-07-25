@@ -45,6 +45,11 @@ class PropertyModelTests(TestCase):
     def test_slug_creation(self):
         self.assertEqual(self.property.slug, 'test-property')
 
+    def test_auto_slug_creation_on_save(self):
+        self.property.slug = ''
+        self.property.save()
+        self.assertEqual(self.property.slug, 'test-property')
+
 class PropertyImageModelTests(TestCase):
 
     def setUp(self):
@@ -160,6 +165,12 @@ class ViewingSlotModelTests(TestCase):
         expected_str = f"Test Property on {self.viewing_slot.date} from {self.viewing_slot.start_time} to {self.viewing_slot.end_time}"
         self.assertEqual(str(self.viewing_slot), expected_str)
 
+    def test_booking_status(self):
+        self.assertFalse(self.viewing_slot.is_booked)
+        self.viewing_slot.is_booked = True
+        self.viewing_slot.save()
+        self.assertTrue(ViewingSlot.objects.get(id=self.viewing_slot.id).is_booked)
+
 class ViewingAppointmentModelTests(TestCase):
 
     def setUp(self):
@@ -200,32 +211,49 @@ class ViewingAppointmentModelTests(TestCase):
         expected_str = f"Viewing Appointment for Test Property by John Doe"
         self.assertEqual(str(self.viewing_appointment), expected_str)
 
+    def test_viewing_decision(self):
+        self.assertEqual(self.viewing_appointment.viewing_decision, 'pending')
+        self.viewing_appointment.viewing_decision = 'accepted'
+        self.viewing_appointment.save()
+        self.assertEqual(ViewingAppointment.objects.get(id=self.viewing_appointment.id).viewing_decision, 'accepted')
+
 class ProfileModelTests(TestCase):
 
     def setUp(self):
-        # Clean up existing profiles and users to avoid conflicts
         Profile.objects.all().delete()
         User.objects.all().delete()
 
-        # Create a new user and profile
         self.user = User.objects.create_user(
             username='johndoe',
             email='johndoe@example.com',
             password='password'
         )
-        self.profile, created = Profile.objects.get_or_create(
+        # Ensure no previous profile exists for the user
+        Profile.objects.filter(user=self.user).delete()
+        
+        # Create a profile for the user
+        self.profile = Profile.objects.create(
             user=self.user,
-            defaults={
-                'name': 'John Doe',
-                'address': '123 Main Street',
-                'telephone': '1234567890'
-            }
+            name='John Doe',
+            address='123 Main Street',
+            telephone='1234567890'
         )
 
     def test_string_representation(self):
         self.assertEqual(str(self.profile), 'johndoe')
 
+    def test_profile_creation(self):
+        self.assertTrue(self.profile)
+        self.assertEqual(self.profile.user, self.user)
+        self.assertEqual(self.profile.name, 'John Doe')
+        self.assertEqual(self.profile.address, '123 Main Street')
+        self.assertEqual(self.profile.telephone, '1234567890')
+
+    def test_profile_update(self):
+        self.profile.name = 'Jane Doe'
+        self.profile.save()
+        self.assertEqual(Profile.objects.get(id=self.profile.id).name, 'Jane Doe')
+
     def tearDown(self):
-        # Clean up after each test
         Profile.objects.all().delete()
         User.objects.all().delete()

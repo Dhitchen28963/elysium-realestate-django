@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } finally {
             const modal = document.getElementById("viewingModal");
             if (modal) {
-                modal.style.display = "none";
+                modal.style.display = 'none';
             }
         }
     }

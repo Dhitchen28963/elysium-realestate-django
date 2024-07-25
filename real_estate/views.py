@@ -42,7 +42,9 @@ def request_custom_viewing(request, property_id):
             return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
-    return JsonResponse({'status': 'error'}, status=400)
+    else:
+        form = ViewingAppointmentForm()
+    return render(request, 'request_custom_viewing.html', {'form': form, 'property': property})
 
 @login_required
 def book_viewing_slot(request, slot_id):

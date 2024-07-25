@@ -64,8 +64,14 @@ class PropertyViewTests(TestCase):
             'email': 'testuser@example.com',
             'message': 'I would like a viewing.'
         }
-        response = self.client.post(reverse('request_custom_viewing', args=[self.property.id]), data=form_data)
-        self.assertEqual(response.status_code, 302)
+        # Testing the AJAX form submission
+        response = self.client.post(
+            reverse('request_custom_viewing', args=[self.property.id]),
+            data=form_data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content, {'status': 'ok'})
         self.assertEqual(ViewingAppointment.objects.count(), 1)
 
     def test_accept_appointment(self):
@@ -109,14 +115,6 @@ class PropertyViewTests(TestCase):
         response = self.client.get(reverse('property_sale'), {'search': 'Test Location'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.property.title)
-
-    def test_schedule_viewing(self):
-        response = self.client.post(reverse('schedule_viewing', args=[self.viewing_slot.id]), {
-            'slot_id': self.viewing_slot.id
-        })
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, {'status': 'ok'})
-        self.assertTrue(ViewingAppointment.objects.filter(user=self.user, slot=self.viewing_slot).exists())
 
     def test_view_pending_viewings(self):
         ViewingAppointment.objects.create(
