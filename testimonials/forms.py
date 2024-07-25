@@ -1,8 +1,7 @@
 from django import forms
-from .models import Post
+from .models import Testimonial
 
-
-class PostForm(forms.ModelForm):
+class TestimonialForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ('title', 'comment', 'author')
+        model = Testimonial
+        fields = ['body']

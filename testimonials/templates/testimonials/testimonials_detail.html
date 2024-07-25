@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ testimonial.body|truncatewords:5 }}{% endblock %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>{{ post.comment }}</p>
-<p><strong>Author:</strong> {{ post.author }}</p>
+<h1>{{ testimonial.body|truncatewords:5 }}</h1>
+<p>{{ testimonial.body }}</p>
+<p><strong>Author:</strong> {{ testimonial.author.username }}</p>
+<p><strong>Created on:</strong> {{ testimonial.created_on }}</p>
+
+<a href="{% url 'edit_testimonial' testimonial.id %}">Edit</a>
+<form method="post" action="{% url 'delete_testimonial' testimonial.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+
 <a href="{% url 'testimonials_list' %}">Back to Testimonials List</a>
 {% endblock %}

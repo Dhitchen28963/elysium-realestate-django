@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import FAQ, Comment
 from .forms import CommentForm
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.http import HttpResponseForbidden
 
 class FAQList(View):
     def get(self, request, *args, **kwargs):
         faqs = FAQ.objects.filter(status='published').order_by('-created_on')
         return render(request, 'faq/faq_list.html', {'faqs': faqs})
-
 
 class FAQDetail(View):
     def get(self, request, slug, *args, **kwargs):
@@ -21,6 +22,7 @@ class FAQDetail(View):
             'comment_form': comment_form
         })
 
+    @method_decorator(login_required)
     def post(self, request, slug, *args, **kwargs):
         faq = get_object_or_404(FAQ, slug=slug)
         comment_form = CommentForm(data=request.POST)
@@ -36,3 +38,31 @@ class FAQDetail(View):
             'comments': comments,
             'comment_form': comment_form
         })
+
+@method_decorator(login_required, name='dispatch')
+class FAQCommentEdit(View):
+    def get(self, request, comment_id, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=comment_id)
+        if request.user != comment.author:
+            return HttpResponseForbidden()
+        form = CommentForm(instance=comment)
+        return render(request, 'faq/edit_comment.html', {'form': form})
+
+    def post(self, request, comment_id, *args, **kwargs):
+        comment = get_object_or_404(Comment, id=comment_id)
+        if request.user != comment.author:
+            return HttpResponseForbidden()
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('faq_detail', slug=comment.post.slug)
+        return render(request, 'faq/edit_comment.html', {'form': form})
+
+@login_required
+def delete_faq_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.user != comment.author:
+        return HttpResponseForbidden()
+    faq_slug = comment.post.slug
+    comment.delete()
+    return redirect('faq_detail', slug=faq_slug)

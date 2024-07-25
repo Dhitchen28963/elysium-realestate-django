@@ -17,14 +17,9 @@ class PostAdmin(SummernoteModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'post', 'created_on', 'approved')
+    list_display = ('author', 'content_object', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
-    search_fields = ['author', 'body']
-    actions = ['approve_comments']
-
-    def approve_comments(self, request, queryset):
-        queryset.update(approved=True)
-
+    search_fields = ('author__username', 'body')
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)

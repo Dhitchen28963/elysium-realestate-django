@@ -1,10 +1,8 @@
 from django.contrib import admin
-from .models import Post
+from .models import Testimonial
 
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('author', 'body', 'created_on')
+    search_fields = ('author', 'body')
 
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author')
-    search_fields = ['title', 'comment']
-
-
-admin.site.register(Post, PostAdmin)
+admin.site.register(Testimonial, TestimonialAdmin)

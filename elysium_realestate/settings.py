@@ -6,17 +6,15 @@ import sys
 if os.path.isfile('env.py'):
     import env
 
-
 # Basic settings
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 ALLOWED_HOSTS = [
-    '8000-dhitchen289-elysiumreal-9k1yohn1y4v.ws.codeinstitute-ide.net',
+    '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
     '.herokuapp.com'
 ]
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,29 +103,22 @@ if 'test' in sys.argv:
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
     "https://*.herokuapp.com",
-    (
-        "https://8000-dhitchen289-elysiumreal-9k1yohn1y4v."
-        "ws.codeinstitute-ide.net"
-    ),
+    "https://8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net",
 ]
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -147,10 +137,8 @@ EMAILJS_PRIVATE_KEY = os.environ.get('EMAILJS_PRIVATE_KEY')
 EMAILJS_PUBLIC_KEY = os.environ.get('EMAILJS_PUBLIC_KEY')
 
 logging.debug(f"EMAILJS_SERVICE_ID: {EMAILJS_SERVICE_ID}")
-logging.debug(f"EMAILJS_CONTACT_FORM_TEMPLATE_ID: "
-              f"{EMAILJS_CONTACT_FORM_TEMPLATE_ID}")
-logging.debug(f"EMAILJS_CONTACT_REPLY_TEMPLATE_ID: "
-              f"{EMAILJS_CONTACT_REPLY_TEMPLATE_ID}")
+logging.debug(f"EMAILJS_CONTACT_FORM_TEMPLATE_ID: {EMAILJS_CONTACT_FORM_TEMPLATE_ID}")
+logging.debug(f"EMAILJS_CONTACT_REPLY_TEMPLATE_ID: {EMAILJS_CONTACT_REPLY_TEMPLATE_ID}")
 logging.debug(f"EMAILJS_USER_ID: {EMAILJS_USER_ID}")
 logging.debug(f"EMAILJS_PRIVATE_KEY: {EMAILJS_PRIVATE_KEY}")
 logging.debug(f"EMAILJS_PUBLIC_KEY: {EMAILJS_PUBLIC_KEY}")

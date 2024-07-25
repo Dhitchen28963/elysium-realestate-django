@@ -5,11 +5,12 @@
 {% block content %}
 <h1>Testimonials List</h1>
 <ul>
-    {% for post in posts %}
+    {% for testimonial in testimonials %}
         <li>
-            <a href="{% url 'testimonials_detail' post.id %}">{{ post.title }}</a>
-            <p>{{ post.comment }}</p>
+            <a href="{% url 'testimonials_detail' testimonial.id %}">{{ testimonial.body|truncatewords:10 }}</a>
+            <p>{{ testimonial.body }}</p>
         </li>
     {% endfor %}
 </ul>
+<a href="{% url 'add_testimonial' %}">Add Testimonial</a>
 {% endblock %}
