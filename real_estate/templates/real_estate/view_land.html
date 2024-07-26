@@ -57,11 +57,11 @@
               £{{ property.price }}
               <div class="property-features">
                 <span class="feature-item"><i class="fa-solid fa-house"></i> Property Type: {{ property.get_property_type_display }}</span>
-                <span class="feature-item"><i class="fa fa-bed"></i> Bedrooms</span>
-                <span class="feature-item"><i class="fa fa-bath"></i> Bathrooms</span>
-                <span class="feature-item"><i class="fa fa-tree"></i> Garden</span>
-                <span class="feature-item"><i class="fa fa-car"></i> Parking</span>
-                <span class="feature-item"><i class="fa fa-paw"></i> Pets Allowed</span>
+                <span class="feature-item"><i class="fa fa-bed"></i> Bedrooms: {{ property.bedrooms }}</span>
+                <span class="feature-item"><i class="fa fa-bath"></i> Bathrooms: {{ property.bathrooms }}</span>
+                <span class="feature-item"><i class="fa fa-tree"></i> Garden: {{ property.garden|yesno:"Yes,No" }}</span>
+                <span class="feature-item"><i class="fa fa-car"></i> Parking: {{ property.parking|yesno:"Yes,No" }}</span>
+                <span class="feature-item"><i class="fa fa-paw"></i> Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}</span>
               </div>
             </div>
           </div>

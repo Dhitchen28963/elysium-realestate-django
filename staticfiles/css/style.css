@@ -73,6 +73,16 @@ h1 {
     display: flex;
 }
 
+/* Main navigation links */
+.header .nav .menu li a:hover {
+  text-decoration: underline;
+}
+
+/* Dropdown menu links */
+.header .nav .menu .dropdown-menu li a:hover {
+  text-decoration: underline;
+}
+
 /* Adjust the appearance of the dropdown items */
 .dropdown-menu li {
     width: auto;
@@ -908,6 +918,11 @@ footer p {
   text-align: center;
   font-weight: bold;
   color: white;
+}
+
+/* Footer links */
+.footer-menu ul li a:hover {
+  text-decoration: underline;
 }
 
 /* Footer including social media links */
