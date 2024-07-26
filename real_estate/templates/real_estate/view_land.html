@@ -31,7 +31,7 @@
     <form method="get" action="{% url 'view_land' %}">
       <div class="search-bar">
         <input type="text" name="search" placeholder="Enter location" value="{{ form.search.value|default_if_none:''|default:'' }}">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
     </form>
   </div>
@@ -73,7 +73,7 @@
           <div class="property-buttons">
             <form method="post" action="{% url 'add_to_favorites' property.id %}">
               {% csrf_token %}
-              <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+              <button type="submit" class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate" aria-label="Add to favorites">
                 {% if property.is_favorite %}
                   <i class="fa-solid fa-star"></i> Saved
                 {% else %}
@@ -81,7 +81,7 @@
                 {% endif %}
               </button>
             </form>
-            <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+            <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing" aria-label="Request viewing for {{ property.title }}">
               <i class="fa-solid fa-calendar-alt"></i> Viewing
             </button>
           </div>
@@ -98,7 +98,7 @@
 <!-- Modal for scheduling a viewing -->
 <div id="viewingModal" class="modal">
   <div class="modal-content">
-    <span class="close">&times;</span>
+    <span class="close" aria-label="Close">&times;</span>
     <h2>Request a Viewing</h2>
     <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}" data-property-id="{{ property.id }}">
       {% csrf_token %}
@@ -114,7 +114,7 @@
       <input type="time" id="preferred_time" name="preferred_time" required>
       <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
-      <button type="submit">Request Viewing</button>
+      <button type="submit" aria-label="Submit viewing request">Request Viewing</button>
     </form>
     <h3>Or select from available slots:</h3>
     <div id="available-slots-container"></div>
@@ -126,7 +126,7 @@
       <input type="text" id="slot-contact" name="slot-contact" required>
       <label for="slot-email">Email:</label>
       <input type="email" id="slot-email" name="slot-email" required>
-      <button type="button" id="book-slot-button">Book Slot</button>
+      <button type="button" id="book-slot-button" aria-label="Book slot">Book Slot</button>
     </div>
   </div>
 </div>
@@ -135,15 +135,15 @@
 {% block pagination %}
 <section class="pagination-section">
   {% if properties.has_previous %}
-    <a href="?page=1">First</a>
-    <a href="?page={{ properties.previous_page_number }}">Previous</a>
+    <a href="?page=1" aria-label="First page">First</a>
+    <a href="?page={{ properties.previous_page_number }}" aria-label="Previous page">Previous</a>
   {% endif %}
 
   <span class="current">Page {{ properties.number }} of {{ properties.paginator.num_pages }}</span>
 
   {% if properties.has_next %}
-    <a href="?page={{ properties.next_page_number }}">Next</a>
-    <a href="?page={{ properties.paginator.num_pages }}">Last</a>
+    <a href="?page={{ properties.next_page_number }}" aria-label="Next page">Next</a>
+    <a href="?page={{ properties.paginator.num_pages }}" aria-label="Last page">Last</a>
   {% endif %}
 </section>
 {% endblock %}

@@ -5,13 +5,13 @@
 <form method="post" id="update-viewing-form" action="{% url 'update_viewing' viewing_id=viewing.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update</button>
+    <button type="submit" aria-label="Update Viewing">Update</button>
 </form>
 
 <!-- Modal -->
 <div id="messageModal" style="display:none;">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" aria-label="Close modal">&times;</span>
         <p id="modalMessage"></p>
     </div>
 </div>

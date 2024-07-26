@@ -17,7 +17,7 @@
       <form method="post" action="{% url 'account_settings' %}">
         {% csrf_token %}
         {{ profile_form.as_p }}
-        <button type="submit" name="update_profile">Save Changes</button>
+        <button type="submit" aria-label="Save Changes">Save Changes</button>
       </form>
     </div>
 
@@ -26,12 +26,12 @@
       <form method="post" action="{% url 'account_settings' %}">
         {% csrf_token %}
         {{ password_form.as_p }}
-        <button type="submit" name="change_password">Change Password</button>
+        <button type="submit" aria-label="Change Password">Change Password</button>
       </form>
       <form method="post" action="{% url 'account_settings' %}" class="delete-account-form">
         {% csrf_token %}
         {{ delete_form.as_p }}
-        <button type="submit" name="delete_account" class="delete-account-button">Delete Account</button>
+        <button type="submit" class="delete-account-button" aria-label="Delete Account">Delete Account</button>
       </form>
     </div>
   </section>

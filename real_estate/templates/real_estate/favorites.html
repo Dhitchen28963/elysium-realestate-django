@@ -11,7 +11,7 @@
         {% if favorite.property.availability_status == 'unavailable' %}
             <span>(No longer available)</span>
         {% endif %}
-        <button class="remove-favorite-btn" data-app="real_estate" data-property-id="{{ favorite.property.id }}">Remove</button>
+        <button class="remove-favorite-btn" data-app="real_estate" data-property-id="{{ favorite.property.id }}" aria-label="Remove from favorites">Remove</button>
     </li>
     {% endfor %}
 </ul>

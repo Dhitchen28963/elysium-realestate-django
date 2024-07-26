@@ -20,8 +20,8 @@
         </div>
         {% endfor %}
       </div>
-      <button class="carousel-control-prev">&lt;</button>
-      <button class="carousel-control-next">&gt;</button>
+      <button class="carousel-control-prev" aria-label="Previous image">&lt;</button>
+      <button class="carousel-control-next" aria-label="Next image">&gt;</button>
     </div>
 
     <div class="thumbnail-container">
@@ -65,14 +65,14 @@
         <div>{{ property.description|safe }}</div>
       </div>
       <div class="property-actions">
-        <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate">
+        <button class="favorites-star" data-property-id="{{ property.id }}" data-is-favorite="{{ property.is_favorite }}" data-app="real_estate" aria-label="{% if property.is_favorite %}Remove from favorites{% else %}Add to favorites{% endif %}">
           {% if property.is_favorite %}
             <i class="fa-solid fa-star"></i> Saved
           {% else %}
             <i class="fa-regular fa-star"></i> Save
           {% endif %}
         </button>
-        <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing">
+        <button type="button" class="open-modal" data-property-id="{{ property.id }}" data-action="scheduleViewing" aria-label="Schedule Viewing">
           <i class="fa fa-calendar" aria-hidden="true"></i> Viewing
         </button>
       </div>
@@ -82,7 +82,7 @@
 <!-- Modal for scheduling a viewing -->
 <div id="viewingModal" class="modal">
   <div class="modal-content">
-    <span class="close">&times;</span>
+    <span class="close" aria-label="Close modal">&times;</span>
     <h2>Request a Viewing</h2>
     <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}" data-property-id="{{ property.id }}">
       {% csrf_token %}
@@ -98,7 +98,7 @@
       <input type="time" id="preferred_time" name="preferred_time" required>
       <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
-      <button type="submit">Request Viewing</button>
+      <button type="submit" aria-label="Submit request for viewing">Request Viewing</button>
     </form>
     <h3>Or select from available slots:</h3>
     <div id="available-slots-container"></div>
@@ -110,7 +110,7 @@
       <input type="text" id="slot-contact" name="slot-contact" required>
       <label for="slot-email">Email:</label>
       <input type="email" id="slot-email" name="slot-email" required>
-      <button type="button" id="book-slot-button">Book Slot</button>
+      <button type="button" id="book-slot-button" aria-label="Book slot">Book Slot</button>
     </div>
   </div>
 </div>

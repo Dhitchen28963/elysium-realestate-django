@@ -5,6 +5,6 @@
 <p>Are you sure you want to accept the appointment for {{ appointment.property.title }} by {{ appointment.user.username }}?</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Accept</button>
+    <button type="submit" aria-label="Accept Appointment">Accept</button>
 </form>
 {% endblock %}
