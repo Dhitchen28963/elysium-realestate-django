@@ -8,11 +8,11 @@
 <p><strong>Author:</strong> {{ testimonial.author.username }}</p>
 <p><strong>Created on:</strong> {{ testimonial.created_on }}</p>
 
-<a href="{% url 'edit_testimonial' testimonial.id %}">Edit</a>
+<a href="{% url 'edit_testimonial' testimonial.id %}" aria-label="Edit testimonial">Edit</a>
 <form method="post" action="{% url 'delete_testimonial' testimonial.id %}">
     {% csrf_token %}
-    <button type="submit">Delete</button>
+    <button type="submit" aria-label="Delete testimonial">Delete</button>
 </form>
 
-<a href="{% url 'testimonials_list' %}">Back to Testimonials List</a>
+<a href="{% url 'testimonials_list' %}" aria-label="Back to Testimonials List">Back to Testimonials List</a>
 {% endblock %}

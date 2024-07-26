@@ -7,10 +7,10 @@
 <ul>
     {% for testimonial in testimonials %}
         <li>
-            <a href="{% url 'testimonials_detail' testimonial.id %}">{{ testimonial.body|truncatewords:10 }}</a>
+            <a href="{% url 'testimonials_detail' testimonial.id %}" aria-label="View testimonial {{ testimonial.id }}">{{ testimonial.body|truncatewords:10 }}</a>
             <p>{{ testimonial.body }}</p>
         </li>
     {% endfor %}
 </ul>
-<a href="{% url 'add_testimonial' %}">Add Testimonial</a>
+<a href="{% url 'add_testimonial' %}" aria-label="Add a new testimonial">Add Testimonial</a>
 {% endblock %}
