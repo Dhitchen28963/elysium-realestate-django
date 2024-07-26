@@ -21,4 +21,6 @@
 
 <p>Posted on: {{ post.created_on }}</p>
 <p>Updated on: {{ post.updated_on }}</p>
+
+<a href="{% url 'property_guides_list' %}" class="back-button" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 {% endblock %}
