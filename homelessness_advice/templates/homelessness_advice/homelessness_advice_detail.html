@@ -18,5 +18,5 @@
 <p>{{ post.content|safe }}</p>
 <p><strong>Author:</strong> {{ post.author }}</p>
 <p><strong>Published on:</strong> {{ post.created_on }}</p>
-<a href="{% url 'homelessness_advice_list' %}">Back to Homelessness Advice List</a>
+<a href="{% url 'homelessness_advice_list' %}" aria-label="Back to Homelessness Advice List">Back to Homelessness Advice List</a>
 {% endblock %}
