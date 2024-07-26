@@ -23,7 +23,7 @@
         <p><strong>Published on:</strong> {{ post.created_on }}</p>
     </div>
     <div class="post-content">
-        <p>{{ post.content }}</p>
+        <p>{{ post.content|striptags }}</p>
     </div>
     <div class="comments">
         <h2>Comments</h2>
@@ -31,7 +31,7 @@
             {% for comment in comments %}
                 <li>
                     <p><strong>{{ comment.author.username }}</strong> said:</p>
-                    <p>{{ comment.body }}</p>
+                    <p>{{ comment.body|striptags }}</p>
                     {% if comment.author == user %}
                         <a href="{% url 'comment_edit' comment.id %}" aria-label="Edit Comment">Edit</a>
                         <a href="{% url 'comment_delete' comment.id %}" aria-label="Delete Comment">Delete</a>
