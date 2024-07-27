@@ -7,7 +7,6 @@
     <h1>{{ faq.title }}</h1>
     <div class="post-header">
         {% if faq.featured_image %}
-            <p>Image URL: {{ faq.featured_image.url }}</p>
             <img src="{{ faq.featured_image.url }}" alt="{{ faq.title }}">
         {% else %}
             <p>No Image Available</p>
@@ -23,7 +22,7 @@
         <p><strong>Published on:</strong> {{ faq.created_on }}</p>
     </div>
     <div class="post-content">
-        <p>{{ faq.content|striptags  }}</p>
+        <p>{{ faq.content|striptags }}</p>
     </div>
     <div class="comments">
         <h2>Comments</h2>

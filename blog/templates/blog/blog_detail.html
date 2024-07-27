@@ -7,7 +7,6 @@
     <h1>{{ post.title }}</h1>
     <div class="post-header">
         {% if post.featured_image %}
-            <p>Image URL: {{ post.featured_image.url }}</p>
             <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
         {% else %}
             <p>No Image Available</p>

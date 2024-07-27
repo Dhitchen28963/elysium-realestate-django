@@ -7,7 +7,6 @@
 <p>Category: {{ post.category.name }}</p>
 <p>{{ post.content|safe }}</p>
 {% if post.featured_image %}
-    <p>Image URL: {{ post.featured_image.url }}</p>
     <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
 {% else %}
     <p>No Image Available</p>
