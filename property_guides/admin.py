@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Post, PropertyImage, Category
 from django_summernote.admin import SummernoteModelAdmin
+from .models import Post, PropertyImage, Category
 
 
 class PropertyImageInline(admin.TabularInline):

@@ -3,10 +3,11 @@
 {% block title %}Property Guides List{% endblock %}
 
 {% block content %}
-<h1>Property Guides List</h1>
+<h1 class="property-guides-title">Property Guides</h1>
 
 <div class="guide-category">
     <h2>Landlord Guides</h2>
+    <hr>
     <ul>
         {% for post in landlord_guides %}
             <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
@@ -16,6 +17,7 @@
 
 <div class="guide-category">
     <h2>Renter Guides</h2>
+    <hr>
     <ul>
         {% for post in renter_guides %}
             <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
@@ -25,6 +27,7 @@
 
 <div class="guide-category">
     <h2>Student Guides</h2>
+    <hr>
     <ul>
         {% for post in student_guides %}
             <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
@@ -34,6 +37,7 @@
 
 <div class="guide-category">
     <h2>Complaints</h2>
+    <hr>
     <ul>
         <li><a href="{% url 'complaints' %}">Complaints</a></li>
     </ul>
@@ -41,6 +45,7 @@
 
 <div class="guide-category">
     <h2>Neighbour Disputes</h2>
+    <hr>
     <ul>
         {% for post in neighbour_disputes %}
             <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
@@ -50,6 +55,7 @@
 
 <div class="guide-category">
     <h2>Fire Safety</h2>
+    <hr>
     <ul>
         <li><a href="{% url 'fire_safety' %}">Fire Safety</a></li>
     </ul>
@@ -57,6 +63,7 @@
 
 <div class="guide-category">
     <h2>Repairs</h2>
+    <hr>
     <ul>
         <li><a href="{% url 'repairs' %}">Repairs</a></li>
     </ul>
@@ -64,6 +71,7 @@
 
 <div class="guide-category">
     <h2>Eviction</h2>
+    <hr>
     <ul>
         <li><a href="{% url 'eviction' %}">Eviction</a></li>
     </ul>

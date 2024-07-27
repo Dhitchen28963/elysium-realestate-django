@@ -2,24 +2,35 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+{% block banner %}
+<!-- No banner for property detail page -->
+{% endblock %}
+
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>Category: {{ post.category.name }}</p>
-<p>{{ post.content|safe }}</p>
-{% if post.featured_image %}
-    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
-{% else %}
-    <p>No Image Available</p>
-{% endif %}
+<div class="property-guides-detail">
 
-<div class="image-container">
-    {% for image in post.additional_images.all %}
-        <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}">
-    {% endfor %}
+    {% if post.featured_image %}
+        <div class="image-wrapper">
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="property-guides-image">
+            <h1 class="image-title">{{ post.title }}</h1>
+        </div>
+    {% else %}
+        <p>No Image Available</p>
+    {% endif %}
+
+    <div class="guide-content content-box">
+        {{ post.content|safe }}
+    </div>
+
+    <div class="image-container">
+        {% for image in post.additional_images.all %}
+            <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}" class="property-guides-image">
+        {% endfor %}
+    </div>
+
+    <p>Posted on: {{ post.created_on }}</p>
+    <p>Updated on: {{ post.updated_on }}</p>
+
+    <a href="{% url 'property_guides_list' %}" class="back-button" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 </div>
-
-<p>Posted on: {{ post.created_on }}</p>
-<p>Updated on: {{ post.updated_on }}</p>
-
-<a href="{% url 'property_guides_list' %}" class="back-button" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 {% endblock %}
