@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block banner %}
@@ -8,18 +10,23 @@
 
 {% block content %}
 <div class="property-guides-detail">
-
     {% if post.featured_image %}
         <div class="image-wrapper">
             <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="property-guides-image">
-            <h1 class="image-title">{{ post.title }}</h1>
         </div>
     {% else %}
         <p>No Image Available</p>
     {% endif %}
 
+    <a href="{% url 'property_guides_list' %}" class="property-guide-btn" aria-label="Back to Property Guides List">Back to Property Guides List</a>
+
     <div class="guide-content content-box">
-        {{ post.content|safe }}
+        <button type="button" class="collapsible">{{ post.title }}</button>
+        <div class="content">
+            {{ post.content|safe }}
+            <p>Posted on: {{ post.created_on }}</p>
+            <p>Updated on: {{ post.updated_on }}</p>
+        </div>
     </div>
 
     <div class="image-container">
@@ -27,10 +34,5 @@
             <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}" class="property-guides-image">
         {% endfor %}
     </div>
-
-    <p>Posted on: {{ post.created_on }}</p>
-    <p>Updated on: {{ post.updated_on }}</p>
-
-    <a href="{% url 'property_guides_list' %}" class="back-button" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 </div>
 {% endblock %}

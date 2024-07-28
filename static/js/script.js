@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Function to handle collapsible content
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(collapsible => {
+        collapsible.addEventListener('click', function () {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
+    });
+
     // Function to get CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
@@ -106,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 showModalMessage('Error updating favorites');
             }
         } catch (error) {
-            console.error('Error:', error.message);
             showModalMessage('An error occurred. Please try again.');
         }
     }
@@ -138,12 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
             showModalMessage('An error occurred. Please try again.');
         });
     }
 
-    // Saved
+    // Remove
     function removeFromFavorites(propertyId, app) {
         fetch(`/${app}/remove-from-favorites/${propertyId}/`, {
             method: 'POST',
@@ -163,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
             showModalMessage('An error occurred. Please try again.');
         });
     }
@@ -195,11 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.status === 'ok') {
                 showModalMessage('Viewing request sent to the agent!');
             } else {
-                console.error('Server error response:', data);
                 throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
             }
         } catch (error) {
-            console.error('Error during viewing request:', error);
             showModalMessage('An error occurred while sending the viewing request. Please try again.');
         } finally {
             const modal = document.getElementById("viewingModal");
@@ -235,11 +244,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.status === 'ok') {
                 showModalMessage('Viewing slot booked successfully!');
             } else {
-                console.error('Server error response:', data);
                 throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
             }
         } catch (error) {
-            console.error('Error during slot viewing request:', error);
             showModalMessage('An error occurred while booking the viewing slot. Please try again.');
         } finally {
             const modal = document.getElementById("viewingModal");
@@ -323,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function () {
     openModalButtons.forEach(button => {
         button.addEventListener('click', function (event) {
             event.preventDefault();
-            console.log("Open modal button clicked");
 
             if (!isUserLoggedIn) {
                 showModalMessage('Please log in or create an account to schedule a viewing.');
@@ -331,13 +337,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const propertyId = this.getAttribute('data-property-id');
-            console.log("Property ID:", propertyId);
 
             const form = document.getElementById('custom-viewing-form');
-            console.log("Form:", form);
 
             if (!form) {
-                console.error("Form not found");
                 return;
             }
 
@@ -349,10 +352,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(data => {
                     const slotsContainer = document.getElementById('available-slots-container');
-                    console.log("Slots container:", slotsContainer);
 
                     if (!slotsContainer) {
-                        console.error("Slots container not found");
                         return;
                     }
 
@@ -378,15 +379,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         slotsContainer.innerHTML = '<p>No available slots</p>';
                     }
                 })
-                .catch(error => console.error('Error fetching available slots:', error));
+                .catch(error => showModalMessage('Error fetching available slots'));
 
             const viewingModal = document.getElementById('viewingModal');
-            console.log("Viewing modal:", viewingModal);
 
             if (viewingModal) {
                 viewingModal.style.display = 'block';
-            } else {
-                console.error("Viewing modal not found");
             }
         });
     });
@@ -675,7 +673,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteModal.style.display = 'none';
             })
             .catch(error => {
-                console.error('Error:', error);
                 showModalMessage('An error occurred. Please try again.');
             });
         }
@@ -722,7 +719,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
                 showModalMessage('An error occurred. Please try again.');
             });
         });
