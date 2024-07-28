@@ -20,7 +20,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def paginate_properties(request, properties, per_page=20):
     page = request.GET.get('page', 1)
-    paginator = Paginator(properties, per_page)  # Show 20 properties per page
+    paginator = Paginator(properties, per_page)
     try:
         properties = paginator.page(page)
     except PageNotAnInteger:
@@ -318,10 +318,6 @@ def account_settings(request):
     except Profile.DoesNotExist:
         profile = Profile.objects.create(user=user)
 
-    profile_form = ProfileUpdateForm(instance=profile)
-    password_form = ChangePasswordForm(user)
-    delete_form = DeleteAccountForm()
-
     if request.method == 'POST':
         if 'update_profile' in request.POST:
             profile_form = ProfileUpdateForm(request.POST, instance=profile)
@@ -343,9 +339,15 @@ def account_settings(request):
             else:
                 messages.error(request, 'Please correct the error below.')
         elif 'delete_account' in request.POST:
-            user.delete()
-            messages.success(request, 'Your account was successfully deleted.')
-            return redirect('home')
+            delete_form = DeleteAccountForm(request.POST)
+            if delete_form.is_valid():
+                user.delete()
+                messages.success(request, 'Your account was successfully deleted.')
+                return redirect('home')
+    else:
+        profile_form = ProfileUpdateForm(instance=profile)
+        password_form = ChangePasswordForm(user)
+        delete_form = DeleteAccountForm()
 
     return render(
         request, 'real_estate/account_settings.html', {
