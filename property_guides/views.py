@@ -19,13 +19,21 @@ def property_guides_list(request):
     landlord_guides = posts.filter(category__name='Landlord')
     renter_guides = posts.filter(category__name='Renter')
     student_guides = posts.filter(category__name='Student')
+    complaints_guides = posts.filter(category__name='Complaints')
     neighbour_disputes = posts.filter(category__name='Neighbour Disputes')
+    fire_safety_guides = posts.filter(category__name='Fire Safety')
+    repairs_guides = posts.filter(category__name='Repairs')
+    eviction_guides = posts.filter(category__name='Eviction')
 
     context = {
         'landlord_guides': landlord_guides,
         'renter_guides': renter_guides,
         'student_guides': student_guides,
+        'complaints_guides': complaints_guides,
         'neighbour_disputes': neighbour_disputes,
+        'fire_safety_guides': fire_safety_guides,
+        'repairs_guides': repairs_guides,
+        'eviction_guides': eviction_guides,
     }
 
     return render(

@@ -39,7 +39,9 @@
     <h2>Complaints</h2>
     <hr>
     <ul>
-        <li><a href="{% url 'complaints' %}">Complaints</a></li>
+        {% for post in complaints_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
     </ul>
 </div>
 
@@ -57,7 +59,9 @@
     <h2>Fire Safety</h2>
     <hr>
     <ul>
-        <li><a href="{% url 'fire_safety' %}">Fire Safety</a></li>
+        {% for post in fire_safety_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
     </ul>
 </div>
 
@@ -65,7 +69,9 @@
     <h2>Repairs</h2>
     <hr>
     <ul>
-        <li><a href="{% url 'repairs' %}">Repairs</a></li>
+        {% for post in repairs_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
     </ul>
 </div>
 
@@ -73,7 +79,9 @@
     <h2>Eviction</h2>
     <hr>
     <ul>
-        <li><a href="{% url 'eviction' %}">Eviction</a></li>
+        {% for post in eviction_guides %}
+            <li><a href="{% url 'property_guides_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}
