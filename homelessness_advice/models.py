@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
+from .utils import clean_html_content
 
-
-class Post(models.Model):
+class Homeless(models.Model):
     STATUS_CHOICES = [
         ('draft', 'Draft'),
         ('published', 'Published'),
@@ -29,13 +29,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.content = clean_html_content(self.content)
+        super().save(*args, **kwargs)
 
-class PostImage(models.Model):
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE,
+
+class HomelessImage(models.Model):
+    homeless = models.ForeignKey(
+        Homeless, on_delete=models.CASCADE,
         related_name='additional_images'
     )
     image = CloudinaryField('image')
 
     def __str__(self):
-        return f"Image for {self.post.title}"
+        return f"Image for {self.homeless.title}"

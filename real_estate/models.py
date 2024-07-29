@@ -2,8 +2,9 @@ from datetime import date, time
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
+from django_summernote.fields import SummernoteTextField
+from .utils import clean_html_content
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Property, ViewingAppointment, Profile
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 from datetime import date
 
 

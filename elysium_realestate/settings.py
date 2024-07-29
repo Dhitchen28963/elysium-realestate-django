@@ -1,6 +1,5 @@
 import os
 import dj_database_url
-import logging
 import sys
 
 if os.path.isfile('env.py'):
@@ -122,27 +121,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-# EmailJS settings
-EMAILJS_SERVICE_ID = os.environ.get('EMAILJS_SERVICE_ID')
-EMAILJS_CONTACT_FORM_TEMPLATE_ID = os.environ.get(
-    'EMAILJS_CONTACT_FORM_TEMPLATE_ID'
-)
-EMAILJS_CONTACT_REPLY_TEMPLATE_ID = os.environ.get(
-    'EMAILJS_CONTACT_REPLY_TEMPLATE_ID'
-)
-EMAILJS_USER_ID = os.environ.get('EMAILJS_USER_ID')
-EMAILJS_PRIVATE_KEY = os.environ.get('EMAILJS_PRIVATE_KEY')
-EMAILJS_PUBLIC_KEY = os.environ.get('EMAILJS_PUBLIC_KEY')
-
-logging.debug(f"EMAILJS_SERVICE_ID: {EMAILJS_SERVICE_ID}")
-logging.debug(f"EMAILJS_CONTACT_FORM_TEMPLATE_ID: {EMAILJS_CONTACT_FORM_TEMPLATE_ID}")
-logging.debug(f"EMAILJS_CONTACT_REPLY_TEMPLATE_ID: {EMAILJS_CONTACT_REPLY_TEMPLATE_ID}")
-logging.debug(f"EMAILJS_USER_ID: {EMAILJS_USER_ID}")
-logging.debug(f"EMAILJS_PRIVATE_KEY: {EMAILJS_PRIVATE_KEY}")
-logging.debug(f"EMAILJS_PUBLIC_KEY: {EMAILJS_PUBLIC_KEY}")
-
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -157,12 +135,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SUMMERNOTE_THEME = "bs4"
+
 SUMMERNOTE_CONFIG = {
     'iframe': False,
     'summernote': {
         'toolbar': [
             ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['bold', 'italic', 'underline', 'clear', 'color']],
             ['fontsize', ['fontsize']],
             ['fontname', ['fontname']],
             ['color', ['color']],
@@ -171,12 +151,35 @@ SUMMERNOTE_CONFIG = {
             ['insert', ['link', 'picture', 'video']],
             ['view', ['fullscreen', 'codeview', 'help']],
         ],
-        'fontNames': ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana', 'Roboto', 'Inconsolata'],
+        'fontNames': [
+            'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+            'Helvetica', 'Impact', 'Tahoma', 'Times New Roman',
+            'Verdana', 'Roboto', 'Inconsolata'
+        ],
         'fontSizes': ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
-        'fontsizeUnits': ['px'],
+        'fontsizeUnits': ['px', 'pt'],
     },
     'codemirror': {
         'mode': 'htmlmixed',
-        'lineNumbers': 'true',
+        'lineNumbers': True,
+    },
+    'css': {
+        'all': [
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css',
+        ],
+    },
+    'js': {
+        'all': [
+            'https://code.jquery.com/jquery-3.3.1.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js',
+        ],
     },
 }
+
+
+

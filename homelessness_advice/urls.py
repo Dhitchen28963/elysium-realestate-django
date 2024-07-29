@@ -1,8 +1,8 @@
 from django.urls import path, include
-from . import views
+from .views import HomelessList, HomelessDetail
 
 urlpatterns = [
-    path('', views.PostList.as_view(), name='homelessness_advice_list'),
-    path('<slug:slug>/', views.PostDetail.as_view(), name='homelessness_advice_detail'),
+    path('', HomelessList.as_view(), name='homelessness_advice_list'),
+    path('<slug:slug>/', HomelessDetail.as_view(), name='homelessness_advice_detail'),
     path('summernote/', include('django_summernote.urls')),
 ]

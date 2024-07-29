@@ -22,7 +22,7 @@
         <p><strong>Published on:</strong> {{ faq.created_on }}</p>
     </div>
     <div class="post-content">
-        <p>{{ faq.content|striptags }}</p>
+        {{ faq.content|safe }}
     </div>
     <div class="comments">
         <h2>Comments</h2>
@@ -30,7 +30,7 @@
             {% for comment in comments %}
                 <li>
                     <p><strong>{{ comment.author.username }}</strong> said:</p>
-                    <p>{{ comment.body }}</p>
+                    <p>{{ comment.body|safe }}</p>
                     {% if comment.author == user %}
                         <a href="{% url 'faq_comment_edit' comment.id %}" aria-label="Edit Comment">Edit</a>
                         <a href="{% url 'faq_comment_delete' comment.id %}" aria-label="Delete Comment">Delete</a>

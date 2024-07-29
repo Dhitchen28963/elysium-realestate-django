@@ -6,10 +6,10 @@
 <div id="blog-list" class="container">
     <h1>Blog</h1>
     <ul>
-        {% for post in posts %}
+        {% for blog in blogs %}
             <li>
-                <a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a>
-                <p>{{ post.excerpt }}</p>
+                <a href="{% url 'blog_detail' blog.slug %}">{{ blog.title }}</a>
+                <p>{{ blog.excerpt }}</p>
             </li>
         {% endfor %}
     </ul>

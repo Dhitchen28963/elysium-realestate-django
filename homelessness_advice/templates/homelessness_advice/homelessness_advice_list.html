@@ -3,13 +3,15 @@
 {% block title %}Homelessness Advice List{% endblock %}
 
 {% block content %}
-<h1>Homelessness Advice List</h1>
-<ul>
-    {% for post in posts %}
-        <li>
-            <a href="{% url 'homelessness_advice_detail' post.slug %}">{{ post.title }}</a>
-            <p>{{ post.excerpt }}</p>
-        </li>
-    {% endfor %}
-</ul>
+<div id="homelessness-advice-list" class="container">
+    <h1>Homelessness Advice List</h1>
+    <ul>
+        {% for post in homeless_posts %}
+            <li>
+                <a href="{% url 'homelessness_advice_detail' post.slug %}">{{ post.title }}</a>
+                <p>{{ post.excerpt }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

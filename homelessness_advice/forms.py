@@ -1,10 +1,10 @@
 from django import forms
-from .models import Post
+from .models import Homeless
 
 
-class PostForm(forms.ModelForm):
+class HomelessForm(forms.ModelForm):
     class Meta:
-        model = Post
+        model = Homeless
         fields = (
             'title', 'slug', 'author', 'featured_image',
             'content', 'status', 'excerpt'

@@ -1,15 +1,14 @@
 from django.db import models
-from django.utils import timezone
-from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
-
+from django_summernote.fields import SummernoteTextField
+from .utils import clean_html_content
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
-
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -21,6 +20,12 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='posts'
     )
+
+    def save(self, *args, **kwargs):
+        print("Before cleaning in save:", self.content)
+        self.content = clean_html_content(self.content)
+        print("After cleaning in save:", self.content)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

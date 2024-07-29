@@ -21,7 +21,7 @@
     <a href="{% url 'property_guides_list' %}" class="property-guide-btn" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 
     <div class="guide-content content-box">
-        <button type="button" class="collapsible">{{ post.title }}</button>
+        <button type="button" class="collapsible">{{ post.title | safe }}</button>
         <div class="content">
             {{ post.content|safe }}
             <p>Posted on: {{ post.created_on }}</p>

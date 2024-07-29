@@ -1,23 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Post
+from .models import Homeless
 
-
-class PostList(View):
+class HomelessList(View):
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.filter(status='published').order_by('-created_on')
+        homeless_posts = Homeless.objects.filter(status='published').order_by('-created_on')
         return render(
             request,
             'homelessness_advice/homelessness_advice_list.html',
-            {'posts': posts}
+            {'homeless_posts': homeless_posts}
         )
 
-
-class PostDetail(View):
+class HomelessDetail(View):
     def get(self, request, slug, *args, **kwargs):
-        post = get_object_or_404(Post, slug=slug)
+        homeless_post = get_object_or_404(Homeless, slug=slug)
         return render(
             request,
             'homelessness_advice/homelessness_advice_detail.html',
-            {'post': post}
+            {'homeless_post': homeless_post}
         )

@@ -1,28 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ blog.title }}{% endblock %}
 
 {% block content %}
 <div id="blog-detail" class="container">
-    <h1>{{ post.title }}</h1>
+    <h1>{{ blog.title }}</h1>
     <div class="post-header">
-        {% if post.featured_image %}
-            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+        {% if blog.featured_image %}
+            <img src="{{ blog.featured_image.url }}" alt="{{ blog.title }}">
         {% else %}
             <p>No Image Available</p>
         {% endif %}
     </div>
     <div class="image-container">
-        {% for image in post.additional_images.all %}
-            <img src="{{ image.image.url }}" alt="Additional image for {{ post.title }}">
+        {% for image in blog.additional_images.all %}
+            <img src="{{ image.image.url }}" alt="Additional image for {{ blog.title }}">
         {% endfor %}
     </div>
     <div class="post-meta">
-        <p><strong>Author:</strong> {{ post.author }}</p>
-        <p><strong>Published on:</strong> {{ post.created_on }}</p>
+        <p><strong>Author:</strong> {{ blog.author }}</p>
+        <p><strong>Published on:</strong> {{ blog.created_on }}</p>
     </div>
     <div class="post-content">
-        <p>{{ post.content|striptags }}</p>
+        {{ blog.content|safe }}
     </div>
     <div class="comments">
         <h2>Comments</h2>
@@ -30,10 +30,10 @@
             {% for comment in comments %}
                 <li>
                     <p><strong>{{ comment.author.username }}</strong> said:</p>
-                    <p>{{ comment.body|striptags }}</p>
+                    <p>{{ comment.body|safe }}</p>
                     {% if comment.author == user %}
-                        <a href="{% url 'comment_edit' comment.id %}" aria-label="Edit Comment">Edit</a>
-                        <a href="{% url 'comment_delete' comment.id %}" aria-label="Delete Comment">Delete</a>
+                        <a href="{% url 'blog_comment_edit' comment.id %}" aria-label="Edit Comment">Edit</a>
+                        <a href="{% url 'blog_comment_delete' comment.id %}" aria-label="Delete Comment">Delete</a>
                     {% endif %}
                 </li>
             {% endfor %}

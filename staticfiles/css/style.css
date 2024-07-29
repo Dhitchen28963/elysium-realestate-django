@@ -429,7 +429,7 @@ hr {
   color: #333;
 }
 
-.content {
+.account-content {
   flex: 1;
   padding: 20px;
   background-color: #ffffff;
@@ -654,6 +654,21 @@ button:hover {
   border-radius: 10px;
 }
 
+.property-guide-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.property-guide-btn:hover {
+  background-color: #0056b3;
+}
+
 .property-guides-title {
   background-color: navy;
   color: white;
@@ -795,17 +810,6 @@ button:hover {
     border-radius: 10px;
 }
 
-.image-title {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 24px;
-    font-weight: bold;
-}
-
 .guide-content {
   margin-top: 20px;
   border: 1px solid #ddd;
@@ -850,15 +854,32 @@ button:hover {
     border-radius: 10px;
 }
 
-.property-guides-detail h1 {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 24px;
-    font-weight: bold;
+/* Collapsible content styles */
+.collapsible {
+  background-color: #f1f1f1;
+  color: #444;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.collapsible.active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+.content {
+  padding: 0 10px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 /* Thumbnail carousel styles */
@@ -1150,12 +1171,6 @@ footer p {
   }
 }
 
-@media (max-width: 740px) {
-  .welcome-box {
-    display: none;
-  }
-}
-
 /* Media query: Foldable phones and smaller screen sizes - landscape and portrait (693px) */
 @media (max-width: 693px) {
   header.header {
@@ -1364,6 +1379,12 @@ footer p {
   }
 
   #toggle-filters {
+    display: none;
+  }
+}
+
+@media (max-width: 740px) {
+  .welcome-box {
     display: none;
   }
 }
