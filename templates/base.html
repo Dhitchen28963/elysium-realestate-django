@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Elysium Real Estate{% endblock %}</title>
     {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{% static 'images/fav-icon.webp' %}" type="image/webp">
+    <!-- Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
 </head>
 <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     {% url 'account_login' as login_url %}
@@ -95,10 +100,10 @@
                 <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;" aria-hidden="true"></i> Saved Properties</a></li>
                 <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;" aria-hidden="true"></i> View Pending Viewings</a></li>
                 <hr>
-                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears" aria-hidden="true"></i> Account Settings</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sign Out</a></li>
+                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
             {% else %}
-                <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Login</a></li>
+                <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
             {% endif %}
         </ul>
     </div>
@@ -285,6 +290,13 @@
         </p>
     </footer>
 
+    <!-- Summernote JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js"></script>
+    <!-- other JS-->
     <script src="https://kit.fontawesome.com/3b20d96fa9.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/script.js' %}"></script>
 </body>
