@@ -1327,6 +1327,70 @@ footer p {
   }
 }
 
+@media (max-width: 670px) {
+  .account-settings-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .account-sidebar {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .account-title {
+    margin-bottom: 20px;
+  }
+
+  .account-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .account-menu-item {
+    margin: 5px 0;
+  }
+
+  .account-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .account-form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .account-form-label,
+  .account-form input[type="text"],
+  .account-form input[type="email"],
+  .account-form input[type="tel"],
+  .account-form input[type="password"] {
+    width: 100%;
+  }
+
+  .account-form-label {
+    margin-bottom: 10px;
+  }
+
+  .delete-confirmation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .delete-confirmation .account-form-label {
+    margin-right: 10px;
+  }
+  
+  .delete-confirmation input[type="checkbox"] {
+    margin-right: 40px;
+    margin-left: 120px;
+    margin-top: -30px;
+  }
+}
+
 /* Media query: Foldable phones and smaller screen sizes - landscape and portrait (693px) */
 @media (max-width: 693px) {
   header.header {
