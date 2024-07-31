@@ -49,35 +49,35 @@ a {
 
 .menu li:hover > .dropdown-menu,
 .menu li:focus-within > .dropdown-menu {
-    display: flex;
+  display: flex;
 }
 
 .menu li {
-    position: relative;
-    padding-bottom: 0px;
+  position: relative;
+  padding-bottom: 0px;
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #333;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 101;
-    width: 100vw;
-    justify-content: flex-start;
-    padding: 10px 0;
-    list-style-type: none;
-    border-radius: 0;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 101;
+  width: 100vw;
+  justify-content: flex-start;
+  padding: 10px 0;
+  list-style-type: none;
+  border-radius: 0;
 }
 
 .menu > li:hover .dropdown-menu,
 .menu > li:focus-within .dropdown-menu,
 .menu > li.active .dropdown-menu {
-    display: flex;
-    margin-top: -1px;
-    border-radius: 0;
+  display: flex;
+  margin-top: -1px;
+  border-radius: 0;
 }
 
 /* Main navigation links */
@@ -92,20 +92,20 @@ a {
 
 /* Adjust the appearance of the dropdown items */
 .dropdown-menu li {
-    width: auto;
-    margin: 0 10px;
+  width: auto;
+  margin: 0 10px;
 }
 
 .dropdown-menu li a {
-    padding: 5px 10px;
-    color: #fff;
-    background-color: transparent;
-    white-space: nowrap;
-    text-decoration: none;
+  padding: 5px 10px;
+  color: #fff;
+  background-color: transparent;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .dropdown-menu li a:hover {
-    background-color: #555;
+  background-color: #555;
 }
 
 .banner-container {
@@ -167,24 +167,27 @@ img {
   box-sizing: border-box;
 }
 
-.search-bar button, 
-#rent-button, 
+.search-bar button,
+#rent-button,
 #buy-button {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 10px 15px;
-    font-size: 16px;
-    margin: 0;
-    box-sizing: border-box;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
-.rent-button, .buy-button {
+.rent-button,
+.buy-button {
   flex: 1;
   padding: 5px 0;
   background-color: #ffffff;
@@ -221,7 +224,7 @@ img {
   vertical-align: middle;
 }
 
-/* Styles for filters container */
+/* Style for the filters container */
 .filters-container {
   display: flex;
   flex-wrap: wrap;
@@ -233,10 +236,72 @@ img {
   color: #000;
 }
 
+.filters-container select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.filters-container .filter-group,
+.filters-container .checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.filters-container .filter-group > label,
+.filters-container .checkbox-group > label {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.filters-container .filter-group > div,
+.filters-container .checkbox-group > div {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters-container .filter-group > div > select,
+.filters-container .checkbox-group > div > select {
+  width: 48%;
+}
+
+.filters-container .filter-group {
+  display: flex;
+  align-items: center;
+}
+
+.filters-container .filter-group > label {
+  margin-right: -40px;
+  margin-left: 5px;
+  white-space: nowrap;
+}
+
+.filters-container .filter-group > div {
+  display: flex;
+  gap: 10px;
+}
+
+.filters-container .filter-group > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters-container .filter-group > div::before {
+  content: "";
+  margin-right: 5px;
+}
+
 .filters-container label,
 .filters-container select,
 .filters-container input {
   color: #000;
+  font-weight: bold;
 }
 
 .filters-container > * {
@@ -244,24 +309,44 @@ img {
   margin-bottom: 10px;
 }
 
-.property-type label,
-.bedrooms label,
-.price label,
-.home-type label,
-.buying-scheme label,
-.retirement-type label,
-.more-filters label {
-  display: block;
+.property-type,
+.bedrooms,
+.price,
+.bathrooms,
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filters-container .checkbox-group {
+  flex-direction: row;
+}
+
+.filters-container .checkbox-group label {
+  flex: none;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.filters-container .checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.filters-container label {
+  flex: 1;
+  margin-right: 10px;
 }
 
 .property-type select,
 .bedrooms select,
 .price select,
-.home-type select,
-.buying-scheme select,
-.retirement-type select,
-.more-filters select {
-  width: 100%;
+.bathrooms select,
+.filters-container input[type="number"] {
+  flex: 2;
   margin-bottom: 5px;
 }
 
@@ -544,11 +629,15 @@ button:hover {
 }
 
 /* Styling for before moving and useful resources sections */
-.before-moving-section, 
+.before-moving-section,
 .useful-resources-section,
 .housing-section {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   text-align: center;
+  margin-top: 61px;
 }
 
 .boxes-container {
@@ -652,19 +741,25 @@ button:hover {
   border-radius: 10px;
 }
 
-.property-guides-image {
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10px;
+  height: 100vh;
+  background-image: url('{{ post.featured_image.url }}');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -1;
 }
 
 .property-guide-btn {
   display: inline-block;
-  padding: 10px 20px;
-  margin-bottom: 20px;
+  padding: 5px;
+  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-left: 10px;
   background-color: #007bff;
   color: #fff;
   text-decoration: none;
@@ -721,19 +816,19 @@ button:hover {
   font-weight: bold;
   margin-top: 0;
   text-align: left;
-  margin-left: 0; 
+  margin-left: 0;
 }
 
 .property-info p {
   margin: 5px 0;
 }
 
-.property-info .property-price, 
+.property-info .property-price,
 .property-info .property-location {
   font-weight: bold;
   margin-top: 10px;
   margin-bottom: 5px;
-  text-align: left; 
+  text-align: left;
 }
 
 .property-info .property-price {
@@ -759,7 +854,7 @@ button:hover {
 }
 
 .property-detail .feature-item,
-.property-detail  .feature-item {
+.property-detail .feature-item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -768,7 +863,7 @@ button:hover {
   color: #333;
 }
 
-.property-detail  .feature-item i,
+.property-detail .feature-item i,
 .property-detail .feature-item i {
   font-size: 1.5em;
   color: #333;
@@ -801,20 +896,30 @@ button:hover {
   font-size: 1.2em;
 }
 
-/* Property Detail Page */
 .property-guides-detail {
-    position: relative;
+  position: relative;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 90%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: -260px;
 }
 
 .image-wrapper {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  margin-top: 68px;
 }
 
 .property-guides-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .guide-content {
@@ -824,22 +929,20 @@ button:hover {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-left: 60px;
-  margin-right: 60px;
 }
 
 .guide-content ul {
-    list-style-type: disc;
-    margin-left: 20px;
+  list-style-type: disc;
+  margin-left: 20px;
 }
 
 .guide-content ol {
-    list-style-type: decimal;
-    margin-left: 20px;
+  list-style-type: decimal;
+  margin-left: 20px;
 }
 
 .guide-content p {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .guide-content font {
@@ -847,18 +950,11 @@ button:hover {
 }
 
 .image-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    display: block;
-    margin: 10px 0;
-}
-
-/* Property Detail Page Specific */
-.property-guides-detail img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 10px 0;
 }
 
 /* Collapsible content styles */
@@ -876,7 +972,8 @@ button:hover {
   margin-bottom: 5px;
 }
 
-.collapsible.active, .collapsible:hover {
+.collapsible.active,
+.collapsible:hover {
   background-color: #ccc;
 }
 
@@ -950,7 +1047,8 @@ button:hover {
   color: #fff;
 }
 
-.current-page, .pagination-section .current {
+.current-page,
+.pagination-section .current {
   font-weight: bold;
   margin: 0 10px;
   padding: 5px 10px;
@@ -1085,20 +1183,16 @@ footer p {
 
 @media (max-width: 500px) {
   .property-guides-detail h1 {
-      font-size: 18px;
-      padding: 8px 16px;
-      bottom: 10px;
-      left: 10px;
-  }
-
-  .property-guides-image {
-      margin-top: 60px;
+    font-size: 18px;
+    padding: 8px 16px;
+    bottom: 10px;
+    left: 10px;
   }
 }
 
 /* Media Query for screen sizes 650px and below */
 @media screen and (max-width: 650px) {
-  .before-moving-section, 
+  .before-moving-section,
   .useful-resources-section,
   .housing-section {
     padding: 10px;
@@ -1119,10 +1213,9 @@ footer p {
   }
 
   .boxes-container {
-    gap: 10px;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
   }
 
   .box {
@@ -1175,6 +1268,7 @@ footer p {
   h2 {
     text-align: center;
     width: 100%;
+    font-weight: bold;
   }
 }
 
@@ -1217,7 +1311,7 @@ footer p {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 40px;
+    height: 46px;
   }
 
   .search-bar input[type="text"] {
@@ -1269,7 +1363,7 @@ footer p {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    height: 75px;
+    height: 105px;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
@@ -1412,11 +1506,11 @@ footer p {
   }
 
   main .search-container h2 {
-    font-size: 20px;
+    font-size: 1.4em;
     font-weight: bold;
     margin-top: 20px;
     margin: 0;
-    color: black;
+    color: white;
     text-align: center;
     font-family: "Inconsolata", monospace;
   }
@@ -1434,7 +1528,7 @@ footer p {
     color: #fff;
     padding: 20px;
     border-radius: 10px;
-    height: 140px;
+    height: 150px;
     width: 50%;
     margin-top: -75px;
     z-index: 1;
@@ -1454,17 +1548,20 @@ footer p {
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     font-size: 10px;
+    height: 45px;
   }
 
   .search-bar button {
     background-color: #333;
     color: #fff;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 10px;
     padding: 12px 15px;
     cursor: pointer;
+    margin-left: 0;
+    height: 47px;
   }
 
   .search-bar button i {
@@ -1473,7 +1570,7 @@ footer p {
 
   #toggle-filters {
     margin-top: -15px;
-    height: 25px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1951,7 +2048,7 @@ footer p {
     position: relative;
     top: 10px;
     left: 0;
-    margin-top: 10px; /* Add margin to prevent overlapping */
+    margin-top: 10px;
   }
 
   .property-buttons form,
@@ -2166,19 +2263,19 @@ footer p {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
   }
-  
+
   .large-image {
     width: 775px;
     height: 435px;
     margin-right: 10px;
   }
-  
+
   .large-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   .small-images {
     display: flex;
     flex-direction: column;
@@ -2186,18 +2283,18 @@ footer p {
     width: 385px;
     height: 435px;
   }
-  
+
   .small-image-item {
     width: 100%;
     height: 215px;
   }
-  
+
   .small-image-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   .carousel-control-prev,
   .carousel-control-next {
     position: absolute;
@@ -2210,11 +2307,11 @@ footer p {
     cursor: pointer;
     z-index: 10;
   }
-  
+
   .carousel-control-prev {
     left: 10px;
   }
-  
+
   .carousel-control-next {
     right: 10px;
   }

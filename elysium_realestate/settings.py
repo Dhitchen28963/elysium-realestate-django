@@ -9,8 +9,9 @@ if os.path.isfile('env.py'):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = False
-ALLOWED_HOSTS = [
+DEBUG = True
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS += [
     '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
     '.herokuapp.com'
 ]
