@@ -9,15 +9,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="property-guides-detail">
+<div class="image-wrapper">
     {% if post.featured_image %}
-        <div class="image-wrapper">
-            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="property-guides-image">
-        </div>
+        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="property-guides-image">
     {% else %}
         <p>No Image Available</p>
     {% endif %}
+</div>
 
+<div class="property-guides-detail">
     <a href="{% url 'property_guides_list' %}" class="property-guide-btn" aria-label="Back to Property Guides List">Back to Property Guides List</a>
 
     <div class="guide-content content-box">
