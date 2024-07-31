@@ -69,7 +69,7 @@
       <h3 class="account-section-title">Delete Account</h3>
       <form method="post" action="{% url 'account_settings' %}" class="account-form delete-account-form">
         {% csrf_token %}
-        <div class="account-form-group">
+        <div class="account-form-group delete-confirmation">
           {{ delete_form.non_field_errors }}
           {{ delete_form.confirm_delete.errors }}
           <label for="id_confirm_delete" class="account-form-label">Confirm Delete:</label>
