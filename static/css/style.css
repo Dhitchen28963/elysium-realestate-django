@@ -492,16 +492,98 @@ hr {
 /* Account settings styling */
 .account-settings-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  font-weight: bold;
+}
+
+.account-sidebar {
+  width: 20%;
   padding: 20px;
 }
 
+.account-title {
+  font-size: 1.5em;
+}
+
+.account-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.account-menu-item {
+  margin: 10px 0;
+}
+
+.account-menu-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.account-content {
+  width: 80%;
+  padding: 20px;
+}
+
+.account-section {
+  margin-bottom: 40px;
+}
+
+.account-section-title {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.account-form-label {
+  flex-basis: 30%;
+  margin-bottom: 5px;
+}
+
+.account-form input[type="text"],
+.account-form input[type="email"],
+.account-form input[type="tel"],
+.account-form input[type="password"] {
+  flex-basis: 65%;
+}
+
+.account-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.account-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-account-button {
+  background-color: #DC3545;
+}
+
+.delete-account-button:hover {
+  background-color: #C82333;
+}
+
+/* Sidebar Menu */
 .sidebar {
   width: 250px;
   background-color: #f8f8f8;
   padding: 20px;
   margin-right: 20px;
-  border-radius: 8px;
 }
 
 .sidebar h2 {
@@ -523,18 +605,6 @@ hr {
   color: #333;
 }
 
-.account-content {
-  flex: 1;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.section {
-  margin-bottom: 20px;
-}
-
 .section h3 {
   font-size: 20px;
   margin-bottom: 15px;
@@ -542,44 +612,17 @@ hr {
 
 .form-group {
   margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
 }
 
 .form-group input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-form .form-group {
-  grid-column: span 1;
-}
-
-form .form-group:nth-child(odd) {
-  grid-column: 1 / 2;
-}
-
-form .form-group:nth-child(even) {
-  grid-column: 2 / 3;
-}
-
-form .form-group label {
-  font-weight: bold;
 }
 
 button {
@@ -588,29 +631,10 @@ button {
   color: #fff;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
-  grid-column: span 2;
-  justify-self: center;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 
 .delete-account-form {
   margin-top: 20px;
-  background-color: #f8d7da;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #f5c6cb;
-}
-
-.delete-account-button {
-  background-color: #dc3545;
-}
-
-.delete-account-button:hover {
-  background-color: #c82333;
 }
 
 .favorites-star {
@@ -1607,27 +1631,6 @@ footer p {
     justify-content: center;
     font-size: 14px;
     padding: 0 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .account-settings-container {
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .sidebar {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
-
-  form {
-    grid-template-columns: 1fr;
-  }
-
-  button {
-    grid-column: span 1;
   }
 }
 
