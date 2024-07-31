@@ -37,20 +37,39 @@
       <div class="filters-container" id="filters-container" style="display: none;">
         <label for="property-type">Property Type:</label>
         {{ form.property_type }}
-        <label for="bedrooms-min">Bedrooms:</label>
-        {{ form.bedrooms_min }}
-        <label for="bedrooms-max">Bedrooms:</label>
-        {{ form.bedrooms_max }}
-        <label for="price-min">Price (£):</label>
-        {{ form.price_min }}
-        <label for="price-max">Price (£):</label>
-        {{ form.price_max }}
-        <label for="garden">Garden:</label>
-        {{ form.garden }}
-        <label for="parking">Parking:</label>
-        {{ form.parking }}
-        <label for="pets_allowed">Pets Allowed:</label>
-        {{ form.pets_allowed }}
+        
+        <div class="filter-group">
+          <label>Bedrooms</label>
+          <div>
+            {{ form.bedrooms_min }}
+            {{ form.bedrooms_max }}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Price (£)</label>
+          <div>
+            {{ form.price_min }}
+            {{ form.price_max }}
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Bathrooms</label>
+          <div>
+            {{ form.bathrooms_min }}
+            {{ form.bathrooms_max }}
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <label for="garden">Garden:</label>
+          {{ form.garden }}
+          <label for="parking">Parking:</label>
+          {{ form.parking }}
+          <label for="pets_allowed">Pets Allowed:</label>
+          {{ form.pets_allowed }}
+        </div>
       </div>
     </form>
   </div>
