@@ -4,6 +4,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from datetime import date
 
+BEDROOMS_CHOICES = [(None, "No Min")] + [(i, i) for i in range(1, 11)] + [("max", "No Max")]
+PRICE_CHOICES = [(None, "No Min")] + [(i * 50000, f"£{i * 50000:,}") for i in range(1, 21)] + [(i * 250000, f"£{i * 250000:,}") for i in range(5, 9)] + [(i * 1000000, f"£{i * 1000000:,}") for i in range(2, 11)] + [("max", "No Max")]
+BATHROOMS_CHOICES = [(None, "No Min")] + [(i, i) for i in range(1, 11)] + [("max", "No Max")]
 
 class PropertySearchForm(forms.Form):
     search = forms.CharField(
@@ -18,13 +21,39 @@ class PropertySearchForm(forms.Form):
         choices=[('any', 'Any')] + list(Property.PROPERTY_TYPE_CHOICES),
         required=False
     )
-    bedrooms_min = forms.IntegerField(required=False)
-    bedrooms_max = forms.IntegerField(required=False)
-    price_min = forms.DecimalField(required=False)
-    price_max = forms.DecimalField(required=False)
+    bedrooms_min = forms.ChoiceField(choices=BEDROOMS_CHOICES, required=False, initial=None)
+    bedrooms_max = forms.ChoiceField(choices=BEDROOMS_CHOICES, required=False, initial="max")
+    price_min = forms.ChoiceField(choices=PRICE_CHOICES, required=False, initial=None)
+    price_max = forms.ChoiceField(choices=PRICE_CHOICES, required=False, initial="max")
+    bathrooms_min = forms.ChoiceField(choices=BATHROOMS_CHOICES, required=False, initial=None)
+    bathrooms_max = forms.ChoiceField(choices=BATHROOMS_CHOICES, required=False, initial="max")
     garden = forms.BooleanField(required=False)
     parking = forms.BooleanField(required=False)
     pets_allowed = forms.BooleanField(required=False)
+
+    def clean_bedrooms_min(self):
+        data = self.cleaned_data['bedrooms_min']
+        return None if data in [None, ''] else data
+
+    def clean_bedrooms_max(self):
+        data = self.cleaned_data['bedrooms_max']
+        return None if data in [None, "max"] else data
+
+    def clean_price_min(self):
+        data = self.cleaned_data['price_min']
+        return None if data in [None, ''] else data
+
+    def clean_price_max(self):
+        data = self.cleaned_data['price_max']
+        return None if data in [None, "max"] else data
+
+    def clean_bathrooms_min(self):
+        data = self.cleaned_data['bathrooms_min']
+        return None if data in [None, ''] else data
+
+    def clean_bathrooms_max(self):
+        data = self.cleaned_data['bathrooms_max']
+        return None if data in [None, "max"] else data
 
 
 class ViewingAppointmentForm(forms.ModelForm):
