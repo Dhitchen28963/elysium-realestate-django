@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.utils import timezone
 from datetime import date, timedelta
 from real_estate.forms import (
     PropertySearchForm,
@@ -21,12 +20,38 @@ class PropertySearchFormTest(TestCase):
             'bedrooms_max': 3,
             'price_min': 100000,
             'price_max': 500000,
+            'bathrooms_min': 1,
+            'bathrooms_max': 2,
             'garden': True,
             'parking': False,
             'pets_allowed': True
         }
         form = PropertySearchForm(data=form_data)
         self.assertTrue(form.is_valid())
+
+    def test_default_no_min_no_max(self):
+        form_data = {
+            'search': 'Test Location',
+            'location': 'Test Location',
+            'property_type': 'any',
+            'bedrooms_min': None,
+            'bedrooms_max': "max",
+            'price_min': None,
+            'price_max': "max",
+            'bathrooms_min': None,
+            'bathrooms_max': "max",
+            'garden': True,
+            'parking': False,
+            'pets_allowed': True
+        }
+        form = PropertySearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data['bedrooms_min'], None)
+        self.assertEqual(form.cleaned_data['bedrooms_max'], None)
+        self.assertEqual(form.cleaned_data['price_min'], None)
+        self.assertEqual(form.cleaned_data['price_max'], None)
+        self.assertEqual(form.cleaned_data['bathrooms_min'], None)
+        self.assertEqual(form.cleaned_data['bathrooms_max'], None)
 
 class ViewingAppointmentFormTest(TestCase):
     def test_form_validity(self):
