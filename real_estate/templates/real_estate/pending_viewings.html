@@ -3,33 +3,35 @@
 {% block content %}
 <h1>Pending Viewings</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Property</th>
-            <th>Request By</th>
-            <th>Preferred Date</th>
-            <th>Preferred Time</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for viewing in viewings %}
-        <tr>
-            <td>{{ viewing.property.title }}</td>
-            <td>{{ viewing.name }}</td>
-            <td>{{ viewing.preferred_date }}</td>
-            <td>{{ viewing.preferred_time }}</td>
-            <td>{{ viewing.viewing_decision }}</td>
-            <td>
-                <a href="{% url 'update_viewing' viewing.id %}">Update</a> |
-                <button class="delete-viewing-btn" data-viewing-id="{{ viewing.id }}" aria-label="Delete viewing">Delete</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th class="hide-column">Request By</th>
+                <th>Preferred Date</th>
+                <th>Preferred Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for viewing in viewings %}
+            <tr>
+                <td data-label="Property">{{ viewing.property.title }}</td>
+                <td data-label="Request By" class="hide-column">{{ viewing.name }}</td>
+                <td data-label="Preferred Date">{{ viewing.preferred_date }}</td>
+                <td data-label="Preferred Time">{{ viewing.preferred_time }}</td>
+                <td data-label="Status">{{ viewing.viewing_decision }}</td>
+                <td data-label="Actions" class="actions">
+                    <a href="{% url 'update_viewing' viewing.id %}" class="update-btn">Update</a> |
+                    <button class="delete-viewing-btn delete-btn" data-viewing-id="{{ viewing.id }}" aria-label="Delete viewing">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">

@@ -1189,6 +1189,32 @@ button {
   display: block;
 }
 
+/* Pending Viewings Page */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+th, td {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.hide-column {
+  display: none;
+}
+
 /* Footer styles */
 .footer-menu {
   background-color: #36383F;
@@ -1722,6 +1748,48 @@ footer p {
     justify-content: center;
     font-size: 14px;
     padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  table thead {
+      display: none;
+  }
+
+  table tbody, table tr, table td {
+      display: block;
+      width: 100%;
+  }
+
+  table tr {
+      margin-bottom: 1em;
+  }
+
+  table td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+  }
+
+  table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-left: 0.5em;
+      font-weight: bold;
+      text-align: left;
+  }
+
+  .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .update-btn, .delete-btn {
+      display: inline-block;
+      margin: 0;
   }
 }
 

@@ -1189,6 +1189,32 @@ button {
   display: block;
 }
 
+/* Pending Viewings Page */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+th, td {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.hide-column {
+  display: none;
+}
+
 /* Footer styles */
 .footer-menu {
   background-color: #36383F;
@@ -1403,142 +1429,6 @@ footer p {
     margin-right: 40px;
     margin-left: 120px;
     margin-top: -30px;
-  }
-
-  /* Pending Viewings Page */
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead th {
-    border-bottom: 2px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    background-color: #f5f5f5;
-    font-weight: bold;
-  }
-
-  tbody td {
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  tbody tr:hover {
-    background-color: #f5f5f5;
-  }
-
-  a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  button.delete-viewing-btn {
-    background: none;
-    border: none;
-    color: #d9534f;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  button.delete-viewing-btn:hover {
-    color: #c9302c;
-  }
-
-  /* Modal Styles */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1010;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-  }
-
-  .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 5px;
-    text-align: center;
-  }
-
-  .modal-content .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .modal-content .close:hover,
-  .modal-content .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .confirm-btn,
-  .cancel-btn {
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  .confirm-btn {
-    background-color: #d9534f;
-    color: white;
-  }
-
-  .cancel-btn {
-    background-color: #5bc0de;
-    color: white;
-  }
-
-   /* Hide 'Request By' column */
-  thead th:nth-child(2),
-  tbody td:nth-child(2) {
-    display: none;
-  }
-
-  /* Collapsible rows */
-  .viewing-collapsible {
-    cursor: pointer;
-  }
-
-  .viewing-collapsible-content {
-    display: none;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
   }
 }
 
@@ -1858,6 +1748,48 @@ footer p {
     justify-content: center;
     font-size: 14px;
     padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  table thead {
+      display: none;
+  }
+
+  table tbody, table tr, table td {
+      display: block;
+      width: 100%;
+  }
+
+  table tr {
+      margin-bottom: 1em;
+  }
+
+  table td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+  }
+
+  table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-left: 0.5em;
+      font-weight: bold;
+      text-align: left;
+  }
+
+  .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .update-btn, .delete-btn {
+      display: inline-block;
+      margin: 0;
   }
 }
 
