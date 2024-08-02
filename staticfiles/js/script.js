@@ -13,6 +13,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Function to handle close button for collapsible content
+    const closeButtons = document.querySelectorAll('.close-collapsible');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const content = this.parentElement;
+            content.style.display = 'none';
+            const collapsible = content.previousElementSibling;
+            if (collapsible.classList.contains('collapsible')) {
+                collapsible.classList.remove('active');
+            }
+            // Scroll back to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+
     // Function to get CSRF Token
     function getCSRFToken() {
         let cookieValue = null;

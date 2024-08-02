@@ -57,6 +57,13 @@ a {
   padding-bottom: 0px;
 }
 
+.menu-divider {
+  border: none;
+  border-left: 1px solid #ccc;
+  height: 24px;
+  margin: 3px;
+}
+
 .dropdown-menu {
   display: none;
   position: absolute;
@@ -106,17 +113,6 @@ a {
 
 .dropdown-menu li a:hover {
   background-color: #555;
-}
-
-.banner-container {
-  width: 100%;
-  margin-top: 60px;
-}
-
-.banner-image {
-  width: 100%;
-  display: block;
-  margin-top: -4px;
 }
 
 /* Main styling */
@@ -1041,6 +1037,25 @@ button {
   border-radius: 5px;
 }
 
+.close-collapsible {
+  background-color: #f1f1f1;
+  color: #444;
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  margin-top: 10px;
+  border: 2px solid #444;
+  border-radius: 5px;
+}
+
+.close-collapsible:hover {
+  background-color: #ccc;
+}
+
 /* Thumbnail carousel styles */
 .thumbnail-container {
   display: flex;
@@ -1275,7 +1290,7 @@ footer p {
 
   .box {
     padding: 15px;
-    width: calc(100% - 20px);
+    width: 100%;
     margin-bottom: 10px;
     height: auto;
     display: flex;
@@ -1388,6 +1403,142 @@ footer p {
     margin-right: 40px;
     margin-left: 120px;
     margin-top: -30px;
+  }
+
+  /* Pending Viewings Page */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    border-bottom: 2px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+
+  tbody td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  button.delete-viewing-btn {
+    background: none;
+    border: none;
+    color: #d9534f;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  button.delete-viewing-btn:hover {
+    color: #c9302c;
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1010;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .modal-content .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .modal-content .close:hover,
+  .modal-content .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .confirm-btn,
+  .cancel-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .confirm-btn {
+    background-color: #d9534f;
+    color: white;
+  }
+
+  .cancel-btn {
+    background-color: #5bc0de;
+    color: white;
+  }
+
+   /* Hide 'Request By' column */
+  thead th:nth-child(2),
+  tbody td:nth-child(2) {
+    display: none;
+  }
+
+  /* Collapsible rows */
+  .viewing-collapsible {
+    cursor: pointer;
+  }
+
+  .viewing-collapsible-content {
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
   }
 }
 
@@ -1614,6 +1765,18 @@ footer p {
 }
 
 @media (min-width: 694px) {
+  .banner-image {
+    width: 100%;
+    display: block;
+    margin-top: -4px;
+  }
+
+  .banner-container {
+    width: 100%;
+    margin-top: 70px;
+    height: auto;
+  }
+
   .home-search h2 {
     font-size: 20px;
     font-weight: bold;
@@ -1766,6 +1929,12 @@ footer p {
   .nav {
     max-height: 0;
     transition: max-height 0.5s ease-out;
+  }
+
+  .menu-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    width: 90%;
   }
 
   .hamb {
@@ -1949,7 +2118,7 @@ footer p {
   }
 
   .menu > li > a {
-    padding: 10px 15px;
+    padding: 10px 10px;
     display: block;
     color: #fff;
     text-decoration: none;
