@@ -57,6 +57,13 @@ a {
   padding-bottom: 0px;
 }
 
+.menu-divider {
+  border: none;
+  border-left: 1px solid #ccc;
+  height: 24px;
+  margin: 3px;
+}
+
 .dropdown-menu {
   display: none;
   position: absolute;
@@ -1788,6 +1795,12 @@ footer p {
     transition: max-height 0.5s ease-out;
   }
 
+  .menu-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    width: 90%;
+  }
+
   .hamb {
     cursor: pointer;
     padding: 25px 20px;
@@ -1969,7 +1982,7 @@ footer p {
   }
 
   .menu > li > a {
-    padding: 10px 15px;
+    padding: 10px 10px;
     display: block;
     color: #fff;
     text-decoration: none;
