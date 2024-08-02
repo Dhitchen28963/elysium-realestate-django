@@ -41,6 +41,7 @@
         <nav class="nav">
             <ul class="menu">
                 <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
+                <hr class="menu-divider">
                 <li class="dropdown">
                     <a href="#" aria-label="View properties and land for sale">Buy</a>
                     <ul class="dropdown-menu">
@@ -48,6 +49,7 @@
                         <li><a href="{% url 'view_land' %}" aria-label="View Land for Sale">Land for Sale</a></li>
                     </ul>
                 </li>
+                <hr class="menu-divider">
                 <li class="dropdown">
                     <a href="#" aria-label="View rental properties">Rent</a>
                     <ul class="dropdown-menu">
@@ -55,6 +57,7 @@
                         <li><a href="{% url 'student_property' %}" aria-label="View Student Accommodation">Student Accommodation</a></li>
                     </ul>
                 </li>
+                <hr class="menu-divider">
                 <li class="dropdown">
                     <a href="#" aria-label="View useful resources and information">Resources</a>
                     <ul class="dropdown-menu">
@@ -66,6 +69,7 @@
                         <li><a href="{% url 'mortgage_calculator' %}" aria-label="Use Mortgage Calculator">Mortgage Calculator</a></li>
                     </ul>
                 </li>
+                <hr class="menu-divider">
                 <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
