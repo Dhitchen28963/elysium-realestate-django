@@ -317,6 +317,7 @@ img {
 
 .filters-container .checkbox-group {
   flex-direction: row;
+  font-size: 14px;
 }
 
 .filters-container .checkbox-group label {
@@ -684,7 +685,6 @@ button {
 .useful-resources-section,
 .housing-section {
   position: relative;
-  z-index: 1;
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   text-align: center;
@@ -2441,6 +2441,8 @@ footer p {
     padding: 10px;
     cursor: pointer;
     z-index: 10;
+    width: 20px;
+    height: 20px;
   }
 
   .carousel-control-prev {
@@ -2526,6 +2528,8 @@ footer p {
     padding: 10px;
     cursor: pointer;
     z-index: 10;
+    height: 50px;
+    width: 50px
   }
 
   .carousel-control-prev {
