@@ -37,12 +37,13 @@
     </form>
   </div>
 </main>
+{% endblock %}
 
-<!-- Modal for messages -->
-<div id="messageModal" class="modal" role="dialog" aria-describedby="modalMessage">
-  <div class="modal-content">
-    <span class="close" aria-label="Close">&times;</span>
-    <p id="modalMessage"></p>
-  </div>
+{% block modal_messages %}
+<div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
+    <div class="modal-content">
+        <span class="close" aria-label="Close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
 </div>
 {% endblock %}
