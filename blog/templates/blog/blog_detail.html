@@ -26,14 +26,14 @@
     </div>
     <div class="comments">
         <h2>Comments</h2>
-        <ul>
+        <ul id="comments-list">
             {% for comment in comments %}
-                <li>
+                <li id="comment-{{ comment.id }}">
                     <p><strong>{{ comment.author.username }}</strong> said:</p>
                     <p>{{ comment.body|safe }}</p>
                     {% if comment.author == user %}
-                        <a href="{% url 'blog_comment_edit' comment.id %}" aria-label="Edit Comment">Edit</a>
-                        <a href="{% url 'blog_comment_delete' comment.id %}" aria-label="Delete Comment">Delete</a>
+                        <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}">Edit</button>
+                        <button class="delete-comment" aria-label="Delete Comment" data-id="{{ comment.id }}">Delete</button>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -41,12 +41,21 @@
     </div>
     <div class="comment-form">
         <h2>Leave a Comment</h2>
-        <form id="commentForm" method="post" action=".">
+        <form id="commentForm" method="post">
             {% csrf_token %}
             {{ comment_form.body }}
-            <button type="submit" id="submitButton" aria-label="Submit Comment">Submit</button>
+            <button type="submit" id="submitComment" aria-label="Submit Comment">Submit</button>
         </form>
     </div>
     <a href="{% url 'blog_list' %}" class="back-to-list" aria-label="Back to Blog List">Back to Blog List</a>
+</div>
+{% endblock %}
+
+{% block modal_messages %}
+<div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
+    <div class="modal-content">
+        <span class="close" aria-label="Close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
 </div>
 {% endblock %}
