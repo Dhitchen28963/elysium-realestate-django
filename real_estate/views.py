@@ -290,14 +290,11 @@ def update_viewing(request, viewing_id):
         form = ViewingAppointmentForm(request.POST, instance=viewing)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Viewing updated successfully!')
-            return redirect('view_pending_viewings')
-    else:
-        form = ViewingAppointmentForm(instance=viewing)
-    return render(
-        request, 'real_estate/update_viewing.html',
-        {'form': form, 'viewing': viewing}
-    )
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+
 
 @login_required
 def delete_viewing(request, viewing_id):

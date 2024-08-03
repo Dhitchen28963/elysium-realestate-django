@@ -8,11 +8,19 @@
 <p><strong>Author:</strong> {{ testimonial.author.username }}</p>
 <p><strong>Created on:</strong> {{ testimonial.created_on }}</p>
 
-<a href="{% url 'edit_testimonial' testimonial.id %}" aria-label="Edit testimonial">Edit</a>
-<form method="post" action="{% url 'delete_testimonial' testimonial.id %}">
-    {% csrf_token %}
-    <button type="submit" aria-label="Delete testimonial">Delete</button>
-</form>
+{% if testimonial.author == user %}
+    <button class="edit-testimonial" aria-label="Edit Testimonial" data-id="{{ testimonial.id }}">Edit</button>
+    <button class="delete-testimonial" aria-label="Delete Testimonial" data-id="{{ testimonial.id }}">Delete</button>
+{% endif %}
 
 <a href="{% url 'testimonials_list' %}" aria-label="Back to Testimonials List">Back to Testimonials List</a>
+{% endblock %}
+
+{% block modal_messages %}
+<div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
+    <div class="modal-content">
+        <span class="close" aria-label="Close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
 {% endblock %}

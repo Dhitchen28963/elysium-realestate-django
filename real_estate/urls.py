@@ -48,7 +48,7 @@ urlpatterns = [
         name='view_pending_viewings'
     ),
     path(
-        'update-viewing/<int:viewing_id>/',
+        'update_viewing/<int:viewing_id>/',
         views.update_viewing,
         name='update_viewing'
     ),
