@@ -24,7 +24,7 @@
                 <td data-label="Preferred Time">{{ viewing.preferred_time }}</td>
                 <td data-label="Status">{{ viewing.viewing_decision }}</td>
                 <td data-label="Actions" class="actions">
-                    <a href="{% url 'update_viewing' viewing.id %}" class="update-btn">Update</a> |
+                    <button class="update-viewing-btn update-btn" data-viewing-id="{{ viewing.id }}" aria-label="Update viewing">Update</button> |
                     <button class="delete-viewing-btn delete-btn" data-viewing-id="{{ viewing.id }}" aria-label="Delete viewing">Delete</button>
                 </td>
             </tr>
@@ -43,4 +43,49 @@
   </div>
 </div>
 
+<!-- Update Viewing Modal -->
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" aria-label="Close modal">&times;</span>
+        <h2>Update Viewing</h2>
+        <form id="updateViewingForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="viewingId" name="viewing_id">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact</label>
+                <input type="text" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="preferredDate">Preferred Date</label>
+                <input type="date" id="preferredDate" name="preferred_date" required>
+            </div>
+            <div class="form-group">
+                <label for="preferredTime">Preferred Time</label>
+                <input type="time" id="preferredTime" name="preferred_time" required>
+            </div>
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal_messages %}
+<div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
+    <div class="modal-content">
+        <span class="close" aria-label="Close">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
 {% endblock %}
