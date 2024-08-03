@@ -822,7 +822,7 @@ button {
   background-color: #0056b3;
 }
 
-.property-guides-title {
+.real-estate-title {
   background-color: navy;
   color: white;
   padding: 10px;
@@ -880,6 +880,10 @@ button {
   margin-top: 10px;
   margin-bottom: 5px;
   text-align: left;
+}
+
+.hidden-labels .feature-item::before {
+  content: none;
 }
 
 .property-info .property-price {
@@ -1059,13 +1063,25 @@ button {
 /* Thumbnail carousel styles */
 .thumbnail-container {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.thumbnail {
+  flex: 0 0 auto;
+  width: 150px;
+  margin-right: 10px;
+  background-color: #ccc;
+  text-align: center;
+  padding: 10px;
 }
 
 .thumbnail-item {
-  width: 100px;
-  height: 60px;
+  width: 80px;
+  height: 48px;
   margin-right: 10px;
 }
 
@@ -1082,7 +1098,7 @@ button {
 
 .image-container {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   gap: 10px;
 }
 
@@ -1278,11 +1294,8 @@ footer p {
 }
 
 @media (max-width: 500px) {
-  .property-guides-detail h1 {
-    font-size: 18px;
-    padding: 8px 16px;
-    bottom: 10px;
-    left: 10px;
+  .thumbnail-container {
+    overflow-x: scroll;
   }
 }
 
@@ -1790,6 +1803,10 @@ footer p {
   .update-btn, .delete-btn {
       display: inline-block;
       margin: 0;
+  }
+
+  .thumbnail-item img {
+    width: 150px;
   }
 }
 
@@ -2455,21 +2472,22 @@ footer p {
 
   .thumbnail-container {
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
     margin-top: 10px;
+    width: 100%;
+    justify-content: center;
   }
 
   .thumbnail-item {
     flex: 0 0 auto;
-    width: 100px;
-    height: 60px;
+    width: 80px;
+    height: 50px;
     margin-right: 10px;
   }
 
   .thumbnail-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     cursor: pointer;
   }
 }

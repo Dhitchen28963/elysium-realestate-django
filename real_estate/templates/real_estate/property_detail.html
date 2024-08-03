@@ -34,31 +34,31 @@
 
     <div class="property-detail">
       <div class="property-info">
-        <h1>{{ property.title }}</h1>
+        <h2>{{ property.title }}</h2>
         <p class="property-location">Location: {{ property.location }}</p>
         <p class="property-price">Price: £{{ property.price }}</p>
         <hr>
-        <div class="property-features">
+        <div class="property-features hidden-labels">
           <span class="feature-item">
-            <i class="fa-solid fa-house"></i> Property Type: {{ property.get_property_type_display }}
+            <i class="fa-solid fa-house"></i> {{ property.get_property_type_display }}
           </span>
           <span class="feature-item">
-            <i class="fa-solid fa-bed"></i> Bedrooms: {{ property.bedrooms }}
+            <i class="fa-solid fa-bed"></i> {{ property.bedrooms }}
           </span>
           <span class="feature-item">
-            <i class="fa-solid fa-bath"></i> Bathrooms: {{ property.bathrooms }}
+            <i class="fa-solid fa-bath"></i> {{ property.bathrooms }}
           </span>
         </div>
         <hr>
-        <div class="additional-features">
+        <div class="additional-features hidden-labels">
           <span class="feature-item">
-            <i class="fa-solid fa-seedling"></i> Garden: {{ property.garden|yesno:"Yes,No" }}
+            <i class="fa-solid fa-seedling"></i> {{ property.garden|yesno:"Yes,No" }}
           </span>
           <span class="feature-item">
-            <i class="fa-solid fa-car"></i> Parking: {{ property.parking|yesno:"Yes,No" }}
+            <i class="fa-solid fa-car"></i> {{ property.parking|yesno:"Yes,No" }}
           </span>
           <span class="feature-item">
-            <i class="fa-solid fa-paw"></i> Pets Allowed: {{ property.pets_allowed|yesno:"Yes,No" }}
+            <i class="fa-solid fa-paw"></i> {{ property.pets_allowed|yesno:"Yes,No" }}
           </span>
         </div>
         <hr>

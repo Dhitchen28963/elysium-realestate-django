@@ -3,7 +3,7 @@
 {% block title %}{{ testimonial.body|truncatewords:5 }}{% endblock %}
 
 {% block content %}
-<h1>{{ testimonial.body|truncatewords:5 }}</h1>
+<h2>{{ testimonial.body|truncatewords:5 }}</h2>
 <p>{{ testimonial.body }}</p>
 <p><strong>Author:</strong> {{ testimonial.author.username }}</p>
 <p><strong>Created on:</strong> {{ testimonial.created_on }}</p>
