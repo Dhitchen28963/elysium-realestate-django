@@ -51,21 +51,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function showModalMessage(message) {
         const modal = document.getElementById('messageModal');
         const modalMessage = document.getElementById('modalMessage');
-        const closeModal = document.getElementsByClassName('close')[0];
-
-        modalMessage.textContent = message;
+        modalMessage.innerHTML = message;
         modal.style.display = 'block';
-
-        closeModal.onclick = function () {
-            modal.style.display = 'none';
-        };
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        };
     }
+
+    // Closing of modal message
+    const closeModalButtons = document.querySelectorAll('.modal-content .close');
+    closeModalButtons.forEach(button => {
+        button.onclick = function () {
+            button.parentElement.parentElement.style.display = 'none';
+        };
+    });
+
+    window.onclick = function (event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    };
 
     // Function to clear previous modal messages
     function clearModalMessages() {
@@ -82,20 +84,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Function to validate the date
-    function validateDate() {
-        const preferredDateInput = document.getElementById('preferred_date');
+    function validateDate(inputId) {
+        const dateInput = document.getElementById(inputId);
         const currentDate = new Date();
-        const selectedDate = new Date(preferredDateInput.value);
+        const selectedDate = new Date(dateInput.value);
 
         if (isNaN(selectedDate.getTime())) {
             showModalMessage('Please enter a valid date.');
-            preferredDateInput.value = '';  // Clear invalid date
+            dateInput.value = '';  // Clear invalid date
             return false;
         }
 
         if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
             showModalMessage('You cannot select a past date. Please choose a valid date.');
-            preferredDateInput.value = '';  // Clear past date
+            dateInput.value = '';  // Clear past date
             return false;
         }
 
@@ -201,9 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const customViewingForm = document.getElementById('custom-viewing-form');
         const formData = new FormData(customViewingForm);
 
-        if (!validateDate()) {
-            return;
-        }
+        if (!validateDate('preferred_date')) return;
 
         try {
             const url = `/real_estate/request_custom_viewing/${propertyId}/`;
@@ -699,22 +699,60 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for validating date
     const preferredDateInput = document.getElementById('preferred_date');
     if (preferredDateInput) {
-        preferredDateInput.addEventListener('change', validateDate);
+        preferredDateInput.addEventListener('change', function () {
+            validateDate('preferred_date');
+        });
     }
 
     // Event listener for updating viewing
-    const updateViewingForm = document.getElementById('update-viewing-form');
+    document.querySelectorAll('.update-viewing-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const viewingId = this.getAttribute('data-viewing-id');
+            const updateModal = document.getElementById('updateModal');
+            const updateViewingForm = document.getElementById('updateViewingForm');
+            const viewingIdInput = document.getElementById('viewingId');
+            const updatePreferredDateInput = document.getElementById('preferredDate');
+
+            // Set the form action URL and hidden input value
+            updateViewingForm.setAttribute('data-viewing-id', viewingId);
+            viewingIdInput.value = viewingId;
+
+            // Display the modal
+            updateModal.style.display = 'block';
+
+            // Attach the validation function to the update date input
+            updatePreferredDateInput.addEventListener('change', function () {
+                validateDate('preferredDate');
+            });
+        });
+    });
+
+    const updateViewingForm = document.getElementById('updateViewingForm');
     if (updateViewingForm) {
         updateViewingForm.addEventListener('submit', function (event) {
             event.preventDefault();
             clearModalMessages();  // Clear previous messages
 
-            if (!validateDate()) {
+            if (!validateDate('preferredDate')) {
                 return;  // Prevent form submission if date is invalid
             }
 
-            const url = updateViewingForm.getAttribute('action');
+            const viewingId = updateViewingForm.getAttribute('data-viewing-id');
+            const url = `/real_estate/update_viewing/${viewingId}/`;
             const formData = new FormData(updateViewingForm);
+
+            // Adding missing fields manually if they are not in the form already
+            const contactInput = document.getElementById('contact');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            if (!formData.has('contact') && contactInput) formData.append('contact', contactInput.value);
+            if (!formData.has('email') && emailInput) formData.append('email', emailInput.value);
+            if (!formData.has('message') && messageInput) formData.append('message', messageInput.value);
+
+            const formDataObject = Object.fromEntries(formData.entries());
+
+            console.log(`Submitting form to URL: ${url}`);
+            console.log('Form data:', formDataObject);
 
             fetch(url, {
                 method: 'POST',
@@ -724,23 +762,135 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
             })
             .then(response => {
+                console.log(`Response status: ${response.status}`);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(err => {
+                        throw new Error(JSON.stringify(err));
+                    });
                 }
                 return response.json();
             })
             .then(data => {
                 if (data.status === 'ok') {
                     showModalMessage('Viewing updated successfully!');
+                    const updateModal = document.getElementById('updateModal');
+                    updateModal.style.display = 'none';
+                    location.reload();
                 } else {
-                    showModalMessage('Error updating viewing: ' + JSON.stringify(data.errors));
+                    showModalMessage(`Error updating viewing: ${JSON.stringify(data.errors)}`);
                 }
             })
             .catch(error => {
-                showModalMessage('An error occurred. Please try again.');
+                console.error(`Error occurred: ${error}`);
+                showModalMessage(`An error occurred. Please try again. Details: ${error.message}`);
             });
         });
     }
+
+    // Show modal message on specific actions
+    function showConfirmationMessage(message) {
+        showModalMessage(message);
+    }
+
+    // Comment form handling
+    const commentForm = document.getElementById('commentForm');
+    if (commentForm) {
+        commentForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(commentForm);
+            fetch(commentForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showConfirmationMessage('Comment has been submitted.');
+                } else {
+                    showConfirmationMessage('Failed to submit comment.');
+                }
+            })
+            .catch(error => {
+                showConfirmationMessage('An error occurred.');
+            });
+        });
+    }
+
+    // Edit comment handling
+    document.querySelectorAll('button.edit-comment').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-id');
+            // Implement AJAX call to handle comment editing or open a modal for editing
+            showConfirmationMessage('Comment is awaiting approval.');
+        });
+    });
+
+    // Delete comment handling
+    document.querySelectorAll('button.delete-comment').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-id');
+            fetch(`/delete_comment/${commentId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`comment-${commentId}`).remove();
+                    showConfirmationMessage('Comment has been deleted.');
+                } else {
+                    showConfirmationMessage('Failed to delete comment.');
+                }
+            })
+            .catch(error => {
+                showConfirmationMessage('An error occurred.');
+            });
+        });
+    });
+
+    // Edit testimonial handling
+    document.querySelectorAll('button.edit-testimonial').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const testimonialId = this.getAttribute('data-id');
+            // Implement AJAX call to handle testimonial editing or open a modal for editing
+            showConfirmationMessage('Testimonial is awaiting approval.');
+        });
+    });
+
+    // Delete testimonial handling
+    document.querySelectorAll('button.delete-testimonial').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const testimonialId = this.getAttribute('data-id');
+            fetch(`/delete_testimonial/${testimonialId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showConfirmationMessage('Testimonial has been deleted.');
+                } else {
+                    showConfirmationMessage('Failed to delete testimonial.');
+                }
+            })
+            .catch(error => {
+                showConfirmationMessage('An error occurred.');
+            });
+        });
+    });
 });
 
 // Mortgage calculation
