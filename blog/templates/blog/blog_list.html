@@ -5,13 +5,13 @@
 {% block content %}
 <div id="blog-list" class="container">
     <h2 class="real-estate-title">Blog</h2>
-    <ul>
+    <div class="blog-container">
         {% for blog in blogs %}
-            <li>
+            <div class="blog-box">
                 <a href="{% url 'blog_detail' blog.slug %}">{{ blog.title }}</a>
                 <p>{{ blog.excerpt }}</p>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

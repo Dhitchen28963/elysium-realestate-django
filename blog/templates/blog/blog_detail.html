@@ -17,23 +17,25 @@
             <img src="{{ image.image.url }}" alt="Additional image for {{ blog.title }}">
         {% endfor %}
     </div>
+    <div class="post-content">
+        {{ blog.content|safe }}
+    </div>
     <div class="post-meta">
         <p><strong>Author:</strong> {{ blog.author }}</p>
         <p><strong>Published on:</strong> {{ blog.created_on }}</p>
-    </div>
-    <div class="post-content">
-        {{ blog.content|safe }}
     </div>
     <div class="comments">
         <h2>Comments</h2>
         <ul id="comments-list">
             {% for comment in comments %}
                 <li id="comment-{{ comment.id }}">
-                    <p><strong>{{ comment.author.username }}</strong> said:</p>
-                    <p>{{ comment.body|safe }}</p>
+                    <p class="comment-author"><strong>{{ comment.author.username }}</strong> said:</p>
+                    <p class="comment-body">{{ comment.body|safe }}</p>
                     {% if comment.author == user %}
-                        <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}">Edit</button>
-                        <button class="delete-comment" aria-label="Delete Comment" data-id="{{ comment.id }}">Delete</button>
+                        <div class="comment-actions">
+                            <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}">Edit</button>
+                            <button class="delete-comment" aria-label="Delete Comment" data-id="{{ comment.id }}">Delete</button>
+                        </div>
                     {% endif %}
                 </li>
             {% endfor %}

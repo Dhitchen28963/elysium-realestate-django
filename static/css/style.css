@@ -784,6 +784,176 @@ button {
   background-color: #b3e5fc;
 }
 
+/* Blog list page */
+#blog-list .blog-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+#blog-list .blog-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#blog-list .blog-box:hover {
+  transform: translateY(-5px);
+}
+
+#blog-list .blog-box a {
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+#blog-list .blog-box p {
+  margin: 0;
+  color: #666;
+  flex-grow: 1;
+}
+
+/* Blog detail page */
+#blog-detail {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#blog-detail .post-header img,
+#blog-detail .image-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+#blog-detail .post-content {
+  margin-bottom: 20px;
+}
+
+#blog-detail .post-meta {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #555;
+}
+
+#blog-detail .comments {
+  margin-bottom: 20px;
+}
+
+#blog-detail .comments h2 {
+  margin-bottom: 10px;
+}
+
+#blog-detail #comments-list {
+  list-style: none;
+  padding: 0;
+}
+
+#blog-detail #comments-list li {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+#blog-detail #comments-list li p {
+  margin: 5px 0;
+}
+
+#blog-detail #comments-list li .comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#blog-detail #comments-list li .comment-body {
+  margin-bottom: 10px;
+}
+
+#blog-detail .edit-comment,
+#blog-detail .delete-comment {
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: #007bff;
+  border-radius: 5px;
+  align-self: flex-start;
+}
+
+#blog-detail .edit-comment:hover,
+#blog-detail .delete-comment:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+#blog-detail .comment-form {
+  margin-bottom: 20px;
+}
+
+#blog-detail .comment-form h2 {
+  margin-bottom: 10px;
+}
+
+#blog-detail .comment-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#blog-detail .comment-form textarea {
+  resize: vertical;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#blog-detail .comment-form button {
+  align-self: flex-start;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+#blog-detail .comment-form button:hover {
+  background-color: #218838;
+}
+
+#blog-detail .back-to-list {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+#blog-detail .back-to-list:hover {
+  background-color: #0056b3;
+}
+
 /* property guides */
 .guide-category {
   border: 1px solid #ccc;
@@ -2454,6 +2624,10 @@ footer p {
   .property-list .property-features .feature-item i,
   .property-list .additional-features .feature-item i {
     font-size: 0.8em;
+  }
+
+  #blog-list .blog-container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
