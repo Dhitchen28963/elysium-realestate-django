@@ -903,7 +903,7 @@ button {
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-size: 1.2em;
+  font-size: 1.4em;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -951,7 +951,8 @@ button {
   font-size: 1.2em;
 }
 
-.property-guides-detail {
+.property-guides-detail,
+.homelessness-advice-detail {
   position: relative;
   z-index: 2;
   background-color: rgba(255, 255, 255, 0.8);
@@ -2201,6 +2202,44 @@ footer p {
   .menu > li:hover > .dropdown-menu {
     margin-top: -4px;
   }
+
+  /* Property Guides List */
+  .guide-categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .guide-category {
+    flex: 1 1 calc(50% - 20px);
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+  }
+
+  .guide-category h2 {
+    margin-top: 0;
+  }
+
+  .guide-category ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .guide-category li {
+    margin-bottom: 10px;
+  }
+
+  .guide-category li a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .guide-category li a:hover {
+    text-decoration: underline;
+  }  
 }
 
 /* Styles for screens 1005px and below */
@@ -2487,7 +2526,8 @@ footer p {
 
   .thumbnail-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     cursor: pointer;
   }
 }

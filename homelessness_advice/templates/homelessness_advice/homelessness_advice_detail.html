@@ -1,29 +1,50 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}{{ homeless_post.title }}{% endblock %}
 
+{% block banner %}
+<!-- No banner for homelessness advice detail page -->
+{% endblock %}
+
 {% block content %}
-<div id="homelessness-advice-detail" class="container">
-    <h2>{{ homeless_post.title }}</h2>
-    <div class="post-header">
-        {% if homeless_post.featured_image %}
-            <img src="{{ homeless_post.featured_image.url }}" alt="{{ homeless_post.title }}">
-        {% else %}
-            <p>No Image Available</p>
-        {% endif %}
+<div class="image-wrapper">
+    {% if homeless_post.featured_image %}
+        <img src="{{ homeless_post.featured_image.url }}" alt="{{ homeless_post.title }}" class="property-guides-image">
+    {% else %}
+        <p>No Image Available</p>
+    {% endif %}
+</div>
+
+<div class="homelessness-advice-detail">
+    <a href="{% url 'homelessness_advice_list' %}" class="back-to-list" aria-label="Back to Homelessness Advice List">Back to Homelessness Advice List</a>
+
+    <div class="guide-content content-box">
+        <button type="button" class="collapsible">{{ homeless_post.title | safe }}</button>
+        <div class="content">
+            {{ homeless_post.content|safe }}
+            <div class="post-meta">
+                <p><strong>Author:</strong> {{ homeless_post.author }}</p>
+                <p><strong>Published on:</strong> {{ homeless_post.created_on }}</p>
+                <p><strong>Updated on:</strong> {{ homeless_post.updated_on }}</p>
+            </div>
+            <button type="button" class="close-collapsible"><i class="fa-solid fa-angle-up"></i></button>
+        </div>
     </div>
+
     <div class="image-container">
         {% for image in homeless_post.additional_images.all %}
-            <img src="{{ image.image.url }}" alt="Additional image for {{ homeless_post.title }}">
+            <img src="{{ image.image.url }}" alt="Additional image for {{ homeless_post.title }}" class="property-guides-image">
         {% endfor %}
     </div>
-    <div class="post-meta">
-        <p><strong>Author:</strong> {{ homeless_post.author }}</p>
-        <p><strong>Published on:</strong> {{ homeless_post.created_on }}</p>
-    </div>
-    <div class="post-content">
-        {{ homeless_post.content|safe }}
-    </div>
-    <a href="{% url 'homelessness_advice_list' %}" class="back-to-list" aria-label="Back to Homelessness Advice List">Back to Homelessness Advice List</a>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/collapsible.js' %}"></script>
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/collapsible.css' %}">
 {% endblock %}

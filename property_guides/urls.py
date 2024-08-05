@@ -32,5 +32,17 @@ urlpatterns = [
         {'category_name': 'Eviction'},
         name='eviction'
     ),
+    path(
+        'mortgage/',
+        views.property_guides_category,
+        {'category_name': 'Mortgage'},
+        name='mortgage'
+    ),
+    path(
+        'buying-selling/',
+        views.property_guides_category,
+        {'category_name': 'Buyers/Selling'},
+        name='buying_selling'
+    ),
     path('summernote/', include('django_summernote.urls')),
 ]

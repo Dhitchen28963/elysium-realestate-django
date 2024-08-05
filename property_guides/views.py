@@ -30,6 +30,8 @@ def property_guides_list(request):
     fire_safety_guides = posts.filter(category__name='Fire Safety')
     repairs_guides = posts.filter(category__name='Repairs')
     eviction_guides = posts.filter(category__name='Eviction')
+    mortgage_guides = posts.filter(category__name='Mortgage')
+    buying_selling_guides = posts.filter(category__name='Buyers/Selling')
 
     context = {
         'landlord_guides': landlord_guides,
@@ -40,6 +42,8 @@ def property_guides_list(request):
         'fire_safety_guides': fire_safety_guides,
         'repairs_guides': repairs_guides,
         'eviction_guides': eviction_guides,
+        'mortgage_guides': mortgage_guides,
+        'buying_selling_guides': buying_selling_guides,
     }
 
     return render(
