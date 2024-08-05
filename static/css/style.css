@@ -820,8 +820,9 @@ button {
   flex-grow: 1;
 }
 
-/* Blog detail page */
-#blog-detail {
+/* Blog detail & faq detail page */
+#blog-detail,
+#faq-detail {
   max-width: 800px;
   margin: auto;
   padding: 20px;
@@ -829,37 +830,45 @@ button {
 }
 
 #blog-detail .post-header img,
-#blog-detail .image-container img {
+#blog-detail .image-container img,
+#faq-detail .post-header img,
+#faq-detail .image-container img {
   max-width: 100%;
   height: auto;
   display: block;
   margin-bottom: 20px;
 }
 
-#blog-detail .post-content {
+#blog-detail .post-content,
+#faq-detail .post-content {
   margin-bottom: 20px;
 }
 
-#blog-detail .post-meta {
+#blog-detail .post-meta,
+#faq-detail .post-meta {
   margin-bottom: 20px;
   font-style: italic;
   color: #555;
 }
 
-#blog-detail .comments {
+#blog-detail .comments,
+#faq-detail .comments {
   margin-bottom: 20px;
 }
 
-#blog-detail .comments h2 {
+#blog-detail .comments h2,
+#faq-detail .comments h2 {
   margin-bottom: 10px;
 }
 
-#blog-detail #comments-list {
+#blog-detail #comments-list,
+#faq-detail #comments-list {
   list-style: none;
   padding: 0;
 }
 
-#blog-detail #comments-list li {
+#blog-detail #comments-list li,
+#faq-detail #comments-list li {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
@@ -870,21 +879,26 @@ button {
   flex-direction: column;
 }
 
-#blog-detail #comments-list li p {
+#blog-detail #comments-list li p,
+#faq-detail #comments-list li p {
   margin: 5px 0;
 }
 
-#blog-detail #comments-list li .comment-author {
+#blog-detail #comments-list li .comment-author,
+#faq-detail #comments-list li .comment-author {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-#blog-detail #comments-list li .comment-body {
+#blog-detail #comments-list li .comment-body,
+#faq-detail #comments-list li .comment-body {
   margin-bottom: 10px;
 }
 
 #blog-detail .edit-comment,
-#blog-detail .delete-comment {
+#blog-detail .delete-comment,
+#faq-detail .edit-comment,
+#faq-detail .delete-comment {
   background-color: #f8f9fa;
   border: 1px solid #ccc;
   padding: 5px 10px;
@@ -896,26 +910,32 @@ button {
 }
 
 #blog-detail .edit-comment:hover,
-#blog-detail .delete-comment:hover {
+#blog-detail .delete-comment:hover,
+#faq-detail .edit-comment:hover,
+#faq-detail .delete-comment:hover {
   background-color: #007bff;
   color: #fff;
 }
 
-#blog-detail .comment-form {
+#blog-detail .comment-form,
+#faq-detail .comment-form {
   margin-bottom: 20px;
 }
 
-#blog-detail .comment-form h2 {
+#blog-detail .comment-form h2,
+#faq-detail .comment-form h2 {
   margin-bottom: 10px;
 }
 
-#blog-detail .comment-form form {
+#blog-detail .comment-form form,
+#faq-detail .comment-form form {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-#blog-detail .comment-form textarea {
+#blog-detail .comment-form textarea,
+#faq-detail .comment-form textarea {
   resize: vertical;
   padding: 10px;
   margin-bottom: 10px;
@@ -925,7 +945,8 @@ button {
   box-sizing: border-box;
 }
 
-#blog-detail .comment-form button {
+#blog-detail .comment-form button,
+#faq-detail .comment-form button {
   align-self: flex-start;
   background-color: #28a745;
   color: #fff;
@@ -936,11 +957,13 @@ button {
   margin-top: 10px;
 }
 
-#blog-detail .comment-form button:hover {
+#blog-detail .comment-form button:hover,
+#faq-detail .comment-form button:hover {
   background-color: #218838;
 }
 
-#blog-detail .back-to-list {
+#blog-detail .back-to-list,
+#faq-detail .back-to-list {
   display: inline-block;
   margin-top: 20px;
   background-color: #007bff;
@@ -950,8 +973,81 @@ button {
   border-radius: 5px;
 }
 
-#blog-detail .back-to-list:hover {
+#blog-detail .back-to-list:hover,
+#faq-detail .back-to-list:hover {
   background-color: #0056b3;
+}
+
+/* Homelessness advice list page */
+#homelessness-advice-list .advice-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+#homelessness-advice-list .advice-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#homelessness-advice-list .advice-box:hover {
+  transform: translateY(-5px);
+}
+
+#homelessness-advice-list .advice-box a {
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+#homelessness-advice-list .advice-box p {
+  margin: 0;
+  color: #666;
+  flex-grow: 1;
+}
+
+/* FAQ list page */
+#faq-list .faq-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+#faq-list .faq-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#faq-list .faq-box:hover {
+  transform: translateY(-5px);
+}
+
+#faq-list .faq-box a {
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+#faq-list .faq-box p {
+  margin: 0;
+  color: #666;
+  flex-grow: 1;
 }
 
 /* property guides */
@@ -2627,6 +2723,14 @@ footer p {
   }
 
   #blog-list .blog-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #faq-list .faq-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #homelessness-advice-list .advice-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }

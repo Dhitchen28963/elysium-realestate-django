@@ -5,13 +5,13 @@
 {% block content %}
 <div id="homelessness-advice-list" class="container">
     <h2 class="real-estate-title">Homelessness Advice List</h2>
-    <ul>
+    <div class="advice-container">
         {% for post in homeless_posts %}
-            <li>
+            <div class="advice-box">
                 <a href="{% url 'homelessness_advice_detail' post.slug %}">{{ post.title }}</a>
                 <p>{{ post.excerpt }}</p>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
