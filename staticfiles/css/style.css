@@ -2031,6 +2031,47 @@ footer p {
   }
 }
 
+@media (max-height: 800px) {
+  .nav {
+      max-height: 100vh;
+      overflow-y: auto;
+      min-width: 260px;
+  }
+
+  .nav .menu {
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+  }
+
+  .nav .menu::-webkit-scrollbar {
+      display: none;
+  }
+
+  .nav .menu {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+
+  .sidebar {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-menu {
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+
+  .sidebar-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-menu {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 @media screen and (max-width: 830px) {
   table thead {
       display: none;
