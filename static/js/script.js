@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
                         document.querySelector(`#comment-${commentId} .comment-body`).innerText = newBody;
+                        document.querySelector(`#comment-${commentId} .comment-pending`).innerText = '(Pending approval)';
                         editModal.style.display = 'none';
                         showModalMessage('Comment edited successfully.');
                     } else {

@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views import View
+from django.db import models 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
@@ -15,7 +16,7 @@ class FAQList(View):
 class FAQDetail(View):
     def get(self, request, slug, *args, **kwargs):
         faq = get_object_or_404(FAQ, slug=slug)
-        comments = faq.comments.filter(approved=True)
+        comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
         comment_form = CommentForm()
         return render(request, 'faq/faq_detail.html', {
             'faq': faq,
@@ -31,11 +32,13 @@ class FAQDetail(View):
             new_comment = comment_form.save(commit=False)
             new_comment.post = faq
             new_comment.author = request.user
+            new_comment.approved = False  # Comment needs approval
+            new_comment.pending_approval = True
             new_comment.save()
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'success': True, 'comment': new_comment.body})
+                return JsonResponse({'success': True, 'comment': new_comment.body, 'pending': True})
             return redirect('faq_detail', slug=slug)
-        comments = faq.comments.filter(approved=True)
+        comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
         return render(request, 'faq/faq_detail.html', {
             'faq': faq,
             'comments': comments,
@@ -45,7 +48,6 @@ class FAQDetail(View):
 @method_decorator(login_required, name='dispatch')
 class FAQCommentEdit(View):
     def post(self, request, comment_id, *args, **kwargs):
-        print(f"Received request to edit comment with id {comment_id}")
         comment = get_object_or_404(Comment, id=comment_id)
         if request.user != comment.author:
             return HttpResponseForbidden()
@@ -57,7 +59,10 @@ class FAQCommentEdit(View):
             return JsonResponse({'success': False, 'error': 'Invalid JSON.'})
 
         if form.is_valid():
-            form.save()
+            comment = form.save(commit=False)
+            comment.approved = False  # Mark as pending approval
+            comment.pending_approval = True
+            comment.save()
             return JsonResponse({'success': True})
         return JsonResponse({'success': False, 'error': 'Form is not valid.'})
 

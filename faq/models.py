@@ -45,12 +45,16 @@ class Comment(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+    pending_approval = models.BooleanField(default=False)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='faq_comment_set', default=get_default_faq_content_type_id)
     object_id = models.PositiveIntegerField(default=1)
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def save(self, *args, **kwargs):
         self.body = clean_html_content(self.body)
+        if self.pk:
+            self.approved = False
+            self.pending_approval = True
         super(Comment, self).save(*args, **kwargs)
 
     def __str__(self):

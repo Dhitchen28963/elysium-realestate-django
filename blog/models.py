@@ -21,9 +21,7 @@ class Blog(models.Model):
     excerpt = models.TextField(max_length=500, blank=True)
 
     def save(self, *args, **kwargs):
-        print("Before cleaning in save:", self.content)
         self.content = clean_html_content(self.content)
-        print("After cleaning in save:", self.content)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -35,9 +33,13 @@ class Comment(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+    pending_approval = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         self.body = clean_html_content(self.body)
+        if self.pk:
+            self.approved = False
+            self.pending_approval = True
         super(Comment, self).save(*args, **kwargs)
 
     def __str__(self):
