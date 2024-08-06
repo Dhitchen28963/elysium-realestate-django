@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views import View
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
 from .models import FAQ, Comment
 from .forms import CommentForm
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.http import HttpResponseForbidden
+import json
 
 class FAQList(View):
     def get(self, request, *args, **kwargs):
@@ -31,6 +32,8 @@ class FAQDetail(View):
             new_comment.post = faq
             new_comment.author = request.user
             new_comment.save()
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'comment': new_comment.body})
             return redirect('faq_detail', slug=slug)
         comments = faq.comments.filter(approved=True)
         return render(request, 'faq/faq_detail.html', {
@@ -41,28 +44,27 @@ class FAQDetail(View):
 
 @method_decorator(login_required, name='dispatch')
 class FAQCommentEdit(View):
-    def get(self, request, comment_id, *args, **kwargs):
-        comment = get_object_or_404(Comment, id=comment_id)
-        if request.user != comment.author:
-            return HttpResponseForbidden()
-        form = CommentForm(instance=comment)
-        return render(request, 'faq/edit_comment.html', {'form': form})
-
     def post(self, request, comment_id, *args, **kwargs):
+        print(f"Received request to edit comment with id {comment_id}")
         comment = get_object_or_404(Comment, id=comment_id)
         if request.user != comment.author:
             return HttpResponseForbidden()
-        form = CommentForm(request.POST, instance=comment)
+        
+        try:
+            data = json.loads(request.body)
+            form = CommentForm(data, instance=comment)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON.'})
+
         if form.is_valid():
             form.save()
-            return redirect('faq_detail', slug=comment.post.slug)
-        return render(request, 'faq/edit_comment.html', {'form': form})
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False, 'error': 'Form is not valid.'})
 
 @login_required
 def delete_faq_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         return HttpResponseForbidden()
-    faq_slug = comment.post.slug
     comment.delete()
-    return redirect('faq_detail', slug=faq_slug)
+    return JsonResponse({'success': True})

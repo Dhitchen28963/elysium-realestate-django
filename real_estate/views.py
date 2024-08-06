@@ -369,9 +369,6 @@ def blog_list(request):
 def homelessness_advice_list(request):
     return render(request, 'real_estate/homelessness_advice_list.html')
 
-def testimonials_list(request):
-    return render(request, 'real_estate/testimonials_list.html')
-
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')
 

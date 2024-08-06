@@ -6,5 +6,4 @@ urlpatterns = [
     path('<slug:slug>/', FAQDetail.as_view(), name='faq_detail'),
     path('comment/<int:comment_id>/edit/', FAQCommentEdit.as_view(), name='faq_comment_edit'),
     path('comment/<int:comment_id>/delete/', delete_faq_comment, name='faq_comment_delete'),
-    path('summernote/', include('django_summernote.urls')),
 ]

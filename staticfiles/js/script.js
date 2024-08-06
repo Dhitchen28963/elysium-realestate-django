@@ -23,11 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (collapsible.classList.contains('collapsible')) {
                 collapsible.classList.remove('active');
             }
-            // Scroll back to top
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
@@ -68,6 +64,107 @@ document.addEventListener('DOMContentLoaded', function () {
             event.target.style.display = 'none';
         }
     };
+
+    // Edit comment handling
+    document.querySelectorAll('button.edit-comment').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-id');
+            const commentBodyElement = document.querySelector(`#comment-${commentId} .comment-body`);
+            if (!commentBodyElement) {
+                showModalMessage('Comment body not found.');
+                return;
+            }
+            const commentBody = commentBodyElement.innerText;
+            const editCommentBody = document.getElementById('editCommentBody');
+            if (!editCommentBody) {
+                showModalMessage('Edit comment body textarea not found.');
+                return;
+            }
+            editCommentBody.value = commentBody;
+
+            const editModal = document.getElementById('editModal');
+            if (!editModal) {
+                showModalMessage('Edit comment modal not found.');
+                return;
+            }
+            editModal.style.display = 'block';
+
+            const saveEditButton = document.getElementById('saveEdit');
+            if (!saveEditButton) {
+                showModalMessage('Save edit button not found.');
+                return;
+            }
+            saveEditButton.onclick = function (event) {
+                event.preventDefault();
+                const newBody = editCommentBody.value;
+                const urlPrefix = window.location.pathname.includes('faq') ? '/faq' : '/blog';
+
+                fetch(`${urlPrefix}/comment/${commentId}/edit/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCSRFToken()
+                    },
+                    body: JSON.stringify({ body: newBody })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        document.querySelector(`#comment-${commentId} .comment-body`).innerText = newBody;
+                        editModal.style.display = 'none';
+                        showModalMessage('Comment edited successfully.');
+                    } else {
+                        showModalMessage('Failed to edit comment.');
+                    }
+                }).catch(error => {
+                    showModalMessage('An error occurred: ' + error.message);
+                });
+            };
+        });
+    });
+
+    // Delete comment handling
+    document.querySelectorAll('button.delete-comment').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-id');
+            const deleteModal = document.getElementById('deleteModal');
+            if (!deleteModal) {
+                showModalMessage('Delete comment modal not found.');
+                return;
+            }
+            deleteModal.style.display = 'block';
+
+            const confirmDeleteButton = document.getElementById('confirmDelete');
+            if (!confirmDeleteButton) {
+                showModalMessage('Confirm delete button not found.');
+                return;
+            }
+            confirmDeleteButton.onclick = function () {
+                const urlPrefix = window.location.pathname.includes('faq') ? '/faq' : '/blog';
+
+                fetch(`${urlPrefix}/comment/${commentId}/delete/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCSRFToken(),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`comment-${commentId}`).remove();
+                        deleteModal.style.display = 'none';
+                        showModalMessage('Comment deleted successfully.');
+                    } else {
+                        showModalMessage('An error occurred: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    showModalMessage('An error occurred.');
+                });
+            };
+        });
+    });
 
     // Function to clear previous modal messages
     function clearModalMessages() {
@@ -808,89 +905,16 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showConfirmationMessage('Comment has been submitted.');
+                    showModalMessage('Comment has been submitted.');
                 } else {
-                    showConfirmationMessage('Failed to submit comment.');
+                    showModalMessage('Failed to submit comment.');
                 }
             })
             .catch(error => {
-                showConfirmationMessage('An error occurred.');
+                showModalMessage('An error occurred: ' + error.message);
             });
         });
     }
-
-    // Edit comment handling
-    document.querySelectorAll('button.edit-comment').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const commentId = this.getAttribute('data-id');
-            // Implement AJAX call to handle comment editing or open a modal for editing
-            showConfirmationMessage('Comment is awaiting approval.');
-        });
-    });
-
-    // Delete comment handling
-    document.querySelectorAll('button.delete-comment').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const commentId = this.getAttribute('data-id');
-            fetch(`/delete_comment/${commentId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCSRFToken(),
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById(`comment-${commentId}`).remove();
-                    showConfirmationMessage('Comment has been deleted.');
-                } else {
-                    showConfirmationMessage('Failed to delete comment.');
-                }
-            })
-            .catch(error => {
-                showConfirmationMessage('An error occurred.');
-            });
-        });
-    });
-
-    // Edit testimonial handling
-    document.querySelectorAll('button.edit-testimonial').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const testimonialId = this.getAttribute('data-id');
-            // Implement AJAX call to handle testimonial editing or open a modal for editing
-            showConfirmationMessage('Testimonial is awaiting approval.');
-        });
-    });
-
-    // Delete testimonial handling
-    document.querySelectorAll('button.delete-testimonial').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const testimonialId = this.getAttribute('data-id');
-            fetch(`/delete_testimonial/${testimonialId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCSRFToken(),
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showConfirmationMessage('Testimonial has been deleted.');
-                } else {
-                    showConfirmationMessage('Failed to delete testimonial.');
-                }
-            })
-            .catch(error => {
-                showConfirmationMessage('An error occurred.');
-            });
-        });
-    });
 });
 
 // Mortgage calculation

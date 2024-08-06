@@ -4,7 +4,8 @@ from .models import Blog, Comment
 from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
+import json
 
 class BlogList(View):
     def get(self, request, *args, **kwargs):
@@ -31,6 +32,8 @@ class BlogDetail(View):
             new_comment.post = blog
             new_comment.author = request.user
             new_comment.save()
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'comment': new_comment.body})
             return redirect('blog_detail', slug=slug)
         comments = blog.comments.filter(approved=True)
         return render(request, 'blog/blog_detail.html', {
@@ -41,28 +44,31 @@ class BlogDetail(View):
 
 @method_decorator(login_required, name='dispatch')
 class BlogCommentEdit(View):
-    def get(self, request, comment_id, *args, **kwargs):
-        comment = get_object_or_404(Comment, id=comment_id)
-        if request.user != comment.author:
-            return HttpResponseForbidden()
-        form = CommentForm(instance=comment)
-        return render(request, 'blog/edit_comment.html', {'form': form})
-
     def post(self, request, comment_id, *args, **kwargs):
+        print(f"Received request to edit comment with id {comment_id}")
         comment = get_object_or_404(Comment, id=comment_id)
         if request.user != comment.author:
+            print("User is not the author of the comment.")
             return HttpResponseForbidden()
-        form = CommentForm(request.POST, instance=comment)
+        
+        try:
+            data = json.loads(request.body)
+            form = CommentForm(data, instance=comment)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON.'})
+
         if form.is_valid():
+            print("Form is valid, saving comment.")
             form.save()
-            return redirect('blog_detail', slug=comment.post.slug)
-        return render(request, 'blog/edit_comment.html', {'form': form})
+            return JsonResponse({'success': True})
+        else:
+            print("Form is not valid:", form.errors)
+        return JsonResponse({'success': False, 'error': 'Form is not valid.'})
 
 @login_required
 def delete_blog_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         return HttpResponseForbidden()
-    blog = comment.post.slug
     comment.delete()
-    return redirect('blog_detail', slug=blog)
+    return JsonResponse({'success': True})

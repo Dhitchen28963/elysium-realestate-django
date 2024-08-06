@@ -6,5 +6,4 @@ urlpatterns = [
     path('<slug:slug>/', BlogDetail.as_view(), name='blog_detail'),
     path('comment/<int:comment_id>/edit/', BlogCommentEdit.as_view(), name='blog_comment_edit'),
     path('comment/<int:comment_id>/delete/', delete_blog_comment, name='blog_comment_delete'),
-    path('summernote/', include('django_summernote.urls')),
 ]
