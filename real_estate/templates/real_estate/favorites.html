@@ -3,16 +3,20 @@
 {% block title %}Your Favorites{% endblock %}
 
 {% block content %}
-<h2 class="real-estate-title">My Favorite Properties</h2>
-<ul>
-    {% for favorite in favorites %}
-    <li>
-        <a href="{% url 'property_detail' favorite.property.slug %}">{{ favorite.property.title }}</a>
-        {% if favorite.property.availability_status == 'unavailable' %}
-            <span>(No longer available)</span>
-        {% endif %}
-        <button class="remove-favorite-btn" data-app="real_estate" data-property-id="{{ favorite.property.id }}" aria-label="Remove from favorites">Remove</button>
-    </li>
-    {% endfor %}
-</ul>
+<div class="favorites-container">
+    <h2 class="real-estate-title">My Favorite Properties</h2>
+    <ul class="favorites-list">
+        {% for favorite in favorites %}
+        <li class="favorite-item">
+            <div class="favorite-details">
+                <a href="{% url 'property_detail' favorite.property.slug %}">{{ favorite.property.title }}</a>
+                {% if favorite.property.availability_status == 'unavailable' %}
+                    <span class="unavailable">(No longer available)</span>
+                {% endif %}
+            </div>
+            <button class="remove-favorite-btn" data-app="real_estate" data-property-id="{{ favorite.property.id }}" aria-label="Remove from favorites">Remove</button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

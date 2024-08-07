@@ -65,6 +65,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // Account settings scroll to sections
+    const links = document.querySelectorAll(".account-menu-link");
+    links.forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const targetId = this.getAttribute("href").substring(1);
+            const targetElement = document.getElementById(targetId);
+            const headerOffset = 70;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        });
+    });
+
     // Edit comment handling
     document.querySelectorAll('button.edit-comment').forEach(button => {
         button.addEventListener('click', function (event) {
