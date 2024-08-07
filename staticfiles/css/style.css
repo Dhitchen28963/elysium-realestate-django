@@ -377,19 +377,137 @@ img {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   padding-top: 60px;
+
 }
 
+/* Modal content styles */
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
 #messageModal {
   z-index: 9999;
   margin-top: 150px;
+}
+
+/* Close button styles */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #005f6b;
+}
+
+/* Additional styles for available slots */
+#available-slots-container {
+  margin-top: 20px;
+}
+
+/* Additional styles for specific modals */
+.confirm-btn,
+.cancel-btn,
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+}
+
+button[type="submit"] {
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .user-icon-container {
@@ -406,13 +524,6 @@ img {
   cursor: pointer;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
 #close-sidebar {
   position: absolute;
   top: 10px;
@@ -422,13 +533,6 @@ img {
   font-size: 24px;
   cursor: pointer;
   color: #5f5c4e;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 /* Styling for My Account side menu */
@@ -605,21 +709,6 @@ hr {
 .section h3 {
   font-size: 20px;
   margin-bottom: 15px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
 }
 
 button {
@@ -815,7 +904,8 @@ button {
 .mortgage-calculator-section p {
   font-size: 1.2em;
   color: #666666;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px
 }
 
 .mortgage-calculator-section button {
@@ -1224,7 +1314,7 @@ button {
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-size: 1.4em;
+  font-size: 1.2em;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -1619,6 +1709,34 @@ footer p {
   .thumbnail-container {
     overflow-x: scroll;
   }
+
+  .modal-content {
+    width: 100%;
+    margin: 5% auto;
+  }
+
+  .close {
+    font-size: 20px;
+    top: 5px;
+    right: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="time"],
+  textarea {
+    padding: 8px;
+  }
+
+  button {
+    padding: 8px 16px;
+  }
+
+  textarea {
+    min-height: 80px;
+  }
+
 }
 
 /* Media Query for screen sizes 650px and below */
@@ -2044,7 +2162,7 @@ footer p {
     color: #fff;
     padding: 20px;
     border-radius: 10px;
-    height: 150px;
+    height: 175px;
     width: 50%;
     margin-top: -75px;
     z-index: 1;
@@ -2085,13 +2203,28 @@ footer p {
   }
 
   #toggle-filters {
-    margin-top: -15px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: auto;
+    max-width: 150px;
+    padding: 2px 16px;
     font-size: 14px;
-    padding: 0 10px;
+    text-align: center;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    margin-top: -15px;
+  }
+
+  #toggle-filters:hover {
+    background-color: #005f6b;
+  }
+
+  #toggle-filters:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 132, 186, 0.3);
   }
 
   .favorites-container {
@@ -2787,7 +2920,7 @@ footer p {
     display: flex;
     overflow-x: auto;
     width: 530px;
-    height: 175px;
+    height: 180px;
   }
 
   .scrollable-images img {

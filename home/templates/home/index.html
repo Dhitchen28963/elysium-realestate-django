@@ -25,25 +25,16 @@
 
 {% block content %}
 <main>
-  <div class="search-container home-search">
-    <h2>Find your dream home</h2>
-    <h3>Search using 'town name' or 'location'</h3>
-    <form id="home-search-form">
-      <div class="search-bar">
-        <input type="text" name="search" id="home-search-input" placeholder="Enter location" aria-label="Search for properties by location">
-        <button type="button" id="rent-button" aria-label="Search properties for rent">Rent</button>
-        <button type="button" id="buy-button" aria-label="Search properties for sale">Buy</button>
-      </div>
-    </form>
-  </div>
-</main>
-{% endblock %}
-
-{% block modal_messages %}
-<div id="messageModal" class="modal" role="dialog" aria-labelledby="messageModalHeading" aria-describedby="modalMessage">
-    <div class="modal-content">
-        <span class="close" aria-label="Close">&times;</span>
-        <p id="modalMessage"></p>
+    <div class="search-container home-search">
+        <h2>Find your dream home</h2>
+        <h3>Search using 'town name' or 'location'</h3>
+        <form id="home-search-form">
+            <div class="search-bar">
+                <input type="text" name="search" id="home-search-input" placeholder="Enter location" aria-label="Search for properties by location">
+                <button type="button" id="rent-button" aria-label="Search properties for rent">Rent</button>
+                <button type="button" id="buy-button" aria-label="Search properties for sale">Buy</button>
+            </div>
+        </form>
     </div>
-</div>
+</main>
 {% endblock %}

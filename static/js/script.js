@@ -936,26 +936,67 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Mortgage calculation
+// Function to show the modal with a message
+function showModal(message) {
+    const modal = document.getElementById('modal');
+    const modalMessage = document.getElementById('modal-message');
+    
+    if (modal && modalMessage) {
+        modalMessage.innerText = message;
+        modal.style.display = 'block';
+    } else {
+        console.error("Modal or modal message element not found.");
+    }
+}
+
+// Function to close the modal
+function closeModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+        modal.style.display = 'none';
+    } else {
+        console.error("Modal element not found.");
+    }
+}
+
+// Function to move to the next step
 function nextStep(step) {
+    const currentInput = document.querySelector(`#step${step} input[type="number"]`);
+    if (currentInput && !isValidInput(currentInput.value)) {
+        showModal("Please enter a valid number greater than zero.");
+        return;
+    }
     document.getElementById(`step${step}`).classList.remove('active');
     document.getElementById(`step${step + 1}`).classList.add('active');
 }
 
+// Function to move to the previous step
 function prevStep(step) {
     document.getElementById(`step${step}`).classList.remove('active');
     document.getElementById(`step${step - 1}`).classList.add('active');
 }
 
-function updateTermValue(value) {
-    document.getElementById('termValue').innerText = `${value} years`;
+// Function to validate input values
+function isValidInput(value) {
+    return value && value > 0;
 }
 
+// Function to calculate mortgage and display results
 function calculateMortgage() {
     const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
     const deposit = parseFloat(document.getElementById('deposit').value);
     const term = parseInt(document.getElementById('term').value);
     const interestRate = parseFloat(document.getElementById('interestRate').value);
+
+    if (!isValidInput(propertyPrice) || !isValidInput(deposit) || !isValidInput(interestRate)) {
+        showModal("Please ensure all values are greater than zero.");
+        return;
+    }
+
+    if (deposit >= propertyPrice) {
+        showModal("Deposit cannot be greater than or equal to the property price.");
+        return;
+    }
 
     const borrowAmount = propertyPrice - deposit; // Amount that can be borrowed
     const monthlyInterestRate = (interestRate / 100) / 12;
@@ -979,8 +1020,15 @@ function calculateMortgage() {
     document.getElementById('result').classList.add('active');
 }
 
-// Ensure these functions are accessible in the global scope
+// Function to update term value display
+function updateTermValue(value) {
+    document.getElementById('termValue').innerText = `${value} years`;
+}
+
+// Expose functions to global scope
 window.nextStep = nextStep;
 window.prevStep = prevStep;
 window.updateTermValue = updateTermValue;
 window.calculateMortgage = calculateMortgage;
+window.showModal = showModal;
+window.closeModal = closeModal;

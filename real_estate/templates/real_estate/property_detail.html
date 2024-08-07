@@ -78,41 +78,5 @@
       </div>
     </div>    
 </main>
-
-<!-- Modal for scheduling a viewing -->
-<div id="viewingModal" class="modal">
-  <div class="modal-content">
-    <span class="close" aria-label="Close modal">&times;</span>
-    <h2>Request a Viewing</h2>
-    <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' property.id %}" data-property-id="{{ property.id }}">
-      {% csrf_token %}
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-      <label for="contact">Contact:</label>
-      <input type="text" id="contact" name="contact" required>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-      <label for="preferred_date">Preferred Date:</label>
-      <input type="date" id="preferred_date" name="preferred_date" required>
-      <label for="preferred_time">Preferred Time:</label>
-      <input type="time" id="preferred_time" name="preferred_time" required>
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" required></textarea>
-      <button type="submit" aria-label="Submit request for viewing">Request Viewing</button>
-    </form>
-    <h3>Or select from available slots:</h3>
-    <div id="available-slots-container"></div>
-
-    <div id="slot-booking-form" style="display: none;">
-      <label for="slot-name">Name:</label>
-      <input type="text" id="slot-name" name="slot-name" required>
-      <label for="slot-contact">Contact:</label>
-      <input type="text" id="slot-contact" name="slot-contact" required>
-      <label for="slot-email">Email:</label>
-      <input type="email" id="slot-email" name="slot-email" required>
-      <button type="button" id="book-slot-button" aria-label="Book slot">Book Slot</button>
-    </div>
-  </div>
-</div>
-    
+  
 {% endblock %}
