@@ -15,8 +15,6 @@ def replace_font_with_span(html):
     return html
 
 def clean_html_content(html):
-    # Add debug print statements
-    
     # Unescape HTML entities
     html = unescape(html)
 
@@ -37,5 +35,9 @@ def clean_html_content(html):
 
     # Sanitize the HTML
     cleaned_html = bleach.clean(html, tags=allowed_tags, attributes=allowed_attrs, styles=allowed_styles, strip=False)
+
+    # Remove empty style attributes and trailing spaces
+    cleaned_html = re.sub(r'style="\s*"', '', cleaned_html)
+    cleaned_html = re.sub(r'\s+>', '>', cleaned_html)
 
     return cleaned_html

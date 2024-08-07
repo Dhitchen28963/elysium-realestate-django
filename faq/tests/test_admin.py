@@ -5,8 +5,10 @@ from faq.models import FAQ, Comment, FAQImage
 from django_summernote.admin import SummernoteModelAdmin
 from django.contrib.admin.sites import AdminSite
 
+
 class MockRequest:
     pass
+
 
 class TestFAQAdmin(TestCase):
 

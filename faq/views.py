@@ -3,7 +3,7 @@ from django.views import View
 from django.db import models 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import FAQ, Comment
 from .forms import CommentForm
 import json
