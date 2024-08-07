@@ -69,7 +69,7 @@
                     </ul>
                 </li>
                 <hr class="menu-divider">
-                <li><a href="{% url 'home' %}#contact" aria-label="View our contact information">Contact</a></li>
+                <li><a href="{% url 'contact' %}" aria-label="View our contact information">Contact</a></li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}" aria-label="Register">Register</a>
