@@ -16,12 +16,16 @@ class FAQList(View):
 class FAQDetail(View):
     def get(self, request, slug, *args, **kwargs):
         faq = get_object_or_404(FAQ, slug=slug)
-        comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
+        if request.user.is_authenticated:
+            comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
+        else:
+            comments = faq.comments.filter(approved=True)
         comment_form = CommentForm()
         return render(request, 'faq/faq_detail.html', {
             'faq': faq,
             'comments': comments,
-            'comment_form': comment_form
+            'comment_form': comment_form,
+            'is_authenticated': request.user.is_authenticated
         })
 
     @method_decorator(login_required)
@@ -38,11 +42,15 @@ class FAQDetail(View):
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': True, 'comment': new_comment.body, 'pending': True})
             return redirect('faq_detail', slug=slug)
-        comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
+        if request.user.is_authenticated:
+            comments = faq.comments.filter(models.Q(approved=True) | models.Q(author=request.user))
+        else:
+            comments = faq.comments.filter(approved=True)
         return render(request, 'faq/faq_detail.html', {
             'faq': faq,
             'comments': comments,
-            'comment_form': comment_form
+            'comment_form': comment_form,
+            'is_authenticated': request.user.is_authenticated
         })
 
 @method_decorator(login_required, name='dispatch')

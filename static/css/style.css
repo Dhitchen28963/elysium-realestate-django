@@ -2262,6 +2262,15 @@ footer p {
   }
 }
 
+.btn-signup {
+    min-width: 150px;
+    padding: 10px 20px;
+}
+
+.btn-signup:hover {
+    background-color: #0056b3;
+}
+
 @media (max-height: 800px) {
   .nav {
       max-height: 100vh;

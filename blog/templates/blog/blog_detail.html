@@ -35,7 +35,7 @@
                     {% if not comment.approved %}
                         <p class="comment-pending">(Pending approval)</p>
                     {% endif %}
-                    {% if comment.author == user %}
+                    {% if comment.author == request.user %}
                         <div class="comment-actions">
                             <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}">Edit</button>
                             <button class="delete-comment" aria-label="Delete Comment" data-id="{{ comment.id }}">Delete</button>
@@ -45,14 +45,18 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="comment-form">
-        <h2>Leave a Comment</h2>
-        <form id="commentForm" method="post" action="{% url 'blog_detail' blog.slug %}">
-            {% csrf_token %}
-            {{ comment_form|crispy }}
-            <button type="submit" id="submitComment" aria-label="Submit Comment">Submit</button>
-        </form>
-    </div>
+    {% if is_authenticated %}
+        <div class="comment-form">
+            <h2>Leave a Comment</h2>
+            <form id="commentForm" method="post" action="{% url 'blog_detail' blog.slug %}">
+                {% csrf_token %}
+                {{ comment_form|crispy }}
+                <button type="submit" id="submitComment" aria-label="Submit Comment">Submit</button>
+            </form>
+        </div>
+    {% else %}
+        <p><em>Login to leave a comment.</em></p>
+    {% endif %}
     <a href="{% url 'blog_list' %}" class="back-to-list" aria-label="Back to Blog List">Back to Blog List</a>
 </div>
 {% endblock %}
