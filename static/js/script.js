@@ -934,6 +934,35 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(contactForm);
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCSRFToken()
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showModalMessage('Your message has been sent.');
+                    contactForm.reset();
+                } else {
+                    showModalMessage('Failed to send your message. Please try again.');
+                }
+            })
+            .catch(error => {
+                showModalMessage('An error occurred: ' + error.message);
+            });
+        });
+    }
 });
 
 // Function to show the modal with a message
