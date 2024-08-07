@@ -46,8 +46,8 @@ class Comment(models.Model):
         return f'Comment by {self.author} on {self.post}'
 
 class BlogImage(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='additional_images')
+    post = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='additional_images')
     image = CloudinaryField('image')
 
     def __str__(self):
-        return f"Image for {self.blog.title}"
+        return f"Image for {self.post.title}"
