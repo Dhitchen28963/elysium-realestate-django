@@ -1,73 +1,68 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django_summernote.fields import SummernoteTextField
-from cloudinary.models import CloudinaryField
-from django.contrib.contenttypes.models import ContentType
-from blog.models import Post, Comment, PostImage
+from blog.models import Blog, Comment, BlogImage
 
-class PostModelTest(TestCase):
+class BlogModelTest(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpass')
 
-    def test_create_post(self):
-        post = Post.objects.create(
-            title='Test Post',
-            slug='test-post',
+    def test_create_blog(self):
+        blog = Blog.objects.create(
+            title='Test Blog',
+            slug='test-blog',
             author=self.user,
-            content='This is a test post.',
+            content='This is a test blog.',
             status='draft'
         )
-        self.assertEqual(post.title, 'Test Post')
-        self.assertEqual(post.slug, 'test-post')
-        self.assertEqual(post.author.username, 'testuser')
-        self.assertEqual(post.status, 'draft')
-        self.assertEqual(str(post), 'Test Post')
+        self.assertEqual(blog.title, 'Test Blog')
+        self.assertEqual(blog.slug, 'test-blog')
+        self.assertEqual(blog.author.username, 'testuser')
+        self.assertEqual(blog.status, 'draft')
+        self.assertEqual(str(blog), 'Test Blog')
 
 class CommentModelTest(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpass')
-        self.post = Post.objects.create(
-            title='Test Post',
-            slug='test-post',
+        self.blog = Blog.objects.create(
+            title='Test Blog',
+            slug='test-blog',
             author=self.user,
-            content='This is a test post.',
+            content='This is a test blog.',
             status='published'
         )
 
     def test_create_comment(self):
         comment = Comment.objects.create(
-            post=self.post,
+            post=self.blog,
             author=self.user,
             body='This is a test comment.',
             approved=True,
-            content_type=ContentType.objects.get_for_model(Post),
-            object_id=self.post.id,
         )
-        self.assertEqual(comment.post.title, 'Test Post')
+        self.assertEqual(comment.post.title, 'Test Blog')
         self.assertEqual(comment.author.username, 'testuser')
         self.assertEqual(comment.body, 'This is a test comment.')
         self.assertTrue(comment.approved)
-        self.assertEqual(str(comment), f'Comment by testuser on Test Post')
+        self.assertEqual(str(comment), f'Comment by {comment.author} on {comment.post}')
 
-class PostImageModelTest(TestCase):
+class BlogImageModelTest(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpass')
-        self.post = Post.objects.create(
-            title='Test Post',
-            slug='test-post',
+        self.blog = Blog.objects.create(
+            title='Test Blog',
+            slug='test-blog',
             author=self.user,
-            content='This is a test post.',
+            content='This is a test blog.',
             status='published'
         )
 
-    def test_create_post_image(self):
-        post_image = PostImage.objects.create(
-            post=self.post,
+    def test_create_blog_image(self):
+        blog_image = BlogImage.objects.create(
+            post=self.blog,
             image='test_image.jpg'
         )
-        self.assertEqual(post_image.post.title, 'Test Post')
-        self.assertEqual(post_image.image, 'test_image.jpg')
-        self.assertEqual(str(post_image), 'Image for Test Post')
+        self.assertEqual(blog_image.post.title, 'Test Blog')
+        self.assertEqual(blog_image.image, 'test_image.jpg')
+        self.assertEqual(str(blog_image), 'Image for Test Blog')
