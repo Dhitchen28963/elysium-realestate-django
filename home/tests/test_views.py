@@ -62,14 +62,14 @@ class HomeViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         form = response.context['form']
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data['bedrooms_min'], 3)
+        self.assertEqual(int(form.cleaned_data['bedrooms_min']), 3)
 
     def test_home_view_filter_price(self):
         response = self.client.get(reverse('home'), {'price_min': 200000})
         self.assertEqual(response.status_code, 200)
         form = response.context['form']
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data['price_min'], 200000)
+        self.assertEqual(int(form.cleaned_data['price_min']), 200000)
 
     def test_home_view_filter_garden(self):
         response = self.client.get(reverse('home'), {'garden': True})
