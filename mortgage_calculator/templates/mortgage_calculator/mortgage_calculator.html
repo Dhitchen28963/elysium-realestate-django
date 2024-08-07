@@ -58,6 +58,14 @@
             <h3>You could buy a home worth: £<span id="resultPropertyPrice"></span></h3>
             <h3>Total you’ll repay over the term: £<span id="resultTotalRepayable"></span></h3>
         </div>
+
+        <!-- Modal HTML -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <p id="modal-message"></p>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
