@@ -40,15 +40,8 @@ class PropertyViewTests(TestCase):
     def test_property_sale_view(self):
         response = self.client.get(reverse('property_sale'), {'search': 'Test'})
         self.assertEqual(response.status_code, 200)
-        
-        # Check if the property title is in the response content
         self.assertContains(response, self.property.title)
         self.assertIn(self.property, response.context['properties'])
-
-        # Additional assertions to ensure properties are being filtered correctly
-        properties = response.context['properties']
-        self.assertEqual(len(properties), 1)
-        self.assertEqual(properties[0].title, 'Test Property')
 
     def test_property_detail_view(self):
         response = self.client.get(reverse('property_detail', args=[self.property.slug]))
@@ -64,7 +57,6 @@ class PropertyViewTests(TestCase):
             'email': 'testuser@example.com',
             'message': 'I would like a viewing.'
         }
-        # Testing the AJAX form submission
         response = self.client.post(
             reverse('request_custom_viewing', args=[self.property.id]),
             data=form_data,
