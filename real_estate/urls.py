@@ -69,8 +69,4 @@ urlpatterns = [
         name='mortgage_calculator'
     ),
     path('view-land/', views.view_land, name='view_land'),
-    path('repairs/', views.repairs, name='repairs'),
-    path('fire-safety/', views.fire_safety, name='fire_safety'),
-    path('complaints/', views.complaints, name='complaints'),
-    path('eviction/', views.eviction, name='eviction'),
 ]
