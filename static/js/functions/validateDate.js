@@ -1,5 +1,4 @@
 const showModalMessage = require('./showModalMessage');
-
 function validateDate() {
     const preferredDateInput = document.getElementById('preferred_date');
     const currentDate = new Date();
