@@ -13,7 +13,6 @@ class PostDetail(DetailView):
 
 def property_guides_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    
     return render(
         request,
         'property_guides/property_guides_detail.html',
@@ -59,7 +58,6 @@ def property_guides_category(request, category_name):
         'category': category,
         'posts': posts,
     }
-
     return render(
         request,
         'property_guides/property_guides_category.html',
