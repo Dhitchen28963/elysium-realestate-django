@@ -1,38 +1,38 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
-from homelessness_advice.models import Post, PostImage
+from homelessness_advice.models import Homeless, HomelessImage
 
-class PostAdminTests(TestCase):
+class HomelessAdminTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_superuser(username='admin', password='admin')
-        cls.post = Post.objects.create(
-            title='Test Post',
-            slug='test-post',
+        cls.homeless = Homeless.objects.create(
+            title='Test Homeless',
+            slug='test-homeless',
             author=cls.user,
             content='Test content',
             status='published'
         )
-        cls.post_image = PostImage.objects.create(
-            post=cls.post,
+        cls.homeless_image = HomelessImage.objects.create(
+            homeless=cls.homeless,
             image='sample-image.jpg'
         )
 
-    def test_post_admin_change_view(self):
+    def test_homeless_admin_change_view(self):
         self.client.login(username='admin', password='admin')
-        response = self.client.get(reverse('admin:homelessness_advice_post_change', args=[self.post.id]))
+        response = self.client.get(reverse('admin:homelessness_advice_homeless_change', args=[self.homeless.id]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Post')
+        self.assertContains(response, 'Test Homeless')
 
-    def test_post_admin_list_view(self):
+    def test_homeless_admin_list_view(self):
         self.client.login(username='admin', password='admin')
-        response = self.client.get(reverse('admin:homelessness_advice_post_changelist'))
+        response = self.client.get(reverse('admin:homelessness_advice_homeless_changelist'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Post')
+        self.assertContains(response, 'Test Homeless')
 
-    def test_post_image_inline(self):
+    def test_homeless_image_inline(self):
         self.client.login(username='admin', password='admin')
-        response = self.client.get(reverse('admin:homelessness_advice_post_change', args=[self.post.id]))
+        response = self.client.get(reverse('admin:homelessness_advice_homeless_change', args=[self.homeless.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'sample-image.jpg')
