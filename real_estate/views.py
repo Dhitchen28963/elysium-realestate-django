@@ -283,14 +283,12 @@ def view_pending_viewings(request):
 
 @login_required
 def update_viewing(request, viewing_id):
-    viewing = get_object_or_404(
-        ViewingAppointment, id=viewing_id, user=request.user
-    )
+    viewing = get_object_or_404(ViewingAppointment, id=viewing_id, user=request.user)
     if request.method == 'POST':
         form = ViewingAppointmentForm(request.POST, instance=viewing)
         if form.is_valid():
             form.save()
-            return JsonResponse({'status': 'ok'})
+            return redirect('view_pending_viewings')
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
@@ -371,15 +369,3 @@ def homelessness_advice_list(request):
 
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')
-
-def repairs(request):
-    return render(request, 'real_estate/repairs.html')
-
-def fire_safety(request):
-    return render(request, 'real_estate/fire_safety.html')
-
-def complaints(request):
-    return render(request, 'real_estate/complaints.html')
-
-def eviction(request):
-    return render(request, 'real_estate/eviction.html')
