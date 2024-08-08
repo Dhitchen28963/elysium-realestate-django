@@ -22,9 +22,7 @@ class Post(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        print("Before cleaning in save:", self.content)
         self.content = clean_html_content(self.content)
-        print("After cleaning in save:", self.content)
         super().save(*args, **kwargs)
 
     def __str__(self):
