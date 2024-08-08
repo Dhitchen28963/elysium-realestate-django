@@ -8,6 +8,7 @@ urlpatterns = [
         views.property_guides_detail,
         name='property_guides_detail'
     ),
+    path('category/<str:category_name>/', views.property_guides_category, name='property_guides_category'),
     path(
         'repairs/',
         views.property_guides_category,
