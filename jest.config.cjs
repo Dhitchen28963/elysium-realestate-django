@@ -4,4 +4,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
   testEnvironment: 'jest-environment-jsdom',
   testMatch: ['**/__tests__/**/*.test.js'],
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
 };
