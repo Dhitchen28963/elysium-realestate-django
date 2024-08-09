@@ -187,18 +187,18 @@
             <h2>Request a Viewing</h2>
             <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' 0 %}" data-property-id="{{ property.id }}">
                 {% csrf_token %}
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="viewing-name">Name:</label>
+                <input type="text" id="viewing-name" name="name" required>
+                <label for="viewing-contact">Contact:</label>
+                <input type="text" id="viewing-contact" name="contact" required>
+                <label for="viewing-email">Email:</label>
+                <input type="email" id="viewing-email" name="email" required>
                 <label for="preferred_date">Preferred Date:</label>
                 <input type="date" id="preferred_date" name="preferred_date" required>
                 <label for="preferred_time">Preferred Time:</label>
                 <input type="time" id="preferred_time" name="preferred_time" required>
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" required></textarea>
+                <label for="viewing-message">Message:</label>
+                <textarea id="viewing-message" name="message" required></textarea>
                 <button type="submit">Request Viewing</button>
             </form>
             <h3>Or select from available slots:</h3>
@@ -214,7 +214,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modals for editing and deleting comments -->
     <div id="editModal" class="modal" role="dialog" aria-labelledby="editModalHeading">
         <div class="modal-content">
