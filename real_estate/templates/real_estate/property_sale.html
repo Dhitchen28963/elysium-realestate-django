@@ -35,11 +35,11 @@
       </div>
       <button type="button" id="toggle-filters" aria-label="Toggle filters">Show Filters</button>
       <div class="filters-container" id="filters-container" style="display: none;">
-        <label for="property-type">Property Type:</label>
+        <label for="{{ form.property_type.id_for_label }}">Property Type:</label>
         {{ form.property_type }}
 
         <div class="filter-group">
-          <label>Bedrooms</label>
+          <label for="{{ form.bedrooms_min.id_for_label }}">Bedrooms:</label>
           <div>
             {{ form.bedrooms_min }}
             {{ form.bedrooms_max }}
@@ -47,7 +47,7 @@
         </div>
 
         <div class="filter-group">
-          <label>Price (£)</label>
+          <label for="{{ form.price_min.id_for_label }}">Price (£):</label>
           <div>
             {{ form.price_min }}
             {{ form.price_max }}
@@ -55,7 +55,7 @@
         </div>
 
         <div class="filter-group">
-          <label>Bathrooms</label>
+          <label for="{{ form.bathrooms_min.id_for_label }}">Bathrooms:</label>
           <div>
             {{ form.bathrooms_min }}
             {{ form.bathrooms_max }}
@@ -63,11 +63,11 @@
         </div>
 
         <div class="checkbox-group">
-          <label for="garden">Garden:</label>
+          <label for="{{ form.garden.id_for_label }}">Garden:</label>
           {{ form.garden }}
-          <label for="parking">Parking:</label>
+          <label for="{{ form.parking.id_for_label }}">Parking:</label>
           {{ form.parking }}
-          <label for="pets_allowed">Pets Allowed:</label>
+          <label for="{{ form.pets_allowed.id_for_label }}">Pets Allowed:</label>
           {{ form.pets_allowed }}
         </div>
       </div>
@@ -135,7 +135,7 @@
 
 <!-- Pagination Section -->
 {% block pagination %}
-<section class="pagination-section">
+<div class="pagination-section">
   {% if properties.has_previous %}
     <a href="?page=1" aria-label="First page">First</a>
     <a href="?page={{ properties.previous_page_number }}" aria-label="Previous page">Previous</a>
@@ -147,5 +147,5 @@
     <a href="?page={{ properties.next_page_number }}" aria-label="Next page">Next</a>
     <a href="?page={{ properties.paginator.num_pages }}" aria-label="Last page">Last</a>
   {% endif %}
-</section>
+</div>
 {% endblock %}
