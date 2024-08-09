@@ -41,7 +41,7 @@
         <nav class="nav">
             <ul class="menu">
                 <li><a href="{% url 'home' %}" aria-label="Return to the homepage">Home</a></li>
-                <hr class="menu-divider">
+                <li class="menu-divider"></li>
                 <li class="dropdown">
                     <a href="#" aria-label="View properties and land for sale">Buy</a>
                     <ul class="dropdown-menu">
@@ -49,7 +49,7 @@
                         <li><a href="{% url 'view_land' %}" aria-label="View Land for Sale">Land for Sale</a></li>
                     </ul>
                 </li>
-                <hr class="menu-divider">
+                <li class="menu-divider"></li>
                 <li class="dropdown">
                     <a href="#" aria-label="View rental properties">Rent</a>
                     <ul class="dropdown-menu">
@@ -57,7 +57,7 @@
                         <li><a href="{% url 'student_property' %}" aria-label="View Student Accommodation">Student Accommodation</a></li>
                     </ul>
                 </li>
-                <hr class="menu-divider">
+                <li class="menu-divider"><!-- Menu divider styled through CSS --></li>
                 <li class="dropdown">
                     <a href="#" aria-label="View useful resources and information">Resources</a>
                     <ul class="dropdown-menu">
@@ -68,7 +68,7 @@
                         <li><a href="{% url 'mortgage_calculator' %}" aria-label="Use Mortgage Calculator">Mortgage Calculator</a></li>
                     </ul>
                 </li>
-                <hr class="menu-divider">
+                <li class="menu-divider"><!-- Menu divider styled through CSS --></li>
                 <li><a href="{% url 'contact' %}" aria-label="View our contact information">Contact</a></li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
@@ -102,7 +102,7 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;" aria-hidden="true"></i> Saved Properties</a></li>
                 <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;" aria-hidden="true"></i> View Pending Viewings</a></li>
-                <hr>
+                <li class="menu-divider">
                 <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
                 <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
             {% else %}
@@ -127,13 +127,13 @@
                 <img src="{% static 'images/calculator.webp' %}" alt="Calculator Image">
                 <h3 id="box1-heading">Mortgage calculation tool</h3>
                 <p>Use our tool to estimate your mortgage payments and interest accrued</p>
-                <a href="{% url 'mortgage_calculator' %}"><button aria-label="Mortgage Calculator: Estimate your monthly payments and borrowing capacity">Mortgage Calculator</button></a>
+                <a href="{% url 'mortgage_calculator' %}" class="button-link" aria-label="Mortgage Calculator: Estimate your monthly payments and borrowing capacity">Mortgage Calculator</a>
             </div>
             <div class="box">
                 <img src="{% static 'images/property_guides.webp' %}" alt="Guides Image">
                 <h3 id="box2-heading">Property guides</h3>
                 <p>A must have read for anyone looking for a property.</p>
-                <a href="{% url 'property_guides_list' %}"><button aria-label="View our property guides">View Our Property Guides</button></a>
+                <a href="{% url 'property_guides_list' %}" class="button-link" aria-label="View our property guides">View Our Property Guides</a>
             </div>
         </div>
     </section>
@@ -145,19 +145,19 @@
                 <img src="{% static 'images/blog.webp' %}" alt="Blog Image">
                 <h3 id="box3-heading">Blog</h3>
                 <p>See the latest articles.</p>
-                <a href="{% url 'blog_list' %}"><button aria-label="View blog">View Blog</button></a>
+                <a href="{% url 'blog_list' %}" class="button-link" aria-label="View blog">View Blog</a>
             </div>
             <div class="box">
                 <img src="{% static 'images/homeless.webp' %}" alt="Homeless Image">
                 <h3 id="box4-heading">Need support?</h3>
                 <p>If you're concerned about becoming homeless or need homelessness advice.</p>
-                <a href="{% url 'homelessness_advice_list' %}"><button aria-label="Find homeless support">Find Homeless Support</button></a>
+                <a href="{% url 'homelessness_advice_list' %}" class="button-link" aria-label="Find homeless support">Find Homeless Support</a>
             </div>
             <div class="box">
                 <img src="{% static 'images/faq.webp' %}" alt="FAQ Image">
                 <h3 id="box5-heading">Need a question answered</h3>
                 <p>Get help from the Elysium community.</p>
-                <a href="{% url 'faq_list' %}"><button aria-label="View our FAQ page">FAQ</button></a>
+                <a href="{% url 'faq_list' %}" class="button-link" aria-label="View our FAQ page">FAQ</a>
             </div>
         </div>
     </section>
@@ -169,13 +169,13 @@
                 <img src="{% static 'images/land.webp' %}" alt="Land Image">
                 <h3 id="box6-heading">Land</h3>
                 <p>Explore available land for sale.</p>
-                <a href="{% url 'view_land' %}"><button aria-label="View Land for sale">View Land</button></a>
+                <a href="{% url 'view_land' %}" class="button-link" aria-label="View Land for sale">View Land</a>
             </div>
             <div class="box">
                 <img src="{% static 'images/student.webp' %}" alt="Student Accommodation Image">
                 <h3 id="box7-heading">Student Accommodation</h3>
                 <p>Find the perfect student accommodation.</p>
-                <a href="{% url 'student_property' %}"><button aria-label="View Student Accommodation">View Student Accommodation</button></a>
+                <a href="{% url 'student_property' %}" class="button-link" aria-label="View Student Accommodation">View Student Accommodation</a>
             </div>
         </div>
     </section>
