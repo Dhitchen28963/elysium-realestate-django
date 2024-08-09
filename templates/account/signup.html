@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
@@ -11,7 +10,7 @@
       <h3>{% trans "Sign Up" %}</h3>
 
       <p>{% blocktrans %}
-        Welcome back to the code|star blog.
+        Welcome back to the Elysium Realestate.
         Do you already have an account? Then please
         <a class="link" href="{{ login_url }}">sign in</a>
         instead.
@@ -23,13 +22,46 @@
       <form class="signup" id="signup_form" method="post"
         action="{% url 'account_signup' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}"
-          value="{{ redirect_field_value }}" />
-        {% endif %}
+        
+        <!-- Username Field -->
+        <p class="form-group">
+          <label for="id_username">Username:</label>
+          <input type="text" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="150" required id="id_username">
+        </p>
+
+        <!-- Email Field -->
+        <p class="form-group">
+          <label for="id_email">Email (optional):</label>
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email">
+        </p>
+
+        <!-- Password and Reconfirm Password Fields -->
+        <div class="password-fields">
+          <p class="form-group">
+            <label for="id_password1">Password:</label>
+            <input type="password" name="password1" placeholder="Password" autocomplete="new-password" required aria-describedby="id_password1_helptext" id="id_password1">
+          </p>
+          
+          <p class="form-group">
+            <label for="id_password2">Reconfirm Password:</label>
+            <input type="password" name="password2" placeholder="Reconfirm Password" autocomplete="new-password" required id="id_password2">
+          </p>
+        </div>
+        
+        <!-- Help Text for Password -->
+        <div class="password-help">
+          <span class="helptext" id="id_password1_helptext"></span>
+          <ul>
+            <li>Your password can’t be too similar to your other personal information.</li>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can’t be a commonly used password.</li>
+            <li>Your password can’t be entirely numeric.</li>
+          </ul>
+        </div>
+
         <button class="btn btn-signup right" type="submit">
-          {% trans "Sign Up" %} &raquo;</button>
+          {% trans "Sign Up" %} &raquo;
+        </button>
       </form>
     </div>
   </div>
