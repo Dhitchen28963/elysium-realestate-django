@@ -47,6 +47,10 @@ a {
   width: 100%;
 }
 
+.fa-house-chimney {
+  color: #000433;
+}
+
 .menu li:hover > .dropdown-menu,
 .menu li:focus-within > .dropdown-menu {
   display: flex;
@@ -69,7 +73,7 @@ a {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #333;
+  background-color: #000433;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 101;
   width: 100vw;
@@ -90,11 +94,13 @@ a {
 /* Main navigation links */
 .header .nav .menu li a:hover {
   text-decoration: underline;
+  color: #fff;
 }
 
 /* Dropdown menu links */
 .header .nav .menu .dropdown-menu li a:hover {
   text-decoration: underline;
+  color: #fff;
 }
 
 /* Adjust the appearance of the dropdown items */
@@ -112,7 +118,7 @@ a {
 }
 
 .dropdown-menu li a:hover {
-  background-color: #555;
+  background-color: #222B93;
 }
 
 /* Main styling */
@@ -172,8 +178,8 @@ img {
   font-size: 16px;
   margin: 0;
   box-sizing: border-box;
-  background-color: #007bff;
-  color: white;
+  background-color: #4ED6C8;
+  color: #000433;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -187,7 +193,7 @@ img {
   flex: 1;
   padding: 5px 0;
   background-color: #ffffff;
-  color: #4287f5;
+  color: #000433;
   text-decoration: none;
   border-radius: 5px;
   border: 2px solid #27366d;
@@ -519,7 +525,7 @@ button[type="submit"] {
 }
 
 .user-icon-container .fa-user {
-  color: #fff;
+  color: #000433;
   font-size: 24px;
   cursor: pointer;
   margin-top: 10px;
@@ -563,6 +569,7 @@ button[type="submit"] {
   text-align: center;
   font-size: 1.2em;
   margin-bottom: 20px;
+  color: #ffffff;
 }
 
 .sidebar-menu {
@@ -577,7 +584,7 @@ button[type="submit"] {
 
 .sidebar-menu li a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
   display: block;
   width: 100%;
   font-size: 1.1em;
@@ -683,7 +690,7 @@ hr {
 /* Sidebar Menu */
 .sidebar {
   width: 250px;
-  background-color: #f8f8f8;
+  background-color: #000433;
   padding: 20px;
   margin-right: 20px;
 }
@@ -691,6 +698,7 @@ hr {
 .sidebar h2 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: #ffffff;
 }
 
 .sidebar ul {
@@ -704,7 +712,7 @@ hr {
 
 .sidebar ul li a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
 }
 
 .section h3 {
@@ -762,13 +770,14 @@ button {
 
 .favorite-item .favorite-details {
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
 
 .favorite-item a {
   text-decoration: none;
   font-weight: bold;
   color: #333;
+  margin-right: 15px;
 }
 
 .favorite-item .unavailable {
@@ -783,6 +792,7 @@ button {
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 3px;
+  margin-top: 0;
 }
 
 .remove-favorite-btn:hover {
@@ -887,24 +897,21 @@ button {
   color: #999999;
 }
 
-.box button {
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border: 1px solid #ADD8E6;
-  background-color: #fff;
-  color: #003366;
+.button-link {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
   font-weight: bold;
-  width: 100%;
-  max-width: 250px;
-  margin: 10px auto 0;
-  transition: background-color 0.3s;
-  border-radius: 5px;
-  margin-top: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.box button:hover {
-  background-color: #f0f0f0;
+/* Hover effect for the link */
+.button-link:hover {
+  background-color: #add8e6;
+  color: white;
 }
 
 .box .content {
@@ -1255,7 +1262,7 @@ button {
 }
 
 .real-estate-title {
-  background-color: navy;
+  background-color: #000433;
   color: white;
   padding: 10px;
   width: 100%;
@@ -1279,6 +1286,12 @@ button {
   padding-left: 0;
 }
 
+.property-info h2 {
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 2.0em;
+}
+
 .property-detail {
   display: flex;
   flex-direction: column;
@@ -1286,7 +1299,7 @@ button {
 }
 
 .property-info {
-  text-align: center;
+  text-align: left;
   padding: 20px;
   border: 1px solid #ddd;
   background-color: #fff;
@@ -1319,7 +1332,7 @@ button {
 }
 
 .property-info .property-price {
-  color: blue;
+  color: #4682B4;;
 }
 
 .property-info .property-location {
@@ -1333,7 +1346,7 @@ button {
 .property-features,
 .additional-features {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 10px;
   font-size: 1.2em;
   margin-bottom: 10px;
@@ -1352,7 +1365,7 @@ button {
 
 .property-detail .feature-item i,
 .property-detail .feature-item i {
-  font-size: 1.5em;
+  font-size: 1.4em;
   color: #333;
   margin-right: 5px;
 }
@@ -1666,7 +1679,7 @@ th {
 
 /* Footer styles */
 .footer-menu {
-  background-color: #36383F;
+  background-color: #000433;
   padding: 20px;
   text-align: center;
 }
@@ -1696,7 +1709,7 @@ th {
 
 /* Footer including copyright text */
 footer {
-  background-color: #36383F;
+  background-color: #000433;
   bottom: 0;
 }
 
@@ -1757,7 +1770,6 @@ footer p {
   textarea {
     min-height: 80px;
   }
-
 }
 
 /* Media Query for screen sizes 650px and below */
@@ -1913,7 +1925,8 @@ footer p {
   }
 
   header .hamb {
-    top: -68px;
+    top: -75px;
+    color: #000433;
   }
 
   .hamb-line {
@@ -1931,6 +1944,7 @@ footer p {
 
   .header .logo-container i {
     font-size: 15px;
+    color: #000433;
   }
 
   .nav {
@@ -2176,10 +2190,11 @@ footer p {
     text-align: center;
     font-family: "Inconsolata", monospace;
     font-size: 16px;
+    color: white;
   }
 
   .search-container {
-    background-color: #27366d;
+    background-color: #000433;
     color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -2260,15 +2275,15 @@ footer p {
   .remove-favorite-btn {
     padding: 10px 15px;
   }
-}
 
-.btn-signup {
+  .btn-signup {
     min-width: 150px;
     padding: 10px 20px;
-}
+  }
 
-.btn-signup:hover {
+  .btn-signup:hover {
     background-color: #0056b3;
+  }
 }
 
 @media (max-height: 800px) {
@@ -2379,6 +2394,7 @@ footer p {
 @media (max-width: 903px) {
   .logo-container {
     justify-content: center;
+    color: #000433;
   }
 
   .logo-container h1 {
@@ -2386,7 +2402,7 @@ footer p {
   }
 
   .logo-container i {
-    color: #ffffff;
+    color: #000433;
     margin: -2px 10px 0 0;
   }
 
@@ -2395,7 +2411,7 @@ footer p {
   }
 
   .header {
-    background-color: var(--black);
+    background-color: #F4F7FA;
     box-shadow: 1px 1px 5px 0px var(--gray);
     position: fixed;
     top: 0;
@@ -2423,7 +2439,7 @@ footer p {
     width: 50vh;
     height: 85vh;
     position: fixed;
-    background-color: var(--black);
+    background-color: #000433;
     overflow: hidden;
     top: 69px;
   }
@@ -2431,13 +2447,14 @@ footer p {
   .menu a {
     display: block;
     padding: 15px;
-    color: var(--white);
+    color: #F4F7FA;
     font-size: 18px;
     font-weight: bold;
   }
 
   .menu a:hover {
-    background-color: var(--gray);
+    color: #007BFF;
+    text-decoration: underline;
   }
 
   .nav {
@@ -2447,19 +2464,20 @@ footer p {
 
   .menu-divider {
     border: none;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #C5C2C2;
     width: 90%;
   }
 
   .hamb {
     cursor: pointer;
-    padding: 25px 20px;
+    padding: 20px 20px;
     z-index: 103;
     align-items: center;
     position: relative;
     display: inline-block;
     top: -48px;
     width: auto;
+    color: #000433;
   }
 
   .hamb-line {
@@ -2468,6 +2486,7 @@ footer p {
     height: 2px;
     position: relative;
     width: 24px;
+    color: #000433;
   }
 
   .hamb-line::before,
@@ -2533,6 +2552,8 @@ footer p {
   .menu li:hover .dropdown-options,
   .menu li:hover .dropdown-menu {
     display: block;
+    background-color: #000433;
+    border-color: #000433;
   }
 
   .anchor {
@@ -2544,7 +2565,7 @@ footer p {
 
   .property-list .property-features .feature-item,
   .property-list .additional-features .feature-item {
-    font-size: 0.7em;
+    font-size: 1.1em;
   }
 
   .property-list .property-features .feature-item i,
@@ -2558,6 +2579,10 @@ footer p {
   .logo-container i {
     color: #ffffff;
     margin: -8px 10px 0 0;
+  }
+
+  .hamb-line {
+    display: none;
   }
 
   .logo-container {
@@ -2588,7 +2613,7 @@ footer p {
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    background-color: #36383f;
+    background-color: #F4F7FA;
     padding: 10px;
     height: 70px;
     z-index: 102;
@@ -2620,7 +2645,7 @@ footer p {
 
   .menu > li {
     position: relative;
-    margin: 0 10px;
+    margin: 5px;
   }
 
   .menu > li:nth-last-child(2) {
@@ -2634,7 +2659,7 @@ footer p {
   .menu > li > a {
     padding: 10px 10px;
     display: block;
-    color: #fff;
+    color: #000433;
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
@@ -2653,7 +2678,8 @@ footer p {
   }
 
   .menu > li:hover > a {
-    background-color: #333;
+    background-color: #000433;
+    color: white
   }
 
   /* Dropdown menu styles */
@@ -2663,7 +2689,7 @@ footer p {
     top: 70px;
     left: 0;
     right: 0;
-    background-color: #333;
+    background-color: #000433;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 101;
     justify-content: flex-start;
@@ -2682,6 +2708,7 @@ footer p {
     background-color: transparent;
     white-space: nowrap;
     text-decoration: none;
+    font-weight: bold;
   }
 
   .dropdown-menu li a:hover {
@@ -2716,6 +2743,7 @@ footer p {
 
   .logo h1 {
     margin: 0;
+    color: #000433;
   }
 
   .menu > li a:hover::after {
@@ -2747,7 +2775,7 @@ footer p {
   }
 
   .my-account-btn-container .nav-link {
-    color: #fff;
+    color: #000433;
     text-decoration: none;
     font-size: 18px;
     font-weight: 700;
@@ -2829,12 +2857,13 @@ footer p {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 350px;
+    height: 360px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     padding: 10px;
     box-sizing: border-box;
     position: relative;
+    margin-top: 25px;
   }
 
   .property-image {
@@ -2859,7 +2888,7 @@ footer p {
 
   .property-detail .property-price {
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-size: 1.2em;
     margin-top: 10px;
   }
@@ -2962,7 +2991,7 @@ footer p {
   .property-detail .property-price {
     height: 75px;
     width: 530px;
-    text-align: center;
+    text-align: left;
     font-size: 1.2em;
     margin-top: 10px;
   }
@@ -3022,7 +3051,8 @@ footer p {
 
   .property-list .property-features .feature-item,
   .property-list .additional-features .feature-item {
-    font-size: 0.6em;
+    font-size: 1.0em;
+    color: #4682B4;
   }
 
   .property-list .property-features .feature-item i,

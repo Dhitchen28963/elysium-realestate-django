@@ -25,7 +25,7 @@
         <a href="{% url 'home' %}" class="logo" aria-label="Elysium homepage">
             <div class="logo-container">
                 <h1>Elysium</h1>
-                <i class="fa-solid fa-house-chimney" style="color: #ffffff;" aria-hidden="true"></i>
+                <i class="fa-solid fa-house-chimney" style="color: #000433;" aria-hidden="true"></i>
             </div>
         </a>
         <div class="user-icon-container">
@@ -95,16 +95,16 @@
     {% endblock %}
 
     <div id="my-account-sidebar" class="sidebar" role="region" aria-labelledby="my-account-sidebar-heading">
-        <h2 id="my-account-sidebar-heading" class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #5f5c4e;" aria-hidden="true"></i></h2>
+        <h2 id="my-account-sidebar-heading" class="sidebar-header">Elysium <i class="fa-solid fa-house-chimney" style="color: #4ED6C8;" aria-hidden="true"></i></h2>
         <span id="close-sidebar" class="close" aria-hidden="true">&times;</span>
         <p class="sidebar-username">{% if user.is_authenticated %}{{ user.username }}{% endif %}</p>
         <ul class="sidebar-menu">
             {% if user.is_authenticated %}
-                <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #5f5c4e;" aria-hidden="true"></i> Saved Properties</a></li>
-                <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #5f5c4e;" aria-hidden="true"></i> View Pending Viewings</a></li>
+                <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #ffd207;" aria-hidden="true"></i> Saved Properties</a></li>
+                <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #13F0D9;" aria-hidden="true"></i> View Pending Viewings</a></li>
                 <li class="menu-divider"></li>
-                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears"></i> Account Settings</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
+                <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears" style="color: #ffffff;"></i> Account Settings</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Sign Out</a></li>
             {% else %}
                 <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
             {% endif %}

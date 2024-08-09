@@ -1,3 +1,11 @@
+export function clearModalMessages() {
+    const modalMessageElement = document.getElementById('modalMessage');
+    if (modalMessageElement) {
+        modalMessageElement.textContent = '';
+        modalMessageElement.style.display = 'none'; // Hide the message
+    }
+}
+
 function showModalMessage(message) {
     const modalMessage = document.getElementById('modalMessage');
     const modal = document.getElementById('messageModal');
