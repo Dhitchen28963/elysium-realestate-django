@@ -321,6 +321,38 @@ img {
   margin-bottom: 10px;
 }
 
+/* Styles for the rent, sale, student, and land pages */
+main .property-list .property-box .property-price {
+  font-weight: bold;
+  color: #000433;
+  font-size: 1.5em;
+  letter-spacing: 0.05em;
+  margin-left: 15px;
+}
+
+/* Styles for the details page without margin-left */
+.property-detail .property-info .property-price {
+  font-weight: bold;
+  color: #000433;
+  font-size: 1.5em;
+  letter-spacing: 0.05em;
+  margin-left: 0;
+}
+
+/* Title styles for all pages */
+.property-box .property-description h2 a,
+.property-detail .property-info h2 a {
+    color: #000433;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.property-box .property-description h2 a:hover,
+.property-detail .property-info h2 a:hover {
+    color: #007BFF;
+    text-decoration: underline;
+}
+
 .filters-container .checkbox-group {
   flex-direction: row;
   font-size: 14px;
@@ -1348,7 +1380,7 @@ button {
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
-  font-size: 1.2em;
+  font-size: 0.7em;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -2565,12 +2597,12 @@ footer p {
 
   .property-list .property-features .feature-item,
   .property-list .additional-features .feature-item {
-    font-size: 1.1em;
+    font-size: 0.8em;
   }
 
   .property-list .property-features .feature-item i,
   .property-list .additional-features .feature-item i {
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
 }
 
@@ -2916,6 +2948,8 @@ footer p {
     overflow: hidden;
     word-wrap: break-word;
     white-space: normal;
+    font-weight: bold;
+    color: #000433;
   }
 
   .property-buttons {
@@ -3051,13 +3085,13 @@ footer p {
 
   .property-list .property-features .feature-item,
   .property-list .additional-features .feature-item {
-    font-size: 1.0em;
-    color: #4682B4;
+    font-size: 0.6em;
+    color: #000433
   }
 
   .property-list .property-features .feature-item i,
   .property-list .additional-features .feature-item i {
-    font-size: 0.8em;
+    font-size: 0.7em;
   }
 
   #blog-list .blog-container {
