@@ -522,7 +522,7 @@ Ran all test suites.
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
 
-![Test 1](docs/images/test1.webp)
+![Test 1](/workspace/elysium-realestate-django/docs/images/test1.webp)
 ![Test 2](docs/images/test2.webp)
 ![Test 3](docs/images/test3.webp)
 ![Test 4](docs/images/test4.webp)
