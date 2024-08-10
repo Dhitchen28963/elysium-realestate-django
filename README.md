@@ -485,6 +485,7 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
 - **CSS Validation Service**: Used for ensuring that the CSS follows standards and is error-free.
 - **Pixabay, Pexels, Unsplash, Shutterstock**: Sources for images used in the project.
 - **Photopea**: An online tool used for resizing and editing images.
+- **Citizens Advice**: For the information regarding housing used for the homeless, blog and FAQ pages.
 
 ## Deployment
 
