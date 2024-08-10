@@ -310,6 +310,7 @@ Destroying test database for alias 'default'...
 ### Python Tests
 ![Python Tests](./images/python-tests.png)
 
+
 #### Django Tests (JavaScript)
 
 ## Test Coverage Summary
