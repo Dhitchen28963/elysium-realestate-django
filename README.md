@@ -10,6 +10,8 @@ Welcome to the Elysium Real Estate Django Project. This project is designed to m
   - [Structure Plane](#structure-plane)
   - [Skeleton Plane](#skeleton-plane)
   - [Surface Plane](#surface-plane)
+- [Database Schema](#database-schema)
+- [Kanban Board](#kanban-board)
 - [Project Apps](#project-apps)
   - [Blog](#blog)
   - [Contact](#contact)
@@ -40,7 +42,6 @@ The Elysium Real Estate platform is designed to offer users a comprehensive and 
 - **Support Communities**: Offer resources and guidance for individuals experiencing homelessness or in need of housing advice.
 - **Facilitate Engagement**: Through blogs, FAQs, and comment sections, the platform encourages community engagement and interaction among users.
 
-
 ### Scope Plane
 
 The project encompasses multiple features:
@@ -51,7 +52,6 @@ The project encompasses multiple features:
 - A blog section for publishing articles related to real estate and property management.
 - An FAQ section to address common questions and provide helpful information.
 - A contact form for users to send inquiries directly to the administrators.
-
 
 ### Structure Plane
 
@@ -74,6 +74,10 @@ Below is the database schema diagram for the Elysium Real Estate Django Project:
 
 ![Database Schema](./images/schema_diagram.png)
 
+## Kanban Board
+
+I used Githubs Kanban board to manage the project's user stories and tasks. You can view the board [here](https://github.com/users/Dhitchen28963/projects/3/views/1).
+
 ## Project Apps
 
 ### Blog
@@ -81,7 +85,7 @@ Below is the database schema diagram for the Elysium Real Estate Django Project:
 The `Blog` app allows administrators to create and manage blog posts that are displayed to users. Each post can include images, text, and comments.
 
 #### Features:
-- Create, update, view and delete blog posts.
+- Create, update, view and delete blog posts (CRUD)
 - Create, update, view and delete comments for the blog posts. (with approval required for new comments or editing of current comments)
 
 #### Models:
@@ -174,12 +178,11 @@ The `Real Estate` app manages property listings for sale, rent, and student acco
 - `ViewingAppointment`
 - `FavoriteProperty`
 
-
 ## Testing
 
 ### Running Tests
 
-To ensure that the application is functioning correctly, you can run the Django tests and JavaScript tests as shown below:
+To ensure that the application functioned correctly, I used a combination of automated and manual testing for both Python and JavaScript as shown below:
 
 #### Django Tests (Python)
 
@@ -526,7 +529,7 @@ The project has been tested against several validators to ensure code quality an
 
 ![CSS Validation](./images/css-validator.png)
 
-![HTML Validation](./images/css-validator.png)
+![HTML Validation](./images/css-validator.png) - change to html
 
 ### Accessibility
 
