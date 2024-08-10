@@ -74,25 +74,6 @@ Below is the database schema diagram for the Elysium Real Estate Django Project:
 
 ![Database Schema](./images/schema_diagram.png)
 
-### JavaScript Tests
-![JavaScript Tests](./images/javascript-tests.png)
-### Python Tests
-![Python Tests](./images/python-tests.png)
-
-### Manual Tests
-![Test 1](./images/test1.png)
-![Test 2](./images/test2.png)
-![Test 3](./images/test3.png)
-![Test 4](./images/test4.png)
-![Test 5](./images/test5.png)
-![Test 6](./images/test6.png)
-![Test 7](./images/test7.png)
-![Test 8](./images/test8.png)
-![Test 9](./images/test9.png)
-![Test 10](./images/test10.png)
-![Test 11](./images/test11.png)
-
-
 ## Project Apps
 
 ### Blog
@@ -326,6 +307,8 @@ Ran 144 tests in 21.279s
 OK
 Destroying test database for alias 'default'...
 ```
+### Python Tests
+![Python Tests](./images/python-tests.png)
 
 #### Django Tests (JavaScript)
 
@@ -420,23 +403,8 @@ Snapshots:   0 total
 Time:        17.602 s
 Ran all test suites.
 ```
-
 ### JavaScript Tests
 ![JavaScript Tests](./images/javascript-tests.png)
-### Python Tests
-![Python Tests](./images/python-tests.png)
-![Test 1](./images/test1.png)
-![Test 2](./images/test2.png)
-![Test 3](./images/test3.png)
-![Test 4](./images/test4.png)
-![Test 5](./images/test5.png)
-![Test 6](./images/test6.png)
-![Test 7](./images/test7.png)
-![Test 8](./images/test8.png)
-![Test 9](./images/test9.png)
-![Test 10](./images/test10.png)
-![Test 11](./images/test11.png)
-
 
 #### Manual Tests
 
@@ -482,7 +450,6 @@ Ran all test suites.
 | **Schedule a Viewing or Adding to Favorites Without Login** | Attempt to schedule a viewing or add a property to favorites without logging in.                             | The user is prompted to log in with a modal or redirect to the login page.                     | Any property detail page                                  |
 | **Prevent Scheduling Viewing in the Past**              | Attempt to select a past date when scheduling or updating a viewing appointment.                              | Validation prevents past dates from being selected, and an error is shown.                     | /real_estate/property/<property-slug>/                    |
 | **Search for Properties on Home Page**                  | Use the search functionality on the home page to search for properties to rent or buy.                       | The user is redirected to the appropriate rent or buy page with filtered results.              | /real_estate/                                             |
-
 
 #### Django Admin Panel Tests
 
@@ -553,10 +520,13 @@ Ran all test suites.
 | **Change Social Application in Social Accounts Section** | Select an existing social application and modify its details.                                       | Changes are saved, and the social application details are updated.                                           |
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
-
 ### Validator Testing
 
 The project has been tested against several validators to ensure code quality and compliance with web standards.
+
+![CSS Validation](./images/css-validator.png)
+
+![HTML Validation](./images/css-validator.png)
 
 ### Accessibility
 
