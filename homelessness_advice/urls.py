@@ -3,6 +3,9 @@ from .views import HomelessList, HomelessDetail
 
 urlpatterns = [
     path('', HomelessList.as_view(), name='homelessness_advice_list'),
-    path('<slug:slug>/', HomelessDetail.as_view(), name='homelessness_advice_detail'),
+    path(
+        '<slug:slug>/', HomelessDetail.as_view(),
+        name='homelessness_advice_detail'
+    ),
     path('summernote/', include('django_summernote.urls')),
 ]

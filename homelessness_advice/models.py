@@ -4,6 +4,11 @@ from django_summernote.fields import SummernoteTextField
 from cloudinary.models import CloudinaryField
 from .utils import clean_html_content
 
+"""
+Model representing a Homelessness Advice post.
+Includes fields for title, slug, author, featured image, content, timestamps,
+status, and an excerpt. The content is cleaned before saving.
+"""
 class Homeless(models.Model):
     STATUS_CHOICES = [
         ('draft', 'Draft'),
@@ -34,6 +39,10 @@ class Homeless(models.Model):
         super().save(*args, **kwargs)
 
 
+"""
+Model representing additional images associated with a Homelessness Advice post.
+Each image is linked to a specific post and stored using Cloudinary.
+"""
 class HomelessImage(models.Model):
     homeless = models.ForeignKey(
         Homeless, on_delete=models.CASCADE,

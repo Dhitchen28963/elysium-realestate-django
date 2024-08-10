@@ -13,7 +13,7 @@ DEBUG = False
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 ALLOWED_HOSTS += [
     '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
-    '.herokuapp.com'
+    '.herokuapp.com',
 ]
 
 # Application definition
@@ -88,7 +88,9 @@ DATABASES = {
         'NAME': 'quote_brink_crib_819211',
         'USER': 'uzssp4o3zbi',
         'PASSWORD': 'yEGDhPhl8zps',
-        'HOST': 'ep-gentle-mountain-a23bxz6h.eu-central-1.aws.neon.tech',
+        'HOST': (
+            'ep-gentle-mountain-a23bxz6h.eu-central-1.aws.neon.tech'
+        ),
         'PORT': '5432',
     }
 }
@@ -108,22 +110,37 @@ if 'test' in sys.argv:
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
     "https://*.herokuapp.com",
-    "https://8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net",
+    (
+        "https://8000-dhitchen289-elysiumreal-edmywjdr1el"
+        ".ws.codeinstitute-ide.net"
+    ),
 ]
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator'
+        ),
     },
 ]
 
@@ -148,7 +165,10 @@ SUMMERNOTE_CONFIG = {
     'summernote': {
         'toolbar': [
             ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear', 'color']],
+            [
+                'font', ['bold', 'italic', 'underline',
+                         'clear', 'color']
+            ],
             ['fontsize', ['fontsize']],
             ['fontname', ['fontname']],
             ['color', ['color']],
@@ -158,9 +178,10 @@ SUMMERNOTE_CONFIG = {
             ['view', ['fullscreen', 'codeview', 'help']],
         ],
         'fontNames': [
-            'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
-            'Helvetica', 'Impact', 'Tahoma', 'Times New Roman',
-            'Verdana', 'Roboto', 'Inconsolata'
+            'Arial', 'Arial Black', 'Comic Sans MS',
+            'Courier New', 'Helvetica', 'Impact',
+            'Tahoma', 'Times New Roman', 'Verdana',
+            'Roboto', 'Inconsolata',
         ],
         'fontSizes': ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
         'fontsizeUnits': ['px', 'pt'],
@@ -171,21 +192,25 @@ SUMMERNOTE_CONFIG = {
     },
     'css': {
         'all': [
-            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css',
-            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/'
+            'bootstrap.min.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
+            'codemirror.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
+            'summernote-bs4.css',
         ],
     },
     'js': {
         'all': [
             'https://code.jquery.com/jquery-3.3.1.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
-            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/'
+            'umd/popper.min.js',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/'
+            'bootstrap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
+            'codemirror.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
+            'summernote-bs4.min.js',
         ],
     },
 }
-
-
-

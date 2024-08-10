@@ -18,6 +18,9 @@ from django.conf import settings
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# Helper function to paginate properties
+
+
 def paginate_properties(request, properties, per_page=20):
     page = request.GET.get('page', 1)
     paginator = Paginator(properties, per_page)
@@ -28,6 +31,9 @@ def paginate_properties(request, properties, per_page=20):
     except EmptyPage:
         properties = paginator.page(paginator.num_pages)
     return properties, paginator
+
+# View to request a custom viewing appointment for a property
+
 
 @login_required
 def request_custom_viewing(request, property_id):
@@ -41,10 +47,18 @@ def request_custom_viewing(request, property_id):
             appointment.save()
             return JsonResponse({'status': 'ok'})
         else:
-            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+            return JsonResponse(
+                {'status': 'error', 'errors': form.errors}, status=400
+            )
     else:
         form = ViewingAppointmentForm()
-    return render(request, 'request_custom_viewing.html', {'form': form, 'property': property})
+    return render(
+        request, 'request_custom_viewing.html',
+        {'form': form, 'property': property}
+    )
+
+# View to book a specific viewing slot
+
 
 @login_required
 def book_viewing_slot(request, slot_id):
@@ -66,6 +80,9 @@ def book_viewing_slot(request, slot_id):
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'}, status=400)
 
+# View to retrieve available viewing slots for a specific property
+
+
 @login_required
 def view_property_slots(request, property_id):
     property = get_object_or_404(Property, id=property_id)
@@ -79,6 +96,9 @@ def view_property_slots(request, property_id):
         'end_time': slot.end_time.strftime('%H:%M')
     } for slot in slots]
     return JsonResponse({'slots': slots_list})
+
+# View to accept a viewing appointment
+
 
 @login_required
 def accept_appointment(request, appointment_id):
@@ -106,6 +126,9 @@ def accept_appointment(request, appointment_id):
         'appointment': appointment,
     }
     return render(request, 'real_estate/accept_appointment.html', context)
+
+# Helper function to filter properties based on form data
+
 
 def filter_properties(form, properties):
     if form.cleaned_data.get('search'):
@@ -151,26 +174,30 @@ def filter_properties(form, properties):
         )
     return properties
 
+# View to display properties for sale
+
+
 def property_sale(request):
     form = PropertySearchForm(request.GET or None)
-    properties = Property.objects.filter(transaction_type='sale', publication_status='published')
-    print("Initial properties count:", properties.count())
+    properties = Property.objects.filter(
+        transaction_type='sale', publication_status='published'
+    )
 
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
-        print("Filtered properties count:", properties.count())
 
     paginator = Paginator(properties, 20)
     page_number = request.GET.get('page')
     properties = paginator.get_page(page_number)
-
-    print("Final properties in page:", len(properties))
 
     context = {
         'form': form,
         'properties': properties,
     }
     return render(request, 'real_estate/property_sale.html', context)
+
+# View to display properties for rent
+
 
 def property_rent(request):
     form = PropertySearchForm(request.GET or None)
@@ -192,6 +219,9 @@ def property_rent(request):
     }
     return render(request, 'real_estate/property_rent.html', context)
 
+# View to display student accommodation properties
+
+
 def property_student(request):
     form = PropertySearchForm(request.GET)
     properties = Property.objects.filter(
@@ -210,6 +240,9 @@ def property_student(request):
         'is_paginated': paginator.num_pages > 1,
     }
     return render(request, 'real_estate/student_property.html', context)
+
+# View to display land properties
+
 
 def view_land(request):
     form = PropertySearchForm(request.GET)
@@ -230,6 +263,9 @@ def view_land(request):
     }
     return render(request, 'real_estate/view_land.html', context)
 
+# View to display the details of a specific property
+
+
 def property_detail(request, slug):
     property = get_object_or_404(Property, slug=slug)
     context = {
@@ -237,6 +273,9 @@ def property_detail(request, slug):
         'additional_images': property.property_images.all(),
     }
     return render(request, 'real_estate/property_detail.html', context)
+
+# View to add a property to the user's favorites
+
 
 @login_required
 def add_to_favorites(request, property_id):
@@ -251,6 +290,9 @@ def add_to_favorites(request, property_id):
             return JsonResponse({'status': 'exists'})
     return JsonResponse({'status': 'error'}, status=400)
 
+# View to display the user's favorite properties
+
+
 @login_required
 def view_favorites(request):
     favorites = FavoriteProperty.objects.filter(user=request.user)
@@ -258,6 +300,9 @@ def view_favorites(request):
         'favorites': favorites
     }
     return render(request, 'real_estate/favorites.html', context)
+
+# View to remove a property from the user's favorites
+
 
 @login_required
 def remove_from_favorites(request, property_id):
@@ -273,6 +318,9 @@ def remove_from_favorites(request, property_id):
             return JsonResponse({'status': 'not_found'}, status=404)
     return JsonResponse({'status': 'error'}, status=400)
 
+# View to display the user's pending viewings
+
+
 @login_required
 def view_pending_viewings(request):
     viewings = ViewingAppointment.objects.filter(user=request.user)
@@ -281,17 +329,29 @@ def view_pending_viewings(request):
     }
     return render(request, 'real_estate/pending_viewings.html', context)
 
+# View to update a specific viewing appointment
+
+
 @login_required
 def update_viewing(request, viewing_id):
-    viewing = get_object_or_404(ViewingAppointment, id=viewing_id, user=request.user)
+    viewing = get_object_or_404(
+        ViewingAppointment, id=viewing_id, user=request.user
+    )
     if request.method == 'POST':
         form = ViewingAppointmentForm(request.POST, instance=viewing)
         if form.is_valid():
             form.save()
             return redirect('view_pending_viewings')
         else:
-            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+            return JsonResponse(
+                {'status': 'error', 'errors': form.errors}, status=400
+            )
+    return JsonResponse(
+        {'status': 'error', 'message': 'Invalid request method.'}, status=400
+    )
+
+
+# View to delete a specific viewing appointment
 
 
 @login_required
@@ -303,6 +363,9 @@ def delete_viewing(request, viewing_id):
         viewing.delete()
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'}, status=400)
+
+# View to manage account settings
+
 
 @login_required
 def account_settings(request):
@@ -337,7 +400,9 @@ def account_settings(request):
             delete_form = DeleteAccountForm(request.POST)
             if delete_form.is_valid():
                 user.delete()
-                messages.success(request, 'Your account was successfully deleted.')
+                messages.success(
+                    request, 'Your account was successfully deleted.'
+                )
                 return redirect('home')
     else:
         profile_form = ProfileUpdateForm(instance=profile)
@@ -352,20 +417,38 @@ def account_settings(request):
         }
     )
 
+# Class-based view to display the user's profile
+
+
 class ProfileView(TemplateView):
     template_name = 'real_estate/profile.html'
+
+# View to display the mortgage calculator
+
 
 def mortgage_calculator(request):
     return render(request, 'real_estate/mortgage_calculator.html')
 
+# View to display the list of property guides
+
+
 def property_guides_list(request):
     return render(request, 'real_estate/property_guides_list.html')
+
+# View to display the list of blog posts
+
 
 def blog_list(request):
     return render(request, 'real_estate/blog_list.html')
 
+# View to display homelessness advice
+
+
 def homelessness_advice_list(request):
     return render(request, 'real_estate/homelessness_advice_list.html')
+
+# View to display frequently asked questions (FAQ)
+
 
 def faq_list(request):
     return render(request, 'real_estate/faq_list.html')

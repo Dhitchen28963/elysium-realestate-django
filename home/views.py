@@ -2,6 +2,11 @@ from django.shortcuts import render
 from real_estate.models import Property
 from real_estate.forms import PropertySearchForm
 
+"""
+Handles the display of the home page, including a property search form.
+Filters properties based on search criteria entered by the user.
+"""
+
 
 def home(request):
     form = PropertySearchForm(request.GET)
@@ -57,8 +62,18 @@ def home(request):
     return render(request, 'home/index.html', context)
 
 
+"""
+Renders the property sale page, displaying properties available for sale.
+"""
+
+
 def property_sale(request):
     return render(request, 'real_estate/property_sale.html')
+
+
+"""
+Renders the property rent page, displaying properties available for rent.
+"""
 
 
 def property_rent(request):

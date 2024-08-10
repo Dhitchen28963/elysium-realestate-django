@@ -4,11 +4,25 @@ from django_summernote.fields import SummernoteTextField
 from .utils import clean_html_content
 from django.contrib.auth.models import User
 
+"""
+Represents a category for organizing posts.
+Each category has a unique name.
+"""
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
+
+
+"""
+Represents a blog post or article.
+Includes fields for the title, slug, content, timestamps, featured image,
+and an associated category. The content is cleaned before saving.
+"""
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -27,6 +41,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+"""
+Represents an additional image associated with a post.
+Each image is linked to a specific post and stored using Cloudinary.
+"""
 
 
 class PropertyImage(models.Model):

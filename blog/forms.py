@@ -3,6 +3,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Comment
 
+"""
+Creates a form for submitting comments, includes configuration for
+Crispy Forms, and overrides the save method to ensure that new or edited
+comments are marked as not approved by default.
+"""
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

@@ -8,11 +8,21 @@ from .utils import clean_html_content
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+# Choices for the furnished status of a property
 FURNISHED_TYPES = [
     ('furnished', 'Furnished'),
     ('unfurnished', 'Unfurnished'),
     ('part_furnished', 'Part Furnished'),
 ]
+
+
+"""
+Model representing a Property.
+Includes fields for title, slug, description, type, price, location,
+and other property-specific attributes.
+"""
+
 
 class Property(models.Model):
     TYPE_CHOICES = [
@@ -56,31 +66,36 @@ class Property(models.Model):
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = SummernoteTextField()
     property_type = models.CharField(
-        max_length=20, choices=PROPERTY_TYPE_CHOICES)
+        max_length=20, choices=PROPERTY_TYPE_CHOICES
+    )
     price = models.DecimalField(max_digits=10, decimal_places=2)
     furnished_type = models.CharField(max_length=20, choices=FURNISHED_TYPES)
     location = models.CharField(max_length=100)
     transaction_type = models.CharField(
-        max_length=8, choices=TRANSACTION_TYPES)
+        max_length=8, choices=TRANSACTION_TYPES
+    )
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     garden = models.BooleanField(default=False)
     parking = models.BooleanField(default=False)
     pets_allowed = models.BooleanField(default=False)
     floor_plan = models.ImageField(
-        upload_to='floor_plans/', blank=True, null=True)
+        upload_to='floor_plans/', blank=True, null=True
+    )
     energy_efficiency_rating = models.CharField(
-        max_length=10, blank=True, null=True)
+        max_length=10, blank=True, null=True
+    )
     availability_status = models.CharField(
-        max_length=15, choices=AVAILABILITY_STATUS_CHOICES,
-        default='available'
+        max_length=15, choices=AVAILABILITY_STATUS_CHOICES, default='available'
     )
     publication_status = models.CharField(
-        max_length=10, choices=PUBLICATION_STATUS_CHOICES, default='draft')
+        max_length=10, choices=PUBLICATION_STATUS_CHOICES, default='draft'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     agent = models.ForeignKey(
-        User, on_delete=models.CASCADE, default=1, related_name='properties')
+        User, on_delete=models.CASCADE, default=1, related_name='properties'
+    )
 
     def __str__(self):
         return self.title
@@ -98,13 +113,26 @@ class Property(models.Model):
         return formatted_price
 
 
+"""
+Model representing images associated with a property.
+Uses Cloudinary to store images.
+"""
+
+
 class PropertyImage(models.Model):
     property = models.ForeignKey(
-        Property, related_name='property_images', on_delete=models.CASCADE)
+        Property, related_name='property_images', on_delete=models.CASCADE
+    )
     image = CloudinaryField('image')
 
     def __str__(self):
         return f"{self.property.title} Image"
+
+
+"""
+Model representing a user's favorite property.
+Each user can mark properties as their favorite.
+"""
 
 
 class FavoriteProperty(models.Model):
@@ -119,9 +147,16 @@ class FavoriteProperty(models.Model):
         return f"{self.user.username} - {self.property.title}"
 
 
+"""
+Model representing a viewing slot for a property.
+Agents can set available slots for potential viewers.
+"""
+
+
 class ViewingSlot(models.Model):
     property = models.ForeignKey(
-        Property, related_name='viewing_slots', on_delete=models.CASCADE, null=True
+        Property, related_name='viewing_slots', on_delete=models.CASCADE,
+        null=True
     )
     agent = models.ForeignKey(
         User, related_name='agent_slots', on_delete=models.CASCADE, default=1
@@ -132,11 +167,19 @@ class ViewingSlot(models.Model):
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):
-        property_title = self.property.title if self.property else "No Property"
+        property_title = (
+            self.property.title if self.property else "No Property"
+        )
         return (
             f"{property_title} on {self.date} from "
             f"{self.start_time} to {self.end_time}"
         )
+
+
+"""
+Model representing a viewing appointment.
+Stores the details of appointments scheduled for property viewings.
+"""
 
 
 class ViewingAppointment(models.Model):
@@ -149,7 +192,8 @@ class ViewingAppointment(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     slot = models.ForeignKey(
-        ViewingSlot, on_delete=models.SET_NULL, null=True, blank=True)
+        ViewingSlot, on_delete=models.SET_NULL, null=True, blank=True
+    )
     name = models.CharField(max_length=255, default='Anonymous')
     contact = models.CharField(max_length=255, default='Unknown')
     email = models.EmailField(default='example@example.com')
@@ -159,7 +203,8 @@ class ViewingAppointment(models.Model):
     is_scheduled = models.BooleanField(default=False)
     attended = models.BooleanField(default=False)
     viewing_decision = models.CharField(
-        max_length=10, choices=VIEWING_DECISION_CHOICES, default='pending')
+        max_length=10, choices=VIEWING_DECISION_CHOICES, default='pending'
+    )
     created_on = models.DateTimeField(auto_now_add=True)
     agent_name = models.CharField(max_length=255, blank=True, null=True)
     agent_contact = models.CharField(max_length=255, blank=True, null=True)
@@ -172,6 +217,12 @@ class ViewingAppointment(models.Model):
         )
 
 
+"""
+Model representing a user's profile.
+Stores additional user information such as name, email, address, and telephone.
+"""
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -182,12 +233,20 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 # Signal receiver to handle updates on ViewingAppointment
 @receiver(post_save, sender=ViewingAppointment)
 def update_profile_on_viewing_decision(sender, instance, **kwargs):
-    if kwargs.get('update_fields') and 'viewing_decision' in kwargs.get('update_fields'):
+    if kwargs.get('update_fields') and \
+            'viewing_decision' in kwargs.get('update_fields'):
         if instance.viewing_decision == 'accepted':
-            print(f"Appointment for {instance.property.title} has been accepted.")
+            print(
+                f"Appointment for {instance.property.title} "
+                f"has been accepted."
+            )
         elif instance.viewing_decision == 'rejected':
             # Handle rejected appointments
-            print(f"Appointment for {instance.property.title} has been rejected.")
+            print(
+                f"Appointment for {instance.property.title} "
+                f"has been rejected."
+            )

@@ -4,10 +4,22 @@ from .models import (
 )
 from django_summernote.admin import SummernoteModelAdmin
 
+"""
+Inline model for managing property images in the admin interface.
+Allows adding multiple images directly from the property admin page.
+"""
+
 
 class PropertyImageInline(admin.TabularInline):
     model = PropertyImage
     extra = 1
+
+
+"""
+Admin configuration for the Property model.
+Includes features such as rich-text editing for descriptions,
+prepopulated slug fields, and inline image management.
+"""
 
 
 @admin.register(Property)
@@ -29,6 +41,13 @@ class PropertyAdmin(SummernoteModelAdmin):
     inlines = [PropertyImageInline]
 
 
+"""
+Admin configuration for the ViewingSlot model.
+Includes custom display functions for associated property and agent details,
+as well as filtering and searching capabilities.
+"""
+
+
 @admin.register(ViewingSlot)
 class ViewingSlotAdmin(admin.ModelAdmin):
     list_display = (
@@ -39,6 +58,9 @@ class ViewingSlotAdmin(admin.ModelAdmin):
     search_fields = ('property__title', 'agent__username', 'date')
 
     def get_property_title(self, obj):
+        """
+        Returns the title of the property associated with the viewing slot.
+        """
         if obj.property:
             return obj.property.title
         return "No Property"
@@ -46,9 +68,19 @@ class ViewingSlotAdmin(admin.ModelAdmin):
     get_property_title.short_description = 'Property'
 
     def get_agent_username(self, obj):
+        """
+        Returns the username of the agent associated with the viewing slot.
+        """
         return obj.agent.username if obj.agent else "No Agent"
     get_agent_username.admin_order_field = 'agent__username'
     get_agent_username.short_description = 'Agent'
+
+
+"""
+Admin configuration for the FavoriteProperty model.
+Allows filtering and searching by user and property, with a display of
+when each favorite was added.
+"""
 
 
 @admin.register(FavoriteProperty)
@@ -56,6 +88,13 @@ class FavoritePropertyAdmin(admin.ModelAdmin):
     list_display = ('user', 'property', 'added_on')
     list_filter = ('user', 'property', 'added_on')
     search_fields = ('user__username', 'property__title')
+
+
+"""
+Admin configuration for the ViewingAppointment model.
+Includes custom actions for marking attendance and accepting or rejecting
+viewing requests, as well as filtering and searching options.
+"""
 
 
 @admin.register(ViewingAppointment)
@@ -76,6 +115,9 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     ]
 
     def mark_as_attended(self, request, queryset):
+        """
+        Marks selected viewing appointments as attended.
+        """
         queryset.update(attended=True)
 
     mark_as_attended.short_description = (
@@ -83,6 +125,9 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     )
 
     def mark_as_not_attended(self, request, queryset):
+        """
+        Marks selected viewing appointments as not attended.
+        """
         queryset.update(attended=False)
 
     mark_as_not_attended.short_description = (
@@ -90,11 +135,17 @@ class ViewingAppointmentAdmin(admin.ModelAdmin):
     )
 
     def accept_viewing(self, request, queryset):
+        """
+        Marks selected viewing requests as accepted.
+        """
         queryset.update(viewing_decision='accepted')
 
     accept_viewing.short_description = "Accept selected viewing requests"
 
     def reject_viewing(self, request, queryset):
+        """
+        Marks selected viewing requests as rejected.
+        """
         queryset.update(viewing_decision='rejected')
 
     reject_viewing.short_description = "Reject selected viewing requests"

@@ -306,6 +306,10 @@ Ran 144 tests in 21.279s
 OK
 Destroying test database for alias 'default'...
 
+
+### Python Tests
+![Python Tests](static/images/python-tests.webp)
+
 #### Django Tests (JavaScript)
 
 ## Test Coverage Summary
@@ -397,6 +401,10 @@ Tests:       76 passed, 76 total
 Snapshots:   0 total
 Time:        17.602 s
 Ran all test suites.
+
+### JavaScript Tests
+![JavaScript Tests](static/images/javascript-tests.webp)
+
 
 ### Validator Testing
 

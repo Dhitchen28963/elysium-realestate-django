@@ -1,3 +1,5 @@
+/* jshint esversion: 8 */
+
 document.addEventListener('DOMContentLoaded', function () {
     // Function to handle collapsible content
     const collapsibles = document.querySelectorAll('.collapsible');
@@ -901,11 +903,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 showModalMessage(`An error occurred. Please try again. Details: ${error.message}`);
             });
         });
-    }
-
-    // Show modal message on specific actions
-    function showConfirmationMessage(message) {
-        showModalMessage(message);
     }
 
     // Comment form handling

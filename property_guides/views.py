@@ -2,14 +2,34 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Post, Category
 
+"""
+Displays a list of all posts in the property guides section.
+Utilizes Django's ListView to handle the context and template.
+"""
+
+
 class PostList(ListView):
     model = Post
     template_name = 'property_guides/property_guides_list.html'
     context_object_name = 'posts'
 
+
+"""
+Displays the details of a specific post in the property guides section.
+Utilizes Django's DetailView to handle the context and template.
+"""
+
+
 class PostDetail(DetailView):
     model = Post
     template_name = 'property_guides/property_guides_detail.html'
+
+
+"""
+Handles the display of a specific property guide's details based on the slug.
+Uses get_object_or_404 to fetch the post or return a 404 error if not found.
+"""
+
 
 def property_guides_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -18,6 +38,14 @@ def property_guides_detail(request, slug):
         'property_guides/property_guides_detail.html',
         {'post': post}
     )
+
+
+"""
+Handles the display of all property guides, categorized by different
+guide topics such as Landlord, Renter, Student, Complaints, etc.
+Filters posts by category and passes them to the template for display.
+"""
+
 
 def property_guides_list(request):
     posts = Post.objects.all()
@@ -50,6 +78,13 @@ def property_guides_list(request):
         'property_guides/property_guides_list.html',
         context
     )
+
+
+"""
+Handles the display of property guides filtered by a specific category.
+Fetches the category and corresponding posts, then passes them to the template.
+"""
+
 
 def property_guides_category(request, category_name):
     category = get_object_or_404(Category, name=category_name)

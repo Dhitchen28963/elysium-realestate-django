@@ -3,6 +3,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Comment
 
+"""
+Form class for handling comment creation and editing.
+Utilizes Django's ModelForm for automatic field creation for Comment model.
+Includes a helper for Crispy Forms to handle form rendering & submissions.
+"""
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -14,6 +21,10 @@ class CommentForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Submit'))
 
+    """
+    Overrides the save method to automatically mark the comment as not approved
+    whenever it is created or edited.
+    """
     def save(self, commit=True):
         comment = super().save(commit=False)
         # Mark comment as not approved when created or edited
