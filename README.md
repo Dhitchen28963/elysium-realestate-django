@@ -72,7 +72,7 @@ The design focuses on a clean and modern look. The color scheme uses shades of b
 
 Below is the database schema diagram for the Elysium Real Estate Django Project:
 
-![Database Schema](images/schema_diagram.png)
+![Database Schema](./images/schema_diagram.png)
 
 ## Project Apps
 
@@ -308,7 +308,7 @@ Destroying test database for alias 'default'...
 
 
 ### Python Tests
-![Python Tests](images/python-tests.webp)
+![Python Tests](./images/python-tests.webp)
 
 #### Django Tests (JavaScript)
 
@@ -403,7 +403,7 @@ Time:        17.602 s
 Ran all test suites.
 
 ### JavaScript Tests
-![JavaScript Tests](images/javascript-tests.webp)
+![JavaScript Tests](./images/javascript-tests.webp)
 
 
 #### Manual Tests
@@ -521,19 +521,17 @@ Ran all test suites.
 | **Change Social Application in Social Accounts Section** | Select an existing social application and modify its details.                                       | Changes are saved, and the social application details are updated.                                           |
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
-![Database Schema](images/schema_diagram.png)  
-
-![Test 1](images/test1.png)
-![Test 2](images/test2.webp)
-![Test 3](images/test3.webp)
-![Test 4](images/test4.webp)
-![Test 5](images/test5.webp)
-![Test 6](images/test6.webp)
-![Test 7](images/test7.webp)
-![Test 8](images/test8.webp)
-![Test 9](images/test9.webp)
-![Test 10](images/test10.webp)
-![Test 11](images/test11.webp)
+![Test 1](./images/test1.webp)
+![Test 2](./images/test2.webp)
+![Test 3](./images/test3.webp)
+![Test 4](./images/test4.webp)
+![Test 5](./images/test5.webp)
+![Test 6](./images/test6.webp)
+![Test 7](./images/test7.webp)
+![Test 8](./images/test8.webp)
+![Test 9](./images/test9.webp)
+![Test 10](./images/test10.webp)
+![Test 11](./images/test11.webp)
 
 ### Validator Testing
 
