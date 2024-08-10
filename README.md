@@ -68,6 +68,12 @@ The layout is structured to ensure ease of navigation. Key components include:
 
 The design focuses on a clean and modern look. The color scheme uses shades of blue and white to convey trust and professionalism. Buttons and links are styled to be prominent and user-friendly.
 
+## Database Schema
+
+Below is the database schema diagram for the Elysium Real Estate Django Project:
+
+![Database Schema](./schema_diagram.png)
+
 ## Project Apps
 
 ### Blog
@@ -241,6 +247,14 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
 - **JavaScript**: Used for enhancing user interactivity and front-end dynamic behavior.
 - **HTML**: The standard markup language for creating web pages.
 - **CSS**: Used for styling and designing the visual layout of the web pages.
+- **Google Fonts**: Used for font styles in headers and other text elements.
+- **DevTools**: Utilized for debugging, improvement, and use of device emulators.
+- **Font Awesome**: Integrated for icons and font styles, especially in the footer.
+- **ChatGPT 3.5**: Leveraged for reviewing code, finding discrepancies, and spell-checking.
+- **HTML Validation Service**: Used for validating the structure and syntax of HTML files.
+- **CSS Validation Service**: Used for ensuring that the CSS follows standards and is error-free.
+- **Pixabay, Pexels, Unsplash, Shutterstock**: Sources for images used in the project.
+- **Photopea**: An online tool used for resizing and editing images.
 
 ## Deployment
 
