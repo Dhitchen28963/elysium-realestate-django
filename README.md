@@ -74,6 +74,25 @@ Below is the database schema diagram for the Elysium Real Estate Django Project:
 
 ![Database Schema](./images/schema_diagram.png)
 
+### JavaScript Tests
+![JavaScript Tests](./images/javascript-tests.png)
+### Python Tests
+![Python Tests](./images/python-tests.png)
+
+### Manual Tests
+![Test 1](./images/test1.png)
+![Test 2](./images/test2.png)
+![Test 3](./images/test3.png)
+![Test 4](./images/test4.png)
+![Test 5](./images/test5.png)
+![Test 6](./images/test6.png)
+![Test 7](./images/test7.png)
+![Test 8](./images/test8.png)
+![Test 9](./images/test9.png)
+![Test 10](./images/test10.png)
+![Test 11](./images/test11.png)
+
+
 ## Project Apps
 
 ### Blog
@@ -173,6 +192,7 @@ The `Real Estate` app manages property listings for sale, rent, and student acco
 - `ViewingSlot`
 - `ViewingAppointment`
 - `FavoriteProperty`
+
 
 ## Testing
 
@@ -307,10 +327,6 @@ OK
 Destroying test database for alias 'default'...
 
 
-### Python Tests
-![Python Tests](./images/python-tests.png)
-
-
 #### Django Tests (JavaScript)
 
 ## Test Coverage Summary
@@ -405,6 +421,19 @@ Ran all test suites.
 
 ### JavaScript Tests
 ![JavaScript Tests](./images/javascript-tests.png)
+### Python Tests
+![Python Tests](./images/python-tests.png)
+![Test 1](./images/test1.png)
+![Test 2](./images/test2.png)
+![Test 3](./images/test3.png)
+![Test 4](./images/test4.png)
+![Test 5](./images/test5.png)
+![Test 6](./images/test6.png)
+![Test 7](./images/test7.png)
+![Test 8](./images/test8.png)
+![Test 9](./images/test9.png)
+![Test 10](./images/test10.png)
+![Test 11](./images/test11.png)
 
 
 #### Manual Tests
@@ -522,17 +551,6 @@ Ran all test suites.
 | **Change Social Application in Social Accounts Section** | Select an existing social application and modify its details.                                       | Changes are saved, and the social application details are updated.                                           |
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
-![Test 1](./images/test1.png)
-![Test 2](./images/test2.png)
-![Test 3](./images/test3.png)
-![Test 4](./images/test4.png)
-![Test 5](./images/test5.png)
-![Test 6](./images/test6.png)
-![Test 7](./images/test7.png)
-![Test 8](./images/test8.png)
-![Test 9](./images/test9.png)
-![Test 10](./images/test10.png)
-![Test 11](./images/test11.png)
 
 ### Validator Testing
 
@@ -545,6 +563,7 @@ Accessibility has been tested using tools like Lighthouse to ensure the site is 
 ### Browser Testing
 
 The project has been tested on multiple browsers (Chrome, Firefox, Safari) to ensure cross-browser compatibility.
+
 
 ## Bugs
 
