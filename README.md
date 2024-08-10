@@ -521,9 +521,9 @@ Ran all test suites.
 | **Change Social Application in Social Accounts Section** | Select an existing social application and modify its details.                                       | Changes are saved, and the social application details are updated.                                           |
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
+![Database Schema](images/schema_diagram.png)  
 
-
-![Test 1](images/test1.webp)
+![Test 1](images/test1.png)
 ![Test 2](images/test2.webp)
 ![Test 3](images/test3.webp)
 ![Test 4](images/test4.webp)
