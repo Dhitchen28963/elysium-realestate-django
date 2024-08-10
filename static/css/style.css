@@ -230,7 +230,7 @@ img {
 .filters-container {
   display: flex;
   flex-wrap: wrap;
-  background-color: #ffffff;
+  background-color: #000433;
   padding: 10px;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -374,6 +374,7 @@ main .property-list .property-box .property-price {
 .filters-container label {
   flex: 1;
   margin-right: 10px;
+  color: white;
 }
 
 .property-type select,
@@ -1255,6 +1256,19 @@ button {
   flex-grow: 1;
 }
 
+/* General styles for all <a> tags in the specified sections */
+.container a {
+  font-weight: bold;
+  color: #000433;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.container a:hover {
+  color: #007BFF;
+  text-decoration: underline;
+}
+
 /* property guides */
 .guide-category {
   border: 1px solid #ccc;
@@ -1380,7 +1394,7 @@ button {
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
-  font-size: 0.7em;
+  font-size: 0.8em;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
@@ -2251,7 +2265,7 @@ footer p {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 20px;
     height: 45px;
   }
 
@@ -3141,7 +3155,7 @@ footer p {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #000433;
     color: white;
     border: none;
     padding: 10px;
@@ -3153,10 +3167,18 @@ footer p {
 
   .carousel-control-prev {
     left: 10px;
+    background-color: #000433;
+    color: #ffffff;
+    font-size: 24px;
+    padding: 15px 25px;
   }
 
   .carousel-control-next {
     right: 10px;
+    background-color: #000433;
+    color: #ffffff;
+    font-size: 24px;
+    padding: 15px 25px;
   }
 
   .thumbnail-container {
@@ -3230,7 +3252,7 @@ footer p {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #000433;
     color: white;
     border: none;
     padding: 10px;
