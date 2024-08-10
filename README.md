@@ -308,7 +308,7 @@ Destroying test database for alias 'default'...
 
 
 ### Python Tests
-![Python Tests](static/images/python-tests.webp)
+![Python Tests](./static/images/python-tests.webp)
 
 #### Django Tests (JavaScript)
 
@@ -403,7 +403,7 @@ Time:        17.602 s
 Ran all test suites.
 
 ### JavaScript Tests
-![JavaScript Tests](static/images/javascript-tests.webp)
+![JavaScript Tests](./static/images/javascript-tests.webp)
 
 
 #### Manual Tests
