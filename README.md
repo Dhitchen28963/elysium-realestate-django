@@ -176,6 +176,228 @@ The `Real Estate` app manages property listings for sale, rent, and student acco
 
 ## Testing
 
+### Running Tests
+
+To ensure that the application is functioning correctly, you can run the Django tests and JavaScript tests as shown below:
+
+#### Django Tests (Python)
+
+## Test Coverage Summary
+
+### Blog Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `TestBlogAdmin`           | Tests inheritance, list display, search fields, prepopulated fields, and inlines in `BlogAdmin`. | Admin configuration for `Blog` models is correct.                      |
+| `TestCommentAdmin`        | Tests list display, list filter, and search fields in `CommentAdmin`.                | Admin configuration for `Comment` models is correct.                    |
+| `TestBlogImageInline`     | Tests model and extra settings in `BlogImageInline`.                                 | `BlogImageInline` is correctly configured.                              |
+| `TestCommentForm`         | Tests validity, empty data, and form fields of `CommentForm`.                        | `CommentForm` validation works as expected.                             |
+| `BlogModelTest`           | Tests creation of a `Blog` and its string representation.                            | `Blog` model behaves correctly when created.                            |
+| `CommentModelTest`        | Tests creation of a `Comment` and its string representation.                         | `Comment` model behaves correctly when created.                         |
+| `BlogImageModelTest`      | Tests creation of `BlogImage` and its string representation.                         | `BlogImage` model behaves correctly when created.                       |
+| `UtilsTestCase`           | Tests utility functions: `replace_font_with_span` and `clean_html_content`.          | HTML content is cleaned and font tags are replaced with spans.          |
+| `BlogListViewTest`        | Tests the `Blog` list view rendering and response.                                   | Blog list view displays published blogs correctly.                      |
+| `BlogDetailViewTest`      | Tests `Blog` detail view for GET and POST requests.                                  | Blog detail view displays content and handles comment submissions.      |
+| `CommentEditViewTest`     | Tests editing a comment via the comment edit view.                                   | Comments can be edited, and status is updated.                          |
+| `DeleteCommentViewTest`   | Tests deleting a comment via the delete comment view.                                | Comments are deleted correctly through the view.                        |
+
+### Contact Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `ContactMessageAdminTest` | Tests list display and search fields in `ContactMessageAdmin`.                       | Admin configuration for `ContactMessage` models is correct.             |
+| `ContactFormTest`         | Tests validity and invalidity of `ContactForm`.                                      | `ContactForm` validation works as expected.                             |
+| `ContactMessageModelTest` | Tests creation and string representation of `ContactMessage`.                        | `ContactMessage` model behaves correctly when created.                  |
+| `ContactMessageViewTest`  | Tests `Contact` message view for GET and POST requests.                              | `Contact` message view displays form and handles submissions correctly. |
+
+### FAQ Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `TestFAQAdmin`            | Tests inheritance, list display, search fields, prepopulated fields, and inlines in `FAQAdmin`. | Admin configuration for `FAQ` models is correct.                        |
+| `TestCommentAdmin`        | Tests list display, list filter, search fields, and custom actions in `CommentAdmin`. | Admin configuration for `Comment` models is correct.                    |
+| `TestFAQImageInline`      | Tests model and extra settings in `FAQImageInline`.                                  | `FAQImageInline` is correctly configured.                               |
+| `CommentFormTest`         | Tests validity and invalidity of `CommentForm`.                                      | `CommentForm` validation works as expected.                             |
+| `FAQModelTest`            | Tests creation and string representation of `FAQ`.                                   | `FAQ` model behaves correctly when created.                             |
+| `CommentModelTest`        | Tests creation of a `Comment` and its string representation.                         | `Comment` model behaves correctly when created.                         |
+| `UtilsTestCase`           | Tests utility functions: `replace_font_with_span` and `clean_html_content`.          | HTML content is cleaned and font tags are replaced with spans.          |
+| `FAQViewTest`             | Tests the `FAQ` list and detail views, adding, editing, and deleting comments.        | `FAQ` views display content correctly, and comments are handled properly.|
+
+### Home Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `HomeViewTest`            | Tests the `home` view for GET requests and filtering search results based on different parameters. | The `home` view renders correctly and filters properties as expected.  |
+| `PropertySaleViewTest`    | Tests the `property_sale` view for GET requests.                                     | The `property_sale` view renders the appropriate template.             |
+| `PropertyRentViewTest`    | Tests the `property_rent` view for GET requests.                                     | The `property_rent` view renders the appropriate template.             |
+
+### Real Estate Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `PropertyModelTests`      | Tests creation and string representation of `Property`, and its price display and slug creation. | `Property` model behaves correctly when created.                        |
+| `PropertyImageModelTests` | Tests creation and string representation of `PropertyImage`.                        | `PropertyImage` model behaves correctly when created.                   |
+| `FavoritePropertyModelTests` | Tests creation and unique constraint of `FavoriteProperty`.                      | `FavoriteProperty` model behaves correctly when created, with unique constraint working. |
+| `ViewingSlotModelTests`   | Tests creation and string representation of `ViewingSlot`, and its booking status.  | `ViewingSlot` model behaves correctly when created.                     |
+| `ViewingAppointmentModelTests` | Tests creation and string representation of `ViewingAppointment`, and its viewing decision. | `ViewingAppointment` model behaves correctly when created.            |
+| `ProfileModelTests`       | Tests creation and update of `Profile`, and its string representation.              | `Profile` model behaves correctly when created and updated.             |
+| `UserSignalTests`         | Tests signals related to user creation and profile update.                          | User profiles are created and updated correctly through signals.        |
+| `UtilsTestCase`           | Tests utility functions: `replace_font_with_span` and `clean_html_content`.         | HTML content is cleaned and font tags are replaced with spans.          |
+| `PropertyViewTests`       | Tests various views related to `Property`, including details, favorites, search, and viewing requests. | Property-related views render correctly and handle data as expected.    |
+| `PropertySearchFormTest`  | Tests the `PropertySearchForm` for various validity checks.                         | `PropertySearchForm` behaves correctly with valid and invalid data.     |
+| `ViewingAppointmentFormTest` | Tests the `ViewingAppointmentForm` for validity checks and date validation.      | `ViewingAppointmentForm` validates data correctly, including dates.     |
+| `ProfileUpdateFormTest`   | Tests the `ProfileUpdateForm` for validity.                                         | `ProfileUpdateForm` behaves correctly with valid data.                  |
+| `ChangePasswordFormTest`  | Tests the `ChangePasswordForm` for validity.                                        | `ChangePasswordForm` validates password changes correctly.              |
+| `DeleteAccountFormTest`   | Tests the `DeleteAccountForm` for validity.                                         | `DeleteAccountForm` behaves correctly with valid data.                  |
+| `AdminSiteTests`          | Tests admin site views for `Property`, `ViewingSlot`, `FavoriteProperty`, and `ViewingAppointment`. | Admin views for real estate-related models render correctly.            |
+
+### Homeless Advice Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `HomelessAdminTests`      | Tests the admin interface for `Homeless` and `HomelessImage` models, including list view and change view. | Admin interface for `Homeless` models is correctly configured and displays data as expected. |
+| `HomelessFormTests`       | Tests the validity and invalidity of the `HomelessForm`.                             | `HomelessForm` behaves correctly with valid and invalid data.           |
+| `HomelessModelTests`      | Tests creation and string representation of `Homeless` and `HomelessImage` models.   | `Homeless` and `HomelessImage` models behave correctly when created.    |
+| `UtilsTestCase`           | Tests utility functions: `replace_font_with_span` and `clean_html_content`.          | HTML content is cleaned and font tags are replaced with spans.          |
+| `HomelessViewTests`       | Tests the `homeless` list view and detail view, including 404 for non-existent slugs. | `Homeless` views render correctly and handle non-existent slugs properly. |
+
+### Property Guides Application
+
+| **Test File**            | **Test Description**                                                                 | **Expected Outcome**                                                    |
+|--------------------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `TestPostAdmin`           | Tests the admin interface for the `Post` model, including list display, search fields, and inlines. | Admin interface for `Post` model is correctly configured and displays data as expected. |
+| `TestCategoryAdmin`       | Tests the admin interface for the `Category` model, including list display and search fields. | Admin interface for `Category` model is correctly configured and displays data as expected. |
+| `TestPropertyImageInline` | Tests the inline admin for `PropertyImage` associated with `Post`.                  | `PropertyImage` inlines are correctly displayed in the `Post` admin.   |
+| `TestPostForm`            | Tests the `PostForm` for valid and invalid data, including slug validation.          | `PostForm` behaves correctly with valid and invalid data.               |
+| `CategoryModelTest`       | Tests the creation and string representation of the `Category` model.                | `Category` model behaves correctly when created.                        |
+| `PostModelTest`           | Tests the creation, slug generation, and string representation of the `Post` model.  | `Post` model behaves correctly when created, with correct slug generation. |
+| `PropertyImageModelTest`  | Tests the creation and string representation of the `PropertyImage` model.           | `PropertyImage` model behaves correctly when created.                   |
+| `UtilsTestCase`           | Tests utility functions: `replace_font_with_span` and `clean_html_content`.          | HTML content is cleaned and font tags are replaced with spans.          |
+| `PropertyGuidesCategoryViewTest` | Tests the category view for property guides, ensuring posts are correctly displayed under the right category. | Property guides category views display posts correctly by category.    |
+
+
+## Test Terminal Results Summary
+
+```bash
+$ python manage.py test
+Found 144 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+............................................................./workspace/elysium-realestate-django/real_estate/views.py:23: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'real_estate.models.Property'> QuerySet.
+  paginator = Paginator(properties, per_page)
+.Initial properties count: 0
+/workspace/elysium-realestate-django/real_estate/views.py:163: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'real_estate.models.Property'> QuerySet.
+  paginator = Paginator(properties, 20)
+Final properties in page: 0
+.................................................................Initial properties count: 1
+Filtered properties count: 1
+/workspace/elysium-realestate-django/real_estate/views.py:163: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'real_estate.models.Property'> QuerySet.
+  paginator = Paginator(properties, 20)
+Final properties in page: 1
+.Initial properties count: 1
+Filtered properties count: 1
+/workspace/elysium-realestate-django/real_estate/views.py:163: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'real_estate.models.Property'> QuerySet.
+  paginator = Paginator(properties, 20)
+Final properties in page: 1
+................
+----------------------------------------------------------------------
+Ran 144 tests in 21.279s
+
+OK
+Destroying test database for alias 'default'...
+
+#### Django Tests (JavaScript)
+
+## Test Coverage Summary
+
+This table provides a detailed overview of each test carried out in the project, including the purpose, expected outcome, and key functions tested.
+
+| **Test File**                         | **Test Description**                                                                                         | **Expected Outcome**                                                   |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| **addToFavorites.test.js**            | Test adding a property to favorites successfully.                                                            | Property is added to favorites, and success message is shown.          |
+| **addToFavorites.test.js**            | Test handling error when adding property to favorites.                                                       | An error is thrown, and error message is shown.                        |
+| **carousel.test.js**                  | Test initializing the carousel with the first thumbnail as the active image.                                 | First thumbnail is set as the active image.                            |
+| **carousel.test.js**                  | Test updating the large image and active thumbnail on next button click.                                      | Large image and active thumbnail update correctly.                     |
+| **carousel.test.js**                  | Test updating the large image and active thumbnail on prev button click.                                      | Large image and active thumbnail update correctly.                     |
+| **carousel.test.js**                  | Test updating the large image and active thumbnail on thumbnail click.                                        | Large image and active thumbnail update correctly.                     |
+| **clearModalMessages.test.js**        | Test clearing the modal message content.                                                                     | Modal message content is cleared.                                      |
+| **clearModalMessages.test.js**        | Test hiding the modal.                                                                                        | Modal is hidden.                                                       |
+| **clearModalMessages.test.js**        | Test not throwing an error if `modalMessage` is not found.                                                    | No error is thrown.                                                    |
+| **setupEventListeners.test.js**       | Test calling `requestCustomViewing` when custom viewing form is submitted.                                    | `requestCustomViewing` is called with the correct property ID.         |
+| **setupEventListeners.test.js**       | Test calling `addToFavorites` when property action button is clicked.                                         | `addToFavorites` is called with correct arguments.                     |
+| **setupEventListeners.test.js**       | Test calling `removeFromFavorites` when remove favorite button is clicked.                                    | `removeFromFavorites` is called with correct arguments.                |
+| **setupEventListeners.test.js**       | Test calling `closeSidebar` when close sidebar button is clicked.                                             | `closeSidebar` is called.                                              |
+| **setupEventListeners.test.js**       | Test validating date input when preferred date input is changed.                                              | `validateDate` is called.                                              |
+| **setupEventListeners.test.js**       | Test showing modal message when update viewing form is submitted with a valid date.                           | `showModalMessage` is called with a success message.                   |
+| **setupEventListeners.test.js**       | Test preventing form submission when search button is clicked without input.                                  | Alert is shown, and form submission is prevented.                      |
+| **collapsible.test.js**               | Test toggling collapsible content on button click.                                                            | Collapsible content toggles correctly.                                 |
+| **collapsible.test.js**               | Test closing collapsible content on close button click.                                                       | Collapsible content closes correctly.                                  |
+| **deleteComment.test.js**             | Test showing delete modal when delete button is clicked.                                                      | Delete modal is shown.                                                 |
+| **deleteComment.test.js**             | Test calling `fetch` to delete the comment.                                                                   | Fetch API is called with the correct parameters.                       |
+| **editComment.test.js**               | Test showing modal with comment body on edit button click.                                                    | Modal is shown with correct comment body.                              |
+| **getCSRFToken.test.js**              | Test returning correct CSRF token from `document.cookie`.                                                     | CSRF token is returned correctly.                                      |
+| **getCSRFToken.test.js**              | Test returning `null` if no CSRF token is found in `document.cookie`.                                          | `null` is returned.                                                    |
+| **mortgageCalculation.test.js**       | Test calculating mortgage with basic inputs.                                                                  | Mortgage is calculated correctly with expected values.                 |
+| **mortgageCalculation.test.js**       | Test validating zero or negative values when calculating mortgage.                                            | An error is thrown for invalid inputs.                                 |
+| **mortgageCalculation.test.js**       | Test validating deposit greater than property price.                                                          | An error is thrown for invalid inputs.                                 |
+| **mortgageCalculation.test.js**       | Test calculating mortgage with different valid inputs.                                                        | Mortgage is calculated correctly with expected values.                 |
+| **removeFromFavorites.test.js**       | Test removing property from favorites successfully.                                                           | Property is removed from favorites, and success message is shown.      |
+| **removeFromFavorites.test.js**       | Test handling error when removing property from favorites.                                                    | An error is thrown, and error message is shown.                        |
+| **requestCustomViewing.test.js**      | Test sending custom viewing request successfully.                                                             | Custom viewing request is sent, and success message is shown.          |
+| **requestCustomViewing.test.js**      | Test handling error when sending custom viewing request.                                                      | An error is thrown, and error message is shown.                        |
+| **requestCustomViewing.test.js**      | Test handling invalid date when sending custom viewing request.                                               | Validation fails, and fetch is not called.                             |
+| **requestSlotViewing.test.js**        | Test requesting slot viewing successfully.                                                                    | Slot viewing request is sent, and success message is shown.            |
+| **requestSlotViewing.test.js**        | Test handling error when requesting slot viewing.                                                             | An error is thrown, and error message is shown.                        |
+| **script.test.js**                    | Test CSRF token retrieval from cookies.                                                                       | CSRF token is retrieved correctly.                                     |
+| **script.test.js**                    | Test showing modal message with correct content.                                                              | Modal message is shown with correct content.                           |
+| **script.test.js**                    | Test clearing modal messages and hiding the modal.                                                            | Modal messages are cleared, and modal is hidden.                       |
+| **script.test.js**                    | Test validating correct UK contact numbers.                                                                   | Contact numbers are validated correctly.                               |
+| **script.test.js**                    | Test validating dates correctly.                                                                              | Dates are validated correctly.                                         |
+| **script.test.js**                    | Test adding property to favorites.                                                                            | Property is added to favorites.                                        |
+| **script.test.js**                    | Test removing property from favorites.                                                                        | Property is removed from favorites.                                    |
+| **script.test.js**                    | Test requesting custom viewing.                                                                               | Custom viewing request is sent.                                        |
+| **script.test.js**                    | Test requesting slot viewing.                                                                                 | Slot viewing request is sent.                                          |
+| **script.test.js**                    | Test closing the sidebar.                                                                                     | Sidebar is closed.                                                     |
+| **script.test.js**                    | Test moving to the next step in multi-step form.                                                              | Next step is activated correctly.                                      |
+| **script.test.js**                    | Test moving to the previous step in multi-step form.                                                          | Previous step is activated correctly.                                  |
+| **script.test.js**                    | Test updating the term value display.                                                                         | Term value is updated correctly.                                       |
+| **toggleFavorite.test.js**            | Test toggling the favorite state of a property.                                                               | Favorite state is toggled correctly.                                   |
+| **updateViewing.test.js**             | Test showing update modal when update button is clicked.                                                      | Update modal is shown.                                                 |
+| **updateViewing.test.js**             | Test validating and submitting the update viewing form.                                                       | Viewing is updated successfully, and page reloads.                     |
+| **validateContactNumber.test.js**     | Test validating correct UK mobile numbers.                                                                    | UK mobile numbers are validated correctly.                             |
+| **validateDate.test.js**              | Test validating future dates correctly.                                                                       | Future dates are validated correctly.                                  |
+| **validateDate.test.js**              | Test returning `false` for past dates.                                                                        | Validation fails for past dates.                                       |
+| **validateDate.test.js**              | Test returning `false` for invalid date format.                                                               | Validation fails for invalid dates.                                    |
+
+## Test Terminal Results Summary
+
+$ npx jest
+ PASS  static/__tests__/getCSRFToken.test.js (7.191 s)
+ PASS  static/__tests__/clearModalMessages.test.js (7.501 s)
+ PASS  static/__tests__/toggleFavorite.test.js (7.6 s)
+ PASS  static/__tests__/editComment.test.js (7.797 s)
+ PASS  static/__tests__/validateDate.test.js (7.399 s)
+ PASS  static/__tests__/showModalMessage.test.js (7.991 s)
+ PASS  static/__tests__/collapsible.test.js (7.8 s)
+ PASS  static/__tests__/mortgageCalculation.test.js (8.197 s)
+ PASS  static/__tests__/validateContactNumber.test.js (8.105 s)
+ PASS  static/__tests__/carousel.test.js (8.8 s)
+ PASS  static/__tests__/deleteComment.test.js (9.595 s)
+ PASS  static/__tests__/updateViewing.test.js (10.096 s)
+ PASS  static/__tests__/addToFavorites.test.js (10.202 s)
+ PASS  static/__tests__/removeFromFavorites.test.js (10.712 s)
+ PASS  static/__tests__/requestSlotViewing.test.js (10.608 s)
+ PASS  static/__tests__/requestCustomViewing.test.js (11.118 s)
+ PASS  static/__tests__/closeSidebar.test.js (11.324 s)
+ PASS  static/__tests__/script.test.js (11.617 s)
+ PASS  static/__tests__/setupEventListeners.test.js (11.403 s)
+
+Test Suites: 19 passed, 19 total
+Tests:       76 passed, 76 total
+Snapshots:   0 total
+Time:        17.602 s
+Ran all test suites.
+
 ### Validator Testing
 
 The project has been tested against several validators to ensure code quality and compliance with web standards.
