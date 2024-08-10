@@ -72,7 +72,7 @@ The design focuses on a clean and modern look. The color scheme uses shades of b
 
 Below is the database schema diagram for the Elysium Real Estate Django Project:
 
-![Database Schema](./schema_diagram.png)
+![Database Schema](images/schema_diagram.png)
 
 ## Project Apps
 
