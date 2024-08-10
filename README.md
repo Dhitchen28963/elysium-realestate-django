@@ -308,7 +308,7 @@ Destroying test database for alias 'default'...
 
 
 ### Python Tests
-![Python Tests](docs/images/python-tests.webp)
+![Python Tests](images/python-tests.webp)
 
 #### Django Tests (JavaScript)
 
@@ -403,7 +403,7 @@ Time:        17.602 s
 Ran all test suites.
 
 ### JavaScript Tests
-![JavaScript Tests](docs/images/javascript-tests.webp)
+![JavaScript Tests](images/javascript-tests.webp)
 
 
 #### Manual Tests
@@ -522,17 +522,18 @@ Ran all test suites.
 | **Delete Social Application in Social Accounts Section** | Select an existing social application and delete it.                                                | Social application is deleted and no longer appears in the list.                                             |
 
 
-![Test 1](/workspace/elysium-realestate-django/docs/images/test1.webp)
-![Test 2](docs/images/test2.webp)
-![Test 3](docs/images/test3.webp)
-![Test 4](docs/images/test4.webp)
-![Test 5](docs/images/test5.webp)
-![Test 6](docs/images/test6.webp)
-![Test 7](docs/images/test7.webp)
-![Test 8](docs/images/test8.webp)
-![Test 9](docs/images/test9.webp)
-![Test 10](docs/images/test10.webp)
-![Test 11](docs/images/test11.webp)
+
+![Test 1](images/test1.webp)
+![Test 2](images/test2.webp)
+![Test 3](images/test3.webp)
+![Test 4](images/test4.webp)
+![Test 5](images/test5.webp)
+![Test 6](images/test6.webp)
+![Test 7](images/test7.webp)
+![Test 8](images/test8.webp)
+![Test 9](images/test9.webp)
+![Test 10](images/test10.webp)
+![Test 11](images/test11.webp)
 
 ### Validator Testing
 
