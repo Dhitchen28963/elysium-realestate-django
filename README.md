@@ -106,7 +106,7 @@ I used Githubs Kanban board to manage the project's user stories and tasks. You 
 ![mortgage-calculator](./images/mortgage-calculator.png)
 
 ## Homepage Sidemenu (visible)
-![Homepage-sidemenu-visible](./images/Homepage-sidemenu.visible.png)
+![Homepage-sidemenu-visible](./images/homepage-sidemenu.visible.png)
 
 ## Homepage Navigation (visible)
 ![homepage-navigation-shown](./images/homepage-navigation.shown.png)
@@ -622,7 +622,6 @@ The project has been tested against several validators to ensure code quality an
 ![Property Guides Post Validation 3](./images/property-guides-post-valid.3.png)
 ![Property Guides Post Validation 4](./images/property-guides-post-valid.4.png)
 ![Property Guides Post Validation 5](./images/property-guides-post-valid.5.png)
-![Property Guides Post Validation 6](./images/property-guides-post-valid.6.png)
 ![Property Guides Validation](./images/property-guides-valid(1).png)
 ![Property Rent Validation](./images/property-rent-valid(1).png)
 ![Property Sale Validation](./images/property-sale-valid(1).png)
