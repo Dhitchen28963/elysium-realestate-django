@@ -884,4 +884,10 @@ The Elysium Realestate site was deployed to Heroku. The steps to deploy are as f
    - Click "Deploy Branch" to deploy your app manually.
    - Once the build is complete and you see the message "Your app was successfully deployed," click "View" to see your live application.
 
-[View Elysium Real Estate](https://elysium-realestate-3846bce7a117.herokuapp.com/)
+# Project Name: Elysium Realestate
+
+## GitHub Repository:
+[Elysium Realestate GitHub Repo](https://github.com/Dhitchen28963/elysium-realestate-django)
+
+## Live Deployed Project:
+[Elysium Realestate Live Project](https://elysium-realestate-3846bce7a117.herokuapp.com/)
