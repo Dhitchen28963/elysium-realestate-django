@@ -31,7 +31,7 @@
             {% for comment in comments %}
                 <li id="comment-{{ comment.id }}">
                     <p class="comment-author"><strong>{{ comment.author.username }}</strong> said:</p>
-                    <p class="comment-body">{{ comment.body|safe }}</p>
+                    <p>{{ comment.body|safe }}</p>
                     {% if not comment.approved %}
                         <p class="comment-pending">(Pending approval)</p>
                     {% endif %}

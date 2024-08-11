@@ -9,7 +9,7 @@ if os.path.isfile('env.py'):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 ALLOWED_HOSTS += [
     '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
@@ -59,13 +59,16 @@ CSP_STYLE_SRC = (
     "'self'",
     'https://res.cloudinary.com', 
     'https://use.fontawesome.com',
-    "'unsafe-inline'"
+    "'unsafe-inline'",
+    'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
 )
 
 CSP_SCRIPT_SRC = (
     "'self'", 
     "'unsafe-inline'", 
-    "'unsafe-eval'"
+    "'unsafe-eval'",
+    'https://code.jquery.com/jquery-3.3.1.min.js',
+    'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js',
 )
 
 CSP_IMG_SRC = (

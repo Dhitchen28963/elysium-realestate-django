@@ -991,6 +991,10 @@ button {
   gap: 20px;
 }
 
+comment-body-label {
+  display: none;
+}
+
 #blog-list .blog-box {
   border: 1px solid #ccc;
   padding: 20px;
