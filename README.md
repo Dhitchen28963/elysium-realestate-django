@@ -855,8 +855,33 @@ SUMMERNOTE_CONFIG = {
 
 ## Deployment
 
-The project i
-1. **Clone the repository**:
-   ```bash
-   git clone <repo_url>
-s deployed on Heroku. Follow these steps to deploy your own instance:
+You can view the live application deployed on Heroku at the following link:
+
+The Elysium Realestate site was deployed to Heroku. The steps to deploy are as follows:
+
+1. **Create a New App on Heroku:**
+   - Log in to your Heroku account and click "Create new app."
+   - Enter your desired app name and select the appropriate region.
+   - Click "Create app."
+
+2. **Configure the App Settings:**
+   - Navigate to the app dashboard and click "Settings."
+   - No APIs were required, so no config vars were added.
+
+3. **Add Buildpacks:**
+   - Scroll down to the "Buildpacks" section and click "Add buildpack."
+   - First, add the Python buildpack.
+   - Then, add the Node.js buildpack.
+   - Ensure that the buildpacks are in the correct order: Python first, followed by Node.js.
+
+4. **Set Up Deployment from GitHub:**
+   - Navigate to the "Deploy" section of your app's dashboard.
+   - Under "Deployment method," select GitHub.
+   - Search for the "Elysium Realestate" repository and click "Connect."
+
+5. **Deploy the Application:**
+   - Enable automatic deploys by clicking "Enable Automatic Deploys."
+   - Click "Deploy Branch" to deploy your app manually.
+   - Once the build is complete and you see the message "Your app was successfully deployed," click "View" to see your live application.
+
+[View Elysium Real Estate](https://elysium-realestate-3846bce7a117.herokuapp.com/)
