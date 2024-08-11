@@ -282,7 +282,6 @@ To ensure that the application functioned correctly, I used a combination of aut
 
 ## Test Terminal Results Summary
 
-```bash
 $ python manage.py test
 Found 144 test(s).
 Creating test database for alias 'default'...
@@ -309,10 +308,10 @@ Ran 144 tests in 21.279s
 
 OK
 Destroying test database for alias 'default'
-```
 
 ### Python Tests
 ![Python Tests](./images/python-tests.png)
+
 
 #### Django Tests (JavaScript)
 
