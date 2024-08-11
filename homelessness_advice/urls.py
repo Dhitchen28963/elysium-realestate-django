@@ -7,5 +7,4 @@ urlpatterns = [
         '<slug:slug>/', HomelessDetail.as_view(),
         name='homelessness_advice_detail'
     ),
-    path('summernote/', include('django_summernote.urls')),
 ]

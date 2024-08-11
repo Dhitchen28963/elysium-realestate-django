@@ -40,7 +40,6 @@ urlpatterns = [
         name='remove_from_favorites'
     ),
     path('favorites/', views.view_favorites, name='view_favorites'),
-    path('summernote/', include('django_summernote.urls')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path(
         'pending-viewings/',

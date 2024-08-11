@@ -49,5 +49,4 @@ urlpatterns = [
         {'category_name': 'Buyers/Selling'},
         name='buying_selling'
     ),
-    path('summernote/', include('django_summernote.urls')),
 ]
