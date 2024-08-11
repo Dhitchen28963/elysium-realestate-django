@@ -624,7 +624,8 @@ button[type="submit"] {
 }
 
 .sidebar-menu li a:hover {
-  background-color: #e9ecef;
+  background-color: rgba(127, 229, 232, 0.5);
+  color: #4ED6C8;
 }
 
 hr {
@@ -2270,8 +2271,8 @@ footer p {
   }
 
   .search-bar button {
-    background-color: #333;
-    color: #fff;
+    background-color: #4ED6C8;
+    color: #000433;
     border: none;
     border-radius: 10px;
     padding: 12px 15px;

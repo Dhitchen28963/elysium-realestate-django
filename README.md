@@ -308,8 +308,9 @@ Final properties in page: 1
 Ran 144 tests in 21.279s
 
 OK
-Destroying test database for alias 'default'...
+Destroying test database for alias 'default'
 ```
+
 ### Python Tests
 ![Python Tests](./images/python-tests.png)
 
@@ -406,6 +407,7 @@ Snapshots:   0 total
 Time:        17.602 s
 Ran all test suites.
 ```
+
 ### JavaScript Tests
 ![JavaScript Tests](./images/javascript-tests.png)
 
