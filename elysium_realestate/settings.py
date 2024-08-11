@@ -9,7 +9,7 @@ if os.path.isfile('env.py'):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 ALLOWED_HOSTS += [
     '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
@@ -54,20 +54,32 @@ LOGOUT_REDIRECT_URL = '/'
 
 # CSP Settings
 CSP_DEFAULT_SRC = ("'self'",)
+
 CSP_STYLE_SRC = (
     "'self'",
     'https://res.cloudinary.com', 
-    'https://cdnjs.cloudflare.com',
+    'https://use.fontawesome.com',
     "'unsafe-inline'"
 )
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'")
-CSP_IMG_SRC = ("'self'", 'https://res.cloudinary.com')
+
+CSP_SCRIPT_SRC = (
+    "'self'", 
+    "'unsafe-inline'", 
+    "'unsafe-eval'"
+)
+
+CSP_IMG_SRC = (
+    "'self'", 
+    'https://res.cloudinary.com'
+)
+
 CSP_FONT_SRC = (
     "'self'", 
-    'https://res.cloudinary.com', 
-    'https://cdnjs.cloudflare.com'
+    'https://use.fontawesome.com'
 )
+
 CSP_FRAME_SRC = ("'self'",)
+
 
 # Force HTTPS redirects
 SECURE_SSL_REDIRECT = True
