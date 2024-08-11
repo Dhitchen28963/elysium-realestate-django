@@ -26,7 +26,6 @@ class PropertyModelTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser
@@ -71,7 +70,6 @@ class PropertyImageModelTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser
@@ -105,7 +103,6 @@ class FavoritePropertyModelTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser
@@ -147,7 +144,6 @@ class ViewingSlotModelTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser
@@ -192,7 +188,6 @@ class ViewingAppointmentModelTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser

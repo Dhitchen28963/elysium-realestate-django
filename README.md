@@ -380,7 +380,7 @@ This table provides a detailed overview of each test carried out in the project,
 ## Test Terminal Results Summary
 
 ```bash
-  npx jest
+ $ npx jest
  PASS  static/__tests__/getCSRFToken.test.js (7.191 s)
  PASS  static/__tests__/clearModalMessages.test.js (7.501 s)
  PASS  static/__tests__/toggleFavorite.test.js (7.6 s)

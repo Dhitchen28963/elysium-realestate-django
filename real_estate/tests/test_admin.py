@@ -31,7 +31,6 @@ class AdminSiteTests(TestCase):
             garden=True,
             parking=True,
             pets_allowed=True,
-            energy_efficiency_rating='A',
             availability_status='available',
             publication_status='published',
             agent=self.superuser
