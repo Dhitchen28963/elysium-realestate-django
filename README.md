@@ -12,6 +12,7 @@ Welcome to the Elysium Real Estate Django Project. This project is designed to m
   - [Surface Plane](#surface-plane)
 - [Database Schema](#database-schema)
 - [Kanban Board](#kanban-board)
+- [Wireframes](#wireframes)
 - [Project Apps](#project-apps)
   - [Blog](#blog)
   - [Contact](#contact)
@@ -77,6 +78,72 @@ Below is the database schema diagram for the Elysium Real Estate Django Project:
 ## Kanban Board
 
 I used Githubs Kanban board to manage the project's user stories and tasks. You can view the board [here](https://github.com/users/Dhitchen28963/projects/3/views/1).
+
+## Wireframes
+
+## Saved Properties
+![saved-properties](static/images/saved-properties.png)
+
+## Property Search Results
+![property-search-results](static/images/property-search-results.png)
+
+## Property Guides List
+![property-guides-list](static/images/property-guides.list.png)
+
+## Property Filters Container
+![property-filters-container](static/images/property-filters-container.png)
+
+## Property Details Carousel
+![property-details-carousel](static/images/property-details.carousel.png)
+
+## Property Detail Smallscreen
+![property-detail-smallscreen](static/images/property-detail.smallscreen.png)
+
+## Property Detail Carousel
+![property-detail-carousel](static/images/property-detail.carousel.png)
+
+## Mortgage Calculator
+![mortgage-calculator](static/images/mortgage-calculator.png)
+
+## Homepage Sidemenu (visible)
+![Homepage-sidemenu-visible](static/images/Homepage-sidemenu.visible.png)
+
+## Homepage Navigation (visible)
+![homepage-navigation-shown](static/images/homepage-navigation.shown.png)
+
+## Homepage Navigation Response
+![homepage-navigation-response](static/images/homepage-navigation.response.png)
+
+## Homepage Navigation Hidden
+![homepage-navigation-hidden](static/images/homepage-navigation.hidden.png)
+
+## Homepage Navigation Collapsed
+![homepage-navigation-collapsed](static/images/homepage-navigation.collapsed.png)
+
+## Homelessness Detail Page
+![homelessness-detail-page](static/images/homelessness-detail.page.png)
+
+## Homelessness Advice List
+![homelessness-advice-list](static/images/homelessness-advice.list.png)
+
+## FAQ List
+![faq-list](static/images/faq-list.png)
+
+## FAQ Detail
+![faq-detail](static/images/faq-detail.png)
+
+## Contact Page
+![contact-page](static/images/contact-page.png)
+
+## Blog List
+![blog-list](static/images/blog-list.png)
+
+## Blog Betail
+![blog-detail](static/images/blog-detail.png)
+
+## Account Settings
+![account-settings](static/images/account-settings.png)
+
 
 ## Project Apps
 
@@ -282,7 +349,9 @@ To ensure that the application functioned correctly, I used a combination of aut
 
 ## Test Terminal Results Summary
 
-\```bash
+## Test Terminal Results Summary
+
+```bash
 $ python manage.py test
 Found 144 test(s).
 Creating test database for alias 'default'...
@@ -309,7 +378,7 @@ Ran 144 tests in 21.279s
 
 OK
 Destroying test database for alias 'default'...
-\```
+```
 
 ### Python Tests
 ![Python Tests](static/images/python-tests.webp)
@@ -405,7 +474,8 @@ Test Suites: 19 passed, 19 total
 Tests:       76 passed, 76 total
 Snapshots:   0 total
 Time:        17.602 s
-Ran all test suites.
+Ran all test suites
+```
 
 ### JavaScript Tests
 ![JavaScript Tests](./images/javascript-tests.png)
