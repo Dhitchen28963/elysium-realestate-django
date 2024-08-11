@@ -282,7 +282,7 @@ To ensure that the application functioned correctly, I used a combination of aut
 
 ## Test Terminal Results Summary
 
-$ python manage.py test
+``` python manage.py test
 Found 144 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
@@ -307,7 +307,8 @@ Final properties in page: 1
 Ran 144 tests in 21.279s
 
 OK
-Destroying test database for alias 'default'
+Destroying test database for alias 'default`
+```
 
 ### Python Tests
 ![Python Tests](./images/python-tests.png)
@@ -379,7 +380,7 @@ This table provides a detailed overview of each test carried out in the project,
 ## Test Terminal Results Summary
 
 ```bash
-$ npx jest
+  npx jest
  PASS  static/__tests__/getCSRFToken.test.js (7.191 s)
  PASS  static/__tests__/clearModalMessages.test.js (7.501 s)
  PASS  static/__tests__/toggleFavorite.test.js (7.6 s)
@@ -586,8 +587,10 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
      - Unescaping HTML entities.
      - Sanitizing the HTML using the `bleach` library, allowing specific tags, attributes, and styles while removing any harmful content.
      - Removing empty `style` attributes and trailing spaces to clean up the final HTML output.
+
    - **Code Snippet:**
-     ```python
+     
+     $ python
      import re
      import bleach
      from html import unescape
@@ -684,9 +687,9 @@ def clean_html_content(content):
     ```
 
   - **Additional adjustments** Amendments to settings.py file were made. I also removed the SUMMERNOTE_CONFIG:
+
   ```python
-  
-SUMMERNOTE_THEME = "bs4"
+  SUMMERNOTE_THEME = "bs4"
 
 SUMMERNOTE_CONFIG = {
     'iframe': False,
