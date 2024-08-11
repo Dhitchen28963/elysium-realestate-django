@@ -529,7 +529,37 @@ The project has been tested against several validators to ensure code quality an
 
 ![CSS Validation](./images/css-validator.png)
 
-![HTML Validation](./images/css-validator.png) - change to html
+![Account Settings Validation](./images/account-settings-valid(1).png)
+![Admin Login Validation 1](./images/admin-login-valid(1).png)
+![Admin Login Validation 2](./images/admin-login-valid.png)
+![Admin Panel Validation 1](./images/admin-panel-valid(1).png)
+![Admin Panel Validation 2](./images/admin-panel-valid.png)
+![Blog List Validation 1](./images/blog-list-valid(1).png)
+![Blog List Validation 2](./images/blog-list-valid(1).png)
+![FAQ List Validation 1](./images/faq-list-valid(1).png)
+![FAQ List Validation 2](./images/faq-list-valid(1).png)
+![Home Validation](./images/Home-valid%20(1).png)
+![Homeless List Validation](./images/homeless-list-valid(1).png)
+![Land Search Result Validation](./images/land-search-result-valid(1).png)
+![Login Validation](./images/login-valid(1).png)
+![Logout Validation](./images/logout-valid(1).png)
+![Mortgage Calculator Validation](./images/mortgage-calculator(1).png)
+![Pending Viewings Validation](./images/pending-viewings-valid(1).png)
+![Property Guides Post Validation 1](./images/property-guides-post-valid(1).png)
+![Property Guides Post Validation 2](./images/property-guides-post-valid(1).png)
+![Property Guides Post Validation 3](./images/property-guides-post-valid(2)(1).png)
+![Property Guides Post Validation 4](./images/property-guides-post-valid(3)(1).png)
+![Property Guides Post Validation 5](./images/property-guides-post-valid(4)(1).png)
+![Property Guides Post Validation 6](./images/property-guides-post-valid(4).png)
+![Property Guides Validation](./images/property-guides-valid(1).png)
+![Property Rent Validation](./images/property-rent-valid(1).png)
+![Property Sale Validation](./images/property-sale-valid(1).png)
+![Rent Search Results Validation](./images/rent-search-results-valid(1).png)
+![Sale Search Result Validation](./images/sale-search-result-valid(1).png)
+![Signup Validation](./images/signup-valid(1).png)
+![Student Property Validation](./images/student-valid(1).png)
+![View Land Validation](./images/view-land-valid(1).png)
+
 
 ### Accessibility
 
