@@ -82,67 +82,67 @@ I used Githubs Kanban board to manage the project's user stories and tasks. You 
 ## Wireframes
 
 ## Saved Properties
-![saved-properties](static/images/saved-properties.png)
+![saved-properties](./images/saved-properties.png)
 
 ## Property Search Results
-![property-search-results](static/images/property-search-results.png)
+![property-search-results](./images/property-search-results.png)
 
 ## Property Guides List
-![property-guides-list](static/images/property-guides.list.png)
+![property-guides-list](./images/property-guides.list.png)
 
 ## Property Filters Container
-![property-filters-container](static/images/property-filters-container.png)
+![property-filters-container](./images/property-filters-container.png)
 
 ## Property Details Carousel
-![property-details-carousel](static/images/property-details.carousel.png)
+![property-details-carousel](./images/property-details.carousel.png)
 
 ## Property Detail Smallscreen
-![property-detail-smallscreen](static/images/property-detail.smallscreen.png)
+![property-detail-smallscreen](./images/property-detail.smallscreen.png)
 
 ## Property Detail Carousel
-![property-detail-carousel](static/images/property-detail.carousel.png)
+![property-detail-carousel](./images/property-detail.carousel.png)
 
 ## Mortgage Calculator
-![mortgage-calculator](static/images/mortgage-calculator.png)
+![mortgage-calculator](./images/mortgage-calculator.png)
 
 ## Homepage Sidemenu (visible)
-![Homepage-sidemenu-visible](static/images/Homepage-sidemenu.visible.png)
+![Homepage-sidemenu-visible](./images/Homepage-sidemenu.visible.png)
 
 ## Homepage Navigation (visible)
-![homepage-navigation-shown](static/images/homepage-navigation.shown.png)
+![homepage-navigation-shown](./images/homepage-navigation.shown.png)
 
 ## Homepage Navigation Response
-![homepage-navigation-response](static/images/homepage-navigation.response.png)
+![homepage-navigation-response](./images/homepage-navigation.response.png)
 
 ## Homepage Navigation Hidden
-![homepage-navigation-hidden](static/images/homepage-navigation.hidden.png)
+![homepage-navigation-hidden](./images/homepage-navigation.hidden.png)
 
 ## Homepage Navigation Collapsed
-![homepage-navigation-collapsed](static/images/homepage-navigation.collapsed.png)
+![homepage-navigation-collapsed](./images/homepage-navigation.collapsed.png)
 
 ## Homelessness Detail Page
-![homelessness-detail-page](static/images/homelessness-detail.page.png)
+![homelessness-detail-page](./images/homelessness-detail.page.png)
 
 ## Homelessness Advice List
-![homelessness-advice-list](static/images/homelessness-advice.list.png)
+![homelessness-advice-list](./images/homelessness-advice.list.png)
 
 ## FAQ List
-![faq-list](static/images/faq-list.png)
+![faq-list](./images/faq-list.png)
 
 ## FAQ Detail
-![faq-detail](static/images/faq-detail.png)
+![faq-detail](./images/faq-detail.png)
 
 ## Contact Page
-![contact-page](static/images/contact-page.png)
+![contact-page](./images/contact-page.png)
 
 ## Blog List
-![blog-list](static/images/blog-list.png)
+![blog-list](./images/blog-list.png)
 
 ## Blog Betail
-![blog-detail](static/images/blog-detail.png)
+![blog-detail](./images/blog-detail.png)
 
 ## Account Settings
-![account-settings](static/images/account-settings.png)
+![account-settings](./images/account-settings.png)
 
 
 ## Project Apps
@@ -377,11 +377,13 @@ Final properties in page: 1
 Ran 144 tests in 21.279s
 
 OK
-Destroying test database for alias 'default'...
+Destroying test database for alias 'default'
 ```
 
+
+
 ### Python Tests
-![Python Tests](static/images/python-tests.webp)
+![Python Tests](./images/python-tests.webp)
 
 #### Django Tests (JavaScript)
 
