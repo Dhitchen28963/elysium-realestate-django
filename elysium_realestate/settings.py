@@ -16,6 +16,9 @@ ALLOWED_HOSTS += [
     '.herokuapp.com',
 ]
 
+print("DEBUG:", DEBUG)
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,6 +47,8 @@ INSTALLED_APPS = [
     'mortgage_calculator',
 ]
 
+print("INSTALLED_APPS:", INSTALLED_APPS)
+
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -59,6 +64,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
+
+print("MIDDLEWARE:", MIDDLEWARE)
 
 ROOT_URLCONF = 'elysium_realestate.urls'
 
@@ -78,6 +85,8 @@ TEMPLATES = [
     },
 ]
 
+print("TEMPLATES:", TEMPLATES)
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WSGI_APPLICATION = 'elysium_realestate.wsgi.application'
@@ -95,10 +104,14 @@ DATABASES = {
     }
 }
 
+print("DATABASES['default']:", DATABASES['default'])
+
 # Update the default database if DATABASE_URL is set
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
+    print("DATABASE_URL found, updating database configuration.")
     DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+    print("Updated DATABASES['default']:", DATABASES['default'])
 
 # SQLite for testing
 if 'test' in sys.argv:
@@ -106,6 +119,7 @@ if 'test' in sys.argv:
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
     }
+    print("Test environment detected, using SQLite:", DATABASES['default'])
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
@@ -115,6 +129,8 @@ CSRF_TRUSTED_ORIGINS = [
         ".ws.codeinstitute-ide.net"
     ),
 ]
+
+print("CSRF_TRUSTED_ORIGINS:", CSRF_TRUSTED_ORIGINS)
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -144,6 +160,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+print("AUTH_PASSWORD_VALIDATORS:", AUTH_PASSWORD_VALIDATORS)
+
 # Security settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -153,10 +171,17 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+print("LANGUAGE_CODE:", LANGUAGE_CODE)
+print("TIME_ZONE:", TIME_ZONE)
+
 # Static files
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+print("STATIC_URL:", STATIC_URL)
+print("STATICFILES_DIRS:", STATICFILES_DIRS)
+print("STATIC_ROOT:", STATIC_ROOT)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -192,3 +217,5 @@ SUMMERNOTE_CONFIG = {
         ],
     },
 }
+
+print("SUMMERNOTE_CONFIG:", SUMMERNOTE_CONFIG)
