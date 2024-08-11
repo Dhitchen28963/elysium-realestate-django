@@ -209,19 +209,19 @@ SUMMERNOTE_CONFIG = {
         'lineNumbers': True,
     },
     'css': {
-        'all': (
+        'all': [
             'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css',
             'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css',
-        ),
+        ],
     },
     'js': {
-        'all': (
+        'all': [
             'https://code.jquery.com/jquery-3.3.1.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
             'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js',
             'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js',
-        ),
+        ],
     },
 }
