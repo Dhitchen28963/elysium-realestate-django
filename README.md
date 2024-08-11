@@ -282,7 +282,8 @@ To ensure that the application functioned correctly, I used a combination of aut
 
 ## Test Terminal Results Summary
 
-``` python manage.py test
+\```bash
+$ python manage.py test
 Found 144 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
@@ -307,12 +308,11 @@ Final properties in page: 1
 Ran 144 tests in 21.279s
 
 OK
-Destroying test database for alias 'default`
-```
+Destroying test database for alias 'default'...
+\```
 
 ### Python Tests
-![Python Tests](./images/python-tests.png)
-
+![Python Tests](static/images/python-tests.webp)
 
 #### Django Tests (JavaScript)
 
@@ -380,33 +380,32 @@ This table provides a detailed overview of each test carried out in the project,
 ## Test Terminal Results Summary
 
 ```bash
- $ npx jest
- PASS  static/__tests__/getCSRFToken.test.js (7.191 s)
- PASS  static/__tests__/clearModalMessages.test.js (7.501 s)
- PASS  static/__tests__/toggleFavorite.test.js (7.6 s)
- PASS  static/__tests__/editComment.test.js (7.797 s)
- PASS  static/__tests__/validateDate.test.js (7.399 s)
- PASS  static/__tests__/showModalMessage.test.js (7.991 s)
- PASS  static/__tests__/collapsible.test.js (7.8 s)
- PASS  static/__tests__/mortgageCalculation.test.js (8.197 s)
- PASS  static/__tests__/validateContactNumber.test.js (8.105 s)
- PASS  static/__tests__/carousel.test.js (8.8 s)
- PASS  static/__tests__/deleteComment.test.js (9.595 s)
- PASS  static/__tests__/updateViewing.test.js (10.096 s)
- PASS  static/__tests__/addToFavorites.test.js (10.202 s)
- PASS  static/__tests__/removeFromFavorites.test.js (10.712 s)
- PASS  static/__tests__/requestSlotViewing.test.js (10.608 s)
- PASS  static/__tests__/requestCustomViewing.test.js (11.118 s)
- PASS  static/__tests__/closeSidebar.test.js (11.324 s)
- PASS  static/__tests__/script.test.js (11.617 s)
- PASS  static/__tests__/setupEventListeners.test.js (11.403 s)
+$ npx jest
+PASS  static/__tests__/getCSRFToken.test.js (7.191 s)
+PASS  static/__tests__/clearModalMessages.test.js (7.501 s)
+PASS  static/__tests__/toggleFavorite.test.js (7.6 s)
+PASS  static/__tests__/editComment.test.js (7.797 s)
+PASS  static/__tests__/validateDate.test.js (7.399 s)
+PASS  static/__tests__/showModalMessage.test.js (7.991 s)
+PASS  static/__tests__/collapsible.test.js (7.8 s)
+PASS  static/__tests__/mortgageCalculation.test.js (8.197 s)
+PASS  static/__tests__/validateContactNumber.test.js (8.105 s)
+PASS  static/__tests__/carousel.test.js (8.8 s)
+PASS  static/__tests__/deleteComment.test.js (9.595 s)
+PASS  static/__tests__/updateViewing.test.js (10.096 s)
+PASS  static/__tests__/addToFavorites.test.js (10.202 s)
+PASS  static/__tests__/removeFromFavorites.test.js (10.712 s)
+PASS  static/__tests__/requestSlotViewing.test.js (10.608 s)
+PASS  static/__tests__/requestCustomViewing.test.js (11.118 s)
+PASS  static/__tests__/closeSidebar.test.js (11.324 s)
+PASS  static/__tests__/script.test.js (11.617 s)
+PASS  static/__tests__/setupEventListeners.test.js (11.403 s)
 
 Test Suites: 19 passed, 19 total
 Tests:       76 passed, 76 total
 Snapshots:   0 total
 Time:        17.602 s
 Ran all test suites.
-```
 
 ### JavaScript Tests
 ![JavaScript Tests](./images/javascript-tests.png)
@@ -745,7 +744,20 @@ SUMMERNOTE_CONFIG = {
         ],
     },
 }
-```
+
+## Device View
+
+![Device View](images/am-i-responsive.png)
+
+## Dev Tools Lighthouse
+
+![Dev Tools Lighthouse](images/lighthouse.png)
+![Dev Tools Lighthouse](images/lighthouse(1).png)
+![Dev Tools Lighthouse](images/lighthouse(2).png)
+![Dev Tools Lighthouse](images/lighthouse(3).png)
+![Dev Tools Lighthouse](images/lighthouse(4).png)
+![Dev Tools Lighthouse](images/lighthouse(5).png)
+![Dev Tools Lighthouse](images/lighthouse(6).png)
 
 
 ## Technology
