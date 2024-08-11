@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'django_csp',
+    'csp',
     'cloudinary_storage',
     'django.contrib.sites',
     'allauth',
@@ -54,10 +54,19 @@ LOGOUT_REDIRECT_URL = '/'
 
 # CSP Settings
 CSP_DEFAULT_SRC = ("'self'",)
-CSP_STYLE_SRC = ("'self'", 'https://res.cloudinary.com', "'unsafe-inline'")
+CSP_STYLE_SRC = (
+    "'self'",
+    'https://res.cloudinary.com', 
+    'https://cdnjs.cloudflare.com',
+    "'unsafe-inline'"
+)
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'")
 CSP_IMG_SRC = ("'self'", 'https://res.cloudinary.com')
-CSP_FONT_SRC = ("'self'", 'https://res.cloudinary.com')
+CSP_FONT_SRC = (
+    "'self'", 
+    'https://res.cloudinary.com', 
+    'https://cdnjs.cloudflare.com'
+)
 CSP_FRAME_SRC = ("'self'",)
 
 # Force HTTPS redirects
@@ -66,7 +75,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django_csp.middleware.CSPMiddleware',
+    'csp.middleware.CSPMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
