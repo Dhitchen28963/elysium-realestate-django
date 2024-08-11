@@ -578,7 +578,7 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
    - **Issue:** Validation errors were present on the signup.html page due to incorrect HTML structure.
    - **Fix:** Updated the signup.html page to ensure no validation errors, ensuring the HTML structure adheres to W3C standards.
 
-2. **Issue with HTML Escaping in Summernote Content:**
+2. **Issue with HTML Escaping in Summernote Content via Gitpod:**
    - **Issue:** Text entered through Summernote was being displayed with HTML escaping, causing issues with the rendered content.
    - **Fix:** A utility function was created in the `utils.py` file to clean and process the HTML content from Summernote. The function includes:
      - Replacing `<font>` tags with `<span>` tags to ensure proper styling.
@@ -617,6 +617,133 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
          return cleaned_html
      ```
 
+3. **Issue with HTML Escaping in Summernote Content via Heroku:**
+   - **Issue:** Content sections on the Django admin panel when deployed on Heroku caused a Type Error, preventing any content being added.
+   - **Fix:** Amendments to the utility function were made in the `utils.py` file to clean and process the HTML content from Summernote. The function includes:
+     - Replacing `<font>` tags with `<span>` tags to ensure proper styling.
+     - Unescaping HTML entities.
+   - **Code Snippet:**
+  ```python
+   import re
+import bleach
+from html import unescape
+
+"""
+Replaces <font> tags with <span> tags preserving color styles for HTML content.
+"""
+def replace_font_with_span(html):
+    # Replace <font color="#."></font> with <span style="color:...;">...</span>
+    font_open_tag_pattern = re.compile(r'<font\s+color="([^"]+)">')
+    font_close_tag_pattern = re.compile(r'</font>')
+
+    # Replace opening font tags
+    html = font_open_tag_pattern.sub(r'<span style="color:\1;">', html)
+    # Replace closing font tags
+    html = font_close_tag_pattern.sub('</span>', html)
+
+    return html
+
+"""
+Cleans and sanitizes HTML content by removing disallowed tags and attributes,
+replacing <font> tags with <span> tags, and unescaping HTML entities.
+"""
+def clean_html_content(content):
+    # Unescape HTML entities
+    html = unescape(content)
+
+    allowed_tags = [
+        'p', 'b', 'i', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'span', 'ul', 'ol', 'li', 'strong', 'br', 'em', 'blockquote', 'a'
+    ]
+    allowed_attrs = {
+        'span': ['style'],
+        'a': ['href', 'title', 'style'],
+        '*': ['style']
+    }
+
+    allowed_styles = ['color']
+
+    # Replace <font> tags with <span> tags
+    html = replace_font_with_span(html)
+
+    # Sanitize the HTML
+    cleaned_html = bleach.clean(
+        html,
+        tags=allowed_tags,
+        attributes=allowed_attrs,
+        styles=allowed_styles,
+        strip=False
+    )
+
+    # Remove empty style attributes and trailing spaces
+    cleaned_html = re.sub(r'style="\s*"', '', cleaned_html)
+    cleaned_html = re.sub(r'\s+>', '>', cleaned_html)
+
+    return cleaned_html
+    ```
+
+  - **Additional adjustments** Amendments to settings.py file were made. I also removed the SUMMERNOTE_CONFIG:
+  ```python
+  
+SUMMERNOTE_THEME = "bs4"
+
+SUMMERNOTE_CONFIG = {
+    'iframe': False,
+    'summernote': {
+        'toolbar': [
+            ['style', ['style']],
+            [
+                'font', ['bold', 'italic', 'underline',
+                         'clear', 'color']
+            ],
+            ['fontsize', ['fontsize']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+        'fontNames': [
+            'Arial', 'Arial Black', 'Comic Sans MS',
+            'Courier New', 'Helvetica', 'Impact',
+            'Tahoma', 'Times New Roman', 'Verdana',
+            'Roboto', 'Inconsolata',
+        ],
+        'fontSizes': ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
+        'fontsizeUnits': ['px', 'pt'],
+    },
+    'codemirror': {
+        'mode': 'htmlmixed',
+        'lineNumbers': True,
+    },
+    'css': {
+        'all': [
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/'
+            'bootstrap.min.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
+            'codemirror.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
+            'summernote-bs4.css',
+        ],
+    },
+    'js': {
+        'all': [
+            'https://code.jquery.com/jquery-3.3.1.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/'
+            'umd/popper.min.js',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/'
+            'bootstrap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
+            'codemirror.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
+            'summernote-bs4.min.js',
+        ],
+    },
+}
+```
+
+
 ## Technology
 
 - **Django**: The main framework used for development.
@@ -641,8 +768,8 @@ The project has been tested on multiple browsers (Chrome, Firefox, Safari) to en
 
 ## Deployment
 
-The project is deployed on Heroku. Follow these steps to deploy your own instance:
-
+The project i
 1. **Clone the repository**:
    ```bash
    git clone <repo_url>
+s deployed on Heroku. Follow these steps to deploy your own instance:
