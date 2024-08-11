@@ -26,9 +26,9 @@ replacing <font> tags with <span> tags, and unescaping HTML entities.
 """
 
 
-def clean_html_content(html):
+def clean_html_content(content):
     # Unescape HTML entities
-    html = unescape(html)
+    html = unescape(content)
 
     allowed_tags = [
         'p', 'b', 'i', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',

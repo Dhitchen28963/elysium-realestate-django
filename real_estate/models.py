@@ -101,6 +101,8 @@ class Property(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        # Clean the HTML content before saving
+        self.description = clean_html_content(self.description)
         if not self.slug:
             self.slug = slugify(self.title)
         super(Property, self).save(*args, **kwargs)
