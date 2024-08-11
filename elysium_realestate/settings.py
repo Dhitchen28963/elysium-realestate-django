@@ -165,13 +165,28 @@ SUMMERNOTE_THEME = "bs4"
 
 SUMMERNOTE_CONFIG = {
     'iframe': False,
+    'base_css': [
+        '//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+    ],
+    'base_js': [
+        '//code.jquery.com/jquery-3.5.1.min.js',
+        '//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'
+    ],
+    'default_css': [
+        'summernote/summernote-bs4.min.css',
+        'summernote/django_summernote.css'
+    ],
+    'default_js': [
+        'summernote/jquery.ui.widget.js',
+        'summernote/jquery.iframe-transport.js',
+        'summernote/jquery.fileupload.js',
+        'summernote/summernote-bs4.min.js',
+        'summernote/ResizeSensor.js'
+    ],
     'summernote': {
         'toolbar': [
             ['style', ['style']],
-            [
-                'font', ['bold', 'italic', 'underline',
-                         'clear', 'color']
-            ],
+            ['font', ['bold', 'italic', 'underline', 'clear', 'color']],
             ['fontsize', ['fontsize']],
             ['fontname', ['fontname']],
             ['color', ['color']],
@@ -195,25 +210,18 @@ SUMMERNOTE_CONFIG = {
     },
     'css': {
         'all': [
-            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/'
-            'bootstrap.min.css',
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
-            'codemirror.css',
-            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
-            'summernote-bs4.css',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css',
         ],
     },
     'js': {
         'all': [
             'https://code.jquery.com/jquery-3.3.1.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/'
-            'umd/popper.min.js',
-            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/'
-            'bootstrap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/'
-            'codemirror.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/'
-            'summernote-bs4.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js',
         ],
     },
 }
