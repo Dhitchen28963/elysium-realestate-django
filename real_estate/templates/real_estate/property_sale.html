@@ -127,9 +127,63 @@
         {% endfor %}
       </div>
       {% else %}
-      <p class="no-properties-found">No properties found. Please use the search bar above to find properties.</p>
+      <p class="no-properties-found">No properties for sale found for "{{ request.GET.search }}".</p>
+      <div class="suggested-locations-box">
+          <p>Try searching in these locations:</p>
+          <ul class="suggested-locations">
+              <li><a href="{% url 'property_sale' %}?search=Berkshire">Berkshire</a></li>
+              <li><a href="{% url 'property_sale' %}?search=Oxfordshire">Oxfordshire</a></li>
+              <li><a href="{% url 'property_sale' %}?search=Hampshire">Hampshire</a></li>
+              <li><a href="{% url 'property_sale' %}?search=Devon">Devon</a></li>
+              <li><a href="{% url 'property_sale' %}?search=Dorset">Dorset</a></li>
+          </ul>
+      </div>
       {% endif %}
   {% endif %}
+
+  <!-- Popular Locations Section -->
+  <section class="popular-locations text-center mt-5">
+    <h2 class="mb-4">Popular Sale Locations</h2>
+    <div class="row justify-content-center align-items-stretch">
+        <div class="col-md-6 d-flex">
+            <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                <ul class="list-unstyled">
+                    {% for location, details in popular_locations_sale.items %}
+                        <li>
+                            <a href="{% url 'property_by_location' location %}?type=sale">
+                                {{ location }} ({{ details.count }} properties)
+                            </a>
+                        </li>
+                    {% empty %}
+                        <p>No popular locations found.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- All Locations Section -->
+  <section class="all-locations text-center mt-5">
+      <h2 class="mb-4">All Sale Locations</h2>
+      <div class="row justify-content-center align-items-stretch">
+          <div class="col-md-6 d-flex">
+              <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                  <ul class="list-unstyled">
+                      {% for location in all_locations_sale %}
+                          <li>
+                              <a href="{% url 'property_by_location' location %}?type=sale">
+                                  {{ location }}
+                              </a>
+                          </li>
+                      {% empty %}
+                          <p>No locations available.</p>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </section>
 </main>
 {% endblock %}
 

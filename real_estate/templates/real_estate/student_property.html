@@ -127,9 +127,59 @@
         {% endfor %}
       </div>
       {% else %}
-      <p class="no-properties-found">No properties found. Please use the search bar above to find properties.</p>
+      <p class="no-properties-found">No student accommodations found for "{{ request.GET.search }}".</p>
+      <div class="suggested-locations-box">
+          <p>Try searching in these locations:</p>
+          <ul class="suggested-locations">
+              <li><a href="{% url 'student_property' %}?search=Plymouth">Plymouth</a></li>
+          </ul>
+      </div>
       {% endif %}
   {% endif %}
+
+  <!-- Popular Locations Section -->
+  <section class="popular-locations text-center mt-5">
+      <h2 class="mb-4">Popular Student Accommodation Locations</h2>
+      <div class="row justify-content-center align-items-stretch">
+          <div class="col-md-6 d-flex">
+              <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                  <ul class="list-unstyled">
+                      {% for location, details in popular_locations_student.items %}
+                          <li>
+                              <a href="{% url 'property_by_location' location %}">
+                                  {{ location }} ({{ details.count }} accommodations)
+                              </a>
+                          </li>
+                      {% empty %}
+                          <p>No popular locations found.</p>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- All Locations Section -->
+  <section class="all-locations text-center mt-5">
+      <h2 class="mb-4">All Student Accommodation Locations</h2>
+      <div class="row justify-content-center align-items-stretch">
+          <div class="col-md-6 d-flex">
+              <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                  <ul class="list-unstyled">
+                      {% for location in all_locations_student %}
+                          <li>
+                              <a href="{% url 'property_by_location' location %}">
+                                  {{ location }}
+                              </a>
+                          </li>
+                      {% empty %}
+                          <p>No locations available.</p>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </section>
 </main>
 {% endblock %}
 

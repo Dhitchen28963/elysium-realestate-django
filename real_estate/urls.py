@@ -68,4 +68,9 @@ urlpatterns = [
         name='mortgage_calculator'
     ),
     path('view-land/', views.view_land, name='view_land'),
+    path(
+        'property-by-location/<str:location>/',
+        views.property_by_location,
+        name='property_by_location'
+    ),
 ]

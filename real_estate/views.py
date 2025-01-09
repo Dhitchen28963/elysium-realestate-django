@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -17,6 +18,10 @@ from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.db.models import Count, Q
+from .forms import PropertySearchForm
+from .models import Property
 
 # Helper function to paginate properties
 
@@ -174,6 +179,63 @@ def filter_properties(form, properties):
         )
     return properties
 
+
+# Helper function to get popular locations for a specific transaction type
+
+
+def get_popular_locations(transaction_type):
+    locations = (
+        Property.objects.filter(transaction_type=transaction_type)
+        .values('location')
+        .annotate(property_count=Count('id'))
+        .order_by('-property_count')[:5]
+    )
+    return {
+        loc['location']: {'count': loc['property_count']}
+        for loc in locations
+    }
+
+# Helper function to get all unique locations for a specific transaction type
+
+
+def get_all_locations(transaction_type):
+    locations = list(
+        Property.objects.filter(transaction_type=transaction_type)
+        .values_list('location', flat=True)
+        .distinct()
+    )
+    return locations
+
+
+"""
+Handles redirection based on location and transaction type.
+"""
+
+
+def property_by_location(request, location):
+    property = Property.objects.filter(location__iexact=location).first()
+
+    if property:
+        transaction_type = property.transaction_type
+
+        if transaction_type == 'student':
+            return HttpResponseRedirect(
+                f"{reverse('student_property')}?search={location}"
+            )
+        elif transaction_type == 'land':
+            return HttpResponseRedirect(
+                f"{reverse('view_land')}?search={location}"
+            )
+        elif transaction_type == 'rent':
+            return HttpResponseRedirect(
+                f"{reverse('property_rent')}?search={location}"
+            )
+        elif transaction_type == 'sale':
+            return HttpResponseRedirect(
+                f"{reverse('property_sale')}?search={location}"
+            )
+
+
 # View to display properties for sale
 
 
@@ -186,13 +248,14 @@ def property_sale(request):
     if form.is_valid() and any(form.cleaned_data.values()):
         properties = filter_properties(form, properties)
 
-    paginator = Paginator(properties, 20)
-    page_number = request.GET.get('page')
-    properties = paginator.get_page(page_number)
+    properties, paginator = paginate_properties(request, properties)
 
     context = {
         'form': form,
         'properties': properties,
+        'paginator': paginator,
+        'popular_locations_sale': get_popular_locations('sale'),
+        'all_locations_sale': get_all_locations('sale'),
     }
     return render(request, 'real_estate/property_sale.html', context)
 
@@ -215,7 +278,9 @@ def property_rent(request):
         'properties': properties,
         'paginator': paginator,
         'is_paginated': paginator.num_pages > 1,
-        'view_title': 'rent'
+        'view_title': 'rent',
+        'popular_locations_rent': get_popular_locations('rent'),
+        'all_locations_rent': get_all_locations('rent'),
     }
     return render(request, 'real_estate/property_rent.html', context)
 
@@ -238,6 +303,8 @@ def property_student(request):
         'properties': properties,
         'paginator': paginator,
         'is_paginated': paginator.num_pages > 1,
+        'popular_locations_student': get_popular_locations('student'),
+        'all_locations_student': get_all_locations('student'),
     }
     return render(request, 'real_estate/student_property.html', context)
 
@@ -260,6 +327,8 @@ def view_land(request):
         'properties': properties,
         'paginator': paginator,
         'is_paginated': paginator.num_pages > 1,
+        'popular_locations_land': get_popular_locations('land'),
+        'all_locations_land': get_all_locations('land'),
     }
     return render(request, 'real_estate/view_land.html', context)
 

@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 ALLOWED_HOSTS += [
-    '8000-dhitchen289-elysiumreal-edmywjdr1el.ws.codeinstitute-ide.net',
+    '8000-dhitchen289-elysiumreal-55uquhghxlj.ws.codeinstitute-ide.net',
     '.herokuapp.com',
 ]
 
@@ -55,34 +55,36 @@ LOGOUT_REDIRECT_URL = '/'
 # CSP Settings
 CSP_DEFAULT_SRC = ("'self'",)
 
-CSP_STYLE_SRC = (
+CSP_SCRIPT_SRC = (
     "'self'",
-    'https://res.cloudinary.com', 
-    'https://use.fontawesome.com',
     "'unsafe-inline'",
-    'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
+    "'unsafe-eval'",
+    'https://code.jquery.com',
+    'https://stackpath.bootstrapcdn.com',
+    'https://cdnjs.cloudflare.com',
 )
 
-CSP_SCRIPT_SRC = (
-    "'self'", 
-    "'unsafe-inline'", 
-    "'unsafe-eval'",
-    'https://code.jquery.com/jquery-3.3.1.min.js',
-    'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js',
+CSP_STYLE_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    'https://cdnjs.cloudflare.com',
+    'https://stackpath.bootstrapcdn.com',
+    'https://fonts.googleapis.com',
+    'https://use.fontawesome.com',
 )
 
 CSP_IMG_SRC = (
-    "'self'", 
-    'https://res.cloudinary.com'
+    "'self'",
+    'https://res.cloudinary.com',
 )
 
 CSP_FONT_SRC = (
-    "'self'", 
-    'https://use.fontawesome.com'
+    "'self'",
+    'https://fonts.gstatic.com',
+    'https://use.fontawesome.com',
 )
 
 CSP_FRAME_SRC = ("'self'",)
-
 
 # Force HTTPS redirects
 SECURE_SSL_REDIRECT = True

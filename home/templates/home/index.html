@@ -4,16 +4,16 @@
 {% block title %}Home{% endblock %}
 
 {% block banner %}
-    <div class="banner-container">
-        <div class="banner-content">
-            <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
-            {% if user.is_authenticated %}
-                <div class="welcome-box">
-                    <p>Welcome back, {{ user.username }}!</p>
-                </div>
-            {% endif %}
-        </div>
+<div class="banner-container">
+    <div class="banner-content">
+        <img src="{% static 'images/banner-elysium.webp' %}" alt="Banner Image" class="banner-image">
+        {% if user.is_authenticated %}
+            <div class="welcome-box">
+                <p>Welcome back, {{ user.username }}!</p>
+            </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}
 
 {% block home_text %}
@@ -25,7 +25,7 @@
 
 {% block content %}
 <main>
-    <div class="search-container home-search">
+    <div class="search-container home-search position-relative">
         <h2>Find your dream home</h2>
         <h3>Search using 'town name' or 'location'</h3>
         <form id="home-search-form">
@@ -36,5 +36,83 @@
             </div>
         </form>
     </div>
+
+    <!-- Popular Locations Section -->
+    <section class="popular-locations text-center mt-5">
+        <h2 class="mb-4">Popular Locations</h2>
+        <div class="row justify-content-center align-items-stretch">
+            <div class="col-md-5 d-flex">
+                <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                    <h3>Rent</h3>
+                    <ul class="list-unstyled">
+                        {% for location, details in popular_locations_rent %}
+                            <li>
+                                <a href="{% url 'property_by_location' location %}?type=rent">
+                                    {{ location }} ({{ details.count }} properties)
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p>No popular locations for rent found.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5 d-flex">
+                <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                    <h3>Sale</h3>
+                    <ul class="list-unstyled">
+                        {% for location, details in popular_locations_sale %}
+                            <li>
+                                <a href="{% url 'property_by_location' location %}?type=sale">
+                                    {{ location }} ({{ details.count }} properties)
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p>No popular locations for sale found.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Locations Section -->
+    <section class="all-locations text-center mt-5">
+        <h2 class="mb-4">All Locations</h2>
+        <div class="row justify-content-center align-items-stretch">
+            <div class="col-md-5 d-flex">
+                <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                    <h3>Rent</h3>
+                    <ul class="list-unstyled">
+                        {% for location in all_locations_rent %}
+                            <li>
+                                <a href="{% url 'property_by_location' location %}?type=rent">
+                                    {{ location }}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p>No locations for rent available.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5 d-flex">
+                <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
+                    <h3>Sale</h3>
+                    <ul class="list-unstyled">
+                        {% for location in all_locations_sale %}
+                            <li>
+                                <a href="{% url 'property_by_location' location %}?type=sale">
+                                    {{ location }}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <p>No locations for sale available.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}
