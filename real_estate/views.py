@@ -213,27 +213,33 @@ Handles redirection based on location and transaction type.
 
 
 def property_by_location(request, location):
-    property = Property.objects.filter(location__iexact=location).first()
+    """
+    Redirects to the appropriate page based on the location and transaction type.
+    Displays all properties for the selected location.
+    """
+    # Get the transaction type from the query string
+    transaction_type = request.GET.get('type')
 
-    if property:
-        transaction_type = property.transaction_type
+    # Map transaction types to their respective view names
+    transaction_type_mapping = {
+        'rent': 'property_rent',
+        'sale': 'property_sale',
+        'student': 'student_property',
+        'land': 'view_land',
+    }
 
-        if transaction_type == 'student':
-            return HttpResponseRedirect(
-                f"{reverse('student_property')}?search={location}"
-            )
-        elif transaction_type == 'land':
-            return HttpResponseRedirect(
-                f"{reverse('view_land')}?search={location}"
-            )
-        elif transaction_type == 'rent':
-            return HttpResponseRedirect(
-                f"{reverse('property_rent')}?search={location}"
-            )
-        elif transaction_type == 'sale':
-            return HttpResponseRedirect(
-                f"{reverse('property_sale')}?search={location}"
-            )
+    # Validate the transaction type and redirect to the correct page
+    if transaction_type in transaction_type_mapping:
+        return HttpResponseRedirect(
+            f"{reverse(transaction_type_mapping[transaction_type])}?search={location}"
+        )
+
+    # If transaction type is invalid or missing, show an error and redirect to home
+    messages.error(
+        request,
+        "Invalid transaction type specified. Please select a valid property type."
+    )
+    return redirect('home')
 
 
 # View to display properties for sale

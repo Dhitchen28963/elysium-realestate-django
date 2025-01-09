@@ -104,7 +104,7 @@
                   <ul class="list-unstyled">
                       {% for location, details in popular_locations_land.items %}
                           <li>
-                              <a href="{% url 'property_by_location' location %}">
+                              <a href="{% url 'property_by_location' location %}?type=land">
                                   {{ location }} ({{ details.count }} listings)
                               </a>
                           </li>
@@ -126,7 +126,7 @@
                   <ul class="list-unstyled">
                       {% for location in all_locations_land %}
                           <li>
-                              <a href="{% url 'property_by_location' location %}">
+                              <a href="{% url 'property_by_location' location %}?type=land">
                                   {{ location }}
                               </a>
                           </li>
