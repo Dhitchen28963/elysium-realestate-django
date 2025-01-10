@@ -37,7 +37,7 @@
                     {% endif %}
                     {% if comment.author == request.user %}
                         <div class="comment-actions">
-                            <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}">Edit</button>
+                            <button class="edit-comment" aria-label="Edit Comment" data-id="{{ comment.id }}" data-body="{{ comment.body|escape }}">Edit</button>
                             <button class="delete-comment" aria-label="Delete Comment" data-id="{{ comment.id }}">Delete</button>
                         </div>
                     {% endif %}
@@ -50,9 +50,10 @@
             <h2>Leave a Comment</h2>
             <form id="commentForm" method="post" action="{% url 'faq_detail' faq.slug %}">
                 {% csrf_token %}
-                {{ comment_form|crispy }}
+                {{ comment_form.non_field_errors }}
+                {{ comment_form.body|as_crispy_field }}
                 <button type="submit" id="submitComment" aria-label="Submit Comment">Submit</button>
-            </form>
+            </form>            
         </div>
     {% else %}
         <p><em>Login to leave a comment.</em></p>

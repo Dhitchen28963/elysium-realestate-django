@@ -61,8 +61,9 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         self.body = clean_html_content(self.body)
-        if self.pk:
-            self.approved = False
+        if self.approved:
+            self.pending_approval = False
+        else:
             self.pending_approval = True
         super(Comment, self).save(*args, **kwargs)
 

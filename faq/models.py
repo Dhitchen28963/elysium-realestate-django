@@ -46,14 +46,14 @@ class FAQ(models.Model):
     )
     excerpt = models.TextField(max_length=500, blank=True)
 
-    def __str__(self):
-        return self.title
-
     def save(self, *args, **kwargs):
         self.content = clean_html_content(self.content)
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 
 """
@@ -67,7 +67,7 @@ enabling comments to be associated with various content types.
 
 class Comment(models.Model):
     post = models.ForeignKey(
-        'FAQ', on_delete=models.CASCADE, related_name='comments'
+        FAQ, on_delete=models.CASCADE, related_name='comments'
     )
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='faq_comments'
@@ -86,8 +86,9 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         self.body = clean_html_content(self.body)
-        if self.pk:
-            self.approved = False
+        if self.approved:
+            self.pending_approval = False
+        else:
             self.pending_approval = True
         super(Comment, self).save(*args, **kwargs)
 

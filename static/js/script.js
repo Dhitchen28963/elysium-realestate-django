@@ -90,60 +90,91 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Edit comment handling
     document.querySelectorAll('button.edit-comment').forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', function(event) {
             event.preventDefault();
             const commentId = this.getAttribute('data-id');
-            const commentBodyElement = document.querySelector(`#comment-${commentId} .comment-body`);
-            if (!commentBodyElement) {
-                showModalMessage('Comment body not found.');
-                return;
-            }
-            const commentBody = commentBodyElement.innerText;
-            const editCommentBody = document.getElementById('editCommentBody');
-            if (!editCommentBody) {
-                showModalMessage('Edit comment body textarea not found.');
-                return;
-            }
-            editCommentBody.value = commentBody;
-
+            const commentBody = this.getAttribute('data-body');
+            
+            // Get modal elements
             const editModal = document.getElementById('editModal');
-            if (!editModal) {
-                showModalMessage('Edit comment modal not found.');
+            const commentBodyTextarea = document.getElementById('commentBody');
+            const editCommentForm = document.getElementById('editCommentForm');
+            const commentIdInput = document.getElementById('commentId');
+
+            // Check if all required elements exist
+            if (!editModal || !commentBodyTextarea || !editCommentForm || !commentIdInput) {
+                showModalMessage('Required form elements not found.');
                 return;
             }
+
+            // Set values
+            commentBodyTextarea.value = commentBody;
+            commentIdInput.value = commentId;
+            
+            // Show modal
             editModal.style.display = 'block';
 
-            const saveEditButton = document.getElementById('saveEdit');
-            if (!saveEditButton) {
-                showModalMessage('Save edit button not found.');
-                return;
-            }
-            saveEditButton.onclick = function (event) {
-                event.preventDefault();
-                const newBody = editCommentBody.value;
-                const urlPrefix = window.location.pathname.includes('faq') ? '/faq' : '/blog';
+            // Close button functionality
+            const closeButtons = editModal.querySelectorAll('.close');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    editModal.style.display = 'none';
+                });
+            });
 
-                fetch(`${urlPrefix}/comment/${commentId}/edit/`, {
+            // Handle form submission
+            editCommentForm.onsubmit = function(e) {
+                e.preventDefault();
+                const isFAQ = window.location.pathname.includes('faq');
+                // Use appropriate URL format based on whether we're on FAQ or blog
+                const url = isFAQ ? 
+                    `/faq/comment/${commentId}/edit/` : 
+                    `/blog/comment/edit/${commentId}/`;
+
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': getCSRFToken()
+                        'X-CSRFToken': getCSRFToken(),
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: JSON.stringify({ body: newBody })
-                }).then(response => response.json()).then(data => {
-                    if (data.success) {
-                        document.querySelector(`#comment-${commentId} .comment-body`).innerText = newBody;
-                        document.querySelector(`#comment-${commentId} .comment-pending`).innerText = '(Pending approval)';
-                        editModal.style.display = 'none';
-                        showModalMessage('Comment edited successfully.');
-                    } else {
-                        showModalMessage('Failed to edit comment.');
+                    body: JSON.stringify({
+                        body: commentBodyTextarea.value
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error('Server response:', text);
+                            throw new Error('Server response not OK');
+                        });
                     }
-                }).catch(error => {
-                    showModalMessage('An error occurred: ' + error.message);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showModalMessage('Comment updated successfully.');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        showModalMessage(data.error || 'Failed to update comment.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showModalMessage('An error occurred while updating the comment.');
                 });
             };
         });
+    });
+
+    // Single global event listener for closing modals when clicking outside
+    window.addEventListener('click', function(event) {
+        const editModal = document.getElementById('editModal');
+        if (event.target === editModal) {
+            editModal.style.display = 'none';
+        }
     });
 
     // Delete comment handling
@@ -164,16 +195,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             confirmDeleteButton.onclick = function () {
-                const urlPrefix = window.location.pathname.includes('faq') ? '/faq' : '/blog';
+                const isFAQ = window.location.pathname.includes('faq');
+                // Use appropriate URL format based on whether we're on FAQ or blog
+                const url = isFAQ ? 
+                    `/faq/comment/${commentId}/delete/` : 
+                    `/blog/comment/delete/${commentId}/`;
 
-                fetch(`${urlPrefix}/comment/${commentId}/delete/`, {
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': getCSRFToken(),
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.success) {
                         document.getElementById(`comment-${commentId}`).remove();
@@ -184,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
                 .catch(error => {
-                    showModalMessage('An error occurred.');
+                    console.error('Error:', error);
+                    showModalMessage('An error occurred while deleting the comment.');
                 });
             };
         });
@@ -405,8 +446,8 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             clearModalMessages();  // Clear previous messages
 
-            const contactInput = document.getElementById('contact').value;
-            if (!validateContactNumber(contactInput)) {
+            const contactInput = document.getElementById('viewing-contact');
+            if (contactInput && !validateContactNumber(contactInput.value)) {
                 showModalMessage('Please enter a valid UK mobile or landline number.');
                 return;
             }

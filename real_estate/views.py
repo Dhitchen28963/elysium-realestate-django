@@ -214,7 +214,7 @@ Handles redirection based on location and transaction type.
 
 def property_by_location(request, location):
     """
-    Redirects to the appropriate page based on the location and transaction type.
+    Redirects to the appropriate page based on location and transaction type.
     Displays all properties for the selected location.
     """
     # Get the transaction type from the query string
@@ -231,13 +231,17 @@ def property_by_location(request, location):
     # Validate the transaction type and redirect to the correct page
     if transaction_type in transaction_type_mapping:
         return HttpResponseRedirect(
-            f"{reverse(transaction_type_mapping[transaction_type])}?search={location}"
+            f"{reverse(transaction_type_mapping[transaction_type])}"
+            f"?search={location}"
         )
 
-    # If transaction type is invalid or missing, show an error and redirect to home
+    # If transaction type is invalid, show an error and redirect to home
     messages.error(
         request,
-        "Invalid transaction type specified. Please select a valid property type."
+        (
+            "Invalid transaction type specified. "
+            "Please select a valid property type."
+        )
     )
     return redirect('home')
 
@@ -399,8 +403,13 @@ def remove_from_favorites(request, property_id):
 @login_required
 def view_pending_viewings(request):
     viewings = ViewingAppointment.objects.filter(user=request.user)
+    for viewing in viewings:
+        viewing.slots_available = ViewingSlot.objects.filter(
+            property=viewing.property,
+            is_booked=False
+        ).exists()
     context = {
-        'viewings': viewings
+        'viewings': viewings,
     }
     return render(request, 'real_estate/pending_viewings.html', context)
 
@@ -413,18 +422,27 @@ def update_viewing(request, viewing_id):
         ViewingAppointment, id=viewing_id, user=request.user
     )
     if request.method == 'POST':
-        form = ViewingAppointmentForm(request.POST, instance=viewing)
-        if form.is_valid():
-            form.save()
-            return redirect('view_pending_viewings')
-        else:
-            return JsonResponse(
-                {'status': 'error', 'errors': form.errors}, status=400
-            )
-    return JsonResponse(
-        {'status': 'error', 'message': 'Invalid request method.'}, status=400
-    )
-
+        try:
+            form = ViewingAppointmentForm(request.POST, instance=viewing)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Viewing updated successfully'
+                })
+            return JsonResponse({
+                'status': 'error',
+                'errors': form.errors
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=500)
+    return JsonResponse({
+        'status': 'error',
+        'message': 'Invalid request method'
+    }, status=405)
 
 # View to delete a specific viewing appointment
 

@@ -101,7 +101,9 @@ class BlogCommentEdit(View):
 
         try:
             data = json.loads(request.body)
-            form = CommentForm(data, instance=comment)
+            # Create form data dict with the correct field name
+            form_data = {'body': data.get('body')}
+            form = CommentForm(form_data, instance=comment)
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON.'})
 
@@ -111,7 +113,7 @@ class BlogCommentEdit(View):
             comment.pending_approval = True
             comment.save()
             return JsonResponse({'success': True})
-        return JsonResponse({'success': False, 'error': 'Form is not valid.'})
+        return JsonResponse({'success': False, 'error': form.errors})
 
 
 """

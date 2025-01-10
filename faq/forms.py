@@ -14,9 +14,13 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['body']
+        widgets = {
+            'body': forms.Textarea(attrs={'placeholder': 'Enter a comment'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['body'].label = ''  # Remove the label
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Submit'))
