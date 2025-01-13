@@ -64,13 +64,6 @@ def home(request):
     all_locations_rent = get_all_locations('rent')
     all_locations_sale = get_all_locations('sale')
 
-    # Debugging Outputs
-    print("Search Query:", search_query)
-    print("Popular Rent Locations:", popular_locations_rent)
-    print("Popular Sale Locations:", popular_locations_sale)
-    print("All Rent Locations:", all_locations_rent)
-    print("All Sale Locations:", all_locations_sale)
-
     context = {
         'form': form,
         'properties': properties,
@@ -99,10 +92,6 @@ def get_popular_locations(transaction_type):
         .order_by('-property_count')[:5]
     )
 
-    # Debugging: Split long line
-    print("Transaction Type:", transaction_type)
-    print("Popular Locations:", list(locations))
-
     return {
         loc['location']: {'count': loc['property_count']}
         for loc in locations
@@ -123,8 +112,6 @@ def get_all_locations(transaction_type):
         .values_list('location', flat=True)
         .distinct()
     )
-
-    print(f"Transaction Type: {transaction_type}, All Locations: {locations}")
 
     return locations
 
