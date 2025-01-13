@@ -726,10 +726,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Function to display the "no slots available" message
+    function displayNoSlotsMessage(container) {
+        container.innerHTML = `
+            <div class="alert alert-info" role="alert">
+                <i class="fa-solid fa-info-circle" aria-hidden="true"></i>
+                <p>No pre-scheduled viewing slots are currently available for this property.</p>
+                <p>You can request a custom viewing time using the form above, and our team will contact you within 24 hours to arrange a suitable time.</p>
+            </div>`;
+    }
+
     // Event listener for open-modal button
     const openModalButtons = document.querySelectorAll('.open-modal');
     openModalButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
 
             if (!isUserLoggedIn) {
@@ -739,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const propertyId = this.getAttribute('data-property-id');
             const viewingModal = document.getElementById('viewingModal');
-            
+
             if (viewingModal) {
                 viewingModal.style.display = 'block';
 
@@ -755,7 +765,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         const slotsContainer = document.getElementById('available-slots-container');
-                        
+
                         if (!slotsContainer) {
                             return;
                         }
@@ -765,6 +775,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (data.slots && data.slots.length > 0) {
                             data.slots.forEach(slot => {
                                 const slotButton = document.createElement('button');
+                                slotButton.className = 'slot-button';
                                 const date = new Date(slot.date);
                                 const formattedDate = date.toLocaleDateString('en-GB', {
                                     weekday: 'long',
@@ -786,11 +797,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                 slotsContainer.appendChild(slotButton);
                             });
                         } else {
-                            slotsContainer.innerHTML = '<p>No available slots</p>';
+                            displayNoSlotsMessage(slotsContainer);
                         }
                     })
                     .catch(error => {
-                        showModalMessage('Error fetching available slots');
+                        const slotsContainer = document.getElementById('available-slots-container');
+                        if (slotsContainer) {
+                            displayNoSlotsMessage(slotsContainer);
+                        }
                     });
             }
         });

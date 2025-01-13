@@ -214,19 +214,7 @@
             
             <!-- Available slots container -->
             <div id="available-slots-container">
-                {% if slots %}
-                    {% for slot in slots %}
-                        <button class="slot-button" 
-                                data-slot-id="{{ slot.id }}" 
-                                data-date="{{ slot.date }}" 
-                                data-start-time="{{ slot.start_time }}">
-                            <div class="slot-date">{{ slot.formatted_date }}</div>
-                            <div class="slot-time">{{ slot.formatted_time }}</div>
-                        </button>
-                    {% endfor %}
-                {% else %}
-                    <p class="no-slots-message">No available slots at this time. Please use the custom viewing request form above.</p>
-                {% endif %}
+                <!-- Slots will be loaded dynamically -->
             </div>
             
             <!-- Slot booking form (hidden initially) -->
@@ -245,7 +233,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modals for editing and deleting comments -->
     <div id="editModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="editModalHeading">
         <div class="modal-dialog" role="document">
