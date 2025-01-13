@@ -127,23 +127,25 @@
         {% endfor %}
       </div>
       {% else %}
-      <p class="no-properties-found">No properties found for "{{ request.GET.search }}".</p>
-      <div class="suggested-locations-box">
-        <p>Try searching in these locations:</p>
-        <ul class="suggested-locations">
-            <li><a href="{% url 'property_rent' %}?search=Barnstaple">Barnstaple</a></li>
-            <li><a href="{% url 'property_rent' %}?search=Devon">Devon</a></li>
-            <li><a href="{% url 'property_rent' %}?search=Hampshire">Hampshire</a></li>
-            <li><a href="{% url 'property_rent' %}?search=Kent">Kent</a></li>
-            <li><a href="{% url 'property_rent' %}?search=Cornwall">Cornwall</a></li>
-        </ul>
-    </div>
+      <div class="mt-5" style="margin-top: 20px;">
+        <p class="no-properties-found" style="margin-top: 40px;">No properties found for "{{ request.GET.search }}".</p>
+        <div class="suggested-locations-box">
+          <p>Try searching in these locations:</p>
+          <ul class="suggested-locations">
+              <li><a href="{% url 'property_rent' %}?search=Barnstaple">Barnstaple</a></li>
+              <li><a href="{% url 'property_rent' %}?search=Devon">Devon</a></li>
+              <li><a href="{% url 'property_rent' %}?search=Hampshire">Hampshire</a></li>
+              <li><a href="{% url 'property_rent' %}?search=Kent">Kent</a></li>
+              <li><a href="{% url 'property_rent' %}?search=Cornwall">Cornwall</a></li>
+          </ul>
+        </div>
+      </div>
       {% endif %}
   {% endif %}
 
   <!-- Popular Locations Section -->
-  <section class="popular-locations text-center mt-5">
-    <h2 class="mb-4">Popular Rental Locations</h2>
+  <section class="popular-locations text-center">
+    <h2 class="mb-4 mt-3">Popular Rental Locations</h2>
     <div class="row justify-content-center align-items-stretch">
         <div class="col-md-6 d-flex">
             <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
@@ -164,7 +166,7 @@
   </section>
 
   <!-- All Locations Section -->
-  <section class="all-locations text-center mt-5">
+  <section class="all-locations text-center">
       <h2 class="mb-4">All Rental Locations</h2>
       <div class="row justify-content-center align-items-stretch">
           <div class="col-md-6 d-flex">

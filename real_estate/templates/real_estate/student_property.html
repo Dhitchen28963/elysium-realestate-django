@@ -127,19 +127,21 @@
         {% endfor %}
       </div>
       {% else %}
-      <p class="no-properties-found">No student accommodations found for "{{ request.GET.search }}".</p>
-      <div class="suggested-locations-box">
-          <p>Try searching in these locations:</p>
-          <ul class="suggested-locations">
-              <li><a href="{% url 'student_property' %}?search=Plymouth">Plymouth</a></li>
-          </ul>
+      <div class="mt-5" style="margin-top: 20px;">
+        <p class="no-properties-found" style="margin-top: 40px;">No student accommodations found for "{{ request.GET.search }}".</p>
+        <div class="suggested-locations-box">
+            <p>Try searching in these locations:</p>
+            <ul class="suggested-locations">
+                <li><a href="{% url 'student_property' %}?search=Plymouth">Plymouth</a></li>
+            </ul>
+        </div>
       </div>
       {% endif %}
   {% endif %}
 
   <!-- Popular Locations Section -->
-  <section class="popular-locations text-center mt-5">
-      <h2 class="mb-4">Popular Student Accommodation Locations</h2>
+  <section class="popular-locations text-center">
+      <h2 class="mb-4 mt-3">Popular Student Accommodation Locations</h2>
       <div class="row justify-content-center align-items-stretch">
           <div class="col-md-6 d-flex">
               <div class="locations-box border p-3 rounded w-100" style="max-height: 250px; overflow-y: auto;">
