@@ -9,6 +9,8 @@ Model representing a Homelessness Advice post.
 Includes fields for title, slug, author, featured image, content, timestamps,
 status, and an excerpt. The content is cleaned before saving.
 """
+
+
 class Homeless(models.Model):
     STATUS_CHOICES = [
         ('draft', 'Draft'),
@@ -40,9 +42,11 @@ class Homeless(models.Model):
 
 
 """
-Model representing additional images associated with a Homelessness Advice post.
+Model representing additional images associated with a Homeless Advice post.
 Each image is linked to a specific post and stored using Cloudinary.
 """
+
+
 class HomelessImage(models.Model):
     homeless = models.ForeignKey(
         Homeless, on_delete=models.CASCADE,
