@@ -100,14 +100,14 @@ viewing requests, as well as filtering and searching options.
 @admin.register(ViewingAppointment)
 class ViewingAppointmentAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'property', 'name', 'email', 'preferred_date',
+        'user', 'property', 'name', 'contact', 'email', 'preferred_date',
         'preferred_time', 'viewing_decision', 'attended', 'agent_name',
         'agent_contact', 'agent_email'
     )
     list_filter = ('viewing_decision', 'attended', 'preferred_date')
     search_fields = (
-        'user__username', 'property__title', 'name', 'email', 'agent_name',
-        'agent_contact', 'agent_email'
+        'user__username', 'property__title', 'name', 'contact', 'email',
+        'agent_name', 'agent_contact', 'agent_email'
     )
     actions = [
         'mark_as_attended', 'mark_as_not_attended', 'accept_viewing',

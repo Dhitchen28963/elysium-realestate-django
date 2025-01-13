@@ -103,7 +103,6 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'view_favorites' %}"><i class="fa-solid fa-star" style="color: #ffd207;" aria-hidden="true"></i> Saved Properties</a></li>
                 <li><a href="{% url 'view_pending_viewings' %}"><i class="fa-solid fa-calendar-alt" style="color: #13F0D9;" aria-hidden="true"></i> View Pending Viewings</a></li>
-                <li class="menu-divider"></li>
                 <li><a href="{% url 'account_settings' %}"><i class="fa-solid fa-gears" style="color: #ffffff;"></i> Account Settings</a></li>
                 <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Sign Out</a></li>
             {% else %}
@@ -186,32 +185,63 @@
         <div class="modal-content">
             <span class="close" aria-hidden="true">&times;</span>
             <h2>Request a Viewing</h2>
+            
+            <!-- Form for custom viewing requests -->
             <form id="custom-viewing-form" method="post" action="{% url 'request_custom_viewing' 0 %}" data-property-id="{{ property.id }}">
                 {% csrf_token %}
                 <label for="viewing-name">Name:</label>
-                <input type="text" id="viewing-name" name="name" required>
+                <input type="text" id="viewing-name" name="name" placeholder="Enter your name" required>
+                
                 <label for="viewing-contact">Contact:</label>
-                <input type="text" id="viewing-contact" name="contact" required>
+                <input type="text" id="viewing-contact" name="contact" placeholder="Enter your contact number" required>
+                
                 <label for="viewing-email">Email:</label>
-                <input type="email" id="viewing-email" name="email" required>
+                <input type="email" id="viewing-email" name="email" placeholder="Enter your email address" required>
+                
                 <label for="preferred_date">Preferred Date:</label>
                 <input type="date" id="preferred_date" name="preferred_date" required>
+                
                 <label for="preferred_time">Preferred Time:</label>
                 <input type="time" id="preferred_time" name="preferred_time" required>
+                
                 <label for="viewing-message">Message:</label>
-                <textarea id="viewing-message" name="message" required></textarea>
-                <button type="submit">Request Viewing</button>
+                <textarea id="viewing-message" name="message" placeholder="Add any additional information" required></textarea>
+                
+                <button type="submit" class="submit-btn">Request Viewing</button>
             </form>
+            
             <h3>Or select from available slots:</h3>
-            <div id="available-slots-container"></div>
+            
+            <!-- Available slots container -->
+            <div id="available-slots-container">
+                {% if slots %}
+                    {% for slot in slots %}
+                        <button class="slot-button" 
+                                data-slot-id="{{ slot.id }}" 
+                                data-date="{{ slot.date }}" 
+                                data-start-time="{{ slot.start_time }}">
+                            <div class="slot-date">{{ slot.formatted_date }}</div>
+                            <div class="slot-time">{{ slot.formatted_time }}</div>
+                        </button>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-slots-message">No available slots at this time. Please use the custom viewing request form above.</p>
+                {% endif %}
+            </div>
+            
+            <!-- Slot booking form (hidden initially) -->
             <div id="slot-booking-form" style="display: none;">
+                <h4>Book Selected Slot:</h4>
                 <label for="slot-name">Name:</label>
-                <input type="text" id="slot-name" name="slot-name" required>
+                <input type="text" id="slot-name" name="slot-name" placeholder="Enter your name" required>
+                
                 <label for="slot-contact">Contact:</label>
-                <input type="text" id="slot-contact" name="slot-contact" required>
+                <input type="text" id="slot-contact" name="slot-contact" placeholder="Enter your contact number" required>
+                
                 <label for="slot-email">Email:</label>
-                <input type="email" id="slot-email" name="slot-email" required>
-                <button type="button" id="book-slot-button">Book Slot</button>
+                <input type="email" id="slot-email" name="slot-email" placeholder="Enter your email address" required>
+                
+                <button type="button" id="book-slot-button" class="submit-btn">Book Slot</button>
             </div>
         </div>
     </div>

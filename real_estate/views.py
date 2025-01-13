@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 import requests
+import json
+from datetime import date, time
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db.models import Count, Q
@@ -67,40 +69,116 @@ def request_custom_viewing(request, property_id):
 
 @login_required
 def book_viewing_slot(request, slot_id):
-    slot = get_object_or_404(ViewingSlot, id=slot_id)
-    if request.method == 'POST':
-        appointment = ViewingAppointment.objects.create(
-            user=request.user,
-            property=slot.property,
-            slot=slot,
-            name=request.POST.get('name', ''),
-            contact=request.POST.get('contact', ''),
-            email=request.POST.get('email', ''),
-            preferred_date=slot.date,
-            preferred_time=slot.start_time,
-            viewing_decision='pending'
+    try:
+        # Validate that the slot exists
+        slot = ViewingSlot.objects.get(id=slot_id)
+    except ViewingSlot.DoesNotExist:
+        return JsonResponse(
+            {'status': 'error', 'message': 'Slot not found.'},
+            status=404
         )
-        slot.is_booked = True
-        slot.save()
-        return JsonResponse({'status': 'ok'})
-    return JsonResponse({'status': 'error'}, status=400)
+
+    if request.method == 'POST':
+        try:
+            # Decode the JSON body
+            data = json.loads(request.body)
+
+            # Validate required fields
+            name = data.get('name')
+            contact = data.get('contact')
+            email = data.get('email')
+
+            if not all([name, contact, email]):
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Name, contact, and email are required.'
+                }, status=400)
+
+            # Create ViewingAppointment
+            appointment = ViewingAppointment.objects.create(
+                user=request.user,
+                property=slot.property,
+                slot=slot,
+                name=name,
+                contact=contact,
+                email=email,
+                preferred_date=slot.date,
+                preferred_time=slot.start_time,
+                viewing_decision='pending'
+            )
+
+            # Mark slot as booked
+            slot.is_booked = True
+            slot.save()
+
+            return JsonResponse(
+                {'status': 'ok', 'message': 'Slot successfully booked.'})
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {'status': 'error', 'message': 'Invalid JSON data.'},
+                status=400
+            )
+        except Exception:
+            return JsonResponse(
+                {
+                    'status': 'error',
+                    'message': 'An unexpected error occurred.'
+                },
+                status=500
+            )
+
+    # If not a POST request, return an error
+    return JsonResponse(
+        {'status': 'error', 'message': 'Invalid request method.'},
+        status=40
+    )
+
 
 # View to retrieve available viewing slots for a specific property
 
 
 @login_required
 def view_property_slots(request, property_id):
-    property = get_object_or_404(Property, id=property_id)
-    slots = ViewingSlot.objects.filter(
-        property=property, is_booked=False
-    ).order_by('date', 'start_time')
-    slots_list = [{
-        'id': slot.id,
-        'date': slot.date.strftime('%Y-%m-%d'),
-        'start_time': slot.start_time.strftime('%H:%M'),
-        'end_time': slot.end_time.strftime('%H:%M')
-    } for slot in slots]
-    return JsonResponse({'slots': slots_list})
+    try:
+        # Get the property
+        property = get_object_or_404(Property, id=property_id)
+
+        # Fix invalid slots before querying
+        ViewingSlot.objects.filter(
+            property=property,
+            is_booked=True,
+            end_time__lte=time(0, 0)
+        ).update(is_booked=False, end_time=time(23, 59))
+
+        # Query for available slots
+        slots = ViewingSlot.objects.filter(
+            property=property,
+            is_booked=False,
+            date__gte=date.today()  # Filter for future dates
+        ).order_by('date', 'start_time')
+
+        # Format slots for JSON response
+        slots_list = [
+            {
+                'id': slot.id,
+                'date': slot.date.strftime('%Y-%m-%d'),
+                'start_time': slot.start_time.strftime('%H:%M'),
+                'end_time': slot.end_time.strftime('%H:%M'),
+                'formatted_date': slot.date.strftime('%B %d, %Y'),
+                'formatted_time': (
+                    f"{slot.start_time.strftime('%I:%M %p')} - "
+                    f"{slot.end_time.strftime('%I:%M %p')}"
+                ),
+            }
+            for slot in slots
+        ]
+
+        return JsonResponse({'slots': slots_list})
+    except Exception:
+        return JsonResponse(
+            {'error': 'Error fetching available slots'}, status=500
+        )
+
 
 # View to accept a viewing appointment
 
@@ -402,47 +480,127 @@ def remove_from_favorites(request, property_id):
 
 @login_required
 def view_pending_viewings(request):
-    viewings = ViewingAppointment.objects.filter(user=request.user)
-    for viewing in viewings:
-        viewing.slots_available = ViewingSlot.objects.filter(
-            property=viewing.property,
-            is_booked=False
-        ).exists()
-    context = {
-        'viewings': viewings,
-    }
-    return render(request, 'real_estate/pending_viewings.html', context)
+    """View to display the user's pending viewings."""
+    try:
+        # Get user's pending viewings
+        viewings = ViewingAppointment.objects.filter(user=request.user)
+
+        # Check slot availability for each viewing
+        for viewing in viewings:
+            viewing.slots_available = ViewingSlot.objects.filter(
+                property=viewing.property,
+                is_booked=False,
+                date__gte=date.today()  # Filter for future slots
+            ).exists()
+
+        context = {
+            'viewings': viewings,
+        }
+        return render(request, 'real_estate/pending_viewings.html', context)
+    except Exception:
+        messages.error(
+            request,
+            'An error occurred while fetching pending viewings.'
+        )
+        return redirect('home')
+
 
 # View to update a specific viewing appointment
 
 
 @login_required
 def update_viewing(request, viewing_id):
+    """Updated view for handling viewing updates with better error handling"""
     viewing = get_object_or_404(
         ViewingAppointment, id=viewing_id, user=request.user
     )
+
     if request.method == 'POST':
         try:
             form = ViewingAppointmentForm(request.POST, instance=viewing)
             if form.is_valid():
-                form.save()
+                # Check if preferred date/time conflicts with any booked slots
+                preferred_date = form.cleaned_data['preferred_date']
+                preferred_time = form.cleaned_data['preferred_time']
+
+                # Check if there are any available slots on the preferred date
+                available_slots = ViewingSlot.objects.filter(
+                    property=viewing.property,
+                    date=preferred_date,
+                    is_booked=False
+                )
+
+                viewing = form.save(commit=False)
+
+                # Mark as pending until approved if no available matching slots
+                if not available_slots.exists():
+                    viewing.viewing_decision = 'pending'
+                    message = (
+                        'Viewing updated successfully. '
+                        'Your request will be reviewed by our team.'
+                    )
+                else:
+                    # Check if the time matches any available slot
+                    time_matches = any(
+                        slot.start_time <= preferred_time <= slot.end_time
+                        for slot in available_slots
+                    )
+                    if not time_matches:
+                        viewing.viewing_decision = 'pending'
+                        message = (
+                            'Viewing updated successfully. '
+                            'Your request will be reviewed by our team.'
+                        )
+                    else:
+                        message = 'Viewing updated successfully.'
+
+                viewing.save()
+
                 return JsonResponse({
                     'status': 'success',
-                    'message': 'Viewing updated successfully'
+                    'message': message
                 })
+
             return JsonResponse({
                 'status': 'error',
                 'errors': form.errors
             }, status=400)
-        except Exception as e:
+        except Exception:
             return JsonResponse({
                 'status': 'error',
-                'message': str(e)
+                'message': 'An unexpected error occurred.'
             }, status=500)
+
+    elif request.method == 'GET':
+        slots = ViewingSlot.objects.filter(
+            property=viewing.property,
+            is_booked=False,
+            date__gte=date.today()
+        ).order_by('date', 'start_time')
+
+        slots_data = [{
+            'date': slot.date.strftime('%Y-%m-%d'),
+            'start_time': slot.start_time.strftime('%H:%M'),
+            'end_time': slot.end_time.strftime('%H:%M'),
+        } for slot in slots]
+
+        return JsonResponse({
+            'slots': slots_data,
+            'current_viewing': {
+                'name': viewing.name,
+                'contact': viewing.contact,
+                'email': viewing.email,
+                'message': viewing.message,
+                'preferred_date': viewing.preferred_date.strftime('%Y-%m-%d'),
+                'preferred_time': viewing.preferred_time.strftime('%H:%M'),
+            }
+        })
+
     return JsonResponse({
         'status': 'error',
         'message': 'Invalid request method'
     }, status=405)
+
 
 # View to delete a specific viewing appointment
 

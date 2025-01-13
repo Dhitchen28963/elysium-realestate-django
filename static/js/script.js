@@ -361,14 +361,204 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    async function requestCustomViewing(propertyId) {
-        const customViewingForm = document.getElementById('custom-viewing-form');
-        const formData = new FormData(customViewingForm);
+    // Check if user is logged in from the data attribute in the body tag
+    const isUserLoggedIn = document.body.getAttribute('data-authenticated') === 'true';
 
-        if (!validateDate('preferred_date')) return;
-
+    // Function to fetch and display available slots
+    async function fetchAndDisplaySlots(propertyId) {
         try {
-            const url = `/real_estate/request_custom_viewing/${propertyId}/`;
+            const response = await fetch(`/real_estate/view_property_slots/${propertyId}/`);
+            const data = await response.json();
+            const slotsContainer = document.getElementById('available-slots-container');
+
+            if (!slotsContainer) {
+                console.error('Slots container not found');
+                return;
+            }
+
+            slotsContainer.innerHTML = ''; // Clear existing content
+
+            if (data.slots && data.slots.length > 0) {
+                const slotsWrapper = document.createElement('div');
+                slotsWrapper.className = 'slots-wrapper';
+
+                data.slots.forEach(slot => {
+                    // Create slot button
+                    const slotButton = document.createElement('button');
+                    slotButton.className = 'slot-button';
+                    slotButton.innerHTML = `
+                        <div class="slot-date">${slot.formatted_date}</div>
+                        <div class="slot-time">${slot.formatted_time}</div>
+                    `;
+
+                    // Add click handler for the slot button
+                    slotButton.addEventListener('click', () => {
+                        const slotBookingForm = document.getElementById('slot-booking-form');
+                        if (slotBookingForm) {
+                            // Display the slot booking form
+                            slotBookingForm.style.display = 'block';
+
+                            // Pre-fill the date and time fields in the custom viewing form
+                            const dateInput = document.getElementById('preferred_date');
+                            const timeInput = document.getElementById('preferred_time');
+
+                            if (dateInput) dateInput.value = slot.date;
+                            if (timeInput) timeInput.value = slot.start_time;
+
+                            // Attach the slot ID to the "Book Slot" button
+                            const bookSlotButton = document.getElementById('book-slot-button');
+                            if (bookSlotButton) {
+                                bookSlotButton.setAttribute('data-slot-id', slot.id); // Dynamically set slot ID
+                                bookSlotButton.onclick = () => requestSlotViewing(slot.id); // Ensure correct ID is passed
+                            }
+                        }
+                    });
+
+                    slotsWrapper.appendChild(slotButton);
+                });
+
+                slotsContainer.appendChild(slotsWrapper);
+            } else {
+                slotsContainer.innerHTML = '<p class="no-slots-message">No available slots at this time. Please use the custom viewing request form above.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching slots:', error);
+            const slotsContainer = document.getElementById('available-slots-container');
+            if (slotsContainer) {
+                slotsContainer.innerHTML = '<p class="error-message">Error loading available slots. Please try again later.</p>';
+            }
+        }
+    }
+
+    function requestSlotViewing(slotId) {
+        // Validate slotId
+        if (!slotId || slotId === 'undefined') {
+            showModalMessage('Invalid slot selection. Please try again.');
+            return;
+        }
+    
+        const endpoint = `/real_estate/book_viewing_slot/${slotId}/`;
+        
+        // Get form data
+        const name = document.getElementById('slot-name').value.trim();
+        const contact = document.getElementById('slot-contact').value.trim();
+        const email = document.getElementById('slot-email').value.trim();
+        
+        // Validate inputs
+        if (!name || !contact || !email) {
+            showModalMessage('All fields (Name, Contact, Email) are required.');
+            return;
+        }
+        
+        // Create request data
+        const requestData = {
+            name: name,
+            contact: contact,
+            email: email
+        };
+    
+        // Make the API call
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || 'Failed to book slot');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'ok') {
+                showModalMessage('Viewing slot booked successfully!');
+                // Close the booking form
+                const slotBookingForm = document.getElementById('slot-booking-form');
+                if (slotBookingForm) {
+                    slotBookingForm.style.display = 'none';
+                }
+                // Optional: Reload after 2 seconds to show updated availability
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                throw new Error(data.message || 'Failed to book slot');
+            }
+        })
+        .catch(error => {
+            console.error('Error booking slot:', error);
+            showModalMessage(error.message || 'An error occurred while booking the slot.');
+        });
+    }
+    
+    // Event listener for slot selection
+    document.addEventListener('DOMContentLoaded', function() {
+        const slotsContainer = document.getElementById('available-slots-container');
+        if (slotsContainer) {
+            slotsContainer.addEventListener('click', function(e) {
+                const slotButton = e.target.closest('.slot-button');
+                if (slotButton) {
+                    const slotId = slotButton.getAttribute('data-slot-id');
+                    const slotBookingForm = document.getElementById('slot-booking-form');
+                    if (slotBookingForm) {
+                        slotBookingForm.style.display = 'block';
+                        // Set the slot ID on the book button
+                        const bookSlotButton = document.getElementById('book-slot-button');
+                        if (bookSlotButton) {
+                            bookSlotButton.setAttribute('data-slot-id', slotId);
+                        }
+                    }
+                }
+            });
+        }
+    
+        // Event listener for booking button
+        const bookSlotButton = document.getElementById('book-slot-button');
+        if (bookSlotButton) {
+            bookSlotButton.addEventListener('click', function() {
+                const slotId = this.getAttribute('data-slot-id');
+                requestSlotViewing(slotId);
+            });
+        }
+    });
+
+    // Function to handle viewing request submission
+    async function submitViewingRequest(formType, slotId = null) {
+        try {
+            const formData = new FormData();
+            const sourcePrefix = formType === 'slot' ? 'slot' : 'viewing';
+
+            // Common fields for both forms
+            const name = document.getElementById(`${sourcePrefix}-name`).value;
+            const contact = document.getElementById(`${sourcePrefix}-contact`).value;
+            const email = document.getElementById(`${sourcePrefix}-email`).value;
+
+            formData.append('name', name);
+            formData.append('contact', contact);
+            formData.append('email', email);
+
+            let url;
+            if (formType === 'slot') {
+                url = `/real_estate/book_viewing_slot/${slotId}/`;
+            } else {
+                // Additional fields for the custom viewing request
+                const preferredDate = document.getElementById('preferred_date').value;
+                const preferredTime = document.getElementById('preferred_time').value;
+                const message = document.getElementById('viewing-message').value;
+
+                formData.append('preferred_date', preferredDate);
+                formData.append('preferred_time', preferredTime);
+                formData.append('message', message);
+
+                url = `/real_estate/request_custom_viewing/${document.getElementById('custom-viewing-form').dataset.propertyId}/`;
+            }
+
+            // Send the POST request
             const response = await fetch(url, {
                 method: 'POST',
                 body: formData,
@@ -384,50 +574,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
 
             if (data.status === 'ok') {
-                showModalMessage('Viewing request sent to the agent!');
+                showModalMessage(
+                    formType === 'slot'
+                        ? 'Viewing slot booked successfully!'
+                        : 'Custom viewing request submitted successfully!'
+                );
             } else {
                 throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
             }
         } catch (error) {
-            showModalMessage('An error occurred while sending the viewing request. Please try again.');
-        } finally {
-            const modal = document.getElementById("viewingModal");
-            if (modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
-
-    // Function to request a slot viewing
-    async function requestSlotViewing(slotId) {
-        try {
-            const name = document.getElementById('slot-name').value;
-            const contact = document.getElementById('slot-contact').value;
-            const email = document.getElementById('slot-email').value;
-
-            const url = `/real_estate/book_viewing_slot/${slotId}/`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
-                },
-                body: JSON.stringify({ name, contact, email })
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-
-            if (data.status === 'ok') {
-                showModalMessage('Viewing slot booked successfully!');
-            } else {
-                throw new Error('Server returned an error: ' + JSON.stringify(data.errors));
-            }
-        } catch (error) {
-            showModalMessage('An error occurred while booking the viewing slot. Please try again.');
+            showModalMessage('An error occurred. Please try again.');
+            console.error(error);
         } finally {
             const modal = document.getElementById("viewingModal");
             if (modal) {
@@ -436,8 +593,72 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Check if user is logged in from the data attribute in the body tag
-    const isUserLoggedIn = document.body.getAttribute('data-authenticated') === 'true';
+    // Event listener for custom viewing form submission
+    document.getElementById('custom-viewing-form')?.addEventListener('submit', function (event) {
+        event.preventDefault();
+        submitViewingRequest('custom');
+    });
+
+    // Function to handle custom viewing requests
+    function requestCustomViewing(propertyId) {
+        const name = document.getElementById('viewing-name').value.trim();
+        const contact = document.getElementById('viewing-contact').value.trim();
+        const email = document.getElementById('viewing-email').value.trim();
+        const date = document.getElementById('preferred_date').value;
+        const time = document.getElementById('preferred_time').value;
+        const message = document.getElementById('viewing-message').value.trim();
+
+        // Validate required fields
+        if (!name || !contact || !email || !date || !time) {
+            showModalMessage('All fields are required.');
+            return;
+        }
+
+        const endpoint = `/real_estate/request_custom_viewing/${propertyId}/`;
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('contact', contact);
+        formData.append('email', email);
+        formData.append('preferred_date', date);
+        formData.append('preferred_time', time);
+        formData.append('message', message);
+
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || 'An error occurred');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'ok') {
+                showModalMessage('Custom viewing request submitted successfully!');
+                // Close the viewing modal
+                const viewingModal = document.getElementById('viewingModal');
+                if (viewingModal) {
+                    viewingModal.style.display = 'none';
+                }
+                // Optional: reload after 2 seconds
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                showModalMessage(data.message || 'Failed to submit viewing request.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModalMessage(`An error occurred: ${error.message}`);
+        });
+    }
 
     // Event listener for custom viewing request
     const customViewingForm = document.getElementById('custom-viewing-form');
@@ -508,7 +729,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for open-modal button
     const openModalButtons = document.querySelectorAll('.open-modal');
     openModalButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', function(event) {
             event.preventDefault();
 
             if (!isUserLoggedIn) {
@@ -517,63 +738,61 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const propertyId = this.getAttribute('data-property-id');
-
-            const form = document.getElementById('custom-viewing-form');
-
-            if (!form) {
-                return;
-            }
-
-            form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
-            form.setAttribute('data-property-id', propertyId);
-
-            // Fetch available slots and display them in the modal
-            fetch(`/real_estate/view_property_slots/${propertyId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    const slotsContainer = document.getElementById('available-slots-container');
-
-                    if (!slotsContainer) {
-                        return;
-                    }
-
-                    slotsContainer.innerHTML = '';
-
-                    if (data.slots && data.slots.length > 0) {
-                        data.slots.forEach(slot => {
-                            const slotButton = document.createElement('button');
-                            slotButton.textContent = `${slot.date} ${slot.start_time} - ${slot.end_time}`;
-                            slotButton.onclick = () => {
-                                const slotBookingForm = document.getElementById('slot-booking-form');
-                                if (slotBookingForm) {
-                                    slotBookingForm.style.display = 'block';
-                                }
-                                const bookSlotButton = document.getElementById('book-slot-button');
-                                if (bookSlotButton) {
-                                    bookSlotButton.onclick = () => requestSlotViewing(slot.id);
-                                }
-                            };
-                            slotsContainer.appendChild(slotButton);
-                        });
-                    } else {
-                        slotsContainer.innerHTML = '<p>No available slots</p>';
-                    }
-                })
-                .catch(error => showModalMessage('Error fetching available slots'));
-
             const viewingModal = document.getElementById('viewingModal');
-
+            
             if (viewingModal) {
                 viewingModal.style.display = 'block';
-            }
-        });
-    });
 
-    // Event listener for booking viewing slot
-    document.querySelectorAll('.book-viewing').forEach(button => {
-        button.addEventListener('click', function () {
-            const slotId = this.getAttribute('data-slot-id');
-            requestSlotViewing(slotId);
+                // Update the form's property ID
+                const form = document.getElementById('custom-viewing-form');
+                if (form) {
+                    form.setAttribute('action', `/real_estate/request_custom_viewing/${propertyId}/`);
+                    form.setAttribute('data-property-id', propertyId);
+                }
+
+                // Fetch and display available slots
+                fetch(`/real_estate/view_property_slots/${propertyId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const slotsContainer = document.getElementById('available-slots-container');
+                        
+                        if (!slotsContainer) {
+                            return;
+                        }
+
+                        slotsContainer.innerHTML = '';
+
+                        if (data.slots && data.slots.length > 0) {
+                            data.slots.forEach(slot => {
+                                const slotButton = document.createElement('button');
+                                const date = new Date(slot.date);
+                                const formattedDate = date.toLocaleDateString('en-GB', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                });
+                                slotButton.innerHTML = `${formattedDate} ${slot.start_time} - ${slot.end_time}`;
+                                slotButton.onclick = () => {
+                                    const slotBookingForm = document.getElementById('slot-booking-form');
+                                    if (slotBookingForm) {
+                                        slotBookingForm.style.display = 'block';
+                                    }
+                                    const bookSlotButton = document.getElementById('book-slot-button');
+                                    if (bookSlotButton) {
+                                        bookSlotButton.onclick = () => requestSlotViewing(slot.id);
+                                    }
+                                };
+                                slotsContainer.appendChild(slotButton);
+                            });
+                        } else {
+                            slotsContainer.innerHTML = '<p>No available slots</p>';
+                        }
+                    })
+                    .catch(error => {
+                        showModalMessage('Error fetching available slots');
+                    });
+            }
         });
     });
 
@@ -866,86 +1085,125 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event listener for updating viewing
+    // Update viewing button click handler
     document.querySelectorAll('.update-viewing-btn').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', async function() {
             const viewingId = this.getAttribute('data-viewing-id');
             const updateModal = document.getElementById('updateModal');
             const updateViewingForm = document.getElementById('updateViewingForm');
-            const viewingIdInput = document.getElementById('viewingId');
-            const updatePreferredDateInput = document.getElementById('preferredDate');
+            
+            try {
+                // Fetch current viewing details and available slots
+                const response = await fetch(`/real_estate/update_viewing/${viewingId}/`);
+                const data = await response.json();
+                
+                // Populate form with current viewing details
+                document.getElementById('viewingId').value = viewingId;
+                document.getElementById('name').value = data.current_viewing.name;
+                document.getElementById('contact').value = data.current_viewing.contact;
+                document.getElementById('email').value = data.current_viewing.email;
+                document.getElementById('message').value = data.current_viewing.message;
+                document.getElementById('preferredDate').value = data.current_viewing.preferred_date;
+                document.getElementById('preferredTime').value = data.current_viewing.preferred_time;
 
-            // Set the form action URL and hidden input value
-            updateViewingForm.setAttribute('data-viewing-id', viewingId);
-            viewingIdInput.value = viewingId;
+                // Display available slots
+                const slotsContainer = document.getElementById('availableSlotsContainer');
+                if (data.slots && data.slots.length > 0) {
+                    const slotsHtml = data.slots.map(slot => `
+                        <div class="available-slot">
+                            Date: ${slot.date}<br>
+                            Time: ${slot.start_time} - ${slot.end_time}
+                        </div>
+                    `).join('');
+                    slotsContainer.innerHTML = slotsHtml;
+                } else {
+                    slotsContainer.innerHTML = '<p>No pre-defined slots available. Your request will require admin approval.</p>';
+                }
 
-            // Display the modal
-            updateModal.style.display = 'block';
-
-            // Attach the validation function to the update date input
-            updatePreferredDateInput.addEventListener('change', function () {
-                validateDate('preferredDate');
-            });
+                // Show the modal
+                updateModal.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching viewing details:', error);
+                showModalMessage('Error loading viewing details. Please try again.');
+            }
         });
     });
 
+    // Helper function to format time to HH:mm format
+    function formatTimeForSubmission(timeValue) {
+        try {
+            // Check if time is already in correct format
+            if (/^\d{2}:\d{2}$/.test(timeValue)) {
+                return timeValue;
+            }
+            // Create a new date object with the time value
+            const [hours, minutes] = timeValue.split(':');
+            return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+        } catch (error) {
+            console.error('Error formatting time:', error);
+            return timeValue; // Return original value if formatting fails
+        }
+    }
+
+    // Form submission handler
     const updateViewingForm = document.getElementById('updateViewingForm');
     if (updateViewingForm) {
-        updateViewingForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            clearModalMessages();  // Clear previous messages
+        updateViewingForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const viewingId = document.getElementById('viewingId').value;
 
-            if (!validateDate('preferredDate')) {
-                return;  // Prevent form submission if date is invalid
+            // Create FormData and ensure the time is in correct format
+            const formData = new FormData(this);
+            const timeValue = formData.get('preferred_time');
+
+            // Format time to HH:mm format and validate
+            if (timeValue) {
+                try {
+                    const [hours, minutes] = timeValue.split(':');
+                    const formattedTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+                    formData.set('preferred_time', formattedTime);
+
+                    // Log the formatted time for debugging
+                    console.log('Formatted time:', formattedTime);
+                } catch (error) {
+                    console.error('Error formatting time:', error);
+                    showModalMessage('Invalid time format. Please use HH:mm format.');
+                    return;
+                }
             }
 
-            const viewingId = updateViewingForm.getAttribute('data-viewing-id');
-            const url = `/real_estate/update_viewing/${viewingId}/`;
-            const formData = new FormData(updateViewingForm);
-
-            // Adding missing fields manually if they are not in the form already
-            const contactInput = document.getElementById('contact');
-            const emailInput = document.getElementById('email');
-            const messageInput = document.getElementById('message');
-            if (!formData.has('contact') && contactInput) formData.append('contact', contactInput.value);
-            if (!formData.has('email') && emailInput) formData.append('email', emailInput.value);
-            if (!formData.has('message') && messageInput) formData.append('message', messageInput.value);
-
-            const formDataObject = Object.fromEntries(formData.entries());
-
-            console.log(`Submitting form to URL: ${url}`);
-            console.log('Form data:', formDataObject);
-
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': getCSRFToken()
-                },
-            })
-            .then(response => {
-                console.log(`Response status: ${response.status}`);
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        throw new Error(JSON.stringify(err));
-                    });
+            try {
+                // Log the form data being sent
+                console.log('Form data being sent:');
+                for (let pair of formData.entries()) {
+                    console.log(`${pair[0]}: ${pair[1]}`);
                 }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'ok') {
-                    showModalMessage('Viewing updated successfully!');
-                    const updateModal = document.getElementById('updateModal');
-                    updateModal.style.display = 'none';
-                    location.reload();
+
+                const response = await fetch(`/real_estate/update_viewing/${viewingId}/`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': getCSRFToken()
+                    }
+                });
+
+                // Log the response for debugging
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.status === 'success') {
+                    showModalMessage(data.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
                 } else {
-                    showModalMessage(`Error updating viewing: ${JSON.stringify(data.errors)}`);
+                    throw new Error(data.message || 'Unknown error occurred');
                 }
-            })
-            .catch(error => {
-                console.error(`Error occurred: ${error}`);
-                showModalMessage(`An error occurred. Please try again. Details: ${error.message}`);
-            });
+            } catch (error) {
+                console.error('Error updating viewing:', error);
+                showModalMessage(`An error occurred: ${error.message}`);
+            }
         });
     }
 

@@ -199,7 +199,7 @@ class ViewingAppointment(models.Model):
     is_scheduled = models.BooleanField(default=False)
     attended = models.BooleanField(default=False)
     viewing_decision = models.CharField(
-        max_length=10, choices=VIEWING_DECISION_CHOICES, default='pending'
+        max_length=20, choices=VIEWING_DECISION_CHOICES, default='pending'
     )
     created_on = models.DateTimeField(auto_now_add=True)
     agent_name = models.CharField(max_length=255, blank=True, null=True)
